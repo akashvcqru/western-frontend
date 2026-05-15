@@ -26,14 +26,29 @@ export default function Header() {
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const { common, header } = siteContent;
 
+  React.useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <>
-      <header className="w-full bg-white/95 backdrop-blur-xl border-b border-neutral-100/50 sticky top-0 z-50 transition-all duration-300">
+      <header className={cn(
+        "w-full bg-white/95 backdrop-blur-xl border-b border-neutral-100/50 sticky top-0 z-50 transition-all duration-500",
+        isScrolled ? "py-0 shadow-lg" : "py-2"
+      )}>
         {/* Top Bar - Refined */}
-        <div className="bg-secondary/95 backdrop-blur-md text-white py-2 px-4 hidden lg:block border-b border-white/5">
+        <div className={cn(
+          "bg-secondary/95 backdrop-blur-md text-white px-4 hidden lg:block border-b border-white/5 transition-all duration-500 overflow-hidden",
+          isScrolled ? "max-h-0 py-0 border-none opacity-0" : "max-h-12 py-2 opacity-100"
+        )}>
           <div className="max-w-[1440px] mx-auto flex justify-between items-center text-[10px] font-bold tracking-[0.2em] uppercase opacity-80">
             <div className="flex items-center gap-10">
               <a href={`mailto:${common.contact.email}`} className="flex items-center gap-2.5 group cursor-pointer transition-all hover:text-primary">
