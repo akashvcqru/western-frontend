@@ -458,9 +458,9 @@ export default function Home() {
               <div className="space-y-4">
                 <h3 className="text-2xl font-bold tracking-tight">Direct Line</h3>
                 <div className="space-y-2">
-                  <p className="text-3xl font-bold tracking-tight hover:text-primary transition-colors cursor-pointer">{common.contact.phone}</p>
+                  <p className="text-xl font-semibold tracking-tight hover:text-primary transition-colors cursor-pointer">{common.contact.phone}</p>
                   {common.contact.phones.map((p: string, i: number) => (
-                    <p key={i} className="text-3xl font-bold tracking-tight hover:text-primary transition-colors cursor-pointer">{p}</p>
+                    <p key={i} className="text-xl font-semibold tracking-tight hover:text-primary transition-colors cursor-pointer">{p}</p>
                   ))}
                 </div>
               </div>
@@ -473,9 +473,9 @@ export default function Home() {
               <div className="space-y-4">
                 <h3 className="text-2xl font-bold tracking-tight">Digital Inquiry</h3>
                 <div className="space-y-2">
-                  <p className="text-xl font-bold tracking-tight text-gray-400 hover:text-primary transition-colors cursor-pointer">{common.contact.email}</p>
+                  <p className="text-base font-semibold tracking-tight text-gray-400 hover:text-primary transition-colors cursor-pointer">{common.contact.email}</p>
                   {common.contact.emails.map((e: string, i: number) => (
-                    <p key={i} className="text-xl font-bold tracking-tight text-gray-400 hover:text-primary transition-colors cursor-pointer">{e}</p>
+                    <p key={i} className="text-base font-semibold tracking-tight text-gray-400 hover:text-primary transition-colors cursor-pointer">{e}</p>
                   ))}
                 </div>
               </div>
