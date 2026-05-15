@@ -66,30 +66,32 @@ export default function Footer() {
             </Link>
             
             <address className="not-italic space-y-6">
-              <p className="text-gray-400 text-base font-medium leading-relaxed max-w-md">
+              <p className="text-gray-400 text-sm font-medium leading-relaxed max-w-md">
                 {footer.brandStatement.desc}
               </p>
               
               <div className="space-y-4 pt-4">
                 <div className="flex items-start gap-4 text-gray-400 hover:text-white transition-colors group">
-                  <MapPin size={20} className="text-primary mt-1 shrink-0 group-hover:scale-110 transition-transform" />
-                  <span className="text-sm font-medium leading-relaxed">
+                  <MapPin size={18} className="text-primary mt-1 shrink-0 group-hover:scale-110 transition-transform" />
+                  <span className="text-[13px] font-medium leading-relaxed">
                     {common.contact.address}
                   </span>
                 </div>
                 
-                <div className="flex items-center gap-4 text-gray-400 hover:text-white transition-colors group">
-                  <Phone size={18} className="text-primary shrink-0 group-hover:scale-110 transition-transform" />
-                  <div className="flex flex-col">
-                    <a href={`tel:${common.contact.phoneRaw}`} className="text-sm font-bold tracking-wider">
-                      {common.contact.phone}
-                    </a>
+                <div className="flex items-start gap-4 text-gray-400 hover:text-white transition-colors group">
+                  <Phone size={16} className="text-primary mt-1 shrink-0 group-hover:scale-110 transition-transform" />
+                  <div className="flex flex-col gap-2">
+                    {common.contact.phones.map((phone: string, i: number) => (
+                      <a key={i} href={`tel:${phone.replace(/[^\d+]/g, '')}`} className="text-[13px] font-semibold tracking-wider">
+                        {phone}
+                      </a>
+                    ))}
                   </div>
                 </div>
                 
                 <div className="flex items-center gap-4 text-gray-400 hover:text-white transition-colors group">
-                  <Mail size={18} className="text-primary shrink-0 group-hover:scale-110 transition-transform" />
-                  <a href={`mailto:${common.contact.email}`} className="text-sm font-medium">
+                  <Mail size={16} className="text-primary shrink-0 group-hover:scale-110 transition-transform" />
+                  <a href={`mailto:${common.contact.email}`} className="text-[13px] font-medium">
                     {common.contact.email}
                   </a>
                 </div>
