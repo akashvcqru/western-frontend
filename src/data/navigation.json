@@ -1,0 +1,86 @@
+[
+  {
+    "id": "products",
+    "title": "Products",
+    "href": "/products",
+    "columns": [
+      {
+        "title": "Desking & Tables",
+        "items": [
+          { "name": "Desking & Workstation", "slug": "desking-workstation" },
+          { "name": "Executive Tables", "slug": "executive-tables" },
+          { "name": "Reception Series", "slug": "reception-series" },
+          { "name": "Computer Tables", "slug": "computer-tables" },
+          { "name": "Centre Tables", "slug": "centre-tables" },
+          { "name": "Conference/ Meeting", "slug": "conference-meeting" }
+        ]
+      },
+      {
+        "title": "Chairs & Seating",
+        "items": [
+
+          { "name": "CEO Series Chairs", "slug": "ceo-series-chairs" },
+          { "name": "Office Executive", "slug": "office-executive" },
+          { "name": "Office Workstation", "slug": "office-workstation-chairs" },
+          { "name": "Visitor & Training", "slug": "visitor-training" },
+          { "name": "Waiting Area Series", "slug": "waiting-area-series" }
+        ]
+      },
+      {
+        "title": "Lounge & Dining",
+        "items": [
+          { "name": "Cafeteria and Bar", "slug": "cafeteria-and-bar" },
+          { "name": "Sofas Series", "slug": "sofas-series" }
+        ]
+      },
+      {
+        "title": "Storage & Others",
+        "items": [
+          { "name": "Home Furniture Series", "slug": "home-furniture-series" },
+          { "name": "Office Storage", "slug": "office-storage" },
+          { "name": "Modular Kitchen Series", "slug": "modular-kitchen-series" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "services",
+    "title": "Services",
+    "href": "/services",
+    "columns": [
+      {
+        "title": "Interiors",
+        "items": [
+          { "name": "Office Interior", "slug": "office-interiors" },
+          { "name": "Interiors Decoration", "slug": "interiors-decoration" }
+        ]
+      },
+      {
+        "title": "Partitions",
+        "items": [
+          { "name": "Modular Partition", "slug": "modular-partition" },
+          { "name": "Glass/Gypsum Partition", "slug": "glass-gypsum-partition" },
+          { "name": "Solid Wall Partition", "slug": "solid-wall-partition" },
+          { "name": "Aluminum Partitions", "slug": "aluminum-partitions" }
+        ]
+      },
+      {
+        "title": "Infrastructure",
+        "items": [
+          { "name": "False Ceiling Design", "slug": "false-ceiling-design" },
+          { "name": "AC/Ducting", "slug": "ac-ducting" },
+          { "name": "Electrical / Networking", "slug": "electrical-networking" }
+        ]
+      },
+      {
+        "title": "Flooring",
+        "items": [
+          { "name": "Office False Flooring", "slug": "false-flooring" },
+          { "name": "Wooden Flooring", "slug": "wooden-flooring" },
+          { "name": "Vinyl Flooring", "slug": "vinyl-flooring" },
+          { "name": "Vitrified Tiles", "slug": "vitrified-tiles" }
+        ]
+      }
+    ]
+  }
+]

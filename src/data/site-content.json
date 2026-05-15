@@ -1,0 +1,367 @@
+{
+  "metaData": {
+    "title": "Western Interio | Modular Office Furniture & Interior Solutions",
+    "description": "Western Interio - Think to design beyond. Modular office furniture manufacturer and interior design firm specializing in ergonomic workspace solutions."
+  },
+
+  "common": {
+    "contact": {
+      "phone": "+91-124-2305657",
+      "phones": ["+91-9540641111", "+91-9540017776"],
+      "phoneRaw": "+911242305657",
+      "email": "info@westerninterio.in",
+      "emails": ["westernofficesolutions@gmail.com"],
+      "address": "Plot No. 06, Gali No.-06, Kadipur Industrial Area, Gurugram, Haryana – 122505",
+      "locationShort": "Kadipur, Gurgaon"
+    },
+    "businessHours": {
+      "display": "09:30 – 18:30",
+      "notice": "We are open Monday to Saturday",
+      "days": "Mon – Sat"
+    }
+  },
+  "header": {
+    "cta": "Get a Quote",
+    "homeHref": "/",
+    "navigation": [
+      { "name": "Products", "href": "/products" },
+      { "name": "Services", "href": "/services" },
+      { "name": "Clients", "href": "/clients" },
+      { "name": "Gallery", "href": "/gallery" },
+      { "name": "Testimonials", "href": "/testimonials" },
+      { "name": "Download Center", "href": "#download-center" },
+      { "name": "Contact", "href": "/contact" }
+    ],
+    "searchTags": [
+      { "label": "Office Chairs", "slug": "office-chairs" },
+      { "label": "Workstations", "slug": "desking-workstation" },
+      { "label": "Office Tables", "slug": "office-tables" },
+      { "label": "Office Storage", "slug": "office-storage" },
+      { "label": "Modular Kitchen", "slug": "modular-kitchen-series" }
+    ]
+  },
+  "footer": {
+    "brandStatement": {
+      "title": "Western Interio",
+      "desc": "Think to design beyond. Western Interio is a leading modular office furniture manufacturer and interior design firm providing high-performance workplace solutions."
+    },
+    "cta": "Request a Consultation",
+    "newsletter": {
+      "title": "Newsletter",
+      "desc": "Join our mailing list for the latest trends in office design and modular furniture.",
+      "placeholder": "Your email address",
+      "status": "Updates sent monthly"
+    },
+    "legal": {
+      "copyright": "All rights reserved.",
+      "privacyPolicy": "Privacy Policy",
+      "privacyHref": "/privacy-policy",
+      "termsOfService": "Terms of Service",
+      "termsHref": "/terms-of-service"
+    },
+    "companyLinks": [
+      { "name": "About us", "href": "/about" },
+      { "name": "Services", "href": "/services" },
+      { "name": "Our Clients", "href": "/clients" },
+      { "name": "Gallery", "href": "/gallery" },
+      { "name": "Download Center", "href": "#" },
+      { "name": "Contact us", "href": "/contact" }
+    ],
+    "popularSearchTerms": [
+      "Modular Office Furniture Manufacturer",
+      "Computer Table in Gurgaon",
+      "Office Chairs Dealers in Gurgaon",
+      "Office Furniture Dealer in Gurgaon",
+      "Executive Chairs in Gurgaon",
+      "Office Chairs Supplier & Dealer in Gurgaon",
+      "Office Chairs Manufacturer in Gurgaon",
+      "Office Furniture Online",
+      "Office Cubicles in Gurgaon",
+      "Office Furniture Manufacturer in Gurgaon",
+      "Aluminium Glass Partition near me",
+      "Modular Office Desk in Gurgaon",
+      "File Cabinet near me",
+      "Restaurant Furniture in Gurgaon",
+      "Modular Kitchen Manufacturers in Gurgaon",
+      "Office Furniture near me",
+      "Office Interior Designers in Gurgaon",
+      "School Furniture in Gurgaon"
+    ],
+    "deliveryLocations": [
+      "Delhi", "Faridabad", "Agra", "Ahmedabad", "Bangalore", "Chennai", "Coimbatore", "Chandigarh", "Gurgaon", "Hyderabad", "Indore", "Jaipur", "Jammu", "Jamshedpur", "Kolkata", "Lucknow", "Ludhiana", "Mumbai", "Noida", "Panchkula", "Patna", "Pune", "Surat", "Thane", "Tirupati", "Trivandrum", "Vadodara", "Dehradun", "Visakhapatnam", "Ajmer", "Allahabad", "Kanpur"
+    ],
+    "socialLinks": [
+      { "platform": "Facebook", "icon": "MessageSquare", "href": "#" },
+      { "platform": "Instagram", "icon": "Camera", "href": "#" },
+      { "platform": "LinkedIn", "icon": "Briefcase", "href": "#" },
+      { "platform": "Twitter", "icon": "MessageSquare", "href": "#" }
+    ]
+  },
+  "brandSlider": {
+    "badge": "Global Partnerships",
+    "title": "Our Trusted Partners"
+  },
+  "homePage": {
+    "heroSlider": [
+      {
+        "id": 1,
+        "image": "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop",
+        "title": "Modular <br /> <span class='text-primary'>Office Furniture</span>",
+        "subtitle": "Manufacturer & Supplier in Gurgaon",
+        "description": "Ergonomic and modern office furniture solutions for high-performance workplaces."
+      },
+      {
+        "id": 2,
+        "image": "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop",
+        "title": "Office Interiors <br /> <span class='text-primary'>Decoration</span>",
+        "subtitle": "End-to-End Solutions",
+        "description": "Workspace planning and furniture manufacturing with modern design aesthetics."
+      },
+      {
+        "id": 3,
+        "image": "https://images.unsplash.com/photo-1517502884422-41eaead166d4?q=80&w=2070&auto=format&fit=crop",
+        "title": "Premium Executive <br /> <span class='text-primary'>Tables</span>",
+        "subtitle": "Elegance Meets Functionality",
+        "description": "Exquisite executive tables designed for the modern corporate leader."
+      },
+      {
+        "id": 4,
+        "image": "https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=2070&auto=format&fit=crop",
+        "title": "Modular Partition <br /> <span class='text-primary'>Systems</span>",
+        "subtitle": "Privacy and Collaboration",
+        "description": "Optimize your office layout with our flexible and stylish partition solutions."
+      },
+      {
+        "id": 5,
+        "image": "https://images.unsplash.com/photo-1505797149-43b0069ec26b?q=80&w=2071&auto=format&fit=crop",
+        "title": "Ergonomic Seating <br /> <span class='text-primary'>Collection</span>",
+        "subtitle": "Comfort for Productivity",
+        "description": "Discover our range of CEO, executive, and staff chairs engineered for long-term support."
+      }
+    ],
+    "specifications": {
+      "title": "Our Specifications",
+      "items": [
+        { "title": "Modular Office Furniture", "icon": "Building2", "desc": "Custom workspace planning and high-quality furniture manufacturing." },
+        { "title": "Office Chairs", "icon": "ShieldCheck", "desc": "Ergonomic seating solutions for CEO, Executive, and Staff roles." },
+        { "title": "Office Interiors", "icon": "Palette", "desc": "Complete interior decorating solutions including partitions and ceilings." },
+        { "title": "Office Table", "icon": "Maximize", "desc": "Wide range of executive, conference, and computer tables." },
+        { "title": "Cafeteria", "icon": "CoffeeIcon", "desc": "Modern cafeteria and bar furniture for corporate breakout zones." },
+        { "title": "Sofas", "icon": "Layout", "desc": "Premium sofa series for waiting areas and reception lounges." }
+      ]
+    },
+    "productsWeOffer": {
+      "title": "Products We Offer",
+      "categories": [
+        { "title": "Modern Office Desk Design", "image": "https://images.unsplash.com/photo-1517502884422-41eaead166d4?q=80&w=2070&auto=format&fit=crop", "link": "/products/desking-workstation" },
+        { "title": "Modular Office Chairs", "image": "https://images.unsplash.com/photo-1505797149-43b0069ec26b?q=80&w=2071&auto=format&fit=crop", "link": "/products/office-chairs" },
+        { "title": "Office Tables", "image": "https://images.unsplash.com/photo-1577412647305-991150c7d163?q=80&w=2070&auto=format&fit=crop", "link": "/products/office-tables" },
+        { "title": "Office Storages", "image": "https://images.unsplash.com/photo-1595844730298-b960ff98fee0?q=80&w=2070&auto=format&fit=crop", "link": "/products/office-storage" },
+        { "title": "Office Sofas", "image": "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2070&auto=format&fit=crop", "link": "/products/sofas-series" }
+      ]
+    },
+    "whatWeAre": {
+      "title": "What We Are",
+      "desc": "Western Interio is a leading modular office furniture manufacturer and interior design partner. We specialize in workspace planning and furniture manufacturing of ergonomic and modern office furniture solutions. Our offerings include office seating, desking, office storage, and sofas series.",
+      "list": [
+        "Office interior decorating solutions",
+        "Wall décor and storage solutions",
+        "Office cubicles",
+        "Aluminium glass partitions",
+        "File cabinets",
+        "Restaurant furniture",
+        "School furniture",
+        "Modular kitchen manufacturers in Gurgaon"
+      ]
+    },
+    "gallery": {
+      "title": "Gallery",
+      "subtitle": "Our Recent Projects",
+      "desc": "Showcasing our excellence in office interiors and modular furniture manufacturing."
+    }
+  },
+  "testimonialsPage": {
+    "hero": {
+      "badge": "Client Feedback",
+      "title": "What Our <span class='text-primary'>Clients</span> Say",
+      "subtitle": "Discover why leading businesses trust Western Interio for their workspace needs."
+    },
+    "items": [
+      {
+        "quote": "Western Interio transformed our corporate office with their modular workstations. The quality is exceptional and the project was completed on time.",
+        "author": "Rajesh Khanna",
+        "designation": "Operations Head",
+        "company": "Tech Innovations Pvt Ltd",
+        "rating": 5
+      },
+      {
+        "quote": "The ergonomic chairs from Western are a game changer for our staff. Highly recommend their turnkey interior solutions as well.",
+        "author": "Amit Sharma",
+        "designation": "Director",
+        "company": "Global Logistics Hub",
+        "rating": 5
+      },
+      {
+        "quote": "Professional team and excellent workspace planning. They helped us optimize our small office space perfectly.",
+        "author": "Sneha Gupta",
+        "designation": "CEO",
+        "company": "Design Studio 21",
+        "rating": 5
+      },
+      {
+        "quote": "The quality of the modular partitions is top-notch. It gave our office a modern and premium look while maintaining privacy.",
+        "author": "Vikram Malhotra",
+        "designation": "Facility Manager",
+        "company": "NextGen Systems",
+        "rating": 5
+      },
+      {
+        "quote": "Our new conference room table is the centerpiece of our boardroom. Exceptional craftsmanship and premium finish.",
+        "author": "Arjun Reddy",
+        "designation": "Admin Head",
+        "company": "Venture Capital Partners",
+        "rating": 5
+      },
+      {
+        "quote": "Western's cafeteria furniture helped us create a vibrant breakout zone for our employees. Very durable and stylish.",
+        "author": "Priya Singh",
+        "designation": "HR Manager",
+        "company": "CloudNine Infotech",
+        "rating": 5
+      }
+    ]
+  },
+  "aboutPage": {
+    "hero": {
+      "badge": "Western Interio",
+      "title": "Modular Office Furniture",
+      "subtitle": "Leading manufacturer and supplier in Gurgaon specializing in ergonomic workspace solutions."
+    },
+    "legacy": {
+      "title": "Workspace Planning. Furniture Manufacturing.",
+      "content": [
+        "Western Interio is a premier name for modular office furniture and turnkey interiors. We provide workspace planning and high-quality furniture manufacturing, delivering ergonomic and modern solutions that transform commercial spaces.",
+        "Our range includes high-end office seating, executive desking, optimized office storage, and premium sofas series. We are committed to creating efficient, comfortable, and productive work environments."
+      ],
+      "stats": [
+        { "label": "Years Experience", "value": "20+" },
+        { "label": "Happy Clients", "value": "1000+" }
+      ]
+    },
+    "services": {
+      "badge": "Our Services",
+      "title": "Interior Solutions.",
+      "list": [
+        { "title": "Office Interiors", "desc": "Interior decoration and professional wall solutions." },
+        { "title": "Modular Partitions", "desc": "Glass, Gypsum, Solid Wall, and Aluminum partitions." },
+        { "title": "Ceiling Design", "desc": "Modern office false ceiling installations." },
+        { "title": "Mechanical & Electrical", "desc": "AC/Ducting and electrical networking services." },
+        { "title": "False Flooring", "desc": "Wooden, Vinyl, and Vitrified Tiles solutions." }
+      ]
+    },
+    "timeline": { "badge": "History", "title": "Our Journey", "desc": "Decades of excellence in office solutions.", "milestones": [] },
+    "values": { "badge": "Values", "title": "Our Philosophy", "desc": "Quality, Innovation, and Ergonomics.", "list": [], "standardLabel": "Standard", "standardSub": "Quality" },
+    "stats": { "badge": "Impact", "title": "By The Numbers", "list": [] },
+    "cta": { "badge": "Contact", "title": "Get in Touch", "visitButton": "Visit Us", "exploreButton": "Explore" }
+  },
+  "productsPage": {
+    "hero": {
+      "badge": "Our Collection",
+      "title": "Office Furniture.",
+      "highlight": "Furniture",
+      "subtitle": "Discover our wide range of modular office furniture and seating solutions."
+    },
+    "filterBar": {
+      "title": "Categories",
+      "subtitle": "Select a category",
+      "searchPlaceholder": "Search...",
+      "advancedFilters": "Filters"
+    },
+    "noResults": { "title": "None", "subtitle": "None", "clearButton": "Clear" },
+    "valueProps": [],
+    "cta": { "badge": "Bulk", "title": "Bulk Orders", "supportText": "Call Us", "buttons": { "quote": "Quote", "speak": "Speak" } }
+  },
+  "contactPage": {
+    "hero": {
+      "badge": "Contact Us",
+      "title": "Let's Connect.",
+      "subtitle": "Get in touch with Western Interio for your workspace and interior needs."
+    },
+    "main": {
+      "title": "Get In Touch",
+      "desc": "Visit our facility in Gurgaon or call us for a consultation.",
+      "formTitle": "Send Message",
+      "formButton": "Submit"
+    },
+    "consultation": { "badge": "Support", "title": "Help", "desc": "Expert support.", "list": [] },
+    "network": { "badge": "Network", "title": "Global", "desc": "Serving Pan India." },
+    "footerCta": { "badge": "Call", "title": "Call Us", "supportText": "Support", "buttons": { "call": { "text": "Call", "href": "tel:" }, "philosophy": { "text": "About", "href": "/about" } } }
+  },
+  "galleryPage": {
+    "hero": {
+      "badge": "Our Portfolio",
+      "title": "Project <span class='text-primary'>Showcase</span>",
+      "subtitle": "Explore our completed projects and modular furniture installations."
+    },
+    "cta": {
+      "title": "Start Your Project",
+      "subtitle": "Ready to transform your workspace? Get a professional consultation today.",
+      "button": "Request a Quote"
+    }
+  },
+  "ourBrandsPage": {
+    "hero": {
+      "badge": "Our Partners",
+      "title": "Trusted by Leaders.",
+      "subtitle": "We collaborate with world-class brands to deliver exceptional office solutions."
+    },
+    "expertise": {
+      "badge": "Our Expertise",
+      "title": "Technical Excellence.",
+      "desc": "With over two decades of experience, we have mastered the art of workspace design and furniture manufacturing.",
+      "list": [
+        { "title": "Precision Engineering", "desc": "Advanced manufacturing processes for durable and high-quality products." },
+        { "title": "Ergonomic Design", "desc": "Focusing on user comfort and health to boost productivity." },
+        { "title": "Sustainable Materials", "desc": "Commitment to using eco-friendly and sustainable materials in our production." }
+      ]
+    },
+    "pillars": [
+      { "title": "Workspace Planning", "desc": "Optimizing office layouts for efficiency and collaboration." },
+      { "title": "Custom Manufacturing", "desc": "Bespoke furniture tailored to your brand identity." },
+      { "title": "Turnkey Solutions", "desc": "End-to-end office interiors from design to installation." },
+      { "title": "After-Sales Support", "desc": "Comprehensive maintenance and support for all our installations." }
+    ],
+    "grid": {
+      "badge": "Our Network",
+      "title": "Brand Partners.",
+      "desc": "Connecting with global leaders to bring you the best in office furniture."
+    },
+    "cta": {
+      "badge": "Collaboration",
+      "title": "Become a Partner",
+      "button": "Join Our Network"
+    }
+  },
+  "services": [
+    {
+      "title": "Office Interiors",
+      "subItems": ["Office Interiors Decoration"]
+    },
+    {
+      "title": "Modular Partition",
+      "subItems": ["Glass/Gypsum Partition", "Solid Wall Partition", "Aluminum"]
+    },
+    {
+      "title": "Office False Ceiling Design",
+      "subItems": []
+    },
+    {
+      "title": "Mechanical & Electrical",
+      "subItems": ["AC/Ducting", "Electrical / Networking"]
+    },
+    {
+      "title": "Office False Flooring",
+      "subItems": ["Wooden", "Vinyl", "Vitrified Tiles"]
+    }
+  ]
+}

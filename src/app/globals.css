@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --font-sans: "Inter", var(--font-inter), system-ui, sans-serif;
+  --font-serif: "Inter", var(--font-inter), serif;
+  --font-mono: "Inter", var(--font-inter), monospace;
+  --shadow-premium: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+  --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.05);
+  --radius-premium: 12px;
+  --radius-standard: 8px;
+
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+  }
+
+  @keyframes marquee2 {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(0); }
+  }
+}
+
+@layer utilities {
+  .animate-marquee {
+    animation: marquee 60s linear infinite;
+  }
+
+  .animate-marquee2 {
+    animation: marquee2 60s linear infinite;
+  }
+
+  .brand-slider-container:hover .marquee-content {
+    animation-play-state: paused;
+  }
+
+  .mask-fade {
+    mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+  }
+  
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #1a1a1a;
+  --card: #ffffff;
+  --card-foreground: #1a1a1a;
+  --popover: #ffffff;
+  --popover-foreground: #1a1a1a;
+  --primary: #ed1c27;
+  --primary-foreground: #ffffff;
+  --secondary: #1a1a1a;
+  --secondary-foreground: #ffffff;
+  --muted: #f5f5f5;
+  --muted-foreground: #737373;
+  --accent: #f5f5f5;
+  --accent-foreground: #1a1a1a;
+  --destructive: #ef4444;
+  --destructive-foreground: #fafafa;
+  --border: #e5e5e5;
+  --input: #e5e5e5;
+  --ring: #ed1c27;
+}
+
+@layer base {
+  html {
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+  }
+
+  * {
+    font-family: var(--font-sans);
+  }
+
+  body {
+    @apply text-foreground bg-background font-sans antialiased;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  a, button {
+    @apply cursor-pointer transition-all duration-300;
+  }
+}
+
+@layer utilities {
+  .glass {
+    @apply bg-white/70 backdrop-blur-lg border border-white/30;
+  }
+}
+
+
+
+
