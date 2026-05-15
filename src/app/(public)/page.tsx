@@ -36,7 +36,7 @@ export default function Home() {
   const [isQuoteOpen, setIsQuoteOpen] = React.useState(false);
 
   return (
-    <main className="bg-white">
+    <div className="bg-white">
       {/* Hero Section - Premium Slider */}
       <section className="relative h-[92vh] overflow-hidden group bg-neutral-950">
         <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/60 via-black/20 to-black/60 pointer-events-none" />
@@ -357,7 +357,7 @@ export default function Home() {
             {footer.popularSearchTerms.map((term: string, i: number) => (
               <span 
                 key={i} 
-                className="px-6 py-3 bg-white border border-neutral-200/60 rounded-full text-[10px] font-bold text-neutral-500 tracking-widest hover:border-primary/40 hover:text-primary transition-all duration-300 cursor-default shadow-sm"
+                className="px-5 py-2.5 bg-white border border-neutral-200/60 rounded-full text-[9px] font-semibold text-neutral-500 tracking-widest hover:border-primary/40 hover:text-primary transition-all duration-300 cursor-default shadow-sm uppercase"
               >
                 {term}
               </span>
@@ -396,7 +396,7 @@ export default function Home() {
                 <div className="absolute left-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500">
                   <div className="w-1.5 h-1.5 rounded-full bg-primary" />
                 </div>
-                <span className="text-[10px] lg:text-[11px] font-black text-neutral-400 tracking-[0.2em] uppercase group-hover:text-secondary group-hover:translate-x-2 transition-all duration-500">
+                <span className="text-[10px] font-semibold text-neutral-400 tracking-[0.2em] uppercase group-hover:text-secondary group-hover:translate-x-2 transition-all duration-500">
                   {loc}
                 </span>
               </div>
@@ -484,6 +484,6 @@ export default function Home() {
         </div>
       </section>
       <QuoteModal isOpen={isQuoteOpen} onClose={() => setIsQuoteOpen(false)} />
-    </main>
+    </div>
   );
 }
