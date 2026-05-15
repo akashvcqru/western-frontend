@@ -41,7 +41,7 @@ export default function Header() {
   return (
     <>
       <header className={cn(
-        "w-full bg-white/95 backdrop-blur-xl border-b border-neutral-100/50 sticky top-0 z-50 transition-all duration-500",
+        "w-full bg-white/95 backdrop-blur-xl border-b border-neutral-100/50 fixed top-0 left-0 right-0 z-50 transition-all duration-500",
         isScrolled ? "py-0 shadow-lg" : "py-2"
       )}>
         {/* Top Bar - Refined & Sticky */}

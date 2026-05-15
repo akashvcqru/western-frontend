@@ -76,7 +76,6 @@
 
 @layer base {
   html {
-    overflow-x: hidden;
     scroll-behavior: smooth;
   }
 
@@ -86,7 +85,6 @@
 
   body {
     @apply text-foreground bg-background font-sans antialiased;
-    overflow-x: hidden;
     min-height: 100vh;
   }
 
