@@ -7,24 +7,24 @@ import Link from "next/link";
 export default function SpaceSection() {
   const spaces = [
     {
-      title: "Bathroom",
-      slug: "sanitary-fittings",
-      image: "/category_sanitary_1777633617437.png"
+      title: "Executive Cabin",
+      slug: "executive-tables",
+      image: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=2070&auto=format&fit=crop"
     },
     {
-      title: "Kitchen",
-      slug: "kitchen-ware",
-      image: "/space_kitchen_1777633658509.png"
+      title: "Conference Room",
+      slug: "conference-meeting",
+      image: "https://images.unsplash.com/photo-1542744095-2ad4870f62dd?q=80&w=2070&auto=format&fit=crop"
     },
     {
-      title: "Living Room",
-      slug: "tiles-marbles",
-      image: "/category_tiles_1777633637937.png"
+      title: "Open Workspace",
+      slug: "desking-workstation",
+      image: "https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=2070&auto=format&fit=crop"
     },
     {
-      title: "Outdoor",
-      slug: "outdoor",
-      image: "/space_outdoor_1777633678279.png"
+      title: "Reception Area",
+      slug: "reception-series",
+      image: "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2070&auto=format&fit=crop"
     }
   ];
 

@@ -41,7 +41,7 @@ export default function CategoriesPage() {
             Expert <br /><span className="text-primary">Collections.</span>
           </h1>
           <p className="text-base lg:text-lg text-gray-400 max-w-xl mx-auto leading-relaxed font-normal animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500">
-            Discover a comprehensive range of premium building materials, luxury sanitaryware, and modern home improvement solutions across specialized categories.
+            Discover a comprehensive range of premium modular office furniture, ergonomic seating, and modern interior solutions across specialized categories designed for productivity and style.
           </p>
         </div>
       </section>
