@@ -7,4 +7,6 @@ export { default as Offcanvas } from './Offcanvas';
 export { default as Card } from './Card';
 export * from './AppToast';
 export { default as Badge } from './Badge';
+export { default as Accordion } from './Accordion';
+export type { AccordionItem } from './Accordion';
 export * from './inputs';

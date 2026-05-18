@@ -2,16 +2,16 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { 
-  Download, 
-  Eye, 
-  FileText, 
-  Sparkles, 
-  ArrowRight, 
-  Grid, 
-  Layers, 
+import {
+  Download,
+  Eye,
+  FileText,
+  Sparkles,
+  ArrowRight,
+  Grid,
+  Layers,
   CheckCircle2,
-  BookOpen
+  BookOpen,
 } from "lucide-react";
 import QuoteModal from "@/components/common/QuoteModal";
 import cataloguesData from "@/data/download-center.json";
@@ -22,7 +22,10 @@ export default function DownloadCenterPage() {
   const [isQuoteOpen, setIsQuoteOpen] = useState<boolean>(false);
 
   // Extract unique categories for the filters
-  const categories = ["All", ...Array.from(new Set(cataloguesData.map((item) => item.category)))];
+  const categories = [
+    "All",
+    ...Array.from(new Set(cataloguesData.map((item) => item.category))),
+  ];
 
   // Filter catalogues by category
   const filteredCatalogues = cataloguesData.filter((item) => {
@@ -42,10 +45,10 @@ export default function DownloadCenterPage() {
           priority
           className="object-cover opacity-15 grayscale scale-105 transition-transform duration-[12000ms] ease-out"
         />
-        
+
         {/* Premium Geometric Mesh Overlay */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:4.5rem_4.5rem]" />
-        
+
         {/* Radical Contrast Blur Effect */}
         <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/80 to-transparent" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] max-w-[500px] bg-[radial-gradient(circle,rgba(237,28,39,0.12)_0%,transparent_70%)] rounded-full blur-3xl pointer-events-none" />
@@ -70,7 +73,9 @@ export default function DownloadCenterPage() {
 
           {/* Elegant descriptive sub-headline */}
           <p className="text-xs sm:text-sm md:text-base text-neutral-400 max-w-2xl mx-auto leading-relaxed font-normal">
-            Explore and download our comprehensive design collections, ergonomic catalogs, and architectural false partition guides. Think to design beyond with Western Interio.
+            Explore and download our comprehensive design collections, ergonomic
+            catalogs, and architectural false partition guides. Think to design
+            beyond with Western Interio.
           </p>
         </div>
       </section>
@@ -78,7 +83,6 @@ export default function DownloadCenterPage() {
       {/* Main Browse Section */}
       <section className="py-20 lg:py-28 relative bg-neutral-50/50">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
-          
           {/* Filter Bar */}
           <div className="flex justify-center items-center mb-16 pb-8 border-b border-neutral-200/60">
             {/* Category tabs */}
@@ -91,7 +95,7 @@ export default function DownloadCenterPage() {
                     "px-6 py-3 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-300 cursor-pointer whitespace-nowrap active:scale-95",
                     activeCategory === cat
                       ? "bg-secondary text-white shadow-md shadow-secondary/15"
-                      : "bg-white text-secondary/70 hover:text-secondary border border-neutral-200/80 hover:border-neutral-300"
+                      : "bg-white text-secondary/70 hover:text-secondary border border-neutral-200/80 hover:border-neutral-300",
                   )}
                 >
                   {cat}
@@ -110,7 +114,7 @@ export default function DownloadCenterPage() {
                 >
                   {/* Subtle gradient hover fill */}
                   <div className="absolute inset-0 bg-gradient-to-r from-primary/[0.01] to-transparent pointer-events-none rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  
+
                   {/* Left Side: Dynamic Image */}
                   <div className="md:w-2/5 relative min-h-[200px] md:min-h-full bg-neutral-100 overflow-hidden">
                     <Image
@@ -142,7 +146,7 @@ export default function DownloadCenterPage() {
                       <h3 className="text-lg lg:text-xl font-bold text-secondary tracking-tight group-hover:text-primary transition-colors duration-300">
                         {catalog.title}
                       </h3>
-                      
+
                       <p className="text-neutral-500 text-xs lg:text-sm font-semibold leading-relaxed">
                         {catalog.description}
                       </p>
@@ -159,13 +163,16 @@ export default function DownloadCenterPage() {
                         <Eye size={13} />
                         <span>View</span>
                       </a>
-                      
+
                       <a
                         href={catalog.pdfUrl}
                         download
                         className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 bg-secondary hover:bg-primary text-white font-bold text-[10px] tracking-wider uppercase rounded-xl transition-all duration-500 shadow-md hover:shadow-primary/20 active:scale-95 group/down"
                       >
-                        <Download size={13} className="group-hover/down:translate-y-0.5 transition-transform" />
+                        <Download
+                          size={13}
+                          className="group-hover/down:translate-y-0.5 transition-transform"
+                        />
                         <span>Download</span>
                       </a>
                     </div>
@@ -176,7 +183,9 @@ export default function DownloadCenterPage() {
           ) : (
             <div className="py-20 text-center space-y-4 bg-white rounded-3xl border border-neutral-100 shadow-sm max-w-xl mx-auto">
               <Layers className="w-12 h-12 text-neutral-300 mx-auto" />
-              <h3 className="text-lg font-bold text-secondary">No catalog found</h3>
+              <h3 className="text-lg font-bold text-secondary">
+                No catalog found
+              </h3>
               <p className="text-neutral-400 text-xs font-semibold leading-normal max-w-xs mx-auto">
                 No catalogs match the active category filter.
               </p>
@@ -216,7 +225,9 @@ export default function DownloadCenterPage() {
               Or Physical Catalogue?
             </h2>
             <p className="text-neutral-400 text-xs sm:text-sm font-semibold max-w-xl mx-auto leading-relaxed">
-              Our professional project engineers can curate personalized catalogues, fabric swatches, and 3D workspace plans based on your office blueprint.
+              Our professional project engineers can curate personalized
+              catalogues, fabric swatches, and 3D workspace plans based on your
+              office blueprint.
             </p>
           </div>
 
@@ -226,9 +237,12 @@ export default function DownloadCenterPage() {
               className="w-full sm:w-auto px-10 py-4.5 bg-primary text-white font-bold rounded-xl hover:bg-white hover:text-black transition-all duration-500 shadow-[0_20px_40px_-10px_rgba(var(--primary-rgb),0.3)] tracking-[0.2em] text-[10px] uppercase flex items-center justify-center gap-3 cursor-pointer active:scale-95 group"
             >
               <span>Request Swatches / Catalogue</span>
-              <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+              <ArrowRight
+                size={14}
+                className="group-hover:translate-x-1 transition-transform"
+              />
             </button>
-            
+
             <a
               href="tel:+919540641111"
               className="w-full sm:w-auto px-10 py-4.5 bg-white/5 backdrop-blur-xl border border-white/20 text-white font-bold rounded-xl hover:bg-white/20 transition-all duration-500 tracking-[0.2em] text-[10px] uppercase block"
