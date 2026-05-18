@@ -2,9 +2,11 @@
 
 import React from "react";
 import HeroSection from "@/components/sections/home/HeroSection";
+import BrandSlider from "@/components/sections/BrandSlider";
 import AboutSection from "@/components/sections/home/AboutSection";
 import CategorySection from "@/components/sections/home/CategorySection";
 import SpaceSection from "@/components/sections/home/SpaceSection";
+import FootprintSection from "@/components/sections/home/FootprintSection";
 import TestimonialsSection from "@/components/sections/home/TestimonialsSection";
 import CtaSection from "@/components/sections/home/CtaSection";
 import QuoteModal from "@/components/common/QuoteModal";
@@ -17,19 +19,25 @@ export default function Home() {
       {/* 1. Cinematic Hero Section */}
       <HeroSection onOpenQuote={() => setIsQuoteOpen(true)} />
 
-      {/* 2. Premium About Us Section */}
+      {/* 2. Seamless Global Partnerships Marquee */}
+      <BrandSlider />
+
+      {/* 3. Premium About Us Section */}
       <AboutSection />
 
-      {/* 3. Shop by Category Section */}
+      {/* 4. Shop by Category Section */}
       <CategorySection />
 
-      {/* 4. Shop by Space Section */}
+      {/* 5. Shop by Space Section */}
       <SpaceSection />
 
-      {/* 5. Client Testimonials Section */}
+      {/* 6. Pan-India Footprint & Manufacturing Excellence */}
+      <FootprintSection />
+
+      {/* 7. Client Testimonials Section */}
       <TestimonialsSection />
 
-      {/* 6. High-Impact CTA Banner */}
+      {/* 8. High-Impact CTA Banner */}
       <CtaSection onOpenQuote={() => setIsQuoteOpen(true)} />
 
 

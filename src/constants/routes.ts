@@ -6,6 +6,7 @@ export const AppRoutes = {
     Gallery: "/gallery",
     Contact: "/contact",
     Products: "/products",
+    DownloadCenter: "/download-center",
     PrivacyPolicy: "/privacy-policy",
     TermsOfService: "/terms-of-service",
   },

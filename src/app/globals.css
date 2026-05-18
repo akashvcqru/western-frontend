@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -16,13 +17,21 @@
   --radius-standard: 8px;
 
   @keyframes marquee {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-100%); }
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
   }
 
   @keyframes marquee2 {
-    0% { transform: translateX(100%); }
-    100% { transform: translateX(0); }
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(0);
+    }
   }
 }
 
@@ -40,9 +49,15 @@
   }
 
   .mask-fade {
-    mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 15%,
+      black 85%,
+      transparent
+    );
   }
-  
+
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
@@ -53,6 +68,7 @@
 }
 
 :root {
+  --font-inter: 'Inter', sans-serif;
   --background: #ffffff;
   --foreground: #1a1a1a;
   --card: #ffffff;
@@ -88,7 +104,8 @@
     min-height: 100vh;
   }
 
-  a, button {
+  a,
+  button {
     @apply cursor-pointer transition-all duration-300;
   }
 }
@@ -98,7 +115,3 @@
     @apply bg-white/70 backdrop-blur-lg border border-white/30;
   }
 }
-
-
-
-

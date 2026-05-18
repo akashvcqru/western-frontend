@@ -30,9 +30,8 @@ export default function BrandSlider() {
       <div className="relative brand-slider-container mask-fade">
         <div className="animate-marquee flex items-center gap-8 lg:gap-12 py-4 whitespace-nowrap marquee-content">
           {[...brands, ...brands, ...brands, ...brands].map((brand, index) => (
-            <Link
+            <div
               key={`${brand.name}-${index}`}
-              href={brand.link}
               className="flex-shrink-0 group"
             >
               <div className="relative w-36 h-20 lg:w-48 lg:h-24 flex items-center justify-center bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-premium transition-all duration-500 group-hover:-translate-y-2 overflow-hidden">
@@ -47,7 +46,7 @@ export default function BrandSlider() {
                   />
                 </div>
               </div>
-            </Link>
+            </div>
           ))}
         </div>
       </div>

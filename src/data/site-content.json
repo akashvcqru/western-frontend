@@ -29,7 +29,7 @@
       { "name": "Clients", "href": "/clients" },
       { "name": "Gallery", "href": "/gallery" },
       { "name": "Testimonials", "href": "/testimonials" },
-      { "name": "Download Center", "href": "#download-center" },
+      { "name": "Download Center", "href": "/download-center" },
       { "name": "Contact", "href": "/contact" }
     ],
     "searchTags": [
@@ -64,7 +64,7 @@
       { "name": "Services", "href": "/services" },
       { "name": "Our Clients", "href": "/clients" },
       { "name": "Gallery", "href": "/gallery" },
-      { "name": "Download Center", "href": "#" },
+      { "name": "Download Center", "href": "/download-center" },
       { "name": "Contact us", "href": "/contact" }
     ],
     "popularSearchTerms": [

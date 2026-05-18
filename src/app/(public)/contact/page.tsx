@@ -12,6 +12,12 @@ import {
   MessageSquare,
   Globe,
   ArrowRight,
+  ChevronDown,
+  ChevronUp,
+  CheckCircle2,
+  Award,
+  ShieldCheck,
+  HelpCircle,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -33,6 +39,8 @@ const contactSchema = yup.object().shape({
 export default function ContactPage() {
   const { common, contactPage } = siteContent;
   const { addToast } = useAppToast();
+  
+  const [openFaq, setOpenFaq] = React.useState<number | null>(0);
 
   const methods = useForm({
     resolver: yupResolver(contactSchema),
@@ -53,162 +61,285 @@ export default function ContactPage() {
     methods.reset();
   };
 
+  const faqs = [
+    {
+      question: "What areas do you serve for turnkey office interiors?",
+      answer: "Our main manufacturing facility is based in Gurugram, Haryana. We provide complete workspace planning and professional turnkey interior decorations across the Delhi NCR region (including Gurugram, Delhi, Noida, Faridabad, and Ghaziabad) as well as PAN-India supply and installation for large-scale corporate projects."
+    },
+    {
+      question: "Can I customize the dimensions and finishes of the furniture?",
+      answer: "Absolutely! As direct manufacturers of premium modular office furniture, we specialize in tailor-made solutions. You can customize table-top dimensions, wood-grain finishes, acoustic fabric partition colors, and powder-coated steel understructures to match your company's aesthetic and branding guidelines."
+    },
+    {
+      question: "What is your typical turnaround time for commercial orders?",
+      answer: "For standard items like modular workstations, ergonomic office chairs, and executive tables, our typical production lead time is 10 to 15 business days. For extensive corporate interiors, false ceiling designs, and turnkey layout executions, timelines are tailored to your specific site roadmap and requirements."
+    },
+    {
+      question: "Do you offer layout planning and 3D design consultations?",
+      answer: "Yes, we provide professional 2D layout optimization and 3D architectural workspace planning. Our designers help you maximize seating capacity, configure smart collaboration zones, map optimal traffic flow, and select complementary furniture pieces before manufacturing begins."
+    }
+  ];
+
   return (
-    <main className="flex flex-col bg-white">
-      {/* Hero Section - High Impact */}
-      <section className="relative min-h-[85vh] lg:min-h-[75vh] flex items-center justify-center overflow-hidden bg-neutral-950 pt-32 pb-48 lg:py-0">
+    <main className="flex flex-col bg-white overflow-hidden">
+      {/* Hero Section - High Impact Premium */}
+      <section className="relative min-h-[75vh] flex items-center justify-center overflow-hidden bg-neutral-950 pt-28 pb-36 lg:py-0">
+        {/* Unsplash Background with subtle zoom animation */}
         <Image
           src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2070&auto=format&fit=crop"
-          alt="Contact Western Interio"
+          alt="Western Interio Corporate Office Solutions"
           fill
           sizes="100vw"
           priority
-          className="object-cover opacity-30 grayscale scale-105"
+          className="object-cover opacity-20 grayscale scale-105 transition-transform duration-[15000ms] ease-out animate-pulse-slow"
         />
-        <div className="absolute inset-0 bg-gradient-to-tr from-secondary via-secondary/70 to-transparent" />
+        
+        {/* Premium Architectural Grid Overlay */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:4.5rem_4.5rem]" />
+        
+        {/* Soft Radial Gradients for Deep Contrast */}
+        <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/80 to-transparent" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] h-[70vw] max-w-[650px] bg-[radial-gradient(circle,rgba(237,28,39,0.15)_0%,transparent_70%)] rounded-full blur-3xl pointer-events-none" />
 
-        {/* Animated Background Elements */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[120px] animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-primary/10 rounded-full blur-[100px] animate-pulse delay-700" />
-
-        <div className="relative z-10 text-center space-y-6 max-w-4xl px-4">
-          <div className="inline-flex items-center gap-3 px-5 py-2 bg-white/5 border border-white/10 backdrop-blur-md rounded-full">
-            <Sparkles size={18} className="text-primary animate-spin-slow" />
-            <span className="text-[11px] font-black tracking-[0.4em] text-white uppercase">
-              {contactPage.hero.badge}
+        <div className="relative z-10 text-center space-y-8 max-w-4xl px-4 mt-8">
+          {/* Animated Glow Badge */}
+          <div className="inline-flex items-center gap-2.5 px-4.5 py-1.5 bg-white/5 border border-white/10 backdrop-blur-md rounded-full shadow-inner shadow-white/5 animate-fade-in">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+            </span>
+            <span className="text-[10px] font-black tracking-[0.35em] text-white uppercase">
+              {contactPage.hero.badge || "CONTACT US"}
             </span>
           </div>
-          <h1 className="text-3xl lg:text-5xl font-bold text-white leading-tight tracking-tight animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
-            Let's <span className="text-primary">Talk.</span>
+
+          {/* High-Contrast Bold Typography */}
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight tracking-tight uppercase">
+            Let's Design <br className="md:hidden" />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-rose-500 font-extrabold relative inline-block">
+              Beyond.
+              <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-28 h-1.5 bg-primary/95 rounded-full blur-[1px]" />
+            </span>
           </h1>
-          <p className="text-base lg:text-lg text-gray-400 max-w-xl mx-auto leading-relaxed font-normal">
-            Transforming your workspace starts with a conversation. <br className="hidden lg:block" />
-            {contactPage.hero.subtitle}
+
+          {/* Elegant descriptive sub-headline */}
+          <p className="text-sm md:text-base lg:text-lg text-neutral-400 max-w-2xl mx-auto leading-relaxed font-normal">
+            Transforming your workspace starts with a professional consultation. <br className="hidden lg:block" />
+            {contactPage.hero.subtitle || "Get in touch with Western Interio for your workspace and interior needs."}
           </p>
         </div>
       </section>
 
-      {/* Floating Contact Cards */}
-      <section className="relative -mt-6 lg:-mt-12 z-20 px-4 lg:px-8">
+      {/* Modern High-End Floating Cards Panel */}
+      <section className="relative -mt-16 lg:-mt-24 z-20 px-4 md:px-8">
         <div className="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
           {[
             {
-              icon: <Phone size={32} />,
+              icon: <Phone className="w-7 h-7" />,
               label: "Phone Support",
-              value: common.contact.phones.join(", "),
-              sub: "Available Mon-Sat",
-              action: `tel:${common.contact.phoneRaw}`
+              title: "Direct Hotlines",
+              values: common.contact.phones,
+              sub: "Available Mon-Sat (09:30 - 18:30)",
+              action: `tel:${common.contact.phones[0]}`,
+              actionLabel: "Call Support"
             },
             {
-              icon: <Mail size={32} />,
+              icon: <Mail className="w-7 h-7" />,
               label: "Email Inquiry",
-              value: common.contact.email,
-              sub: "24/7 Response Time",
-              action: `mailto:${common.contact.email}`
+              title: "Corporate Desk",
+              values: [common.contact.email, ...common.contact.emails],
+              sub: "Average Response Time: 2 Hours",
+              action: `mailto:${common.contact.email}`,
+              actionLabel: "Email Direct"
             },
             {
-              icon: <MapPin size={32} />,
+              icon: <MapPin className="w-7 h-7" />,
               label: "Our Office",
-              value: "Gurugram, Haryana",
-              sub: common.contact.locationShort,
-              action: "#map"
+              title: "Corporate Facility",
+              values: [common.contact.locationShort, "Gurugram, Haryana"],
+              sub: "Plot No. 06, Kadipur Industrial Area",
+              action: "#map",
+              actionLabel: "Find on Map"
             }
           ].map((card, i) => (
-            <a
+            <div
               key={i}
-              href={card.action}
-              className="group bg-white p-10 rounded-2xl shadow-premium border border-gray-100 hover:border-primary/30 transition-all duration-500 hover:-translate-y-2 flex flex-col items-center text-center space-y-6"
+              className="relative group bg-white rounded-3xl p-8 lg:p-10 border border-neutral-100 shadow-[0_15px_50px_-15px_rgba(0,0,0,0.05)] hover:shadow-[0_30px_70px_-15px_rgba(0,0,0,0.12)] transition-all duration-500 hover:-translate-y-2 flex flex-col justify-between min-h-[290px] overflow-hidden"
             >
-              <div className="w-20 h-20 bg-gray-50 flex items-center justify-center rounded-2xl text-primary group-hover:bg-primary group-hover:text-white transition-all duration-700 shadow-sm group-hover:shadow-primary/40 group-hover:rotate-6">
-                {card.icon}
+              {/* Subtle hover color fade background */}
+              <div className="absolute inset-0 bg-gradient-to-b from-primary/[0.015] to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              
+              <div className="space-y-6 relative z-10">
+                {/* Custom icon container with offset shadows */}
+                <div className="w-16 h-16 bg-neutral-50 flex items-center justify-center rounded-2xl text-secondary group-hover:bg-primary group-hover:text-white transition-all duration-500 shadow-sm relative overflow-hidden group-hover:shadow-[0_10px_25px_-5px_rgba(237,28,39,0.35)] group-hover:rotate-3">
+                  {card.icon}
+                </div>
+
+                <div className="space-y-2">
+                  <span className="text-[10px] font-black tracking-[0.25em] text-primary uppercase">{card.label}</span>
+                  <h3 className="text-xl font-bold text-secondary tracking-tight">{card.title}</h3>
+                  <div className="space-y-1 pt-1">
+                    {card.values.map((val, idx) => (
+                      <p key={idx} className="text-neutral-600 text-sm font-semibold tracking-tight">{val}</p>
+                    ))}
+                  </div>
+                </div>
               </div>
-              <div className="space-y-2">
-                <span className="text-[10px] font-bold tracking-[0.3em] text-primary uppercase">{card.label}</span>
-                <h3 className="text-base font-medium text-secondary tracking-tight">{card.value}</h3>
-                <p className="text-gray-400 text-[10px] font-semibold uppercase tracking-widest">{card.sub}</p>
+
+              <div className="pt-6 border-t border-neutral-100 relative z-10 flex items-center justify-between">
+                <span className="text-[10px] text-neutral-400 font-bold uppercase tracking-wider">{card.sub}</span>
+                <a
+                  href={card.action}
+                  className="inline-flex items-center gap-1 text-[11px] font-bold text-secondary hover:text-primary transition-colors uppercase tracking-widest group/link"
+                >
+                  <span>{card.actionLabel}</span>
+                  <ArrowRight className="w-3.5 h-3.5 group-hover/link:translate-x-1 transition-transform" />
+                </a>
               </div>
-            </a>
+            </div>
           ))}
         </div>
       </section>
 
-      {/* Main Content - SaaS Layout */}
-      <section className="py-32 lg:py-48 relative overflow-hidden">
+      {/* Main Content Layout */}
+      <section className="py-24 lg:py-36 relative overflow-hidden bg-neutral-50/40">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
-          <div className="grid lg:grid-cols-2 gap-24 lg:gap-32 items-start">
-            {/* Left side: Content */}
-            <div className="space-y-16">
-              <div className="space-y-8">
-                <h2 className="text-4xl lg:text-5xl font-bold text-secondary tracking-tight">
-                  Expert Help for <br />Your Workspace.
+          <div className="grid lg:grid-cols-12 gap-16 lg:gap-24 items-start">
+            
+            {/* Left side: Premium Brand & Hours Info Panel */}
+            <div className="lg:col-span-5 space-y-12">
+              <div className="space-y-6">
+                <div className="inline-flex items-center gap-2 px-3 py-1 bg-primary/5 text-primary text-[10px] font-black uppercase tracking-[0.2em] rounded-md">
+                  <Sparkles className="w-3 h-3 animate-pulse" />
+                  Premium Manufacturer
+                </div>
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-secondary leading-tight tracking-tight uppercase">
+                  Let's Discuss <br />
+                  <span className="text-neutral-500">Your Workspace.</span>
                 </h2>
-                <p className="text-gray-500 text-lg font-medium leading-relaxed max-w-lg">
-                  Whether you're starting a new office project or upgrading your existing furniture, our team is here to provide professional guidance.
+                <p className="text-neutral-500 text-base md:text-lg font-medium leading-relaxed max-w-lg">
+                  Whether planning a fresh office layout, expanding your seating capacities, or designing custom modular partitions, our commercial workspace consultants provide complete end-to-end guidance.
                 </p>
               </div>
 
-              {/* Contact Cards - Modern Grid */}
-              <div className="grid sm:grid-cols-2 gap-8">
-                <div className="p-10 rounded-[32px] bg-neutral-50 border border-neutral-100 hover:border-primary/20 transition-all duration-500 group">
-                  <div className="w-14 h-14 flex items-center justify-center rounded-2xl bg-secondary text-white group-hover:bg-primary transition-colors duration-500 mb-8 shadow-lg shadow-secondary/10 group-hover:shadow-primary/20">
-                    <Phone size={24} />
+              {/* Quality Badges */}
+              <div className="grid grid-cols-2 gap-6">
+                <div className="p-6 rounded-2xl bg-white border border-neutral-100 shadow-sm flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-xl bg-neutral-50 flex items-center justify-center text-primary shrink-0">
+                    <Award className="w-5 h-5" />
                   </div>
-                  <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary mb-4">Call Us</h4>
-                  <div className="space-y-1">
-                    <p className="text-base font-medium text-secondary">{common.contact.phone}</p>
-                    {common.contact.phones.map((p: string) => (
-                      <p key={p} className="text-base font-medium text-secondary">{p}</p>
-                    ))}
+                  <div>
+                    <h4 className="text-xs font-bold text-secondary uppercase tracking-wider mb-1">20+ Years</h4>
+                    <p className="text-[11px] text-neutral-400 font-semibold uppercase leading-tight">Design Legacy</p>
                   </div>
                 </div>
 
-                <div className="p-10 rounded-[32px] bg-neutral-50 border border-neutral-100 hover:border-primary/20 transition-all duration-500 group">
-                  <div className="w-14 h-14 flex items-center justify-center rounded-2xl bg-secondary text-white group-hover:bg-primary transition-colors duration-500 mb-8 shadow-lg shadow-secondary/10 group-hover:shadow-primary/20">
-                    <Mail size={24} />
+                <div className="p-6 rounded-2xl bg-white border border-neutral-100 shadow-sm flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-xl bg-neutral-50 flex items-center justify-center text-primary shrink-0">
+                    <ShieldCheck className="w-5 h-5" />
                   </div>
-                  <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary mb-4">Email Us</h4>
-                  <p className="text-lg font-medium text-secondary break-all">{common.contact.email}</p>
+                  <div>
+                    <h4 className="text-xs font-bold text-secondary uppercase tracking-wider mb-1">Premium</h4>
+                    <p className="text-[11px] text-neutral-400 font-semibold uppercase leading-tight">ISO Materials</p>
+                  </div>
                 </div>
               </div>
 
-              {/* Location Card */}
-              <div className="p-10 lg:p-12 rounded-[48px] bg-secondary text-white relative overflow-hidden group shadow-2xl shadow-secondary/20">
+              {/* Business Hours Information */}
+              <div className="p-8 lg:p-10 rounded-3xl bg-secondary text-white relative overflow-hidden group shadow-xl">
+                {/* SVG pattern background */}
+                <div className="absolute inset-0 opacity-5 bg-[radial-gradient(#fff_1.5px,transparent_1.5px)] bg-[size:1.5rem_1.5rem]" />
                 <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -mr-32 -mt-32" />
-                <div className="relative z-10 flex flex-col md:flex-row gap-10 md:items-center">
-                  <MapPin size={48} className="text-primary group-hover:scale-110 transition-transform duration-700" />
-                  <div>
-                    <h4 className="text-[10px] font-bold uppercase tracking-[0.4em] text-primary mb-3">Our Facility</h4>
-                    <p className="text-lg font-medium leading-relaxed opacity-90">{common.contact.address}</p>
+                
+                <div className="relative z-10 space-y-6">
+                  <div className="flex items-center gap-3 border-b border-white/10 pb-4">
+                    <Clock className="w-6 h-6 text-primary" />
+                    <div>
+                      <h4 className="text-[9px] font-black uppercase tracking-[0.3em] text-primary">BUSINESS HOURS</h4>
+                      <p className="text-sm font-bold opacity-95">{common.businessHours.notice}</p>
+                    </div>
                   </div>
+                  
+                  <div className="flex justify-between items-center text-sm font-semibold">
+                    <span className="opacity-70 uppercase tracking-widest text-xs">Standard Timing</span>
+                    <span className="bg-white/10 px-4.5 py-1.5 rounded-full text-xs font-bold tracking-wider">{common.businessHours.display}</span>
+                  </div>
+                  
+                  <p className="text-[11px] text-neutral-400 font-medium leading-relaxed">
+                    * Visitors are highly encouraged to schedule a showroom/factory visitation in advance for dedicated design consults.
+                  </p>
                 </div>
+              </div>
+
+              {/* Pan-India Delivery Ribbon */}
+              <div className="p-6 rounded-2xl bg-neutral-100/60 border border-neutral-200/50 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <Globe className="w-5 h-5 text-neutral-500" />
+                  <span className="text-xs font-bold text-secondary uppercase tracking-wider">Pan-India Cargo Shipping</span>
+                </div>
+                <span className="text-[10px] bg-neutral-200 text-neutral-600 px-3 py-1 rounded font-bold uppercase tracking-widest">Active</span>
               </div>
             </div>
 
-            {/* Right side: Form - Premium Container */}
-            <div className="relative group">
-              <div className="relative bg-white p-8 lg:p-16 rounded-[48px] shadow-[0_40px_100px_-20px_rgba(0,0,0,0.08)] border border-neutral-100 transition-all duration-700 hover:shadow-[0_60px_120px_-20px_rgba(0,0,0,0.12)]">
-                <div className="mb-16">
-                  <h3 className="text-4xl font-bold text-secondary tracking-tight">
+            {/* Right side: Modern Glassmorphic Form Panel */}
+            <div className="lg:col-span-7 relative group">
+              {/* Floating decorative elements */}
+              <div className="absolute -top-6 -right-6 w-32 h-32 bg-primary/5 rounded-full blur-2xl pointer-events-none" />
+              <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-primary/5 rounded-full blur-2xl pointer-events-none" />
+
+              <div className="relative bg-white/95 backdrop-blur-md p-8 lg:p-12 rounded-[32px] shadow-[0_30px_80px_-20px_rgba(0,0,0,0.07)] border border-neutral-100 transition-all duration-700 hover:shadow-[0_40px_100px_-20px_rgba(0,0,0,0.11)]">
+                <div className="mb-10">
+                  <h3 className="text-2xl md:text-3xl font-black text-secondary uppercase tracking-tight">
                     Start a Conversation
                   </h3>
-                  <p className="text-gray-400 font-medium mt-3 text-lg">Tell us about your project requirements.</p>
+                  <p className="text-neutral-400 font-semibold mt-2 text-sm md:text-base leading-relaxed">
+                    Share your office concept or layouts. Our furniture engineers will analyze and revert within 2 hours.
+                  </p>
                 </div>
 
                 <FormProvider {...methods}>
-                  <form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-12">
-                    <RHFControl control="input" name="fullName" label="Full Name" placeholder="e.g. John Smith" />
-                    <div className="grid md:grid-cols-2 gap-12">
-                      <RHFControl control="input" name="email" label="Email Address" placeholder="john@company.com" type="email" />
-                      <RHFControl control="input" name="phone" label="Phone Number" placeholder="+91 00000-00000" />
+                  <form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-8">
+                    <RHFControl
+                      control="input"
+                      name="fullName"
+                      label="Full Name"
+                      placeholder="e.g. Rahul Verma"
+                      className="rounded-xl border-neutral-200 focus:border-primary/80 focus:bg-white focus:ring-4 focus:ring-primary/10 transition-all duration-300 font-medium py-3 px-4"
+                    />
+                    
+                    <div className="grid md:grid-cols-2 gap-8">
+                      <RHFControl
+                        control="input"
+                        name="email"
+                        label="Email Address"
+                        placeholder="rahul@company.com"
+                        type="email"
+                        className="rounded-xl border-neutral-200 focus:border-primary/80 focus:bg-white focus:ring-4 focus:ring-primary/10 transition-all duration-300 font-medium py-3 px-4"
+                      />
+                      <RHFControl
+                        control="input"
+                        name="phone"
+                        label="Phone Number"
+                        placeholder="e.g. +91 99999-99999"
+                        className="rounded-xl border-neutral-200 focus:border-primary/80 focus:bg-white focus:ring-4 focus:ring-primary/10 transition-all duration-300 font-medium py-3 px-4"
+                      />
                     </div>
-                    <RHFControl control="textarea" name="message" label="Project Details" placeholder="Describe your workspace vision..." />
+                    
+                    <RHFControl
+                      control="textarea"
+                      name="message"
+                      label="Workspace Requirements"
+                      placeholder="Share a brief overview of your office furniture needs (workstations, desk configurations, design themes, seating quantity)..."
+                      className="rounded-xl border-neutral-200 focus:border-primary/80 focus:bg-white focus:ring-4 focus:ring-primary/10 transition-all duration-300 font-medium py-3.5 px-4 min-h-[120px]"
+                    />
 
                     <button
+                      id="submit-contact-form"
                       type="submit"
-                      className="w-full bg-secondary text-white font-bold tracking-[0.2em] text-xs uppercase py-7 flex items-center justify-center gap-4 rounded-2xl hover:bg-primary transition-all duration-500 shadow-2xl shadow-secondary/10 hover:shadow-primary/30 group cursor-pointer active:scale-[0.98]"
+                      className="w-full bg-secondary text-white font-bold tracking-[0.25em] text-xs uppercase py-5 flex items-center justify-center gap-3 rounded-xl hover:bg-primary transition-all duration-500 shadow-lg shadow-secondary/10 hover:shadow-primary/20 group cursor-pointer active:scale-[0.98] mt-4"
                     >
-                      SEND INQUIRY
-                      <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                      <span>SEND INQUIRY</span>
+                      <ArrowRight size={14} className="group-hover:translate-x-1.5 transition-transform duration-300" />
                     </button>
                   </form>
                 </FormProvider>
@@ -218,16 +349,112 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* Map Section - Simplified */}
-      <section className="h-[600px] w-full bg-neutral-100 relative grayscale hover:grayscale-0 transition-all duration-1000">
-         <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14030.73024856037!2d77.0142835!3d28.4590333!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d19e9f6580f55%3A0x7d6f584f22a7f5a8!2sWestern%20Interio!5e0!3m2!1sen!2sin!4v1715500000000!5m2!1sen!2sin" 
-            className="w-full h-full border-none"
-            allowFullScreen 
-            loading="lazy" 
-            referrerPolicy="no-referrer-when-downgrade"
-         />
+      {/* Accordion FAQ Section */}
+      <section className="py-24 relative overflow-hidden bg-white border-t border-neutral-100">
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
+          <div className="text-center max-w-2xl mx-auto mb-16 space-y-4">
+            <span className="text-[10px] font-black tracking-[0.25em] text-primary uppercase bg-primary/5 px-4 py-1.5 rounded-full inline-block">
+              COMMON INQUIRIES
+            </span>
+            <h2 className="text-3xl md:text-4xl font-black text-secondary uppercase tracking-tight">
+              Frequently Asked Questions
+            </h2>
+            <p className="text-neutral-400 text-sm font-semibold leading-relaxed">
+              Find quick answers regarding our custom design process, lead times, cargo shipping, and workspace layouts.
+            </p>
+          </div>
+
+          <div className="max-w-4xl mx-auto space-y-4">
+            {faqs.map((faq, index) => {
+              const isOpen = openFaq === index;
+              return (
+                <div
+                  key={index}
+                  className={cn(
+                    "rounded-2xl border transition-all duration-300 overflow-hidden bg-white",
+                    isOpen 
+                      ? "border-primary/30 shadow-[0_15px_30px_-15px_rgba(237,28,39,0.06)]" 
+                      : "border-neutral-200/70 hover:border-neutral-300 shadow-sm"
+                  )}
+                >
+                  <button
+                    onClick={() => setOpenFaq(isOpen ? null : index)}
+                    className="w-full text-left p-6 md:p-8 flex items-center justify-between gap-6 cursor-pointer"
+                  >
+                    <span className={cn(
+                      "font-bold text-base md:text-lg transition-colors duration-300 tracking-tight",
+                      isOpen ? "text-primary" : "text-secondary"
+                    )}>
+                      {faq.question}
+                    </span>
+                    <span className={cn(
+                      "w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-all duration-300",
+                      isOpen ? "bg-primary text-white rotate-180" : "bg-neutral-50 text-secondary hover:bg-neutral-100"
+                    )}>
+                      <ChevronDown className="w-4 h-4" />
+                    </span>
+                  </button>
+
+                  <div
+                    className={cn(
+                      "grid transition-all duration-300 ease-in-out",
+                      isOpen ? "grid-rows-[1fr] opacity-100 border-t border-neutral-100" : "grid-rows-[0fr] opacity-0"
+                    )}
+                  >
+                    <div className="overflow-hidden">
+                      <p className="p-6 md:p-8 text-neutral-500 text-sm md:text-base leading-relaxed font-medium">
+                        {faq.answer}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Google Map Section with Elegant Frame and Floating Card */}
+      <section className="h-[600px] w-full relative group" id="map">
+        {/* Soft overlay mask for smooth layout blend */}
+        <div className="absolute top-0 left-0 w-full h-8 bg-gradient-to-b from-white to-transparent z-10" />
+        <div className="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t from-white to-transparent z-10" />
+        
+        {/* Floating directions card on the map (desktop only) */}
+        <div className="absolute top-10 left-10 z-20 max-w-sm bg-white/95 backdrop-blur-md p-8 rounded-3xl shadow-2xl border border-white/20 hidden md:block group hover:scale-[1.02] transition-transform duration-500">
+          <div className="flex gap-4 items-start">
+            <div className="w-12 h-12 min-w-[48px] min-h-[48px] bg-primary/10 rounded-2xl flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300 shadow-inner shrink-0">
+              <MapPin className="w-6 h-6" />
+            </div>
+            <div className="space-y-3">
+              <div>
+                <h4 className="text-[9px] font-black uppercase tracking-[0.2em] text-primary mb-1">Our Facility</h4>
+                <h3 className="text-base font-bold text-secondary tracking-tight">Western Interio Factory</h3>
+              </div>
+              <p className="text-xs text-neutral-500 leading-relaxed">{common.contact.address}</p>
+              <a 
+                href="https://maps.app.goo.gl/wJk4zX92vU7vG949A"
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-secondary hover:text-primary transition-colors group/link pt-1"
+              >
+                <span>Get Directions</span>
+                <ArrowRight className="w-3.5 h-3.5 group-hover/link:translate-x-1 transition-transform" />
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <iframe 
+          src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14030.73024856037!2d77.0142835!3d28.4590333!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d19e9f6580f55%3A0x7d6f584f22a7f5a8!2sWestern%20Interio!5e0!3m2!1sen!2sin!4v1715500000000!5m2!1sen!2sin" 
+          className="w-full h-full border-none filter grayscale opacity-90 hover:grayscale-0 hover:opacity-100 transition-all duration-1000"
+          allowFullScreen 
+          loading="lazy" 
+          referrerPolicy="no-referrer-when-downgrade"
+          title="Western Interio Gurugram Location Map"
+        />
       </section>
     </main>
   );
 }
+
