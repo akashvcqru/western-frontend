@@ -22,7 +22,7 @@ import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import siteContent from "@/data/site-content.json";
-import { AppModal, Accordion } from "@/components/ui";
+import { AppModal, Accordion, PageHeader } from "@/components/ui";
 import RHFControl from "@/components/ui/inputs/RHFControl";
 
 // Validation schema for testimonials
@@ -136,39 +136,18 @@ export default function TestimonialsPage() {
 
   return (
     <main className="bg-white min-h-screen pb-20">
-      {/* Hero Section - Atmospheric Cinematic Backdrop */}
-      <section className="relative pt-36 pb-24 flex items-center justify-center overflow-hidden bg-neutral-950">
-        {/* Soft atmospheric gradient details */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.8),rgba(26,26,26,0.6))] z-10" />
-        <div className="absolute -top-40 -left-40 w-96 h-96 bg-primary/20 rounded-full blur-[120px] pointer-events-none" />
-        <div className="absolute top-1/2 -right-40 w-96 h-96 bg-red-600/10 rounded-full blur-[120px] pointer-events-none" />
-        <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
-
-        <Image 
-          src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop"
-          alt="Testimonials Background"
-          fill
-          sizes="100vw"
-          priority
-          className="object-cover opacity-15 grayscale scale-105"
-        />
-        
-        <div className="relative z-20 text-center space-y-6 max-w-4xl px-6">
-          <div className="inline-flex items-center gap-2 px-5 py-2 bg-white/5 backdrop-blur-md border border-white/10 rounded-full shadow-lg">
-            <Sparkles size={14} className="text-primary animate-pulse" />
-            <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white">
-              {testimonialsPage.hero.badge}
-            </span>
-          </div>
+      {/* Hero Section */}
+      <PageHeader
+        bgImage="https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop"
+        badgeText={testimonialsPage.hero.badge}
+        title={
           <h1 
-            className="text-4xl md:text-6xl font-bold text-white leading-tight tracking-tight drop-shadow-xl"
+            className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight tracking-tight uppercase"
             dangerouslySetInnerHTML={{ __html: testimonialsPage.hero.title }}
           />
-          <p className="text-lg md:text-xl text-neutral-200 max-w-2xl mx-auto leading-relaxed font-medium">
-            {testimonialsPage.hero.subtitle}
-          </p>
-        </div>
-      </section>
+        }
+        subtitle={testimonialsPage.hero.subtitle}
+      />
 
       {/* Featured Enterprise Case Study Banner */}
       <section className="pt-12 pb-12 lg:pt-16 lg:pb-16 -mt-10 relative z-30 max-w-[1440px] mx-auto px-6 lg:px-12">

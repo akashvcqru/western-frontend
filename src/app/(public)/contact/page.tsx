@@ -26,6 +26,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import RHFControl from "@/components/ui/inputs/RHFControl";
 import { useAppToast } from "@/components/ui/AppToast";
+import { PageHeader } from "@/components/ui";
 
 import siteContent from "@/data/site-content.json";
 
@@ -82,27 +83,10 @@ export default function ContactPage() {
 
   return (
     <main className="flex flex-col bg-white overflow-hidden">
-      {/* Hero Section - High Impact Premium */}
-      <section className="relative min-h-[75vh] flex items-center justify-center overflow-hidden bg-neutral-950 pt-28 pb-36 lg:py-0">
-        {/* Unsplash Background with subtle zoom animation */}
-        <Image
-          src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2070&auto=format&fit=crop"
-          alt="Western Interio Corporate Office Solutions"
-          fill
-          sizes="100vw"
-          priority
-          className="object-cover opacity-20 grayscale scale-105 transition-transform duration-[15000ms] ease-out animate-pulse-slow"
-        />
-        
-        {/* Premium Architectural Grid Overlay */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:4.5rem_4.5rem]" />
-        
-        {/* Soft Radial Gradients for Deep Contrast */}
-        <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/80 to-transparent" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] h-[70vw] max-w-[650px] bg-[radial-gradient(circle,rgba(237,28,39,0.15)_0%,transparent_70%)] rounded-full blur-3xl pointer-events-none" />
-
-        <div className="relative z-10 text-center space-y-8 max-w-4xl px-4 mt-8">
-          {/* Animated Glow Badge */}
+      {/* Hero Section */}
+      <PageHeader
+        bgImage="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2070&auto=format&fit=crop"
+        badge={
           <div className="inline-flex items-center gap-2.5 px-4.5 py-1.5 bg-white/5 border border-white/10 backdrop-blur-md rounded-full shadow-inner shadow-white/5 animate-fade-in">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
@@ -112,23 +96,11 @@ export default function ContactPage() {
               {contactPage.hero.badge || "CONTACT US"}
             </span>
           </div>
-
-          {/* High-Contrast Bold Typography */}
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight tracking-tight uppercase">
-            Let's Design <br className="md:hidden" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-rose-500 font-extrabold relative inline-block">
-              Beyond.
-              <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-28 h-1.5 bg-primary/95 rounded-full blur-[1px]" />
-            </span>
-          </h1>
-
-          {/* Elegant descriptive sub-headline */}
-          <p className="text-sm md:text-base lg:text-lg text-neutral-400 max-w-2xl mx-auto leading-relaxed font-normal">
-            Transforming your workspace starts with a professional consultation. <br className="hidden lg:block" />
-            {contactPage.hero.subtitle || "Get in touch with Western Interio for your workspace and interior needs."}
-          </p>
-        </div>
-      </section>
+        }
+        titlePrefix="Let's Design"
+        titleHighlight="Beyond."
+        subtitle={`Transforming your workspace starts with a professional consultation. ${contactPage.hero.subtitle || ""}`}
+      />
 
       {/* Modern High-End Floating Cards Panel */}
       <section className="relative -mt-16 lg:-mt-24 z-20 px-4 md:px-8">

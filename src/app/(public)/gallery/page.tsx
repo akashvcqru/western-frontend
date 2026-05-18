@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 
 import { QuoteModal } from "@/components/common";
+import { PageHeader } from "@/components/ui";
 
 import galleryItems from "@/data/gallery.json";
 import siteContent from "@/data/site-content.json";
@@ -39,35 +40,20 @@ export default function GalleryPage() {
     selectedIndex !== null ? galleryItems[selectedIndex] : null;
 
   return (
-    <main className="bg-white">
-      {/* Hero Section - Cinematic */}
-      <section className="relative pt-48 pb-32 flex items-center justify-center overflow-hidden bg-neutral-950">
-        <Image
-          src="/hero-bg.png"
-          alt={galleryPage.hero.title}
-          fill
-          sizes="100vw"
-          priority
-          className="object-cover opacity-20 grayscale scale-105"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-neutral-950/80 via-neutral-950/40 to-neutral-950" />
-
-        <div className="relative z-10 text-center space-y-6 max-w-4xl px-6">
-          <div className="inline-flex items-center gap-3 px-5 py-1.5 bg-white/5 backdrop-blur-md border border-white/10 rounded-full animate-in fade-in slide-in-from-bottom-4 duration-700">
-            <Camera size={14} className="text-primary" />
-            <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white">
-              {galleryPage.hero.badge}
-            </span>
-          </div>
+    <main className="bg-white min-h-screen pb-32">
+      {/* Hero Section */}
+      <PageHeader
+        bgImage="/hero-bg.png"
+        badgeIcon={Camera}
+        badgeText={galleryPage.hero.badge}
+        title={
           <h1 
-            className="text-3xl lg:text-5xl font-bold text-white leading-tight tracking-tight animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200"
+            className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight tracking-tight uppercase"
             dangerouslySetInnerHTML={{ __html: galleryPage.hero.title }}
           />
-          <p className="text-base lg:text-lg text-gray-400 max-w-xl mx-auto leading-relaxed font-normal animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500">
-            {galleryPage.hero.subtitle}
-          </p>
-        </div>
-      </section>
+        }
+        subtitle={galleryPage.hero.subtitle}
+      />
 
       {/* Gallery Grid - World Class Showcase */}
       <section className="py-12 lg:py-20 bg-white relative overflow-hidden">

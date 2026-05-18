@@ -16,6 +16,7 @@ import {
 import QuoteModal from "@/components/common/QuoteModal";
 import cataloguesData from "@/data/download-center.json";
 import { cn } from "@/lib/utils";
+import { PageHeader } from "@/components/ui";
 
 export default function DownloadCenterPage() {
   const [activeCategory, setActiveCategory] = useState<string>("All");
@@ -34,51 +35,14 @@ export default function DownloadCenterPage() {
 
   return (
     <main className="bg-white overflow-hidden flex flex-col min-h-screen">
-      {/* Hero Section - High Impact Premium Dark Mode */}
-      <section className="relative min-h-[50vh] flex items-center justify-center overflow-hidden bg-neutral-950 pt-28 pb-32">
-        {/* Unsplash Background with subtle scale/pulsing */}
-        <Image
-          src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2070&auto=format&fit=crop"
-          alt="Western Interio Corporate Design Catalogues"
-          fill
-          sizes="100vw"
-          priority
-          className="object-cover opacity-15 grayscale scale-105 transition-transform duration-[12000ms] ease-out"
-        />
-
-        {/* Premium Geometric Mesh Overlay */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:4.5rem_4.5rem]" />
-
-        {/* Radical Contrast Blur Effect */}
-        <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/80 to-transparent" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] max-w-[500px] bg-[radial-gradient(circle,rgba(237,28,39,0.12)_0%,transparent_70%)] rounded-full blur-3xl pointer-events-none" />
-
-        <div className="relative z-10 text-center space-y-6 max-w-4xl px-6 mt-6">
-          {/* Glowing Animated Badge */}
-          <div className="inline-flex items-center gap-2.5 px-4.5 py-1.5 bg-white/5 border border-white/10 backdrop-blur-md rounded-full shadow-inner animate-in fade-in duration-700">
-            <Sparkles size={12} className="text-primary animate-pulse" />
-            <span className="text-[10px] font-black tracking-[0.35em] text-white uppercase">
-              Western Catalogue Center
-            </span>
-          </div>
-
-          {/* Premium Typography */}
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight tracking-tight uppercase">
-            DESIGN <br className="sm:hidden" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-rose-500 font-extrabold relative inline-block">
-              BROCHURES & CATALOGUES.
-              <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-32 h-1 bg-primary/95 rounded-full blur-[0.5px]" />
-            </span>
-          </h1>
-
-          {/* Elegant descriptive sub-headline */}
-          <p className="text-xs sm:text-sm md:text-base text-neutral-400 max-w-2xl mx-auto leading-relaxed font-normal">
-            Explore and download our comprehensive design collections, ergonomic
-            catalogs, and architectural false partition guides. Think to design
-            beyond with Western Interio.
-          </p>
-        </div>
-      </section>
+      {/* Hero Section */}
+      <PageHeader
+        bgImage="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2070&auto=format&fit=crop"
+        badgeText="Western Catalogue Center"
+        titlePrefix="DESIGN"
+        titleHighlight="BROCHURES & CATALOGUES."
+        subtitle="Explore and download our comprehensive design collections, ergonomic catalogs, and architectural false partition guides. Think to design beyond with Western Interio."
+      />
 
       {/* Main Browse Section */}
       <section className="py-20 lg:py-28 relative bg-neutral-50/50">

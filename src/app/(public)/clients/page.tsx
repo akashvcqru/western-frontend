@@ -16,6 +16,7 @@ import {
 import { QuoteModal } from "@/components/common";
 import clients from "@/data/clients.json";
 import siteContent from "@/data/site-content.json";
+import { PageHeader } from "@/components/ui";
 
 export default function ClientsPage() {
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
@@ -25,31 +26,15 @@ export default function ClientsPage() {
     <main className="bg-white">
       <QuoteModal isOpen={isQuoteOpen} onClose={() => setIsQuoteOpen(false)} />
       
-      {/* Hero Section - Elite Corporate Aesthetic */}
-      <section className="relative pt-48 pb-32 flex items-center justify-center overflow-hidden bg-neutral-950">
-        <Image
-          src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2070&auto=format&fit=crop"
-          alt="Corporate Clients Background"
-          fill
-          sizes="100vw"
-          priority
-          className="object-cover opacity-20 grayscale scale-105"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-neutral-950/80 via-neutral-950/40 to-neutral-950" />
-
-        <div className="relative z-10 text-center space-y-6 max-w-4xl px-6">
-          <div className="inline-flex items-center gap-3 px-5 py-1.5 bg-white/5 backdrop-blur-md border border-white/10 rounded-full animate-in fade-in slide-in-from-bottom-4 duration-700">
-            <Briefcase size={14} className="text-primary" />
-            <span className="text-[10px] font-black tracking-[0.4em] text-white uppercase">Client Portfolio</span>
-          </div>
-          <h1 className="text-3xl lg:text-5xl font-bold text-white leading-tight tracking-tight animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
-            Trusted by <span className="text-primary">Industry Leaders.</span>
-          </h1>
-          <p className="text-base lg:text-lg text-gray-400 max-w-xl mx-auto leading-relaxed font-normal animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500">
-            We take pride in partnering with some of the world's most prestigious organizations to deliver high-performance workspace solutions.
-          </p>
-        </div>
-      </section>
+      {/* Hero Section */}
+      <PageHeader
+        bgImage="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2070&auto=format&fit=crop"
+        badgeIcon={Briefcase}
+        badgeText="Client Portfolio"
+        titlePrefix="Trusted by"
+        titleHighlight="Industry Leaders."
+        subtitle="We take pride in partnering with some of the world's most prestigious organizations to deliver high-performance workspace solutions."
+      />
 
       {/* Trust Indicators Section */}
       <section className="py-12 lg:py-16 bg-white border-b border-neutral-100">

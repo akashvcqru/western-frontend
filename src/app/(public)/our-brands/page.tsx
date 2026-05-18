@@ -17,6 +17,7 @@ import { QuoteModal } from "@/components/common";
 import { useState } from "react";
 import brands from "@/data/brands.json";
 import siteContent from "@/data/site-content.json";
+import { PageHeader } from "@/components/ui";
 
 export default function OurBrandsPage() {
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
@@ -26,31 +27,14 @@ export default function OurBrandsPage() {
     <main className="bg-white">
       <QuoteModal isOpen={isQuoteOpen} onClose={() => setIsQuoteOpen(false)} />
       
-      {/* Hero Section - Cinematic */}
-      <section className="relative pt-48 pb-32 flex items-center justify-center overflow-hidden bg-neutral-950">
-        <Image
-          src="/hero-bg.png"
-          alt="Bawa Ditta Mal Brands"
-          fill
-          sizes="100vw"
-          priority
-          className="object-cover opacity-20 grayscale scale-105"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-neutral-950/80 via-neutral-950/40 to-neutral-950" />
-
-        <div className="relative z-10 text-center space-y-6 max-w-4xl px-6">
-          <div className="inline-flex items-center gap-3 px-5 py-1.5 bg-white/5 backdrop-blur-md border border-white/10 rounded-full animate-in fade-in slide-in-from-bottom-4 duration-700">
-            <Sparkles size={14} className="text-primary" />
-            <span className="text-[10px] font-black tracking-[0.4em] text-white uppercase">{ourBrandsPage.hero.badge}</span>
-          </div>
-          <h1 className="text-3xl lg:text-5xl font-bold text-white leading-tight tracking-tight animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
-            Elite <span className="text-primary">Partnerships.</span>
-          </h1>
-          <p className="text-base lg:text-lg text-gray-400 max-w-xl mx-auto leading-relaxed font-normal animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500">
-            {ourBrandsPage.hero.subtitle}
-          </p>
-        </div>
-      </section>
+      {/* Hero Section */}
+      <PageHeader
+        bgImage="/hero-bg.png"
+        badgeText={ourBrandsPage.hero.badge}
+        titlePrefix="Elite"
+        titleHighlight="Partnerships."
+        subtitle={ourBrandsPage.hero.subtitle}
+      />
 
       {/* Expertise Details - SaaS Layout */}
       <section className="py-32 lg:py-48 bg-white relative overflow-hidden">

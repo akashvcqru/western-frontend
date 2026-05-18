@@ -9,6 +9,7 @@ import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 
 import { AppRoutes } from "@/constants/routes";
+import { PageHeader } from "@/components/ui";
 
 export default function BrandPage() {
   const params = useParams();
@@ -22,19 +23,10 @@ export default function BrandPage() {
 
   return (
     <main className="bg-white">
-      {/* Brand Header - Cinematic */}
-      <section className="relative pt-48 pb-32 flex items-center justify-center overflow-hidden bg-neutral-950">
-        <Image 
-          src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop"
-          alt={brandName}
-          fill
-          sizes="100vw"
-          priority
-          className="object-cover opacity-20 grayscale scale-105"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-neutral-950/80 via-neutral-950/40 to-neutral-950" />
-        
-        <div className="relative z-10 text-center space-y-6 max-w-4xl px-6">
+      {/* Brand Header */}
+      <PageHeader
+        bgImage="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2070&auto=format&fit=crop"
+        badge={
           <div className="inline-flex items-center gap-3 px-5 py-1.5 bg-white/5 backdrop-blur-md border border-white/10 rounded-full animate-in fade-in slide-in-from-bottom-4 duration-700">
             <nav className="flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.3em] text-white/40">
               <Link href={AppRoutes.Public.Home} className="hover:text-primary transition-colors">Home</Link>
@@ -44,14 +36,11 @@ export default function BrandPage() {
               <span className="text-white">{brandName}</span>
             </nav>
           </div>
-          <h1 className="text-3xl lg:text-5xl font-bold text-white leading-tight tracking-tight animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
-            {brandName} <br /><span className="text-primary">Collection.</span>
-          </h1>
-          <p className="text-base lg:text-lg text-gray-400 max-w-xl mx-auto leading-relaxed font-normal animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500">
-            Experience the finest collection of products from {brandName}, curated specifically for your premium lifestyle needs.
-          </p>
-        </div>
-      </section>
+        }
+        titlePrefix={brandName}
+        titleHighlight="Collection."
+        subtitle={`Experience the finest collection of products from ${brandName}, curated specifically for your premium lifestyle needs.`}
+      />
 
       <div className="max-w-[1440px] mx-auto px-6 lg:px-12 py-32">
         <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-20 border-b border-neutral-100 pb-10">

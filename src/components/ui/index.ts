@@ -9,4 +9,5 @@ export * from './AppToast';
 export { default as Badge } from './Badge';
 export { default as Accordion } from './Accordion';
 export type { AccordionItem } from './Accordion';
+export { default as PageHeader } from './PageHeader';
 export * from './inputs';
