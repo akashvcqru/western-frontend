@@ -2,7 +2,6 @@
 
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
 import {
   ArrowUpRight,
   Maximize2,
@@ -10,37 +9,66 @@ import {
   X,
   ChevronLeft,
   ChevronRight,
+  Sparkles,
+  Filter,
 } from "lucide-react";
 
 import { QuoteModal } from "@/components/common";
 import { PageHeader } from "@/components/ui";
+import { cn } from "@/lib/utils";
 
 import galleryItems from "@/data/gallery.json";
 import siteContent from "@/data/site-content.json";
 
 export default function GalleryPage() {
+  const [selectedCategory, setSelectedCategory] = React.useState<string>("All");
   const [selectedIndex, setSelectedIndex] = React.useState<number | null>(null);
   const [isQuoteOpen, setIsQuoteOpen] = React.useState(false);
+  const [quoteTitle, setQuoteTitle] = React.useState<string>("Get a Premium Quote");
+  const [quoteSubtitle, setQuoteSubtitle] = React.useState<string>("Tell us about your project and our experts will contact you within 24 hours.");
 
   const { galleryPage } = siteContent;
 
+  // Dynamically extract categories
+  const categories = React.useMemo(() => {
+    return ["All", ...Array.from(new Set(galleryItems.map((item) => item.category)))];
+  }, []);
+
+  // Filter items based on selected category
+  const filteredItems = React.useMemo(() => {
+    return selectedCategory === "All"
+      ? galleryItems
+      : galleryItems.filter((item) => item.category === selectedCategory);
+  }, [selectedCategory]);
+
   const handleNext = () => {
     if (selectedIndex === null) return;
-    setSelectedIndex((selectedIndex + 1) % galleryItems.length);
+    setSelectedIndex((selectedIndex + 1) % filteredItems.length);
   };
 
   const handlePrev = () => {
     if (selectedIndex === null) return;
     setSelectedIndex(
-      (selectedIndex - 1 + galleryItems.length) % galleryItems.length,
+      (selectedIndex - 1 + filteredItems.length) % filteredItems.length,
     );
   };
 
+  // Close lightbox on Escape key press
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setSelectedIndex(null);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   const currentItem =
-    selectedIndex !== null ? galleryItems[selectedIndex] : null;
+    selectedIndex !== null ? filteredItems[selectedIndex] : null;
 
   return (
-    <main className="bg-white min-h-screen pb-32">
+    <main className="bg-white min-h-screen pb-20">
       {/* Hero Section */}
       <PageHeader
         bgImage="/hero-bg.png"
@@ -55,43 +83,118 @@ export default function GalleryPage() {
         subtitle={galleryPage.hero.subtitle}
       />
 
-      {/* Gallery Grid - World Class Showcase */}
-      <section className="py-12 lg:py-20 bg-white relative overflow-hidden">
+      {/* Dynamic Category Filtering Row */}
+      <section className="py-12 lg:py-16 bg-white relative">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-12">
-            {galleryItems.map((item, i) => (
-              <div
-                key={i}
-                className="group relative aspect-square overflow-hidden rounded-[48px] bg-neutral-50 shadow-[0_20px_40px_-10px_rgba(0,0,0,0.05)] cursor-pointer"
-                onClick={() => setSelectedIndex(i)}
-              >
-                <Image
-                  src={item.image}
-                  alt={item.title}
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  className="object-cover transition-transform duration-1000 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-neutral-950/0 group-hover:bg-neutral-950/60 transition-all duration-700" />
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-neutral-100 pb-8">
+            <div className="space-y-1">
+              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary flex items-center gap-2">
+                <Filter size={12} /> Gallery Categories
+              </span>
+              <p className="text-sm text-neutral-400 font-medium">Filter our portfolio by workspace design types</p>
+            </div>
+            
+            {/* Scrollable Tab bar styled with rounded-lg active pills */}
+            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-3 md:pb-0 scroll-smooth -mx-6 px-6 md:mx-0 md:px-0">
+              {categories.map((category) => {
+                const count = category === "All" 
+                  ? galleryItems.length 
+                  : galleryItems.filter(item => item.category === category).length;
+                
+                const isActive = selectedCategory === category;
+                
+                return (
+                  <button
+                    key={category}
+                    onClick={() => {
+                      setSelectedCategory(category);
+                      setSelectedIndex(null); // Close lightbox on filter change
+                    }}
+                    className={cn(
+                      "px-5 py-2.5 text-xs font-bold tracking-wider uppercase transition-all duration-300 whitespace-nowrap cursor-pointer flex items-center gap-2 border",
+                      isActive
+                        ? "bg-secondary text-white border-secondary rounded-lg shadow-md shadow-secondary/10"
+                        : "bg-neutral-50 text-neutral-500 hover:text-secondary hover:bg-neutral-100 border-neutral-200/60 rounded-lg"
+                    )}
+                  >
+                    {category}
+                    <span className={cn(
+                      "inline-flex items-center justify-center px-1.5 py-0.5 text-[9px] font-black rounded-md",
+                      isActive
+                        ? "bg-primary text-white"
+                        : "bg-neutral-200 text-neutral-600 group-hover:bg-neutral-300"
+                    )}>
+                      {count}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
 
-                {/* Overlay Info - Premium Styling */}
-                <div className="absolute inset-0 p-12 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-all duration-500">
-                  <div className="space-y-4 translate-y-8 group-hover:translate-y-0 transition-transform duration-700">
-                    <span className="inline-block px-4 py-1.5 rounded-full bg-primary/20 backdrop-blur-md border border-primary/30 text-[10px] font-black uppercase tracking-widest text-primary">
+      {/* Gallery Grid - World Class Showcase */}
+      <section className="py-12 lg:py-16 bg-white relative overflow-hidden">
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
+          {filteredItems.length === 0 ? (
+            <div className="text-center py-20 bg-neutral-50 rounded-xl border border-dashed border-neutral-200">
+              <Camera className="mx-auto text-neutral-300 mb-4 animate-bounce" size={40} />
+              <p className="text-neutral-500 font-bold uppercase tracking-wider text-sm">No Projects Found</p>
+            </div>
+          ) : (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
+              {filteredItems.map((item, index) => (
+                <div
+                  key={index}
+                  onClick={() => setSelectedIndex(index)}
+                  className="group bg-white rounded-xl border border-neutral-100 p-4 shadow-soft hover:shadow-premium hover:-translate-y-1.5 transition-all duration-500 cursor-pointer flex flex-col"
+                >
+                  {/* Image Container with rounded-lg */}
+                  <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg bg-neutral-50">
+                    <Image
+                      src={item.image}
+                      alt={item.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                    />
+                    {/* Dark/Blurred Overlay on Hover */}
+                    <div className="absolute inset-0 bg-neutral-950/0 group-hover:bg-neutral-950/40 transition-all duration-500 flex items-center justify-center">
+                      {/* Glassmorphic Play/Zoom Icon */}
+                      <div className="w-14 h-14 bg-white/10 backdrop-blur-md rounded-full border border-white/20 flex items-center justify-center opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100 transition-all duration-500 text-white shadow-xl">
+                        <Maximize2 size={22} className="animate-pulse" />
+                      </div>
+                    </div>
+                    
+                    {/* Premium Floating Category Tag */}
+                    <span className="absolute top-4 left-4 inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-white/90 backdrop-blur-md shadow-sm border border-white/30 text-[9px] font-black uppercase tracking-wider text-secondary">
+                      <Sparkles size={8} className="text-primary" />
                       {item.category}
                     </span>
-                    <h3 className="text-3xl font-bold text-white tracking-tight leading-tight">
-                      {item.title}
-                    </h3>
-                    <div className="pt-6 flex items-center gap-3 text-white text-[10px] font-bold tracking-[0.2em] uppercase opacity-60 group-hover:opacity-100 transition-opacity">
-                      Interactive View{" "}
-                      <ArrowUpRight size={16} className="text-primary" />
+                  </div>
+
+                  {/* Metadata Section */}
+                  <div className="pt-5 pb-1 flex-grow flex flex-col justify-between">
+                    <div className="space-y-1.5">
+                      <span className="text-[9px] font-black uppercase tracking-widest text-primary block">
+                        {item.category} Project
+                      </span>
+                      <h3 className="text-xl font-extrabold text-secondary tracking-tight group-hover:text-primary transition-colors duration-300 leading-snug">
+                        {item.title}
+                      </h3>
+                    </div>
+                    
+                    {/* Bottom Interactive Prompt */}
+                    <div className="pt-4 border-t border-neutral-50 mt-4 flex items-center justify-between text-neutral-400 group-hover:text-secondary transition-colors duration-300">
+                      <span className="text-[10px] font-bold tracking-widest uppercase">View Details</span>
+                      <ArrowUpRight size={16} className="text-neutral-300 group-hover:text-primary transition-colors group-hover:translate-x-0.5 group-hover:-translate-y-0.5 duration-300" />
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -102,42 +205,56 @@ export default function GalleryPage() {
           onClick={() => setSelectedIndex(null)}
         >
           {/* Top Bar - Minimal */}
-          <div className="w-full p-8 lg:p-12 flex justify-between items-center relative z-20">
+          <div className="w-full p-6 lg:p-10 flex justify-between items-center relative z-20">
             <div className="space-y-2">
-              <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">
-                {currentItem.category}
+              <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary flex items-center gap-2">
+                <Sparkles size={10} className="animate-pulse" /> {currentItem.category}
               </span>
               <h2 className="text-2xl lg:text-3xl font-bold text-white tracking-tight">
                 {currentItem.title}
               </h2>
             </div>
 
-            <div className="flex items-center gap-10">
+            <div className="flex items-center gap-6 md:gap-10">
               <div className="hidden md:block text-white/30 text-xs font-black uppercase tracking-[0.3em]">
                 <span className="text-white">{(selectedIndex || 0) + 1}</span> /{" "}
-                {galleryItems.length}
+                {filteredItems.length}
               </div>
+              
+              {/* Quick Inquiry button inside Lightbox */}
               <button
-                className="w-14 h-14 flex items-center justify-center text-white/50 hover:text-white transition-all bg-white/5 rounded-2xl hover:bg-white/10 cursor-pointer active:scale-90"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setQuoteTitle(`Inquire about ${currentItem.title}`);
+                  setQuoteSubtitle(`Interested in our premium ${currentItem.category.toLowerCase()} installations? Request custom details below.`);
+                  setIsQuoteOpen(true);
+                }}
+                className="px-5 py-2.5 bg-primary hover:bg-red-600 text-white font-bold text-[10px] tracking-widest uppercase rounded-lg shadow-lg shadow-primary/20 transition-all flex items-center gap-2 cursor-pointer active:scale-95 group"
+              >
+                Inquire Design <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </button>
+
+              <button
+                className="w-12 h-12 flex items-center justify-center text-white/50 hover:text-white transition-all bg-white/5 rounded-xl hover:bg-white/10 cursor-pointer active:scale-90"
                 onClick={() => setSelectedIndex(null)}
               >
-                <X size={28} />
+                <X size={24} />
               </button>
             </div>
           </div>
 
           {/* Main Content Area */}
-          <div className="flex-grow relative px-8 lg:px-24">
+          <div className="flex-grow relative px-6 lg:px-24 flex items-center justify-center">
             {/* Navigation Arrows - Premium Styling */}
             <button
               onClick={(e) => {
                 e.stopPropagation();
                 handlePrev();
               }}
-              className="absolute left-12 top-1/2 -translate-y-1/2 z-20 w-20 h-20 rounded-3xl bg-white/5 hover:bg-white/10 text-white flex items-center justify-center transition-all group cursor-pointer hidden xl:flex"
+              className="absolute left-8 lg:left-12 top-1/2 -translate-y-1/2 z-20 w-16 h-16 rounded-xl bg-white/5 hover:bg-white/10 text-white flex items-center justify-center transition-all group cursor-pointer hidden xl:flex border border-white/5"
             >
               <ChevronLeft
-                size={40}
+                size={32}
                 className="group-hover:-translate-x-1 transition-transform"
               />
             </button>
@@ -147,25 +264,26 @@ export default function GalleryPage() {
                 e.stopPropagation();
                 handleNext();
               }}
-              className="absolute right-12 top-1/2 -translate-y-1/2 z-20 w-20 h-20 rounded-3xl bg-white/5 hover:bg-white/10 text-white flex items-center justify-center transition-all group cursor-pointer hidden xl:flex"
+              className="absolute right-8 lg:right-12 top-1/2 -translate-y-1/2 z-20 w-16 h-16 rounded-xl bg-white/5 hover:bg-white/10 text-white flex items-center justify-center transition-all group cursor-pointer hidden xl:flex border border-white/5"
             >
               <ChevronRight
-                size={40}
+                size={32}
                 className="group-hover:translate-x-1 transition-transform"
               />
             </button>
 
+            {/* Lightbox Frame */}
             <div
-              className="absolute inset-0 animate-in zoom-in-95 fade-in duration-1000 flex items-center justify-center"
+              className="relative w-full max-w-5xl h-[65vh] md:h-[75vh] bg-neutral-900 border border-neutral-800 p-2 rounded-xl shadow-2xl overflow-hidden animate-in zoom-in-95 fade-in duration-700"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="relative w-full h-[80vh] rounded-[40px] overflow-hidden">
+              <div className="relative w-full h-full rounded-lg overflow-hidden">
                 <Image
                   src={currentItem.image}
                   alt={currentItem.title}
                   fill
-                  sizes="100vw"
-                  className="object-contain"
+                  sizes="(max-width: 1280px) 100vw, 1280px"
+                  className="object-contain bg-neutral-950"
                   priority
                 />
               </div>
@@ -173,51 +291,74 @@ export default function GalleryPage() {
           </div>
 
           {/* Mobile Navigation - Simplified */}
-          <div className="md:hidden p-12 flex justify-center gap-10 bg-black/40">
+          <div className="xl:hidden p-6 flex justify-center gap-6 bg-black/40">
             <button
               onClick={(e) => {
                 e.stopPropagation();
                 handlePrev();
               }}
-              className="w-16 h-16 rounded-2xl bg-white/10 text-white flex items-center justify-center active:scale-90 transition-transform"
+              className="w-14 h-14 rounded-xl bg-white/10 text-white flex items-center justify-center active:scale-90 transition-transform"
             >
-              <ChevronLeft size={32} />
+              <ChevronLeft size={28} />
             </button>
+            <span className="flex items-center text-white/50 text-[10px] font-black uppercase tracking-[0.25em]">
+              <span className="text-white">{(selectedIndex || 0) + 1}</span> / {filteredItems.length}
+            </span>
             <button
               onClick={(e) => {
                 e.stopPropagation();
                 handleNext();
               }}
-              className="w-16 h-16 rounded-2xl bg-white/10 text-white flex items-center justify-center active:scale-90 transition-transform"
+              className="w-14 h-14 rounded-xl bg-white/10 text-white flex items-center justify-center active:scale-90 transition-transform"
             >
-              <ChevronRight size={32} />
+              <ChevronRight size={28} />
             </button>
           </div>
         </div>
       )}
 
       {/* CTA - High Impact Banner */}
-      <section className="py-24 lg:py-32 bg-neutral-50 border-t border-neutral-100 text-center relative overflow-hidden">
-        <div className="max-w-4xl mx-auto px-6 space-y-10 relative z-10">
-          <div className="space-y-4">
-            <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">Next Steps</span>
-            <h2 className="text-3xl lg:text-5xl font-bold text-secondary tracking-tight">
-              {galleryPage.cta.title}
-            </h2>
-            <p className="text-gray-500 text-base lg:text-lg font-normal leading-relaxed">
-              {galleryPage.cta.subtitle}
-            </p>
+      <section className="py-12 lg:py-16 bg-white relative overflow-hidden">
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
+          <div className="relative bg-secondary text-white rounded-2xl p-12 md:p-20 shadow-2xl border border-neutral-800 overflow-hidden text-center">
+            {/* Mesh/Gradient Backdrops */}
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:4rem_4rem]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(237,28,39,0.15),transparent_70%)]" />
+            
+            <div className="max-w-3xl mx-auto space-y-8 relative z-10">
+              <div className="space-y-4">
+                <span className="inline-flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[9px] font-black uppercase tracking-[0.3em] text-primary">
+                  <Sparkles size={10} className="animate-pulse" /> Next Steps
+                </span>
+                <h2 className="text-3xl lg:text-5xl font-black tracking-tight leading-tight uppercase">
+                  {galleryPage.cta.title}
+                </h2>
+                <p className="text-neutral-400 text-sm md:text-base leading-relaxed max-w-xl mx-auto font-normal">
+                  {galleryPage.cta.subtitle}
+                </p>
+              </div>
+              <button
+                onClick={() => {
+                  setQuoteTitle("Request a Custom Consultation");
+                  setQuoteSubtitle("Let's plan your future workspace layout together with our design experts.");
+                  setIsQuoteOpen(true);
+                }}
+                className="inline-flex items-center gap-6 px-10 py-4.5 bg-primary text-white font-bold rounded-lg hover:bg-white hover:text-secondary transition-all duration-500 shadow-xl shadow-primary/20 uppercase tracking-[0.25em] text-[10px] cursor-pointer active:scale-95 group"
+              >
+                {galleryPage.cta.button}
+                <ArrowUpRight size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </button>
+            </div>
           </div>
-          <button
-            onClick={() => setIsQuoteOpen(true)}
-            className="inline-flex items-center gap-6 px-12 py-5 bg-secondary text-white font-bold rounded-xl hover:bg-primary transition-all duration-500 shadow-2xl shadow-secondary/10 hover:shadow-primary/30 uppercase tracking-[0.2em] text-[11px] cursor-pointer active:scale-95 group"
-          >
-            {galleryPage.cta.button}
-            <ArrowUpRight size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-          </button>
         </div>
       </section>
-      <QuoteModal isOpen={isQuoteOpen} onClose={() => setIsQuoteOpen(false)} />
+      
+      <QuoteModal 
+        isOpen={isQuoteOpen} 
+        onClose={() => setIsQuoteOpen(false)} 
+        title={quoteTitle}
+        subtitle={quoteSubtitle}
+      />
     </main>
   );
 }

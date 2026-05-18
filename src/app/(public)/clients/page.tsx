@@ -61,7 +61,7 @@ export default function ClientsPage() {
       </section>
 
       {/* Clients Grid Section - Premium Logo Showcase */}
-      <section className="pt-16 pb-16 lg:pt-20 lg:pb-24 bg-neutral-50/50">
+      <section className="py-12 lg:py-16 bg-neutral-50/50">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-12 space-y-24">
           <div className="text-center space-y-6">
             <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">Global Network</span>
@@ -100,7 +100,7 @@ export default function ClientsPage() {
       </section>
 
       {/* Excellence Pillars */}
-      <section className="pt-16 pb-32 lg:pt-24 lg:pb-48 bg-white overflow-hidden relative">
+      <section className="py-12 lg:py-16 bg-white overflow-hidden relative">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
           <div className="grid lg:grid-cols-2 gap-24 lg:gap-32 items-center">
             <div className="relative order-2 lg:order-1">
@@ -147,7 +147,7 @@ export default function ClientsPage() {
 
 
       {/* CTA Section */}
-      <section className="py-32 lg:py-48 bg-neutral-950 text-white text-center relative overflow-hidden">
+      <section className="py-12 lg:py-16 bg-neutral-950 text-white text-center relative overflow-hidden">
         <div className="absolute inset-0 z-0">
            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(var(--primary-rgb),0.15),transparent_70%)]" />
         </div>

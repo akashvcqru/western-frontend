@@ -75,7 +75,7 @@ export default function ServicesPage() {
       />
 
       {/* Services Grid - Turnkey Expertise */}
-      <section className="py-16 lg:py-24 bg-neutral-50/50 relative overflow-hidden">
+      <section className="py-12 lg:py-16 bg-neutral-50/50 relative overflow-hidden">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
           <div className="grid lg:grid-cols-2 gap-24 lg:gap-32 items-stretch mb-32">
             <div className="space-y-8">
@@ -140,7 +140,7 @@ export default function ServicesPage() {
       </section>
 
       {/* Final Call to Action */}
-      <section className="py-16 lg:py-24 bg-neutral-950 text-white text-center relative overflow-hidden">
+      <section className="py-12 lg:py-16 bg-neutral-950 text-white text-center relative overflow-hidden">
         <div className="absolute inset-0 z-0">
            <Image 
              src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2070&auto=format&fit=crop"

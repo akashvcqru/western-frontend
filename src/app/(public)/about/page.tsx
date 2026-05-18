@@ -35,7 +35,7 @@ export default function AboutPage() {
       />
 
       {/* Intro Section - Our Legacy */}
-      <section className="py-32 lg:py-48 bg-white relative overflow-hidden">
+      <section className="py-12 lg:py-16 bg-white relative overflow-hidden">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
           <div className="grid lg:grid-cols-2 gap-24 lg:gap-32 items-start">
             <div className="space-y-16">
@@ -78,7 +78,7 @@ export default function AboutPage() {
       </section>
 
       {/* Pillars Section - Modern Grid */}
-      <section className="py-32 lg:py-48 bg-neutral-50 overflow-hidden relative">
+      <section className="py-12 lg:py-16 bg-neutral-50 overflow-hidden relative">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-12 relative z-10">
           <div className="flex flex-col items-center text-center space-y-6 mb-24">
             <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">{aboutPage.services.badge}</span>
@@ -106,7 +106,7 @@ export default function AboutPage() {
       </section>
 
       {/* Final Call to Action - High Impact Banner */}
-      <section className="py-32 lg:py-48 bg-neutral-950 text-white text-center relative overflow-hidden">
+      <section className="py-12 lg:py-16 bg-neutral-950 text-white text-center relative overflow-hidden">
         <div className="absolute inset-0 z-0">
            <Image 
              src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop"
