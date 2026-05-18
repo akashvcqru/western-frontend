@@ -51,44 +51,44 @@ export default function Header() {
         {/* Top Bar - Refined & Sticky */}
         <div
           className={cn(
-            "bg-secondary/95 backdrop-blur-md text-white px-4 hidden lg:block border-b border-white/5 transition-all duration-500 origin-top overflow-hidden",
+            "bg-neutral-950/95 backdrop-blur-md text-neutral-300 px-6 hidden lg:block border-b border-white/5 transition-all duration-500 origin-top overflow-hidden",
             isScrolled
               ? "max-h-0 py-0 opacity-0 border-none"
               : "max-h-12 py-2.5 opacity-100",
           )}
         >
-          <div className="max-w-[1440px] mx-auto flex justify-between items-center text-[10px] font-bold tracking-[0.2em] uppercase opacity-80">
-            <div className="flex items-center gap-10">
+          <div className="max-w-[1440px] mx-auto flex justify-between items-center text-[10px] font-bold tracking-[0.1em] xl:tracking-[0.2em] uppercase transition-all duration-300">
+            <div className="flex items-center gap-5 xl:gap-10">
               <a
                 href={`mailto:${common.contact.email}`}
-                className="flex items-center gap-2.5 group cursor-pointer transition-all hover:text-primary"
+                className="flex items-center gap-2 lg:gap-2.5 group cursor-pointer transition-all hover:text-white"
               >
                 <Mail
                   size={12}
-                  className="text-primary group-hover:scale-110 transition-transform"
+                  className="text-primary group-hover:scale-110 group-hover:rotate-3 transition-transform filter group-hover:drop-shadow-[0_0_4px_rgba(237,28,39,0.5)]"
                 />
-                <span>{common.contact.email}</span>
+                <span className="transition-colors duration-300">{common.contact.email}</span>
               </a>
               {common.contact.phones.map((p: string, i: number) => (
                 <a
                   key={i}
                   href={`tel:${p.replace(/-/g, "")}`}
-                  className="flex items-center gap-2.5 group cursor-pointer transition-all hover:text-primary"
+                  className="flex items-center gap-2 lg:gap-2.5 group cursor-pointer transition-all hover:text-white"
                 >
                   <Phone
                     size={12}
-                    className="text-primary group-hover:scale-110 transition-transform"
+                    className="text-primary group-hover:scale-110 group-hover:rotate-12 transition-transform filter group-hover:drop-shadow-[0_0_4px_rgba(237,28,39,0.5)]"
                   />
-                  <span>{p}</span>
+                  <span className="transition-colors duration-300">{p}</span>
                 </a>
               ))}
             </div>
-            <div className="flex items-center gap-2.5 group cursor-pointer transition-all hover:text-primary">
+            <div className="flex items-center gap-2 lg:gap-2.5 group cursor-pointer transition-all hover:text-white">
               <MapPin
                 size={12}
-                className="text-primary group-hover:scale-110 transition-transform"
+                className="text-primary group-hover:scale-110 group-hover:-translate-y-0.5 transition-all filter group-hover:drop-shadow-[0_0_4px_rgba(237,28,39,0.5)]"
               />
-              <span>{common.contact.locationShort}</span>
+              <span className="transition-colors duration-300">{common.contact.locationShort}</span>
             </div>
           </div>
         </div>

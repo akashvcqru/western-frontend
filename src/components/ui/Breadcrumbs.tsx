@@ -28,13 +28,13 @@ export default function Breadcrumbs() {
     <div className="pt-14 lg:pt-[120px]">
       <nav className="bg-neutral-100 border-b border-neutral-200 py-4 lg:py-3.5 overflow-hidden sticky top-[56px] lg:static z-40 shadow-sm lg:shadow-none">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
-          <ul className="flex items-center gap-3 text-[10px] lg:text-[11px] font-black uppercase tracking-[0.2em] text-neutral-500 overflow-x-auto whitespace-nowrap no-scrollbar">
+          <ul className="flex items-center gap-3 text-[10px] lg:text-[11px] font-semibold uppercase tracking-[0.2em] text-neutral-500 overflow-x-auto whitespace-nowrap no-scrollbar">
             <li>
               <a 
                 href={AppRoutes.Public.Home} 
                 className="flex items-center gap-2 hover:text-primary transition-colors group"
               >
-                <Home size={14} className="group-hover:scale-110 transition-transform" />
+                <Home size={13} className="group-hover:scale-110 transition-transform stroke-[1.8px]" />
                 <span>Home</span>
               </a>
             </li>
@@ -44,10 +44,10 @@ export default function Breadcrumbs() {
               const isLast = index === pathSegments.length - 1;
               const label = segment.replace(/-/g, " ");
               const subItems = getSubItems(segment);
-
+ 
               return (
                 <li key={href} className="flex items-center gap-3">
-                  <ChevronRight size={12} className="text-gray-300 stroke-[3px]" />
+                  <ChevronRight size={12} className="text-neutral-300 stroke-[2px]" />
                   {subItems && !isLast ? (
                     <div className="relative">
                       <button 
@@ -62,7 +62,7 @@ export default function Breadcrumbs() {
                       </button>
                     </div>
                   ) : (
-                    <span className={cn(isLast ? "text-primary font-black" : "hover:text-primary transition-colors")}>
+                    <span className={cn(isLast ? "text-primary font-bold" : "hover:text-primary transition-colors")}>
                       {label}
                     </span>
                   )}
@@ -82,7 +82,7 @@ export default function Breadcrumbs() {
                 <div key={i} className="space-y-6">
                   <div className="flex items-center gap-3">
                     <div className="w-1.5 h-6 bg-primary rounded-full" />
-                    <h4 className="text-[10px] font-black tracking-[0.4em] text-secondary uppercase">
+                    <h4 className="text-[10px] font-bold tracking-[0.4em] text-secondary uppercase">
                       {col.title}
                     </h4>
                   </div>
@@ -91,7 +91,7 @@ export default function Breadcrumbs() {
                       <a
                         key={idx}
                         href={`/${activeDropdown.toLowerCase()}/${item.slug}`}
-                        className="text-sm lg:text-base font-bold text-neutral-500 hover:text-primary transition-all hover:translate-x-2 block"
+                        className="text-sm lg:text-base font-semibold text-neutral-500 hover:text-primary transition-all hover:translate-x-2 block"
                         onClick={() => setActiveDropdown(null)}
                       >
                         {item.name}
@@ -111,7 +111,7 @@ export default function Breadcrumbs() {
               </div>
               <button 
                 onClick={() => setActiveDropdown(null)}
-                className="text-[10px] font-black uppercase tracking-widest text-secondary hover:text-primary transition-colors"
+                className="text-[10px] font-bold uppercase tracking-widest text-secondary hover:text-primary transition-colors"
               >
                 Close Menu
               </button>
