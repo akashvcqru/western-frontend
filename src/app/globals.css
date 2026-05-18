@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -8,9 +8,9 @@
   --color-foreground: var(--foreground);
   --color-border: var(--border);
   --color-input: var(--input);
-  --font-sans: var(--font-inter), sans-serif;
-  --font-serif: var(--font-inter), sans-serif;
-  --font-mono: var(--font-inter), sans-serif;
+  --font-sans: var(--font-poppins), sans-serif;
+  --font-serif: var(--font-poppins), sans-serif;
+  --font-mono: var(--font-poppins), sans-serif;
   --shadow-premium: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
   --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.05);
   --radius-premium: 12px;
@@ -68,7 +68,7 @@
 }
 
 :root {
-  --font-inter: 'Inter', sans-serif;
+  --font-poppins: 'Poppins', sans-serif;
   --background: #ffffff;
   --foreground: #1a1a1a;
   --card: #ffffff;
