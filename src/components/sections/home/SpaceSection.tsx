@@ -14,7 +14,7 @@ export default function SpaceSection() {
     {
       title: "Conference Room",
       slug: "conference-meeting",
-      image: "https://images.unsplash.com/photo-1542744095-2ad4870f62dd?q=80&w=2070&auto=format&fit=crop"
+      image: "https://images.unsplash.com/photo-1577412647305-991150c7d163?q=80&w=2070&auto=format&fit=crop"
     },
     {
       title: "Open Workspace",
@@ -29,7 +29,7 @@ export default function SpaceSection() {
   ];
 
   return (
-    <section className="py-24 bg-white overflow-hidden">
+    <section className="pt-12 pb-12 lg:pt-16 lg:pb-16 bg-white overflow-hidden">
       <div className="max-w-[1440px] mx-auto px-4 lg:px-8 space-y-16">
         <div className="text-center space-y-4">
           <span className="text-primary font-extrabold uppercase tracking-[0.2em] text-xs">
@@ -45,7 +45,7 @@ export default function SpaceSection() {
             <Link 
               key={idx}
               href={`/products/${space.slug}`}
-              className="group relative h-[600px] overflow-hidden rounded-2xl shadow-soft transition-all duration-700 block"
+              className="group relative h-[420px] overflow-hidden rounded-2xl shadow-soft transition-all duration-700 block"
             >
               <Image 
                 alt={space.title} 

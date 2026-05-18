@@ -7,8 +7,6 @@ import CategorySection from "@/components/sections/home/CategorySection";
 import SpaceSection from "@/components/sections/home/SpaceSection";
 import TestimonialsSection from "@/components/sections/home/TestimonialsSection";
 import CtaSection from "@/components/sections/home/CtaSection";
-import FootprintSection from "@/components/sections/home/FootprintSection";
-import ContactInfoSection from "@/components/sections/home/ContactInfoSection";
 import QuoteModal from "@/components/common/QuoteModal";
 
 export default function Home() {
@@ -34,11 +32,7 @@ export default function Home() {
       {/* 6. High-Impact CTA Banner */}
       <CtaSection onOpenQuote={() => setIsQuoteOpen(true)} />
 
-      {/* 7. Pan India Presence */}
-      <FootprintSection />
 
-      {/* 8. Corporate Contact Information */}
-      <ContactInfoSection />
 
       {/* Centered, Premium Quote Request Modal */}
       <QuoteModal isOpen={isQuoteOpen} onClose={() => setIsQuoteOpen(false)} />

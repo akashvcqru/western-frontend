@@ -8,7 +8,7 @@ export default function TestimonialsSection() {
   const testimonials = siteContent.testimonialsPage.items;
 
   return (
-    <section className="py-24 bg-neutral-50 relative overflow-hidden">
+    <section className="pt-12 pb-12 lg:pt-16 lg:pb-16 bg-neutral-50 relative overflow-hidden">
       <div className="max-w-[1440px] mx-auto px-6 lg:px-12 space-y-16">
         <div className="text-center space-y-4">
           <span className="text-primary font-extrabold uppercase tracking-[0.2em] text-xs">
