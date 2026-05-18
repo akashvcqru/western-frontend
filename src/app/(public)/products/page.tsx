@@ -114,7 +114,7 @@ export default function ProductsPage() {
                       href={`/products/${cat.slug}`} 
                       className="group relative overflow-hidden bg-neutral-50 rounded-[48px] shadow-[0_20px_40px_-10px_rgba(0,0,0,0.03)] hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.1)] transition-all duration-700 border border-neutral-100"
                     >
-                      <div className="aspect-[4/5] relative overflow-hidden">
+                      <div className="aspect-[4/3] relative overflow-hidden">
                         <Image 
                           src={cat.image}
                           alt={cat.name}

@@ -45,7 +45,7 @@ export default function CategoriesPage() {
             <Link 
               key={cat.id}
               href={`/products/${cat.slug}`}
-              className="group relative h-[600px] rounded-[48px] overflow-hidden bg-neutral-100 flex flex-col justify-end p-12 shadow-[0_20px_40px_-10px_rgba(0,0,0,0.05)] hover:shadow-[0_40px_100px_-20px_rgba(0,0,0,0.15)] transition-all duration-700 border border-neutral-100"
+              className="group relative h-[420px] md:h-[500px] rounded-[48px] overflow-hidden bg-neutral-100 flex flex-col justify-end p-12 shadow-[0_20px_40px_-10px_rgba(0,0,0,0.05)] hover:shadow-[0_40px_100px_-20px_rgba(0,0,0,0.15)] transition-all duration-700 border border-neutral-100"
             >
               {/* Image Background */}
               <div className="absolute inset-0">

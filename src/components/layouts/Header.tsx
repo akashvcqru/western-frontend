@@ -106,11 +106,11 @@ export default function Header() {
               <Image
                 src="/logo-v3.png"
                 alt="Western Interio"
-                width={160}
-                height={45}
+                width={200}
+                height={56}
                 className={cn(
                   "w-auto transition-all duration-500 brightness-110",
-                  isScrolled ? "h-9 lg:h-8" : "h-10 lg:h-9",
+                  isScrolled ? "h-10 lg:h-10" : "h-12 lg:h-12",
                 )}
                 priority
               />

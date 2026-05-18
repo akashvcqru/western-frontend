@@ -75,7 +75,7 @@ export default function CategorySection() {
             <Link 
               key={idx}
               href={`/products/${cat.slug}`}
-              className="group relative overflow-hidden rounded-xl bg-neutral-100 aspect-[4/5] shadow-soft hover:shadow-premium transition-all duration-500 block"
+              className="group relative overflow-hidden rounded-xl bg-neutral-100 aspect-[4/3] shadow-soft hover:shadow-premium transition-all duration-500 block"
             >
               <Image 
                 alt={cat.title} 
@@ -114,7 +114,7 @@ export default function CategorySection() {
               <div key={idx} className="min-w-[85%] snap-center">
                 <Link 
                   href={`/products/${cat.slug}`}
-                  className="group relative overflow-hidden rounded-xl bg-neutral-100 aspect-[4/5] shadow-soft hover:shadow-premium transition-all duration-500 block"
+                  className="group relative overflow-hidden rounded-xl bg-neutral-100 aspect-[4/3] shadow-soft hover:shadow-premium transition-all duration-500 block"
                 >
                   <Image 
                     alt={cat.title} 

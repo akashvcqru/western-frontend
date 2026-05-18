@@ -128,9 +128,9 @@ export default function Footer() {
                 <Image
                   src="/logo-v3.png"
                   alt="Western Interio"
-                  width={160}
-                  height={50}
-                  className="w-auto h-11 brightness-110 transition-all duration-500"
+                  width={200}
+                  height={56}
+                  className="w-auto h-12 brightness-110 transition-all duration-500"
                 />
               </Link>
 

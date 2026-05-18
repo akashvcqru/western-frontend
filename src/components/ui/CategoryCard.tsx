@@ -12,7 +12,7 @@ interface CategoryCardProps {
 
 export const CategoryCard: React.FC<CategoryCardProps> = ({ title, image, href, itemCount }) => {
   return (
-    <Link href={href} className="group relative overflow-hidden rounded-xl bg-neutral-100 aspect-[4/5] shadow-soft hover:shadow-premium transition-all duration-500 block">
+    <Link href={href} className="group relative overflow-hidden rounded-xl bg-neutral-100 aspect-[4/3] shadow-soft hover:shadow-premium transition-all duration-500 block">
       <Image
         src={image}
         alt={title}
