@@ -32,7 +32,7 @@ export default function PageHeader({
     <section
       className={cn(
         "relative min-h-[50vh] flex items-center justify-center overflow-hidden bg-neutral-950 pt-28 pb-32",
-        className
+        className,
       )}
     >
       {/* Background Image with subtle scale/pulsing */}
@@ -44,7 +44,7 @@ export default function PageHeader({
         priority
         className={cn(
           "object-cover opacity-15 grayscale scale-105 transition-transform duration-[12000ms] ease-out",
-          imageClassName
+          imageClassName,
         )}
       />
 
@@ -57,22 +57,20 @@ export default function PageHeader({
 
       <div className="relative z-10 text-center space-y-6 max-w-4xl px-6 mt-6">
         {/* Glowing Animated Badge */}
-        {badge ? (
-          badge
-        ) : (
-          badgeText && (
-            <div className="inline-flex items-center gap-2.5 px-4.5 py-1.5 bg-white/5 border border-white/10 backdrop-blur-md rounded-full shadow-inner animate-in fade-in duration-700">
-              {BadgeIcon ? (
-                <BadgeIcon size={12} className="text-primary" />
-              ) : (
-                <Sparkles size={12} className="text-primary animate-pulse" />
-              )}
-              <span className="text-[10px] font-black tracking-[0.35em] text-white uppercase">
-                {badgeText}
-              </span>
-            </div>
-          )
-        )}
+        {badge
+          ? badge
+          : badgeText && (
+              <div className="inline-flex items-center gap-2.5 px-4.5 py-1.5 bg-white/5 border border-white/10 backdrop-blur-md rounded-full shadow-inner animate-in fade-in duration-700">
+                {BadgeIcon ? (
+                  <BadgeIcon size={12} className="text-primary" />
+                ) : (
+                  <Sparkles size={12} className="text-primary animate-pulse" />
+                )}
+                <span className="text-[10px] font-black tracking-[0.35em] text-white uppercase">
+                  {badgeText}
+                </span>
+              </div>
+            )}
 
         {/* Premium Typography */}
         {title ? (

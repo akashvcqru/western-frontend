@@ -103,36 +103,44 @@ export default function ProductsPage() {
             <div className={cn(
               "transition-all duration-700",
               viewType === "grid" 
-                ? "grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 lg:gap-12" 
-                : "flex flex-col gap-8"
+                ? "grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 lg:gap-10" 
+                : "flex flex-col gap-6"
             )}>
               {filteredCategories.map((cat) => {
+                const count = getProductCount(cat.id);
                 if (viewType === "grid") {
                   return (
                     <Link 
                       key={cat.id} 
                       href={`/products/${cat.slug}`} 
-                      className="group relative overflow-hidden bg-neutral-50 rounded-[48px] shadow-[0_20px_40px_-10px_rgba(0,0,0,0.03)] hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.1)] transition-all duration-700 border border-neutral-100"
+                      className="group relative block aspect-[4/5] overflow-hidden bg-neutral-900 rounded-xl shadow-[0_12px_30px_-10px_rgba(0,0,0,0.04)] hover:shadow-[0_30px_60px_-15px_rgba(237,28,39,0.12)] transition-all duration-[800ms] ease-out border border-neutral-100 hover:-translate-y-2"
                     >
-                      <div className="aspect-[4/3] relative overflow-hidden">
-                        <Image 
-                          src={cat.image}
-                          alt={cat.name}
-                          fill
-                          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                          className="object-cover transition-transform duration-[1.5s] group-hover:scale-105"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/20 to-transparent opacity-60 group-hover:opacity-85 transition-opacity duration-700" />
-                        
-                        <div className="absolute inset-0 p-10 flex flex-col justify-end">
-                          <div className="space-y-4 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                            <h3 className="text-3xl font-bold text-white leading-none tracking-tight">
-                              {cat.name}
-                            </h3>
-                            <div className="pt-2 flex items-center gap-3 text-white text-[10px] font-black tracking-[0.2em] uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-                              View Category <ArrowUpRight size={16} className="text-primary" />
-                            </div>
-                          </div>
+                      {/* Dynamic Product Count Glassmorphic Badge */}
+                      <div className="absolute top-6 left-6 z-10">
+                        <span className="px-3 py-1.5 bg-neutral-900/60 backdrop-blur-md text-[9px] font-black tracking-[0.2em] text-white rounded-lg border border-white/10 uppercase shadow-sm">
+                          {count} {count === 1 ? "Model" : "Models"}
+                        </span>
+                      </div>
+
+                      <Image 
+                        src={cat.image}
+                        alt={cat.name}
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                        className="object-cover transition-transform duration-[1.8s] cubic-bezier(0.16, 1, 0.3, 1) group-hover:scale-105 opacity-80 group-hover:opacity-90"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/20 to-transparent opacity-70 group-hover:opacity-85 transition-opacity duration-700" />
+                      
+                      {/* Luxury Glassmorphic Slide-up bottom strip */}
+                      <div className="absolute inset-x-5 bottom-5 p-6 bg-neutral-950/50 backdrop-blur-md rounded-xl border border-white/10 shadow-lg space-y-2 translate-y-3 group-hover:translate-y-0 transition-all duration-[600ms] cubic-bezier(0.16, 1, 0.3, 1)">
+                        <h3 className="text-lg md:text-xl font-bold text-white leading-tight tracking-tight uppercase">
+                          {cat.name}
+                        </h3>
+                        <p className="text-[10px] text-neutral-300 font-medium line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 leading-normal">
+                          {cat.description}
+                        </p>
+                        <div className="pt-2 flex items-center gap-2 text-primary text-[8px] font-black tracking-[0.25em] uppercase">
+                          Explore Collection <ArrowUpRight size={12} className="text-primary animate-pulse" />
                         </div>
                       </div>
                     </Link>
@@ -142,26 +150,31 @@ export default function ProductsPage() {
                     <Link 
                       key={cat.id} 
                       href={`/products/${cat.slug}`} 
-                      className="group flex flex-col md:flex-row items-center gap-10 p-8 bg-white border border-neutral-100 rounded-[40px] hover:border-primary/20 hover:shadow-2xl transition-all duration-700"
+                      className="group flex flex-col md:flex-row items-center gap-8 p-6 bg-neutral-50/50 border border-neutral-100 rounded-xl hover:border-primary/20 hover:bg-white hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.05)] transition-all duration-500 ease-out"
                     >
-                      <div className="relative w-full md:w-64 h-48 shrink-0 overflow-hidden rounded-[32px] shadow-lg">
+                      <div className="relative w-full md:w-56 h-40 shrink-0 overflow-hidden rounded-xl border border-neutral-100 shadow-sm">
                         <Image 
                           src={cat.image}
                           alt={cat.name}
                           fill
-                          className="object-cover transition-transform duration-1000 group-hover:scale-110"
+                          className="object-cover transition-transform duration-1000 group-hover:scale-105"
                         />
                       </div>
-                      <div className="flex-1 space-y-4 text-center md:text-left">
-                        <h3 className="text-3xl font-bold text-secondary tracking-tight">
-                          {cat.name}
-                        </h3>
-                        <p className="text-gray-500 text-lg font-medium leading-relaxed max-w-3xl">
+                      <div className="flex-1 space-y-2.5 text-center md:text-left">
+                        <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
+                          <h3 className="text-2xl font-bold text-secondary tracking-tight">
+                            {cat.name}
+                          </h3>
+                          <span className="px-2 py-0.5 bg-primary/10 text-primary text-[9px] font-black tracking-widest rounded uppercase">
+                            {count} Models
+                          </span>
+                        </div>
+                        <p className="text-neutral-500 text-sm font-medium leading-relaxed max-w-3xl">
                           {cat.description}
                         </p>
                       </div>
-                      <div className="w-16 h-16 bg-neutral-50 rounded-2xl flex items-center justify-center text-secondary group-hover:bg-primary group-hover:text-white transition-all duration-500 shadow-sm group-hover:-translate-x-2">
-                        <ArrowRight size={24} />
+                      <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-neutral-400 border border-neutral-100 group-hover:bg-primary group-hover:border-primary group-hover:text-white transition-all duration-500 shadow-sm group-hover:-translate-x-1.5 active:scale-95 cursor-pointer shrink-0">
+                        <ArrowRight size={18} />
                       </div>
                     </Link>
                   );

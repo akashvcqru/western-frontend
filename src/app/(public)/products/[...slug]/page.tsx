@@ -7,11 +7,18 @@ import { ProductCard } from "@/components/ui/ProductCard";
 import { ChevronRight, ArrowRight, Filter } from "lucide-react";
 import Link from "next/link";
 import { Pagination } from "@/components/ui/Pagination";
+import PageHeader from "@/components/ui/PageHeader";
 
 import productsData from "@/data/products.json";
 import categoriesData from "@/data/categories.json";
 import { AppRoutes } from "@/constants/routes";
 import ProductDetailView from "@/components/sections/ProductDetailView";
+
+const parsePrice = (priceStr?: string): number => {
+  if (!priceStr) return 0;
+  const cleaned = priceStr.replace(/[^0-9]/g, "");
+  return cleaned ? parseInt(cleaned, 10) : 0;
+};
 
 export default function ProductListingPage({ 
   params,
@@ -25,18 +32,31 @@ export default function ProductListingPage({
   const [currentPage, setCurrentPage] = React.useState(1);
   const ITEMS_PER_PAGE = 6;
   
-  React.useEffect(() => {
-    setCurrentPage(1);
-  }, [selectedFilters]);
-  
   const lastSlugSegment = slug ? slug[slug.length - 1] : "";
   const product = productsData.find(p => p.slug === lastSlugSegment);
+
+  const categorySlug = slug ? slug[0] : "";
+  
+  const categoryProducts = React.useMemo(() => {
+    return Array.isArray(productsData) ? (productsData as any[]).filter(p => p.category === categorySlug) : [];
+  }, [categorySlug]);
+
+  const dynamicMaxPrice = React.useMemo(() => {
+    if (categoryProducts.length === 0) return 0;
+    const prices = categoryProducts.map(p => parsePrice(p.price)).filter(p => p > 0);
+    return prices.length > 0 ? Math.max(...prices) : 0;
+  }, [categoryProducts]);
+
+  const [maxPrice, setMaxPrice] = React.useState<number>(0);
+  const activeMaxPrice = maxPrice || dynamicMaxPrice;
+
+  React.useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedFilters, maxPrice]);
 
   if (product) {
     return <ProductDetailView product={product} />;
   }
-  
-  const categorySlug = slug ? slug[0] : "";
   
   const toggleFilter = (option: string) => {
     setSelectedFilters(prev => 
@@ -44,21 +64,69 @@ export default function ProductListingPage({
     );
   };
 
-  // Filter products based on category slug AND active filters
+  // Filter products based on category slug, price range AND active faceted filters
   const filteredProducts = Array.isArray(productsData) ? (productsData as any[]).filter(p => {
     if (!categorySlug) return true;
     if (p.category !== categorySlug) return false;
     
+    // Apply Price Slider Filter
+    if (activeMaxPrice > 0) {
+      const price = parsePrice(p.price);
+      if (price > 0 && price > activeMaxPrice) return false;
+    }
+
     // Apply Faceted Filter Sidebar logic
     if (selectedFilters.length > 0) {
-      const greedyMatch = selectedFilters.some(filter => 
-        p.name?.toLowerCase().includes(filter.toLowerCase()) ||
-        p.description?.toLowerCase().includes(filter.toLowerCase()) ||
-        p.brand?.toLowerCase().includes(filter.toLowerCase()) ||
-        p.type?.toLowerCase().includes(filter.toLowerCase()) ||
-        p.subcategory?.toLowerCase().includes(filter.toLowerCase())
+      // Group active filters by facet type for precise e-commerce matching
+      const activeSubcategories = selectedFilters.filter(f => 
+        categoriesData.some(c => c.name.toLowerCase() === f.toLowerCase()) || 
+        categoryProducts.some(p => p.subcategory?.toLowerCase() === f.toLowerCase())
       );
-      if (!greedyMatch) return false;
+      
+      const activeBrands = selectedFilters.filter(f => 
+        categoryProducts.some(p => p.brand?.toLowerCase() === f.toLowerCase())
+      );
+
+      const activeTypes = selectedFilters.filter(f => 
+        categoryProducts.some(p => p.type?.toLowerCase() === f.toLowerCase())
+      );
+
+      const activeSpecs = selectedFilters.filter(f => 
+        !activeSubcategories.includes(f) && !activeBrands.includes(f) && !activeTypes.includes(f)
+      );
+
+      // Check subcategory match (if any active)
+      if (activeSubcategories.length > 0) {
+        const matchesSub = activeSubcategories.some(sub => 
+          p.subcategory?.toLowerCase().replace(/-/g, " ") === sub.toLowerCase().replace(/-/g, " ")
+        );
+        if (!matchesSub) return false;
+      }
+
+      // Check brand match (if any active)
+      if (activeBrands.length > 0) {
+        const matchesBrand = activeBrands.some(brand => p.brand?.toLowerCase() === brand.toLowerCase());
+        if (!matchesBrand) return false;
+      }
+
+      // Check type match (if any active)
+      if (activeTypes.length > 0) {
+        const matchesType = activeTypes.some(type => p.type?.toLowerCase() === type.toLowerCase());
+        if (!matchesType) return false;
+      }
+
+      // Check specifications match (if any active)
+      if (activeSpecs.length > 0) {
+        const matchesSpec = activeSpecs.some(spec => {
+          if (spec === "In Stock") return true;
+          const specMatch = p.specifications?.some((s: any) => s.value === spec);
+          if (specMatch) return true;
+          const shortSpecMatch = p.shortSpecs?.some((ss: string) => ss === spec);
+          if (shortSpecMatch) return true;
+          return false;
+        });
+        if (!matchesSpec) return false;
+      }
     }
 
     return true;
@@ -75,30 +143,14 @@ export default function ProductListingPage({
 
   return (
     <div className="bg-white min-h-screen pb-24">
-      {/* Header with Background */}
-      <div className="relative py-20 lg:py-28 flex items-center justify-center overflow-hidden bg-secondary">
-        <Image 
-          src={heroImage}
-          alt={categoryName}
-          fill
-          sizes="100vw"
-          priority
-          className="object-cover opacity-20 grayscale animate-in fade-in zoom-in-105 duration-1000"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-secondary/90 via-secondary/50 to-secondary" />
-        
-        <div className="relative z-10 text-center space-y-4 max-w-4xl px-4">
-          <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-primary/10 rounded-full border border-primary/20 backdrop-blur-xl animate-in fade-in slide-in-from-bottom-4 duration-700">
-             <span className="text-[9px] font-black uppercase tracking-[0.3em] text-white">Product Collection</span>
-          </div>
-          <h1 className="text-3xl lg:text-5xl font-black text-white leading-tight tracking-tight uppercase animate-in fade-in slide-in-from-bottom-4 duration-1000">
-            {categoryName}
-          </h1>
-          <p className="text-sm lg:text-base text-gray-400 max-w-2xl mx-auto leading-relaxed animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-150">
-            Professional {categoryName} solutions for modern office environments.
-          </p>
-        </div>
-      </div>
+      {/* Premium Integrated PageHeader */}
+      <PageHeader 
+        bgImage={heroImage}
+        badgeText="Product Collection"
+        titlePrefix="Explore"
+        titleHighlight={categoryName}
+        subtitle={`Professional ${categoryName} solutions engineered for premium workspaces and lasting comfort.`}
+      />
 
       <div className="max-w-[1440px] mx-auto px-6 lg:px-12 py-16 relative z-20">
         <main className="space-y-12">
@@ -107,7 +159,7 @@ export default function ProductListingPage({
             <div className="space-y-1">
               <p className="text-[9px] font-black uppercase tracking-[0.3em] text-primary">Browse Collection</p>
               <p className="text-xs text-neutral-500 font-bold">
-                Showing <span className="text-secondary">{filteredProducts.length}</span> premium models
+                Showing <span className="text-secondary font-black">{filteredProducts.length}</span> premium models
               </p>
             </div>
             
@@ -118,9 +170,9 @@ export default function ProductListingPage({
               >
                 <Filter size={14} />
                 {showMobileFilters ? "Hide Filters" : "Filters"}
-                {selectedFilters.length > 0 && (
+                {(selectedFilters.length > 0 || maxPrice < dynamicMaxPrice) && (
                   <span className="w-4 h-4 bg-primary text-white text-[8px] flex items-center justify-center rounded-full font-bold">
-                    {selectedFilters.length}
+                    {selectedFilters.length + (maxPrice < dynamicMaxPrice ? 1 : 0)}
                   </span>
                 )}
               </button>
@@ -131,12 +183,14 @@ export default function ProductListingPage({
 
           {/* Mobile Filter Collapsible */}
           {showMobileFilters && (
-            <div className="lg:hidden bg-neutral-50 p-6 rounded-2xl border border-neutral-100 animate-in slide-in-from-top duration-300 mb-6">
+            <div className="lg:hidden bg-neutral-50 p-6 rounded-xl border border-neutral-100 animate-in slide-in-from-top duration-300 mb-6">
               <FilterSidebar 
-                products={(productsData as any[]).filter(p => p.category === categorySlug)}
+                products={categoryProducts}
                 selectedFilters={selectedFilters}
                 onFilterChange={toggleFilter}
                 onClearAll={() => setSelectedFilters([])}
+                maxPrice={maxPrice}
+                onPriceChange={setMaxPrice}
               />
             </div>
           )}
@@ -146,28 +200,62 @@ export default function ProductListingPage({
             {/* Desktop Filter Sidebar - Clean & Borderless on background */}
             <div className="hidden lg:block lg:col-span-1">
               <FilterSidebar 
-                products={(productsData as any[]).filter(p => p.category === categorySlug)}
+                products={categoryProducts}
                 selectedFilters={selectedFilters}
                 onFilterChange={toggleFilter}
                 onClearAll={() => setSelectedFilters([])}
+                maxPrice={maxPrice}
+                onPriceChange={setMaxPrice}
               />
             </div>
 
             {/* Products Listing Grid Column */}
             <div className="lg:col-span-3 space-y-10">
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 lg:gap-8">
-                {paginatedProducts.map((product) => (
-                    <ProductCard 
-                      key={product.id} 
-                      id={product.id}
-                      name={product.name}
-                      category={product.category}
-                      image={product.images[0]}
-                      slug={product.slug}
-                      price={product.price}
-                    />
-                ))}
-              </div>
+              {filteredProducts.length > 0 ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 lg:gap-8">
+                  {paginatedProducts.map((product) => (
+                      <ProductCard 
+                        key={product.id} 
+                        id={product.id}
+                        name={product.name}
+                        category={product.category}
+                        image={product.images[0]}
+                        slug={product.slug}
+                        price={product.price}
+                      />
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-24 px-8 space-y-8 bg-neutral-50/40 rounded-xl border border-dashed border-neutral-200/80 max-w-lg mx-auto shadow-sm animate-in fade-in duration-500">
+                  <div className="w-16 h-16 bg-white border border-neutral-100 rounded-xl flex items-center justify-center mx-auto text-neutral-400 shadow-sm">
+                    <Filter size={24} className="text-neutral-400 animate-pulse" />
+                  </div>
+                  <div className="space-y-3">
+                    <p className="text-xl font-bold text-secondary tracking-tight">No Matching Models</p>
+                    <p className="text-neutral-400 text-xs font-medium max-w-xs mx-auto leading-relaxed">
+                      We couldn't find any products in <span className="text-primary font-bold">{categoryName}</span> matching your current filter selections. Try adjusting your checkboxes or price range slider.
+                    </p>
+                  </div>
+                  <div className="pt-2 flex flex-col sm:flex-row justify-center gap-4">
+                    <button 
+                      onClick={() => {
+                        setSelectedFilters([]);
+                        setMaxPrice(0);
+                      }} 
+                      className="px-6 py-3.5 bg-secondary text-white font-black uppercase tracking-widest text-[9px] rounded-xl hover:bg-primary transition-all duration-300 shadow-md active:scale-95 cursor-pointer"
+                    >
+                      Clear All Filters
+                    </button>
+                    <Link 
+                      href={AppRoutes.Public.Products} 
+                      className="px-6 py-3.5 bg-white text-secondary border border-neutral-200 font-black uppercase tracking-widest text-[9px] rounded-xl hover:border-primary hover:text-primary transition-all duration-300 shadow-sm active:scale-95 inline-flex items-center justify-center gap-2"
+                    >
+                      <ArrowRight size={12} />
+                      All Collections
+                    </Link>
+                  </div>
+                </div>
+              )}
 
               {filteredProducts.length > 0 && (
                 <Pagination 
@@ -179,19 +267,6 @@ export default function ProductListingPage({
                   }}
                 />
               )}
-
-              {filteredProducts.length === 0 && (
-                <div className="text-center py-32 space-y-8 bg-neutral-50/50 rounded-[24px] border border-dashed border-neutral-200">
-                  <div className="space-y-4">
-                    <p className="text-2xl font-bold text-secondary tracking-tight">No items found</p>
-                    <p className="text-gray-400 font-medium max-w-sm mx-auto">We couldn't find any products in this specific section. Please explore our other collections.</p>
-                  </div>
-                  <Link href={AppRoutes.Public.Products} className="inline-flex items-center gap-3 px-8 py-4 bg-primary text-white font-bold uppercase tracking-widest text-[9px] rounded-xl hover:bg-secondary transition-all shadow-xl shadow-primary/20">
-                    <ArrowRight size={16} />
-                    Back to All Products
-                  </Link>
-                </div>
-              )}
             </div>
           </div>
         </main>
@@ -199,3 +274,4 @@ export default function ProductListingPage({
     </div>
   );
 }
+
