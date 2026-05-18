@@ -250,14 +250,14 @@ export default function Header() {
               </button>
 
               <div className="w-full max-w-4xl space-y-12 text-center">
-                <h2 className="text-white/30 text-[10px] font-black tracking-[0.5em] uppercase">
+                <h2 className="text-white/30 text-[10px] font-semibold tracking-[0.4em] uppercase">
                   What are you looking for?
                 </h2>
                 <div className="relative">
                   <input
                     type="text"
                     placeholder="Type to search products, brands or categories..."
-                    className="w-full bg-transparent border-b-2 border-white/10 text-white text-3xl lg:text-5xl font-light py-8 px-4 focus:outline-none focus:border-primary transition-all placeholder:text-white/10"
+                    className="w-full bg-transparent border-b-2 border-white/10 text-white text-3xl lg:text-5xl font-normal py-8 px-4 focus:outline-none focus:border-primary transition-all placeholder:text-white/30"
                     autoFocus
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}

@@ -16,7 +16,7 @@ const Badge: React.FC<BadgeProps> = ({
   ...props
 }) => {
   const baseStyles =
-    "inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black tracking-widest transition-all duration-300 hover:scale-105 active:scale-95";
+    "inline-flex items-center px-3 py-1 rounded-full text-[10px] font-semibold tracking-widest transition-all duration-300 hover:scale-105 active:scale-95";
 
   const variantStyles = {
     primary: "bg-primary/10 text-primary border border-primary/20",
