@@ -105,35 +105,35 @@
     "heroSlider": [
       {
         "id": 1,
-        "image": "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop",
+        "image": "https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=2070&auto=format&fit=crop",
         "title": "Modular <br /> <span class='text-primary'>Office Furniture</span>",
         "subtitle": "Manufacturer & Supplier in Gurgaon",
         "description": "Ergonomic and modern office furniture solutions for high-performance workplaces."
       },
       {
         "id": 2,
-        "image": "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop",
+        "image": "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2070&auto=format&fit=crop",
         "title": "Office Interiors <br /> <span class='text-primary'>Decoration</span>",
         "subtitle": "End-to-End Solutions",
         "description": "Workspace planning and furniture manufacturing with modern design aesthetics."
       },
       {
         "id": 3,
-        "image": "https://images.unsplash.com/photo-1517502884422-41eaead166d4?q=80&w=2070&auto=format&fit=crop",
+        "image": "https://images.unsplash.com/photo-1595515106969-1ce29566ff1c?q=80&w=2070&auto=format&fit=crop",
         "title": "Premium Executive <br /> <span class='text-primary'>Tables</span>",
         "subtitle": "Elegance Meets Functionality",
         "description": "Exquisite executive tables designed for the modern corporate leader."
       },
       {
         "id": 4,
-        "image": "https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=2070&auto=format&fit=crop",
+        "image": "https://images.unsplash.com/photo-1618219908412-a29a1bb7b86e?q=80&w=2070&auto=format&fit=crop",
         "title": "Modular Partition <br /> <span class='text-primary'>Systems</span>",
         "subtitle": "Privacy and Collaboration",
         "description": "Optimize your office layout with our flexible and stylish partition solutions."
       },
       {
         "id": 5,
-        "image": "https://images.unsplash.com/photo-1505797149-43b0069ec26b?q=80&w=2071&auto=format&fit=crop",
+        "image": "https://images.unsplash.com/photo-1580481072645-022f9a6dbf27?q=80&w=2070&auto=format&fit=crop",
         "title": "Ergonomic Seating <br /> <span class='text-primary'>Collection</span>",
         "subtitle": "Comfort for Productivity",
         "description": "Discover our range of CEO, executive, and staff chairs engineered for long-term support."

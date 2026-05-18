@@ -58,14 +58,14 @@ export default function HeroSlider() {
               </div>
               <h1
                 className={cn(
-                  "text-5xl lg:text-8xl font-black text-white leading-[1.1] transition-all duration-1000 delay-300",
+                  "text-3xl md:text-5xl lg:text-6xl font-bold text-white leading-tight transition-all duration-1000 delay-300",
                   current === index ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
                 )}
                 dangerouslySetInnerHTML={{ __html: slide.title }}
               />
 
               <p className={cn(
-                "text-lg text-gray-300 leading-relaxed max-w-lg transition-all duration-1000 delay-500",
+                "text-base text-gray-300 leading-relaxed max-w-md transition-all duration-1000 delay-500",
                 current === index ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
               )}>
                 {slide.description}

@@ -37,15 +37,15 @@ export default function ClientsPage() {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-neutral-950/80 via-neutral-950/40 to-neutral-950" />
 
-        <div className="relative z-10 text-center space-y-10 max-w-5xl px-6">
-          <div className="inline-flex items-center gap-3 px-6 py-2 bg-white/5 backdrop-blur-md border border-white/10 rounded-full animate-in fade-in slide-in-from-bottom-4 duration-700">
+        <div className="relative z-10 text-center space-y-6 max-w-4xl px-6">
+          <div className="inline-flex items-center gap-3 px-5 py-1.5 bg-white/5 backdrop-blur-md border border-white/10 rounded-full animate-in fade-in slide-in-from-bottom-4 duration-700">
             <Briefcase size={14} className="text-primary" />
             <span className="text-[10px] font-black tracking-[0.4em] text-white uppercase">Client Portfolio</span>
           </div>
-          <h1 className="text-4xl lg:text-7xl font-bold text-white leading-[0.95] tracking-tight animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
+          <h1 className="text-3xl lg:text-5xl font-bold text-white leading-tight tracking-tight animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
             Trusted by <span className="text-primary">Industry Leaders.</span>
           </h1>
-          <p className="text-xl lg:text-2xl text-gray-400 max-w-2xl mx-auto leading-relaxed font-medium animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500">
+          <p className="text-base lg:text-lg text-gray-400 max-w-xl mx-auto leading-relaxed font-normal animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500">
             We take pride in partnering with some of the world's most prestigious organizations to deliver high-performance workspace solutions.
           </p>
         </div>
@@ -80,10 +80,10 @@ export default function ClientsPage() {
         <div className="max-w-[1440px] mx-auto px-6 lg:px-12 space-y-24">
           <div className="text-center space-y-6">
             <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">Global Network</span>
-            <h2 className="text-4xl lg:text-6xl font-bold text-secondary tracking-tight">
+            <h2 className="text-3xl lg:text-5xl font-bold text-secondary tracking-tight">
               Our <span className="text-primary">Esteemed Clients.</span>
             </h2>
-            <p className="text-gray-500 text-lg font-medium max-w-2xl mx-auto leading-relaxed">
+            <p className="text-gray-500 text-base font-normal max-w-xl mx-auto leading-relaxed">
               Serving a diverse range of industries, from technology and pharmaceuticals to aviation and automotive.
             </p>
           </div>
@@ -130,12 +130,12 @@ export default function ClientsPage() {
             </div>
             
             <div className="space-y-12 order-1 lg:order-2">
-              <div className="space-y-6">
+              <div className="space-y-4">
                 <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">Why Leaders Choose Us</span>
-                <h2 className="text-4xl lg:text-6xl font-bold text-secondary leading-tight tracking-tight">
+                <h2 className="text-3xl lg:text-5xl font-bold text-secondary leading-tight tracking-tight">
                   Beyond <span className="text-primary">Furniture.</span>
                 </h2>
-                <p className="text-xl text-gray-500 leading-relaxed font-medium">
+                <p className="text-base text-gray-500 leading-relaxed font-normal">
                   We don't just supply products; we engineer environments that foster collaboration, efficiency, and well-being.
                 </p>
               </div>
@@ -167,10 +167,10 @@ export default function ClientsPage() {
            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(var(--primary-rgb),0.15),transparent_70%)]" />
         </div>
         
-        <div className="max-w-5xl mx-auto px-6 relative z-10 space-y-16">
-          <div className="space-y-8">
+        <div className="max-w-4xl mx-auto px-6 relative z-10 space-y-10">
+          <div className="space-y-6">
             <span className="text-[10px] font-black tracking-[0.5em] text-primary uppercase">Ready to Transform?</span>
-            <h2 className="text-4xl lg:text-7xl font-bold text-white leading-tight tracking-tight">
+            <h2 className="text-3xl lg:text-5xl font-bold text-white leading-tight tracking-tight">
               Join our <span className="text-primary">Network.</span>
             </h2>
           </div>

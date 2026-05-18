@@ -71,17 +71,17 @@ export default function ContactPage() {
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[120px] animate-pulse" />
         <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-primary/10 rounded-full blur-[100px] animate-pulse delay-700" />
 
-        <div className="relative z-10 text-center space-y-8 max-w-5xl px-4">
-          <div className="inline-flex items-center gap-3 px-6 py-2.5 bg-white/5 border border-white/10 backdrop-blur-md rounded-full">
+        <div className="relative z-10 text-center space-y-6 max-w-4xl px-4">
+          <div className="inline-flex items-center gap-3 px-5 py-2 bg-white/5 border border-white/10 backdrop-blur-md rounded-full">
             <Sparkles size={18} className="text-primary animate-spin-slow" />
             <span className="text-[11px] font-black tracking-[0.4em] text-white uppercase">
               {contactPage.hero.badge}
             </span>
           </div>
-          <h1 className="text-4xl lg:text-7xl font-bold text-white leading-[0.95] tracking-tight animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
+          <h1 className="text-3xl lg:text-5xl font-bold text-white leading-tight tracking-tight animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
             Let's <span className="text-primary">Talk.</span>
           </h1>
-          <p className="text-xl lg:text-2xl text-gray-400 max-w-3xl mx-auto leading-relaxed font-medium">
+          <p className="text-base lg:text-lg text-gray-400 max-w-xl mx-auto leading-relaxed font-normal">
             Transforming your workspace starts with a conversation. <br className="hidden lg:block" />
             {contactPage.hero.subtitle}
           </p>

@@ -17,7 +17,7 @@ export default function PublicLayout({
   return (
     <>
       <Header />
-      <main className="text-secondary relative pt-28 lg:pt-36">
+      <main className="text-secondary relative">
         <Breadcrumbs />
         {children}
       </main>

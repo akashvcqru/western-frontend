@@ -13,7 +13,7 @@ export default function TermsOfServicePage() {
       <section className="relative pt-32 pb-16 overflow-hidden bg-secondary">
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--primary)_0%,transparent_70%)]" />
         <div className="container relative px-4 mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-white mb-6">
+          <h1 className="text-3xl lg:text-5xl font-bold text-white mb-6">
             Terms of Service
           </h1>
           <p className="text-lg text-neutral-400 max-w-2xl mx-auto">

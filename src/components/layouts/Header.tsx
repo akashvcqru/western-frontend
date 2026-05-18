@@ -40,30 +40,54 @@ export default function Header() {
 
   return (
     <>
-      <header className={cn(
-        "w-full bg-white/95 backdrop-blur-xl border-b border-neutral-100/50 fixed top-0 left-0 right-0 z-50 transition-all duration-500",
-        isScrolled ? "py-0 shadow-lg" : "py-2"
-      )}>
+      <header
+        className={cn(
+          "w-full bg-white/95 backdrop-blur-xl fixed top-0 left-0 right-0 z-50 transition-all duration-500",
+          isScrolled
+            ? "shadow-soft border-b border-neutral-100"
+            : "border-b border-transparent",
+        )}
+      >
         {/* Top Bar - Refined & Sticky */}
-        <div className={cn(
-          "bg-secondary/95 backdrop-blur-md text-white px-4 hidden lg:block border-b border-white/5 transition-all duration-500",
-          isScrolled ? "py-1.5 opacity-90" : "py-2.5 opacity-100"
-        )}>
+        <div
+          className={cn(
+            "bg-secondary/95 backdrop-blur-md text-white px-4 hidden lg:block border-b border-white/5 transition-all duration-500 origin-top overflow-hidden",
+            isScrolled
+              ? "max-h-0 py-0 opacity-0 border-none"
+              : "max-h-12 py-2.5 opacity-100",
+          )}
+        >
           <div className="max-w-[1440px] mx-auto flex justify-between items-center text-[10px] font-bold tracking-[0.2em] uppercase opacity-80">
             <div className="flex items-center gap-10">
-              <a href={`mailto:${common.contact.email}`} className="flex items-center gap-2.5 group cursor-pointer transition-all hover:text-primary">
-                <Mail size={12} className="text-primary group-hover:scale-110 transition-transform" />
+              <a
+                href={`mailto:${common.contact.email}`}
+                className="flex items-center gap-2.5 group cursor-pointer transition-all hover:text-primary"
+              >
+                <Mail
+                  size={12}
+                  className="text-primary group-hover:scale-110 transition-transform"
+                />
                 <span>{common.contact.email}</span>
               </a>
               {common.contact.phones.map((p: string, i: number) => (
-                <a key={i} href={`tel:${p.replace(/-/g, "")}`} className="flex items-center gap-2.5 group cursor-pointer transition-all hover:text-primary">
-                  <Phone size={12} className="text-primary group-hover:scale-110 transition-transform" />
+                <a
+                  key={i}
+                  href={`tel:${p.replace(/-/g, "")}`}
+                  className="flex items-center gap-2.5 group cursor-pointer transition-all hover:text-primary"
+                >
+                  <Phone
+                    size={12}
+                    className="text-primary group-hover:scale-110 transition-transform"
+                  />
                   <span>{p}</span>
                 </a>
               ))}
             </div>
             <div className="flex items-center gap-2.5 group cursor-pointer transition-all hover:text-primary">
-              <MapPin size={12} className="text-primary group-hover:scale-110 transition-transform" />
+              <MapPin
+                size={12}
+                className="text-primary group-hover:scale-110 transition-transform"
+              />
               <span>{common.contact.locationShort}</span>
             </div>
           </div>
@@ -71,7 +95,12 @@ export default function Header() {
 
         {/* Main Header Container */}
         <div className="max-w-[1440px] mx-auto px-6 lg:px-12 relative">
-          <div className="flex justify-between items-center h-20 lg:h-24">
+          <div
+            className={cn(
+              "flex justify-between items-center transition-all duration-500",
+              isScrolled ? "h-14 lg:h-16" : "h-16 lg:h-20",
+            )}
+          >
             {/* Logo */}
             <a href={header.homeHref} className="flex items-center gap-4 group">
               <Image
@@ -79,7 +108,10 @@ export default function Header() {
                 alt="Western Interio"
                 width={160}
                 height={45}
-                className="w-auto h-12 lg:h-11 brightness-110"
+                className={cn(
+                  "w-auto transition-all duration-500 brightness-110",
+                  isScrolled ? "h-9 lg:h-8" : "h-10 lg:h-9",
+                )}
                 priority
               />
             </a>
@@ -87,7 +119,9 @@ export default function Header() {
             {/* Desktop Navigation - SaaS Style */}
             <nav className="hidden xl:flex items-center gap-2 h-full">
               {header.navigation.map((link: any) => {
-                const navItem = Array.isArray(navigation) ? navigation.find(item => item.title === link.name) : null;
+                const navItem = Array.isArray(navigation)
+                  ? navigation.find((item) => item.title === link.name)
+                  : null;
                 return (
                   <div
                     key={link.name}
@@ -99,7 +133,7 @@ export default function Header() {
                       href={link.href}
                       className={cn(
                         "text-[11px] font-bold text-secondary/70 hover:text-secondary transition-all duration-300 tracking-[0.15em] uppercase relative inline-flex items-center",
-                        activeMenu === link.name && "text-secondary"
+                        activeMenu === link.name && "text-secondary",
                       )}
                     >
                       {link.name}
@@ -108,26 +142,37 @@ export default function Header() {
                           size={12}
                           className={cn(
                             "ml-2 opacity-40 transition-transform duration-300",
-                            activeMenu === link.name && "rotate-180 opacity-100"
+                            activeMenu === link.name &&
+                              "rotate-180 opacity-100",
                           )}
                         />
                       )}
                       {/* Hover indicator */}
-                      <span className={cn(
-                        "absolute -bottom-1 left-0 w-full h-0.5 bg-primary transform scale-x-0 transition-transform duration-300 origin-left",
-                        activeMenu === link.name && "scale-x-100"
-                      )} />
+                      <span
+                        className={cn(
+                          "absolute -bottom-1 left-0 w-full h-0.5 bg-primary transform scale-x-0 transition-transform duration-300 origin-left",
+                          activeMenu === link.name && "scale-x-100",
+                        )}
+                      />
                     </a>
 
                     {/* Mega Menu Dropdown - Premium Glassmorphism */}
                     {navItem && navItem.columns && (
-                      <div className={cn(
-                        "fixed top-full left-0 right-0 bg-white/95 backdrop-blur-2xl shadow-[0_40px_80px_-20px_rgba(0,0,0,0.1)] border-t border-neutral-100 transition-all duration-500 overflow-hidden z-50",
-                        activeMenu === link.name ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0 invisible"
-                      )}>
+                      <div
+                        className={cn(
+                          "fixed top-full left-0 right-0 bg-white/95 backdrop-blur-2xl shadow-[0_40px_80px_-20px_rgba(0,0,0,0.1)] border-t border-neutral-100 transition-all duration-500 overflow-hidden z-50",
+                          activeMenu === link.name
+                            ? "max-h-[600px] opacity-100"
+                            : "max-h-0 opacity-0 invisible",
+                        )}
+                      >
                         <div className="max-w-[1440px] mx-auto px-12 py-16 grid grid-cols-4 gap-16">
                           {navItem.columns.map((column: any, i: number) => (
-                            <div key={i} className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500" style={{ animationDelay: `${i * 50}ms` }}>
+                            <div
+                              key={i}
+                              className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500"
+                              style={{ animationDelay: `${i * 50}ms` }}
+                            >
                               <h4 className="text-[10px] font-black tracking-[0.4em] text-primary uppercase">
                                 {column.title}
                               </h4>
@@ -169,7 +214,10 @@ export default function Header() {
                 className="hidden md:inline-flex items-center justify-center gap-3 px-6 py-3 bg-secondary text-white font-bold tracking-widest text-[10px] uppercase rounded-xl transition-all duration-500 hover:bg-primary hover:-translate-y-1 shadow-[0_20px_40px_-10px_rgba(0,0,0,0.1)] hover:shadow-[0_20px_40px_-10px_rgba(var(--primary-rgb),0.3)] cursor-pointer group active:scale-95"
               >
                 {header.cta}
-                <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                <ArrowRight
+                  size={14}
+                  className="group-hover:translate-x-1 transition-transform"
+                />
               </button>
 
               <button
@@ -181,13 +229,16 @@ export default function Header() {
             </div>
           </div>
         </div>
-
-        <QuoteModal isOpen={isQuoteOpen} onClose={() => setIsQuoteOpen(false)} />
       </header>
 
       {/* Overlays - Outside of Header to prevent clipping */}
       {typeof window !== "undefined" && (
         <>
+          <QuoteModal
+            isOpen={isQuoteOpen}
+            onClose={() => setIsQuoteOpen(false)}
+          />
+
           {/* Full Screen Search Overlay */}
           {isSearchOpen && (
             <div className="fixed inset-0 bg-secondary/95 backdrop-blur-xl z-[100] flex flex-col items-center justify-center p-6 animate-in fade-in duration-300">
@@ -238,20 +289,30 @@ export default function Header() {
 
           {/* Mobile Navigation Menu Overlay */}
           {isOpen && (
-            <div className="fixed inset-0 top-[80px] bg-white z-[90] xl:hidden overflow-y-auto border-t border-neutral-100 animate-in slide-in-from-top-4 duration-500">
+            <div
+              className={cn(
+                "fixed inset-0 bg-white z-[90] xl:hidden overflow-y-auto border-t border-neutral-100 animate-in slide-in-from-top-4 duration-500 transition-all duration-500",
+                isScrolled ? "top-[56px]" : "top-[64px]",
+              )}
+            >
               <div className="p-8 space-y-8 pb-32 bg-white min-h-full">
-
                 {/* Menu Breadcrumbs */}
                 <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-neutral-400 mb-4">
                   <button
                     onClick={() => setActiveMenu(null)}
-                    className={cn("hover:text-primary transition-colors", !activeMenu && "text-primary")}
+                    className={cn(
+                      "hover:text-primary transition-colors",
+                      !activeMenu && "text-primary",
+                    )}
                   >
                     Home
                   </button>
                   {activeMenu && (
                     <>
-                      <ChevronDown size={10} className="-rotate-90 opacity-30" />
+                      <ChevronDown
+                        size={10}
+                        className="-rotate-90 opacity-30"
+                      />
                       <span className="text-secondary">{activeMenu}</span>
                     </>
                   )}
@@ -260,19 +321,30 @@ export default function Header() {
                 {!activeMenu ? (
                   <div className="space-y-8">
                     <div className="space-y-2">
-                      <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">Explore Categories</span>
+                      <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">
+                        Explore Categories
+                      </span>
                       <div className="grid gap-2">
                         {header.navigation.map((link: any) => {
-                          const hasSubMenu = Array.isArray(navigation) && navigation.find(n => n.title === link.name)?.columns;
+                          const hasSubMenu =
+                            Array.isArray(navigation) &&
+                            navigation.find((n) => n.title === link.name)
+                              ?.columns;
                           return (
-                            <div key={link.name} className="border-b border-neutral-50 flex justify-between items-center">
+                            <div
+                              key={link.name}
+                              className="border-b border-neutral-50 flex justify-between items-center"
+                            >
                               {hasSubMenu ? (
                                 <button
                                   onClick={() => setActiveMenu(link.name)}
                                   className="text-2xl font-bold text-secondary tracking-tighter active:text-primary transition-colors flex items-center justify-between w-full group py-5"
                                 >
                                   {link.name}
-                                  <ArrowRight size={20} className="text-primary/30 group-active:text-primary transition-transform" />
+                                  <ArrowRight
+                                    size={20}
+                                    className="text-primary/30 group-active:text-primary transition-transform"
+                                  />
                                 </button>
                               ) : (
                                 <a
@@ -281,7 +353,10 @@ export default function Header() {
                                   onClick={() => setIsOpen(false)}
                                 >
                                   {link.name}
-                                  <ArrowRight size={20} className="text-primary/30 group-active:text-primary transition-transform" />
+                                  <ArrowRight
+                                    size={20}
+                                    className="text-primary/30 group-active:text-primary transition-transform"
+                                  />
                                 </a>
                               )}
                             </div>
@@ -291,15 +366,24 @@ export default function Header() {
                     </div>
 
                     <div className="pt-8 space-y-6">
-                      <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">Direct Contact</span>
+                      <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">
+                        Direct Contact
+                      </span>
                       <div className="grid gap-4">
-                        <a href={`tel:${common.contact.phoneRaw}`} className="flex items-center gap-4 p-5 bg-neutral-50 rounded-2xl border border-neutral-100">
+                        <a
+                          href={`tel:${common.contact.phoneRaw}`}
+                          className="flex items-center gap-4 p-5 bg-neutral-50 rounded-2xl border border-neutral-100"
+                        >
                           <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white shadow-lg shadow-primary/20">
                             <Phone size={18} />
                           </div>
                           <div>
-                            <p className="text-[10px] font-black text-neutral-400 uppercase tracking-widest">Call Us</p>
-                            <p className="font-bold text-secondary">{common.contact.phone}</p>
+                            <p className="text-[10px] font-black text-neutral-400 uppercase tracking-widest">
+                              Call Us
+                            </p>
+                            <p className="font-bold text-secondary">
+                              {common.contact.phone}
+                            </p>
                           </div>
                         </a>
                       </div>
@@ -307,28 +391,31 @@ export default function Header() {
                   </div>
                 ) : (
                   <div className="space-y-12">
-                    {Array.isArray(navigation) && navigation.find(n => n.title === activeMenu)?.columns?.map((col: any, i: number) => (
-                      <div key={i} className="space-y-6">
-                        <h4 className="text-[10px] font-black tracking-[0.4em] text-primary uppercase border-l-2 border-primary pl-4">
-                          {col.title}
-                        </h4>
-                        <div className="grid gap-4 pl-4">
-                          {col.items.map((item: any, idx: number) => (
-                            <a
-                              key={idx}
-                              href={`/${activeMenu.toLowerCase()}/${item.slug}`}
-                              className="text-lg font-bold text-secondary hover:text-primary transition-colors block active:translate-x-2 duration-300"
-                              onClick={() => {
-                                setIsOpen(false);
-                                setActiveMenu(null);
-                              }}
-                            >
-                              {item.name}
-                            </a>
-                          ))}
-                        </div>
-                      </div>
-                    ))}
+                    {Array.isArray(navigation) &&
+                      navigation
+                        .find((n) => n.title === activeMenu)
+                        ?.columns?.map((col: any, i: number) => (
+                          <div key={i} className="space-y-6">
+                            <h4 className="text-[10px] font-black tracking-[0.4em] text-primary uppercase border-l-2 border-primary pl-4">
+                              {col.title}
+                            </h4>
+                            <div className="grid gap-4 pl-4">
+                              {col.items.map((item: any, idx: number) => (
+                                <a
+                                  key={idx}
+                                  href={`/${activeMenu.toLowerCase()}/${item.slug}`}
+                                  className="text-lg font-bold text-secondary hover:text-primary transition-colors block active:translate-x-2 duration-300"
+                                  onClick={() => {
+                                    setIsOpen(false);
+                                    setActiveMenu(null);
+                                  }}
+                                >
+                                  {item.name}
+                                </a>
+                              ))}
+                            </div>
+                          </div>
+                        ))}
 
                     <button
                       onClick={() => setActiveMenu(null)}

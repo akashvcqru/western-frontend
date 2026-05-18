@@ -34,8 +34,8 @@ export default function BrandPage() {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-neutral-950/80 via-neutral-950/40 to-neutral-950" />
         
-        <div className="relative z-10 text-center space-y-10 max-w-5xl px-6">
-          <div className="inline-flex items-center gap-3 px-6 py-2 bg-white/5 backdrop-blur-md border border-white/10 rounded-full animate-in fade-in slide-in-from-bottom-4 duration-700">
+        <div className="relative z-10 text-center space-y-6 max-w-4xl px-6">
+          <div className="inline-flex items-center gap-3 px-5 py-1.5 bg-white/5 backdrop-blur-md border border-white/10 rounded-full animate-in fade-in slide-in-from-bottom-4 duration-700">
             <nav className="flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.3em] text-white/40">
               <Link href={AppRoutes.Public.Home} className="hover:text-primary transition-colors">Home</Link>
               <ChevronRight size={10} className="text-white/20" />
@@ -44,10 +44,10 @@ export default function BrandPage() {
               <span className="text-white">{brandName}</span>
             </nav>
           </div>
-          <h1 className="text-6xl lg:text-9xl font-bold text-white leading-[0.95] tracking-tight animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
+          <h1 className="text-3xl lg:text-5xl font-bold text-white leading-tight tracking-tight animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
             {brandName} <br /><span className="text-primary">Collection.</span>
           </h1>
-          <p className="text-xl lg:text-2xl text-gray-400 max-w-2xl mx-auto leading-relaxed font-medium animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500">
+          <p className="text-base lg:text-lg text-gray-400 max-w-xl mx-auto leading-relaxed font-normal animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500">
             Experience the finest collection of products from {brandName}, curated specifically for your premium lifestyle needs.
           </p>
         </div>

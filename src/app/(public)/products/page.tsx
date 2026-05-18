@@ -54,15 +54,15 @@ export default function ProductsPage() {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-neutral-950/80 via-neutral-950/40 to-neutral-950" />
         
-        <div className="relative z-10 text-center space-y-10 max-w-5xl px-6">
-          <div className="inline-flex items-center gap-3 px-6 py-2 bg-white/5 backdrop-blur-md border border-white/10 rounded-full animate-in fade-in slide-in-from-bottom-4 duration-700">
+        <div className="relative z-10 text-center space-y-6 max-w-4xl px-6">
+          <div className="inline-flex items-center gap-3 px-5 py-1.5 bg-white/5 backdrop-blur-md border border-white/10 rounded-full animate-in fade-in slide-in-from-bottom-4 duration-700">
             <Sparkles size={14} className="text-primary" />
             <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white">{hero.badge}</span>
           </div>
-          <h1 className="text-6xl lg:text-9xl font-bold text-white leading-[0.95] tracking-tight animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
+          <h1 className="text-3xl lg:text-5xl font-bold text-white leading-tight tracking-tight animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
             Our <span className="text-primary">Collections.</span>
           </h1>
-          <p className="text-xl lg:text-2xl text-gray-400 max-w-2xl mx-auto leading-relaxed font-medium animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500">
+          <p className="text-base lg:text-lg text-gray-400 max-w-xl mx-auto leading-relaxed font-normal animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500">
             {hero.subtitle}
           </p>
         </div>
@@ -216,11 +216,11 @@ export default function ProductsPage() {
            <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/40 to-neutral-950" />
         </div>
         
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-12 relative z-10 space-y-16">
-          <div className="space-y-8">
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-12 relative z-10 space-y-10">
+          <div className="space-y-6">
              <span className="text-[10px] font-black tracking-[0.5em] text-primary uppercase">{cta.badge}</span>
-             <h2 className="text-6xl lg:text-9xl font-bold text-white leading-[0.95] tracking-tight">{cta.title}</h2>
-             <p className="text-gray-400 text-xl font-medium tracking-wide max-w-2xl mx-auto">{cta.supportText}</p>
+             <h2 className="text-3xl lg:text-5xl font-bold text-white leading-tight tracking-tight">{cta.title}</h2>
+             <p className="text-gray-400 text-base font-normal tracking-wide max-w-xl mx-auto">{cta.supportText}</p>
           </div>
           
           <div className="flex flex-col sm:flex-row justify-center items-center gap-6 pt-10">

@@ -36,10 +36,10 @@ export default function InteriorsDecorationPage() {
             <Sparkles size={14} className="text-primary" />
             <span className="text-[10px] font-black tracking-[0.4em] text-white uppercase">Service Excellence</span>
           </div>
-          <h1 className="text-6xl lg:text-8xl font-bold text-white leading-[0.95] tracking-tight">
+          <h1 className="text-3xl lg:text-5xl font-bold text-white leading-tight tracking-tight">
             Interiors <span className="text-primary">Decoration.</span>
           </h1>
-          <p className="text-xl lg:text-2xl text-gray-300 max-w-2xl mx-auto leading-relaxed font-medium">
+          <p className="text-base lg:text-lg text-gray-300 max-w-xl mx-auto leading-relaxed font-normal">
             Elevating workspaces through artistic vision, premium materials, and meticulous finishing touches.
           </p>
         </div>
@@ -52,11 +52,11 @@ export default function InteriorsDecorationPage() {
             <div className="space-y-8">
               <div className="space-y-6">
                 <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">Design Philosophy</span>
-                <h2 className="text-3xl lg:text-6xl font-bold text-secondary tracking-tight leading-tight">
+                <h2 className="text-2xl lg:text-4xl font-bold text-secondary tracking-tight leading-tight">
                   Style that <span className="text-primary">inspires.</span>
                 </h2>
               </div>
-              <p className="text-xl text-neutral-600 leading-relaxed font-medium">
+              <p className="text-base text-neutral-600 leading-relaxed font-normal">
                 Our decoration services focus on the soulful aspects of design—textures, colors, and lighting that transform a functional room into an inspiring environment.
               </p>
               <div className="grid sm:grid-cols-2 gap-8">
@@ -94,7 +94,7 @@ export default function InteriorsDecorationPage() {
         <div className="max-w-[1440px] mx-auto px-6 lg:px-12 relative z-10">
           <div className="text-center max-w-3xl mx-auto space-y-6 mb-20">
             <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">Execution Strategy</span>
-            <h2 className="text-4xl lg:text-6xl font-bold tracking-tight">Our <span className="text-primary">Workflow.</span></h2>
+            <h2 className="text-2xl lg:text-4xl font-bold tracking-tight">Our <span className="text-primary">Workflow.</span></h2>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 lg:gap-10 relative">
@@ -124,8 +124,8 @@ export default function InteriorsDecorationPage() {
           <div className="bg-neutral-50 rounded-[64px] p-12 lg:p-24 flex flex-col items-center text-center space-y-10 border border-neutral-100 shadow-premium">
             <div className="space-y-6">
               <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">Start Your Transformation</span>
-              <h2 className="text-4xl lg:text-7xl font-bold text-secondary tracking-tight">Style that <span className="text-primary">inspires.</span></h2>
-              <p className="text-gray-500 text-lg lg:text-xl font-medium max-w-2xl mx-auto">
+              <h2 className="text-3xl lg:text-5xl font-bold text-secondary tracking-tight">Style that <span className="text-primary">inspires.</span></h2>
+              <p className="text-gray-500 text-base lg:text-lg font-normal max-w-xl mx-auto">
                 Let us help you create a workspace that doesn't just look good, but feels right.
               </p>
             </div>

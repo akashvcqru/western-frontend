@@ -30,12 +30,18 @@ const AppModal: React.FC<AppModalProps> = ({
 }) => {
     const [mounted, setMounted] = useState(false);
     const [show, setShow] = useState(false);
+    const bodyRef = React.useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         if (isOpen) {
             setMounted(true);
             document.body.style.overflow = 'hidden';
-            const timer = setTimeout(() => setShow(true), 10);
+            const timer = setTimeout(() => {
+                setShow(true);
+                if (bodyRef.current) {
+                    bodyRef.current.scrollTop = 0;
+                }
+            }, 10);
             return () => clearTimeout(timer);
         } else {
             setShow(false);
@@ -82,7 +88,7 @@ const AppModal: React.FC<AppModalProps> = ({
 
             {/* Modal Content */}
             <div
-                className={`relative bg-white w-full rounded-xl shadow-2xl transition-all duration-300 transform flex flex-col ${sizeClasses[size]} ${show ? 'scale-100 translate-y-0' : 'scale-95 translate-y-8'}`}
+                className={`relative bg-white w-full rounded-xl overflow-hidden shadow-2xl transition-all duration-300 transform flex flex-col ${sizeClasses[size]} ${show ? 'scale-100 translate-y-0' : 'scale-95 translate-y-8'}`}
             >
                 {/* Header */}
                 {!hideHeader && (
@@ -100,7 +106,10 @@ const AppModal: React.FC<AppModalProps> = ({
                 )}
 
                 {/* Body */}
-                <div className={cn("p-5 overflow-y-auto flex-grow max-h-[90vh] text-gray-600", bodyClassName)}>
+                <div 
+                    ref={bodyRef}
+                    className={cn("p-5 overflow-y-auto flex-grow max-h-[90vh] text-gray-600", bodyClassName)}
+                >
                     {children}
                 </div>
 

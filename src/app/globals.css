@@ -7,9 +7,9 @@
   --color-foreground: var(--foreground);
   --color-border: var(--border);
   --color-input: var(--input);
-  --font-sans: "Inter", var(--font-inter), system-ui, sans-serif;
-  --font-serif: "Inter", var(--font-inter), serif;
-  --font-mono: "Inter", var(--font-inter), monospace;
+  --font-sans: var(--font-inter), sans-serif;
+  --font-serif: var(--font-inter), sans-serif;
+  --font-mono: var(--font-inter), sans-serif;
   --shadow-premium: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
   --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.05);
   --radius-premium: 12px;
@@ -80,7 +80,7 @@
   }
 
   * {
-    font-family: var(--font-sans);
+    font-family: var(--font-sans) !important;
   }
 
   body {

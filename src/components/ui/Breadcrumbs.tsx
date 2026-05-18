@@ -25,8 +25,8 @@ export default function Breadcrumbs() {
   };
   
   return (
-    <>
-      <nav className="bg-neutral-100 border-b border-neutral-200 py-4 lg:py-3.5 overflow-hidden sticky top-[80px] lg:static z-40 shadow-sm lg:shadow-none">
+    <div className="pt-14 lg:pt-[120px]">
+      <nav className="bg-neutral-100 border-b border-neutral-200 py-4 lg:py-3.5 overflow-hidden sticky top-[56px] lg:static z-40 shadow-sm lg:shadow-none">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
           <ul className="flex items-center gap-3 text-[10px] lg:text-[11px] font-black uppercase tracking-[0.2em] text-neutral-500 overflow-x-auto whitespace-nowrap no-scrollbar">
             <li>
@@ -119,6 +119,6 @@ export default function Breadcrumbs() {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }

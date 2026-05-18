@@ -101,7 +101,7 @@ export default function ProductDetailPage() {
                   </span>
                 </div>
                 
-                <h1 className="text-5xl lg:text-7xl font-bold text-secondary leading-[0.95] tracking-tight">
+                <h1 className="text-3xl lg:text-5xl font-bold text-secondary leading-tight tracking-tight">
                   {product.name}
                 </h1>
 
@@ -130,7 +130,7 @@ export default function ProductDetailPage() {
                 )}
               </div>
 
-              <p className="text-neutral-500 leading-relaxed text-xl font-medium max-w-xl">
+              <p className="text-neutral-500 leading-relaxed text-base font-normal max-w-xl">
                 {product.description}
               </p>
             </div>
@@ -233,7 +233,7 @@ export default function ProductDetailPage() {
           <div className="flex items-end justify-between mb-20">
             <div className="space-y-4">
               <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">Recommendations</span>
-              <h2 className="text-5xl lg:text-7xl font-bold text-secondary tracking-tight">Related <span className="text-primary">Items.</span></h2>
+              <h2 className="text-3xl lg:text-5xl font-bold text-secondary tracking-tight">Related <span className="text-primary">Items.</span></h2>
             </div>
             <Link href="/products" className="group flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.3em] hover:text-primary transition-all">
               View All Collection

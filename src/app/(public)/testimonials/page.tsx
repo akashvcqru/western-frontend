@@ -22,16 +22,16 @@ export default function TestimonialsPage() {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-neutral-950/80 via-neutral-950/40 to-neutral-950" />
         
-        <div className="relative z-10 text-center space-y-10 max-w-5xl px-6">
-          <div className="inline-flex items-center gap-3 px-6 py-2 bg-white/5 backdrop-blur-md border border-white/10 rounded-full animate-in fade-in slide-in-from-bottom-4 duration-700">
+        <div className="relative z-10 text-center space-y-6 max-w-4xl px-6">
+          <div className="inline-flex items-center gap-3 px-5 py-1.5 bg-white/5 backdrop-blur-md border border-white/10 rounded-full animate-in fade-in slide-in-from-bottom-4 duration-700">
             <MessageSquare size={14} className="text-primary" />
             <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white">{testimonialsPage.hero.badge}</span>
           </div>
           <h1 
-            className="text-6xl lg:text-9xl font-bold text-white leading-[0.95] tracking-tight animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200"
+            className="text-3xl lg:text-5xl font-bold text-white leading-tight tracking-tight animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200"
             dangerouslySetInnerHTML={{ __html: testimonialsPage.hero.title }}
           />
-          <p className="text-xl lg:text-2xl text-gray-400 max-w-2xl mx-auto leading-relaxed font-medium animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500">
+          <p className="text-base lg:text-lg text-gray-400 max-w-xl mx-auto leading-relaxed font-normal animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500">
             {testimonialsPage.hero.subtitle}
           </p>
         </div>
@@ -86,14 +86,14 @@ export default function TestimonialsPage() {
            <div className="bg-neutral-950 p-16 lg:p-32 rounded-[64px] relative overflow-hidden shadow-2xl shadow-neutral-200">
               <div className="absolute top-0 right-0 w-2/3 h-full bg-primary/5 -skew-x-12 translate-x-1/4 pointer-events-none" />
               <div className="relative z-10 grid lg:grid-cols-2 gap-24 items-center">
-                 <div className="space-y-12 text-center lg:text-left">
-                    <div className="space-y-6">
+                 <div className="space-y-6 text-center lg:text-left">
+                    <div className="space-y-4">
                       <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">Global Trust</span>
-                      <h2 className="text-5xl lg:text-7xl font-bold text-white tracking-tight leading-[0.95]">
+                      <h2 className="text-3xl lg:text-5xl font-bold text-white tracking-tight leading-tight">
                          Join <span className="text-primary">1000+</span> <br /> Satisfied Clients.
                       </h2>
                     </div>
-                    <p className="text-gray-400 text-xl font-medium leading-relaxed max-w-xl">
+                    <p className="text-gray-400 text-base font-normal leading-relaxed max-w-md">
                        From small startups to multinational corporations, we've helped businesses of all sizes create efficient and beautiful work environments.
                     </p>
                     <button className="w-full sm:w-auto px-12 py-5 bg-primary text-white font-bold uppercase tracking-[0.2em] text-[11px] rounded-xl hover:bg-white hover:text-black transition-all duration-500 shadow-2xl shadow-primary/20 active:scale-95 group flex items-center justify-center gap-4">
