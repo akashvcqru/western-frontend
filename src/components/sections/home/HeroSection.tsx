@@ -24,7 +24,6 @@ export default function HeroSection({ onOpenQuote }: HeroSectionProps) {
 
   return (
     <section className="relative h-screen overflow-hidden group bg-neutral-950">
-      <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/25 via-transparent to-black/30 pointer-events-none" />
       
       {homePage.heroSlider.map((slide: any, idx: number) => (
         <div

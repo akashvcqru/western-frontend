@@ -2,7 +2,6 @@
 
 import React from "react";
 import { useParams } from "next/navigation";
-import Image from "next/image";
 import productsData from "@/data/products.json";
 import { ProductCard } from "@/components/ui/ProductCard";
 import { ChevronRight } from "lucide-react";
