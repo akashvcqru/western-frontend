@@ -43,6 +43,10 @@ export default function HeroSection({ onOpenQuote }: HeroSectionProps) {
             priority={idx === 0}
             className="object-cover"
           />
+          {/* Cinematic dark overlay layer for maximum text legibility and premium depth */}
+          <div className="absolute inset-0 bg-neutral-950/40 z-10 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/80 via-transparent to-neutral-950/60 z-10 pointer-events-none" />
+
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 z-20">
             <div className="max-w-4xl space-y-6">
               <span className="inline-block px-5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[10px] font-black uppercase tracking-[0.4em] text-primary animate-in fade-in slide-in-from-bottom-8 duration-1000">

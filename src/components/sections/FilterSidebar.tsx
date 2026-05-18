@@ -15,6 +15,8 @@ interface FilterSidebarProps {
   selectedFilters: string[];
   onFilterChange: (option: string) => void;
   onClearAll: () => void;
+  maxPrice?: number;
+  onPriceChange?: (price: number) => void;
 }
 
 export const FilterSidebar: React.FC<FilterSidebarProps> = ({ 

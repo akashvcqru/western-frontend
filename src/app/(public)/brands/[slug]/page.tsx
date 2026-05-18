@@ -63,15 +63,10 @@ export default function BrandPage() {
                 key={product.id} 
                 id={product.id}
                 name={product.name}
-                brand={product.brand || brandName}
                 category={product.category}
-                subcategory={product.subcategory}
-                type={product.type}
                 image={product.images[0]}
-                specs={product.shortSpecs}
                 slug={product.slug}
                 price={product.price}
-                mrp={product.mrp}
               />
             ))}
           </div>
