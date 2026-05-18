@@ -101,10 +101,10 @@ export default function AboutSection() {
                   return (
                     <div 
                       key={i} 
-                      className="flex items-center gap-4 p-4 rounded-2xl bg-white border border-neutral-100 shadow-soft hover:shadow-premium hover:border-primary/20 hover:-translate-y-0.5 transition-all duration-300 group"
+                      className="flex items-center gap-4 p-4 rounded-2xl bg-white border border-neutral-100 shadow-soft"
                     >
-                      <div className="w-10 h-10 rounded-xl bg-neutral-50 text-secondary group-hover:bg-primary group-hover:text-white flex items-center justify-center shrink-0 transition-all duration-300 shadow-sm">
-                        <IconComponent size={18} className="transition-transform group-hover:scale-110 duration-300" />
+                      <div className="w-10 h-10 rounded-xl bg-neutral-50 text-secondary flex items-center justify-center shrink-0 shadow-sm">
+                        <IconComponent size={18} />
                       </div>
                       <span className="text-neutral-700 font-bold tracking-tight text-xs lg:text-[13px] leading-tight">
                         {item}
