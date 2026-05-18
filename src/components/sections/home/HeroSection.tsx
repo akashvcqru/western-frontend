@@ -45,17 +45,17 @@ export default function HeroSection({ onOpenQuote }: HeroSectionProps) {
           />
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 z-20">
             <div className="max-w-4xl space-y-6">
-              <span className="inline-block px-5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[10px] font-black uppercase tracking-[0.4em] text-primary animate-in fade-in slide-in-from-bottom-4 duration-700">
+              <span className="inline-block px-5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[10px] font-black uppercase tracking-[0.4em] text-primary animate-in fade-in slide-in-from-bottom-8 duration-1000">
                 {slide.subtitle}
               </span>
               <h1
-                className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight tracking-tight animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200"
+                className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight tracking-tight animate-in fade-in slide-in-from-bottom-8 duration-1000"
                 dangerouslySetInnerHTML={{ __html: slide.title }}
               />
-              <p className="text-sm md:text-base lg:text-lg text-white/80 max-w-xl mx-auto font-normal leading-relaxed animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500">
+              <p className="text-sm md:text-base lg:text-lg text-white/80 max-w-xl mx-auto font-normal leading-relaxed animate-in fade-in slide-in-from-bottom-8 duration-1000">
                 {slide.description}
               </p>
-              <div className="pt-6 flex flex-col sm:flex-row items-center justify-center gap-4 animate-in fade-in slide-in-from-bottom-16 duration-1000 delay-700">
+              <div className="pt-6 flex flex-col sm:flex-row items-center justify-center gap-4 animate-in fade-in slide-in-from-bottom-8 duration-1000">
                 <button
                   onClick={onOpenQuote}
                   className="w-full sm:w-auto px-10 py-4 bg-primary text-white font-bold tracking-[0.2em] text-[11px] uppercase rounded-lg hover:bg-white hover:text-black transition-all duration-500 shadow-xl shadow-primary/10 cursor-pointer active:scale-95 flex items-center justify-center gap-3 group"

@@ -7,7 +7,6 @@ import {
   Phone,
   Mail,
   MapPin,
-  ArrowUp,
   MessageSquare,
   Check,
   Copy,
@@ -22,7 +21,6 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
   const { common, footer } = siteContent;
 
-  const [isVisible, setIsVisible] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
 
   // Dynamic business status
@@ -75,24 +73,12 @@ export default function Footer() {
     checkStatus();
     const interval = setInterval(checkStatus, 60000);
 
-    const toggleVisibility = () => {
-      if (window.scrollY > 500) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
-      }
-    };
-
-    window.addEventListener("scroll", toggleVisibility);
     return () => {
-      window.removeEventListener("scroll", toggleVisibility);
       clearInterval(interval);
     };
   }, []);
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+
 
   const handleCopy = (text: string, fieldName: string) => {
     navigator.clipboard.writeText(text).then(() => {
@@ -550,26 +536,6 @@ export default function Footer() {
             </Link>
           </div>
 
-          {/* Enhanced Glassmorphic Back to Top Button */}
-          <button
-            onClick={scrollToTop}
-            className={cn(
-              "fixed bottom-8 right-8 z-[60] flex items-center gap-4 bg-black/60 backdrop-blur-xl p-2 pl-6 pr-2 rounded-full border border-white/10 shadow-2xl transition-all duration-500 group hover:scale-[1.05] hover:border-white/20 active:scale-95",
-              isVisible
-                ? "translate-y-0 opacity-100"
-                : "translate-y-16 opacity-0 pointer-events-none",
-            )}
-          >
-            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/70 group-hover:text-white transition-colors duration-300">
-              Back to Top
-            </span>
-            <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center shadow-lg shadow-primary/20 group-hover:bg-primary/90 transition-all duration-300">
-              <ArrowUp
-                size={18}
-                className="text-white group-hover:-translate-y-1 transition-transform duration-300"
-              />
-            </div>
-          </button>
         </div>
       </div>
 
