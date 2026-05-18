@@ -38,7 +38,7 @@ export default function AboutSection() {
   };
 
   return (
-    <section className="py-24 lg:py-32 bg-neutral-50 overflow-hidden relative">
+    <section className="pt-24 pb-12 lg:pt-32 lg:pb-16 bg-white overflow-hidden relative">
       {/* Background Architectural Grid Accent & Glows */}
       <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-primary/5 to-transparent skew-x-12 translate-x-1/3 pointer-events-none" />
       <div className="absolute top-1/2 left-2/3 -translate-y-1/2 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
@@ -59,8 +59,8 @@ export default function AboutSection() {
                 <div className="h-[1px] w-12 bg-primary/20" />
               </div>
               <h2 className="text-3xl lg:text-5xl font-black text-secondary tracking-tight leading-[1.15]">
-                Think to design <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-red-500 to-orange-500 font-extrabold relative inline-block">
+                Crafting workspaces <br />
+                that inspire <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-red-500 to-orange-500 font-extrabold relative inline-block">
                   beyond.
                   <span className="absolute left-0 bottom-1 w-full h-[3px] bg-gradient-to-r from-primary to-orange-500 rounded-full opacity-35" />
                 </span>
@@ -101,9 +101,9 @@ export default function AboutSection() {
                   return (
                     <div 
                       key={i} 
-                      className="flex items-center gap-4 p-4 rounded-2xl bg-white border border-neutral-100 shadow-soft"
+                      className="flex items-center gap-4 p-4 rounded-2xl bg-neutral-50 border border-neutral-200/60 shadow-soft"
                     >
-                      <div className="w-10 h-10 rounded-xl bg-neutral-50 text-secondary flex items-center justify-center shrink-0 shadow-sm">
+                      <div className="w-10 h-10 rounded-xl bg-white text-secondary flex items-center justify-center shrink-0 shadow-sm">
                         <IconComponent size={18} />
                       </div>
                       <span className="text-neutral-700 font-bold tracking-tight text-xs lg:text-[13px] leading-tight">
