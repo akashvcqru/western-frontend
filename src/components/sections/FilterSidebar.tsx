@@ -105,7 +105,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
               onClick={() => toggleSection(group.id)}
               className="w-full flex items-center justify-between py-2 group text-left"
             >
-              <span className="text-[11px] font-black uppercase tracking-[0.2em] text-secondary group-hover:text-primary transition-colors">
+              <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-secondary group-hover:text-primary transition-colors">
                 {group.title}
               </span>
               {openSections.includes(group.id) ? (
@@ -161,7 +161,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
 
         {/* Price Filter (Mock Slider) */}
         <div className="border-b border-neutral-50 pb-6 pt-2">
-          <span className="text-[11px] font-black uppercase tracking-[0.2em] text-secondary">
+          <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-secondary">
             Price Range
           </span>
           <div className="mt-6 px-2">
