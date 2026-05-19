@@ -160,6 +160,13 @@ export default function ProductListingPage({
 }) {
   const resolvedParams = React.use(params);
   const slug = resolvedParams.slug;
+
+  const decodedSlug = React.useMemo(() => {
+    return slug 
+      ? slug.map(s => decodeURIComponent(s).trim().toLowerCase().replace(/\s+/g, "-"))
+      : [];
+  }, [slug]);
+
   const [selectedFilters, setSelectedFilters] = React.useState<string[]>([]);
   const [showMobileFilters, setShowMobileFilters] = React.useState(false);
   const [currentPage, setCurrentPage] = React.useState(1);
@@ -169,10 +176,10 @@ export default function ProductListingPage({
   const typedProductsData = productsData as Product[];
   const typedNavigation = navigation as NavItem[];
 
-  const lastSlugSegment = slug ? slug[slug.length - 1] : "";
+  const lastSlugSegment = decodedSlug.length > 0 ? decodedSlug[decodedSlug.length - 1] : "";
   const product = typedProductsData.find(p => p.slug === lastSlugSegment);
 
-  const categorySlug = slug ? (slug.length >= 2 ? slug[1] : slug[0]) : "";
+  const categorySlug = decodedSlug.length > 0 ? (decodedSlug.length >= 2 ? decodedSlug[1] : decodedSlug[0]) : "";
   
   const categoryProducts = React.useMemo(() => {
     return typedProductsData.filter(p => p.category === categorySlug);
@@ -196,8 +203,8 @@ export default function ProductListingPage({
   }
 
   // Handle 1-segment routes (e.g. /products/office-furniture) as a Subcategory Hub Page
-  if (slug && slug.length === 1) {
-    const parentSlug = slug[0];
+  if (decodedSlug.length === 1) {
+    const parentSlug = decodedSlug[0];
     const navItem = typedNavigation.find(item => item.id === parentSlug);
     const currentCategory = categoriesData.find(c => c.slug === parentSlug);
     if (navItem) {
@@ -289,7 +296,7 @@ export default function ProductListingPage({
   const categoryName = currentCategory?.name || lastSlugSegment.replace(/-/g, " ");
 
   return (
-    <div className="bg-white min-h-screen pb-24">
+    <div className="bg-white min-h-screen">
       {/* Premium Integrated PageHeader */}
       <PageHeader 
         bgImage={heroImage}

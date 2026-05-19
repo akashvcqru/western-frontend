@@ -8,7 +8,7 @@ interface Product {
   id: string;
   name: string;
   category: string;
-  brand: string;
+  brand?: string;
   type?: string;
   subcategory?: string;
   specifications?: { label: string; value: string }[];
@@ -65,7 +65,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
   // Dynamically generate filter groups based on products
   const filterGroupsData = React.useMemo(() => {
     if (!Array.isArray(products)) return [];
-    const brands = Array.from(new Set(products.map(p => p.brand))).filter(Boolean);
+    const brands = Array.from(new Set(products.map(p => p.brand))).filter(Boolean) as string[];
     const types = Array.from(new Set(products.map(p => p.type))).filter(Boolean) as string[];
     const subcategories = Array.from(new Set(products.map(p => p.subcategory?.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase())))).filter(Boolean) as string[];
     
