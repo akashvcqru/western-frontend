@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
-import productsData from "@/data/products.json";
+import { getProductCountBySlug } from "@/lib/categoryResolver";
 
 export default function CategorySection() {
   const categories = [
@@ -13,37 +13,37 @@ export default function CategorySection() {
       title: "Desking & Workstations",
       slug: "desking-workstation",
       image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop",
-      count: `${productsData.filter(p => p.category === "desking-workstation").length}+`
+      count: `${getProductCountBySlug("desking-workstation")}+`
     },
     {
       title: "Executive Tables",
       slug: "executive-tables",
       image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop",
-      count: `${productsData.filter(p => p.category === "executive-tables").length}+`
+      count: `${getProductCountBySlug("executive-tables")}+`
     },
     {
       title: "CEO Series Chairs",
       slug: "ceo-series-chairs",
       image: "/images/products/executive-chair-1.png",
-      count: `${productsData.filter(p => p.category === "ceo-series-chairs").length}+`
+      count: `${getProductCountBySlug("ceo-series-chairs")}+`
     },
     {
       title: "Conference & Meeting",
       slug: "conference-meeting",
       image: "https://images.unsplash.com/photo-1577412647305-991150c7d163?q=80&w=2070&auto=format&fit=crop",
-      count: `${productsData.filter(p => p.category === "conference-meeting").length}+`
+      count: `${getProductCountBySlug("conference-meeting")}+`
     },
     {
       title: "Reception Series",
       slug: "reception-series",
       image: "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2070&auto=format&fit=crop",
-      count: `${productsData.filter(p => p.category === "reception-series").length}+`
+      count: `${getProductCountBySlug("reception-series")}+`
     },
     {
       title: "Office Storage",
       slug: "office-storage",
       image: "https://images.unsplash.com/photo-1595844730298-b960ff98fee0?q=80&w=2070&auto=format&fit=crop",
-      count: `${productsData.filter(p => p.category === "office-storage").length}+`
+      count: `${getProductCountBySlug("office-storage")}+`
     }
   ];
 

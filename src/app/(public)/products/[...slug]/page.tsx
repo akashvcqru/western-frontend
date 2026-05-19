@@ -15,6 +15,7 @@ import { AppRoutes } from "@/constants/routes";
 import ProductDetailView from "@/components/sections/ProductDetailView";
 import CtaSection from "@/components/sections/home/CtaSection";
 import QuoteModal from "@/components/common/QuoteModal";
+import { resolveCategorySlugs } from "@/lib/categoryResolver";
 
 interface Category {
   id?: string;
@@ -181,9 +182,13 @@ export default function ProductListingPage({
 
   const categorySlug = decodedSlug.length > 0 ? (decodedSlug.length >= 2 ? decodedSlug[1] : decodedSlug[0]) : "";
   
-  const categoryProducts = React.useMemo(() => {
-    return typedProductsData.filter(p => p.category === categorySlug);
+  const resolvedCategorySlugs = React.useMemo(() => {
+    return resolveCategorySlugs(categorySlug);
   }, [categorySlug]);
+
+  const categoryProducts = React.useMemo(() => {
+    return typedProductsData.filter(p => resolvedCategorySlugs.includes(p.category));
+  }, [resolvedCategorySlugs]);
 
   const dynamicMaxPrice = React.useMemo(() => {
     if (categoryProducts.length === 0) return 0;
@@ -221,7 +226,7 @@ export default function ProductListingPage({
   // Filter products based on category slug, price range AND active faceted filters
   const filteredProducts = typedProductsData.filter(p => {
     if (!categorySlug) return true;
-    if (p.category !== categorySlug) return false;
+    if (!resolvedCategorySlugs.includes(p.category)) return false;
     
     // Apply Price Slider Filter
     if (activeMaxPrice > 0) {
@@ -286,14 +291,17 @@ export default function ProductListingPage({
     return true;
   });
 
-  const currentCategory = categoriesData.find(c => c.slug === categorySlug);
+  const currentCategory = categoriesData.find(c => c.slug === categorySlug) ||
+                          categoriesData.find(c => resolvedCategorySlugs.includes(c.slug));
   
   const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const paginatedProducts = filteredProducts.slice(startIndex, startIndex + ITEMS_PER_PAGE);
   
   const heroImage = currentCategory?.image || "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop";
-  const categoryName = currentCategory?.name || lastSlugSegment.replace(/-/g, " ");
+  const categoryName = currentCategory?.name && currentCategory.slug === categorySlug
+    ? currentCategory.name 
+    : lastSlugSegment.replace(/-/g, " ");
 
   return (
     <div className="bg-white min-h-screen">
@@ -380,17 +388,17 @@ export default function ProductListingPage({
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-24 px-8 space-y-8 bg-neutral-50/40 rounded-xl border border-dashed border-neutral-200/80 max-w-lg mx-auto shadow-sm animate-in fade-in duration-500">
+                <div className="text-center py-24 px-8 space-y-8 bg-neutral-50/40 rounded-xl border border-dashed border-neutral-200/80 shadow-sm animate-in fade-in duration-500">
                   <div className="w-16 h-16 bg-white border border-neutral-100 rounded-xl flex items-center justify-center mx-auto text-neutral-400 shadow-sm">
                     <Filter size={24} className="text-neutral-400 animate-pulse" />
                   </div>
                   <div className="space-y-3">
                     <p className="text-xl font-bold text-secondary tracking-tight">No Matching Models</p>
-                    <p className="text-neutral-400 text-xs font-medium max-w-xs mx-auto leading-relaxed">
+                    <p className="text-neutral-400 text-xs font-medium leading-relaxed">
                       We couldn't find any products in <span className="text-primary font-bold">{categoryName}</span> matching your current filter selections. Try adjusting your checkboxes or price range slider.
                     </p>
                   </div>
-                  <div className="pt-2 flex flex-col sm:flex-row justify-center gap-4">
+                  <div className="flex flex-col sm:flex-row justify-center gap-4">
                     <button 
                       onClick={() => {
                         setSelectedFilters([]);
