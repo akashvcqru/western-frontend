@@ -84,7 +84,7 @@ export default function AboutPage() {
                   </span>
                   <div className="h-[1px] w-12 bg-primary/20" />
                 </div>
-                <h2 className="text-3xl lg:text-5xl font-black text-secondary tracking-tight leading-[1.15]">
+                <h2 className="text-3xl lg:text-5xl font-bold text-secondary tracking-tight leading-[1.15]">
                   {titleParts[0]}. <br />
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-red-500 to-orange-500 font-extrabold relative inline-block">
                     {titleParts[1] || "Furniture Manufacturing"}
@@ -179,7 +179,7 @@ export default function AboutPage() {
         <div className="max-w-[1440px] mx-auto px-6 lg:px-12 relative z-10">
           <div className="text-center space-y-4 mb-20 max-w-2xl mx-auto">
             <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">Our Philosophy</span>
-            <h2 className="text-4xl lg:text-5xl font-black tracking-tight leading-tight uppercase">
+            <h2 className="text-4xl lg:text-5xl font-bold tracking-tight leading-tight uppercase">
               COMMITTED TO DESIGN <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-rose-500">EXCELLENCE.</span>
             </h2>
             <p className="text-neutral-400 text-sm leading-relaxed">
@@ -195,7 +195,7 @@ export default function AboutPage() {
                 <Eye size={28} />
               </div>
               <span className="text-[9px] font-black tracking-[0.2em] text-primary uppercase block mb-3">Future-Focused</span>
-              <h3 className="text-2xl font-black tracking-tight mb-5 text-white">Our Vision</h3>
+              <h3 className="text-2xl font-bold tracking-tight mb-5 text-white">Our Vision</h3>
               <p className="text-neutral-400 text-sm leading-relaxed font-normal">
                 To be the global benchmark in sustainable and ergonomic workspace solutions, redefining how people interact with their professional environment through state-of-the-art interior engineering.
               </p>
@@ -208,7 +208,7 @@ export default function AboutPage() {
                 <Target size={28} />
               </div>
               <span className="text-[9px] font-black tracking-[0.2em] text-primary uppercase block mb-3">Precision Engineering</span>
-              <h3 className="text-2xl font-black tracking-tight mb-5 text-white">Our Mission</h3>
+              <h3 className="text-2xl font-bold tracking-tight mb-5 text-white">Our Mission</h3>
               <p className="text-neutral-400 text-sm leading-relaxed font-normal">
                 To plan and manufacture high-performance modular office furniture that prioritizes human health, comfort, and productivity, delivering seamless turnkey office installations across India.
               </p>
@@ -221,7 +221,7 @@ export default function AboutPage() {
                 <Compass size={28} />
               </div>
               <span className="text-[9px] font-black tracking-[0.2em] text-primary uppercase block mb-3">Our Core Pillars</span>
-              <h3 className="text-2xl font-black tracking-tight mb-5 text-white">Core Values</h3>
+              <h3 className="text-2xl font-bold tracking-tight mb-5 text-white">Core Values</h3>
               <p className="text-neutral-400 text-sm leading-relaxed font-normal">
                 Built on the pillars of Precision Craftsmanship, Eco-friendly Materials, Ergonomic Innovation, and Customer-centric execution, ensuring every installation stands the test of time.
               </p>
@@ -235,7 +235,7 @@ export default function AboutPage() {
         <div className="max-w-[1440px] mx-auto px-6 lg:px-12 relative z-10">
           <div className="flex flex-col items-center text-center space-y-6 mb-24">
             <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">{aboutPage.services.badge}</span>
-            <h2 className="text-4xl lg:text-5xl font-black tracking-tight text-secondary">
+            <h2 className="text-4xl lg:text-5xl font-bold tracking-tight text-secondary">
               {aboutPage.services.title}
             </h2>
           </div>
@@ -271,7 +271,7 @@ export default function AboutPage() {
               <span className="text-primary font-extrabold uppercase tracking-[0.3em] text-[10px] block">
                 Client Appreciations
               </span>
-              <h2 className="text-3xl lg:text-5xl font-black text-secondary tracking-tight leading-none uppercase">
+              <h2 className="text-3xl lg:text-5xl font-bold text-secondary tracking-tight leading-none uppercase">
                 What Our <span className="text-primary">Clients Say.</span>
               </h2>
               <p className="text-neutral-500 text-sm font-medium leading-relaxed">
@@ -370,7 +370,7 @@ export default function AboutPage() {
                       {aboutPage.cta.badge || "Corporate Consultation"}
                     </span>
                   </div>
-                  <h2 className="text-3xl sm:text-4xl lg:text-6xl font-black tracking-tight leading-[1.1] text-white uppercase">
+                  <h2 className="text-3xl sm:text-4xl lg:text-6xl font-bold tracking-tight leading-[1.1] text-white uppercase">
                     Transforming your <br className="hidden sm:inline" />
                     workspace <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-rose-500 font-extrabold relative inline-block">
                       aesthetics.
