@@ -1,0 +1,1211 @@
+[
+  {
+    "id": "ac-ducting",
+    "slug": "ac-ducting",
+    "name": "AC & Ducting",
+    "hero": {
+      "title": "AC & Ducting.",
+      "description": "Efficient HVAC systems and precision ducting for optimal air quality and temperature management.",
+      "image": "https://images.unsplash.com/photo-1581094288338-2314dddb7ec4?q=80&w=2070&auto=format&fit=crop"
+    },
+    "philosophy": {
+      "title": "Breathe Easy.",
+      "description": "We design and install high-performance air conditioning systems that ensure a comfortable environment for your employees while maintaining energy efficiency.",
+      "image": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=2070&auto=format&fit=crop",
+      "grid": [
+        {
+          "icon": "Fan",
+          "title": "Precision Airflow",
+          "desc": "Balanced ducting design for uniform cooling across all zones."
+        },
+        {
+          "icon": "Settings",
+          "title": "Energy Efficient",
+          "desc": "Optimized HVAC solutions to reduce operational costs."
+        },
+        {
+          "icon": "Thermometer",
+          "title": "Zoned Control",
+          "desc": "Independent temperature management for different office areas."
+        },
+        {
+          "icon": "ShieldCheck",
+          "title": "Air Quality",
+          "desc": "Advanced filtration to keep the workspace healthy."
+        }
+      ]
+    },
+    "workflow": [
+      {
+        "icon": "Wind",
+        "title": "Heat Load Analysis",
+        "desc": "Calculating the cooling requirements for each room.",
+        "step": "01"
+      },
+      {
+        "icon": "Settings",
+        "title": "Duct Design",
+        "desc": "Drafting the most efficient path for air distribution.",
+        "step": "02"
+      },
+      {
+        "icon": "Hammer",
+        "title": "Commissioning",
+        "desc": "Expert installation and final testing for efficiency.",
+        "step": "03"
+      }
+    ],
+    "cta": {
+      "title": "Stay Cool.",
+      "description": "Consult our HVAC specialists for your office environment needs."
+    },
+    "faqs": [
+      {
+        "q": "How do you calculate the cooling capacity (tonnage) needed for my office?",
+        "a": "Our HVAC engineers perform detailed heat load calculations, taking into account occupancy, electronic equipment, window orientation, ceiling heights, and insulation levels to size the system perfectly."
+      },
+      {
+        "q": "Can you install central zoning controls for different meeting rooms?",
+        "a": "Yes, we design zoned thermal layouts using Variable Refrigerant Volume (VRV) systems and motorized dampers so that each conference room or executive cabin can adjust its temperature independently."
+      },
+      {
+        "q": "What is your typical maintenance and filter replacement schedule?",
+        "a": "For commercial installations, we recommend a quarterly maintenance audit. Filters should be checked monthly and typically replaced or cleaned every 3 months to maintain pristine air quality."
+      }
+    ],
+    "chooseUs": [
+      {
+        "title": "Direct Factory Pricing",
+        "desc": "By manufacturing modular materials in-house in Gurgaon, we bypass third-party margins and offer the absolute best commercial pricing."
+      },
+      {
+        "title": "Certified Raw Materials",
+        "desc": "All wood, glass, aluminum profiles, and HVAC/electrical wires match global fire safety and density audits."
+      },
+      {
+        "title": "10-Year Warranty",
+        "desc": "We stand solidly behind our structural elements, offering a 10-year robust structural warranty on partitions and furniture."
+      },
+      {
+        "title": "Zero-Defect Handover",
+        "desc": "Our execution team applies detailed 3-tier quality audits to guarantee a flawless, smooth, and certified project handover."
+      }
+    ]
+  },
+  {
+    "id": "aluminum-partitions",
+    "slug": "aluminum-partitions",
+    "name": "Aluminum Partitions",
+    "hero": {
+      "title": "Aluminum Partitions.",
+      "description": "Sleek, lightweight, and incredibly durable framing systems for the modern corporate landscape.",
+      "image": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=2070&auto=format&fit=crop"
+    },
+    "philosophy": {
+      "title": "Engineered Lightness.",
+      "description": "Our aluminum profile systems offer a minimalist aesthetic without compromising on structural stability, allowing for large expanses of glass or solid panels.",
+      "image": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop",
+      "grid": [
+        {
+          "icon": "Feather",
+          "title": "Lightweight",
+          "desc": "Easy to transport and install with minimal structural load."
+        },
+        {
+          "icon": "Maximize2",
+          "title": "Slim Profiles",
+          "desc": "Maximizing glass area for a more open and modern feel."
+        },
+        {
+          "icon": "Hammer",
+          "title": "Corrosion Proof",
+          "desc": "Highly durable materials that require zero maintenance."
+        },
+        {
+          "icon": "Frame",
+          "title": "Powder Coated",
+          "desc": "Available in any RAL color to match your brand identity."
+        }
+      ]
+    },
+    "workflow": [
+      {
+        "icon": "Settings",
+        "title": "Profile Selection",
+        "desc": "Choosing the right aluminum profile and finish.",
+        "step": "01"
+      },
+      {
+        "icon": "Frame",
+        "title": "Fabrication",
+        "desc": "Cutting and assembling the frames to precision.",
+        "step": "02"
+      },
+      {
+        "icon": "Hammer",
+        "title": "Installation",
+        "desc": "Fast and clean setup of the framing systems.",
+        "step": "03"
+      }
+    ],
+    "cta": {
+      "title": "Modernize your Space.",
+      "description": "Explore our range of aluminum partition profiles and finishes."
+    },
+    "faqs": [
+      {
+        "q": "Can these partitions be customized with our company brand colors?",
+        "a": "Yes, our high-grade aluminum frames are powder-coated to any RAL color, allowing seamless integration with your corporate branding and visual guidelines."
+      },
+      {
+        "q": "What glass thickness and options do you support?",
+        "a": "We offer multiple premium glazing options, ranging from 8mm to 12mm toughened glass, double-glazed options for extra soundproofing, and custom frosted or film layouts for privacy."
+      },
+      {
+        "q": "How durable are aluminum partitions compared to wood?",
+        "a": "Aluminum is exceptionally durable, lightweight, structural, and entirely corrosion-proof. Unlike wood, it will not warp, swell, or deteriorate over time under building movement or humidity, requiring zero maintenance."
+      }
+    ],
+    "chooseUs": [
+      {
+        "title": "Direct Factory Pricing",
+        "desc": "By manufacturing modular materials in-house in Gurgaon, we bypass third-party margins and offer the absolute best commercial pricing."
+      },
+      {
+        "title": "Certified Raw Materials",
+        "desc": "All wood, glass, aluminum profiles, and HVAC/electrical wires match global fire safety and density audits."
+      },
+      {
+        "title": "10-Year Warranty",
+        "desc": "We stand solidly behind our structural elements, offering a 10-year robust structural warranty on partitions and furniture."
+      },
+      {
+        "title": "Zero-Defect Handover",
+        "desc": "Our execution team applies detailed 3-tier quality audits to guarantee a flawless, smooth, and certified project handover."
+      }
+    ]
+  },
+  {
+    "id": "electrical-networking",
+    "slug": "electrical-networking",
+    "name": "Electrical Networking",
+    "hero": {
+      "title": "Electrical & Networking.",
+      "description": "Robust power distribution and high-speed data networking for the modern, connected workplace.",
+      "image": "https://images.unsplash.com/photo-1558494949-ef010cbdcc51?q=80&w=2000&auto=format&fit=crop"
+    },
+    "philosophy": {
+      "title": "Powered by Reliability.",
+      "description": "Our infrastructure solutions provide the reliable power and data backbones that modern businesses depend on for daily operations.",
+      "image": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?q=80&w=2070&auto=format&fit=crop",
+      "grid": [
+        {
+          "icon": "Zap",
+          "title": "Power Distribution",
+          "desc": "Expert electrical layouts with integrated UPS and generator support."
+        },
+        {
+          "icon": "Wifi",
+          "title": "Structured Cabling",
+          "desc": "CAT6/6A networking and fiber optic backbones for lightning-fast data."
+        },
+        {
+          "icon": "ShieldCheck",
+          "title": "Electrical Safety",
+          "desc": "Rigorous testing and grounding to protect your equipment and team."
+        },
+        {
+          "icon": "Cpu",
+          "title": "Data Centers",
+          "desc": "Design and setup of specialized server rooms with optimal cooling."
+        }
+      ]
+    },
+    "workflow": [
+      {
+        "icon": "Network",
+        "title": "Node Planning",
+        "desc": "Mapping power outlets and data ports for every desk.",
+        "step": "01"
+      },
+      {
+        "icon": "Zap",
+        "title": "Core Wiring",
+        "desc": "Installing the primary electrical and data cables.",
+        "step": "02"
+      },
+      {
+        "icon": "Activity",
+        "title": "Certification",
+        "desc": "Final testing and performance certification of the network.",
+        "step": "03"
+      }
+    ],
+    "cta": {
+      "title": "Stay Connected.",
+      "description": "Ready to upgrade your office infrastructure? Let's talk tech."
+    },
+    "faqs": [
+      {
+        "q": "Do you design network cabling layouts for standard desk grids?",
+        "a": "Yes, we map certified CAT6/CAT6A structured data cabling layouts, integrating floor junction boxes, modular raceways, and network nodes for every single seat on your floor plan."
+      },
+      {
+        "q": "How do you secure server rooms and data cabinets?",
+        "a": "We design specialized server environments featuring dedicated air-conditioning, precision racks, anti-static raised flooring, and automated safety distribution boards with backup UPS paths."
+      },
+      {
+        "q": "Do your installations comply with commercial electrical safety standards?",
+        "a": "Absolutely. All wiring, distribution panels, and high-load junctions comply with global safety guidelines and undergo rigorous load testing and certification before handover."
+      }
+    ],
+    "chooseUs": [
+      {
+        "title": "Direct Factory Pricing",
+        "desc": "By manufacturing modular materials in-house in Gurgaon, we bypass third-party margins and offer the absolute best commercial pricing."
+      },
+      {
+        "title": "Certified Raw Materials",
+        "desc": "All wood, glass, aluminum profiles, and HVAC/electrical wires match global fire safety and density audits."
+      },
+      {
+        "title": "10-Year Warranty",
+        "desc": "We stand solidly behind our structural elements, offering a 10-year robust structural warranty on partitions and furniture."
+      },
+      {
+        "title": "Zero-Defect Handover",
+        "desc": "Our execution team applies detailed 3-tier quality audits to guarantee a flawless, smooth, and certified project handover."
+      }
+    ]
+  },
+  {
+    "id": "false-ceiling-design",
+    "slug": "false-ceiling-design",
+    "name": "False Ceiling Design",
+    "hero": {
+      "title": "False Ceilings.",
+      "description": "Architectural ceiling systems that integrate lighting, acoustics, and climate control into a seamless design.",
+      "image": "https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=2069&auto=format&fit=crop"
+    },
+    "philosophy": {
+      "title": "Define the Horizon.",
+      "description": "Our false ceiling solutions do more than just hide wires; they define the volume of your space and enhance the overall acoustic experience of your office.",
+      "image": "https://images.unsplash.com/photo-1505691938895-1758d7eaa511?q=80&w=2070&auto=format&fit=crop",
+      "grid": [
+        {
+          "icon": "Lightbulb",
+          "title": "Indirect Lighting",
+          "desc": "Seamless integration of cove and spot lighting for a premium ambiance."
+        },
+        {
+          "icon": "Layers",
+          "title": "Acoustic Tiling",
+          "desc": "High-performance materials that reduce echo and background noise."
+        },
+        {
+          "icon": "ShieldCheck",
+          "title": "Fire Safe",
+          "desc": "Using fire-retardant materials that comply with safety regulations."
+        },
+        {
+          "icon": "Layout",
+          "title": "Grid Systems",
+          "desc": "Easy access to utility lines for maintenance and repairs."
+        }
+      ]
+    },
+    "workflow": [
+      {
+        "icon": "Cloud",
+        "title": "Elevation Plan",
+        "desc": "Determining the height and layers of the ceiling.",
+        "step": "01"
+      },
+      {
+        "icon": "Layout",
+        "title": "Grid Setup",
+        "desc": "Installing the structural support and utility paths.",
+        "step": "02"
+      },
+      {
+        "icon": "Sparkles",
+        "title": "Final Overlay",
+        "desc": "Fitting tiles and integrated lighting elements.",
+        "step": "03"
+      }
+    ],
+    "cta": {
+      "title": "Elevate your Perspective.",
+      "description": "Get a professional design consultation for your office ceiling today."
+    },
+    "faqs": [
+      {
+        "q": "What materials do you use for false ceilings?",
+        "a": "We use premium mineral fiber boards, gypsum sheets, wooden rafters, and metal grid frameworks, depending on your acoustic, design, and budget requirements."
+      },
+      {
+        "q": "Can false ceilings help reduce office echo and noise levels?",
+        "a": "Yes, our ceilings integrate specialized acoustic panel tiles with high sound-absorption ratings, significantly lowering echo and background reverberation in open-plan offices."
+      },
+      {
+        "q": "How do you integrate ambient office lighting?",
+        "a": "We coordinate structural drop ceiling plans with CAD electrical layouts, installing seamless LED channels, recessed spotlights, and indirect cove lights for premium illumination."
+      }
+    ],
+    "chooseUs": [
+      {
+        "title": "Direct Factory Pricing",
+        "desc": "By manufacturing modular materials in-house in Gurgaon, we bypass third-party margins and offer the absolute best commercial pricing."
+      },
+      {
+        "title": "Certified Raw Materials",
+        "desc": "All wood, glass, aluminum profiles, and HVAC/electrical wires match global fire safety and density audits."
+      },
+      {
+        "title": "10-Year Warranty",
+        "desc": "We stand solidly behind our structural elements, offering a 10-year robust structural warranty on partitions and furniture."
+      },
+      {
+        "title": "Zero-Defect Handover",
+        "desc": "Our execution team applies detailed 3-tier quality audits to guarantee a flawless, smooth, and certified project handover."
+      }
+    ]
+  },
+  {
+    "id": "false-flooring",
+    "slug": "false-flooring",
+    "name": "False Flooring",
+    "hero": {
+      "title": "False Flooring.",
+      "description": "Advanced access flooring solutions to manage complex cabling and server room requirements.",
+      "image": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?q=80&w=2070&auto=format&fit=crop"
+    },
+    "philosophy": {
+      "title": "The Foundation of Function.",
+      "description": "Our raised access floors provide a flexible foundation for data centers and modern offices, allowing for hidden cable management and underfloor air distribution.",
+      "image": "https://images.unsplash.com/photo-1516455590571-18256e5bb9ff?q=80&w=2070&auto=format&fit=crop",
+      "grid": [
+        {
+          "icon": "Box",
+          "title": "Cable Management",
+          "desc": "Easy access to power and data lines without disrupting the surface."
+        },
+        {
+          "icon": "Settings",
+          "title": "Precision Pedestals",
+          "desc": "Highly adjustable support systems for perfectly level surfaces."
+        },
+        {
+          "icon": "ShieldCheck",
+          "title": "Antistatic Panels",
+          "desc": "Specialized surfaces for server rooms and electronic labs."
+        },
+        {
+          "icon": "Maximize2",
+          "title": "Structural Load",
+          "desc": "High-density panels capable of supporting heavy machinery."
+        }
+      ]
+    },
+    "workflow": [
+      {
+        "icon": "Layers",
+        "title": "Site Prep",
+        "desc": "Ensuring the sub-floor is clean and structurally ready.",
+        "step": "01"
+      },
+      {
+        "icon": "Settings",
+        "title": "Pedestal Grid",
+        "desc": "Laser-aligning the supports for a perfectly flat floor.",
+        "step": "02"
+      },
+      {
+        "icon": "Sparkles",
+        "title": "Panel Laying",
+        "desc": "Precision placement of panels with final finish application.",
+        "step": "03"
+      }
+    ],
+    "cta": {
+      "title": "Support your System.",
+      "description": "Talk to our flooring experts for data center and office solutions."
+    },
+    "faqs": [
+      {
+        "q": "What is the typical raised height of false flooring?",
+        "a": "The pedestal height can be adjusted dynamically from 100mm up to 600mm or more, leaving ample under-floor space to route server cables, network lines, and heavy HVAC air vents."
+      },
+      {
+        "q": "How easy is it to access utility cables under the floor?",
+        "a": "Extremely easy. The modular panels can be lifted individually using standard suction lifters, allowing maintenance teams to access cables instantly without disrupting work areas."
+      },
+      {
+        "q": "Do you provide anti-static flooring surfaces for server rooms?",
+        "a": "Yes, we offer anti-static laminate finishes and specialized ESD (Electrostatic Discharge) tiles designed to protect server cabinets and electronic equipment from static shocks."
+      }
+    ],
+    "chooseUs": [
+      {
+        "title": "Direct Factory Pricing",
+        "desc": "By manufacturing modular materials in-house in Gurgaon, we bypass third-party margins and offer the absolute best commercial pricing."
+      },
+      {
+        "title": "Certified Raw Materials",
+        "desc": "All wood, glass, aluminum profiles, and HVAC/electrical wires match global fire safety and density audits."
+      },
+      {
+        "title": "10-Year Warranty",
+        "desc": "We stand solidly behind our structural elements, offering a 10-year robust structural warranty on partitions and furniture."
+      },
+      {
+        "title": "Zero-Defect Handover",
+        "desc": "Our execution team applies detailed 3-tier quality audits to guarantee a flawless, smooth, and certified project handover."
+      }
+    ]
+  },
+  {
+    "id": "glass-gypsum-partition",
+    "slug": "glass-gypsum-partition",
+    "name": "Glass Gypsum Partition",
+    "hero": {
+      "title": "Glass & Gypsum.",
+      "description": "Blending the openness of glass with the solidity of gypsum for the perfect balance of collaboration and focus.",
+      "image": "https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=2070&auto=format&fit=crop"
+    },
+    "philosophy": {
+      "title": "Elegance meets Durability.",
+      "description": "Our hybrid systems combine toughened glass for visual connectivity and moisture-resistant gypsum boards for structural integrity and superior fire safety.",
+      "image": "https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=2070&auto=format&fit=crop",
+      "grid": [
+        {
+          "icon": "Sun",
+          "title": "Natural Light",
+          "desc": "Maximizing daylight penetration to boost mood and energy levels."
+        },
+        {
+          "icon": "Music",
+          "title": "Sound Control",
+          "desc": "Gypsum cores provide excellent STC ratings for private meeting rooms."
+        },
+        {
+          "icon": "ShieldCheck",
+          "title": "Safety First",
+          "desc": "Fire-rated materials and high-impact resistance glass panels."
+        },
+        {
+          "icon": "Construction",
+          "title": "Seamless Finish",
+          "desc": "Perfectly smooth gypsum joints and slim glass profiles."
+        }
+      ]
+    },
+    "workflow": [
+      {
+        "icon": "Eye",
+        "title": "Visual Design",
+        "desc": "Drafting the balance of transparency and solid walls.",
+        "step": "01"
+      },
+      {
+        "icon": "ShieldCheck",
+        "title": "Material Prep",
+        "desc": "Preparing toughened glass and high-grade gypsum.",
+        "step": "02"
+      },
+      {
+        "icon": "Hammer",
+        "title": "Precision Fit",
+        "desc": "Expert installation with clean seals and perfect joints.",
+        "step": "03"
+      }
+    ],
+    "cta": {
+      "title": "Ready to clear the vision?",
+      "description": "Get a customized quote for your glass and gypsum partition project today."
+    },
+    "faqs": [
+      {
+        "q": "Can you install blinds or switchable smart glass inside these partitions?",
+        "a": "Yes, we can integrate high-quality motorized venetian blinds or switchable smart glass (PDLC) inside double-glazed systems, allowing instant privacy with the click of a button."
+      },
+      {
+        "q": "What is the acoustic sound dampening (STC) rating of these walls?",
+        "a": "Our hybrid glass-gypsum walls achieve high Sound Transmission Class (STC) ratings up to 45dB+ by utilizing dual-glazed glass panels and multi-layered mineral wool-filled gypsum boards."
+      },
+      {
+        "q": "Are gypsum walls fire-resistant?",
+        "a": "Yes, we use moisture-resistant and certified fire-rated gypsum boards which offer superior thermal shielding and comply with strict commercial safety standards."
+      }
+    ],
+    "chooseUs": [
+      {
+        "title": "Direct Factory Pricing",
+        "desc": "By manufacturing modular materials in-house in Gurgaon, we bypass third-party margins and offer the absolute best commercial pricing."
+      },
+      {
+        "title": "Certified Raw Materials",
+        "desc": "All wood, glass, aluminum profiles, and HVAC/electrical wires match global fire safety and density audits."
+      },
+      {
+        "title": "10-Year Warranty",
+        "desc": "We stand solidly behind our structural elements, offering a 10-year robust structural warranty on partitions and furniture."
+      },
+      {
+        "title": "Zero-Defect Handover",
+        "desc": "Our execution team applies detailed 3-tier quality audits to guarantee a flawless, smooth, and certified project handover."
+      }
+    ]
+  },
+  {
+    "id": "interiors-decoration",
+    "slug": "interiors-decoration",
+    "name": "Interiors Decoration",
+    "hero": {
+      "title": "Interiors Decoration.",
+      "description": "Elevating workspaces through artistic vision, premium materials, and meticulous finishing touches.",
+      "image": "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=2000&auto=format&fit=crop"
+    },
+    "philosophy": {
+      "title": "Style that inspires.",
+      "description": "Our decoration services focus on the soulful aspects of design—textures, colors, and lighting that transform a functional room into an inspiring environment.",
+      "image": "https://images.unsplash.com/photo-1556912177-f51b0c2f1c41?q=80&w=2070&auto=format&fit=crop",
+      "grid": [
+        {
+          "icon": "Brush",
+          "title": "Texture & Finishes",
+          "desc": "Curating tactile surfaces that define the character of your office."
+        },
+        {
+          "icon": "Lightbulb",
+          "title": "Lighting Design",
+          "desc": "Strategic illumination to enhance mood and productivity."
+        },
+        {
+          "icon": "Component",
+          "title": "Custom Artwork",
+          "desc": "Bespoke decorative elements that reflect your brand story."
+        },
+        {
+          "icon": "Layers",
+          "title": "Material Palette",
+          "desc": "Premium selection of fabrics, woods, and modern composites."
+        }
+      ]
+    },
+    "workflow": [
+      {
+        "icon": "Palette",
+        "title": "Concept Phase",
+        "desc": "Defining the color palette and mood for your interior space.",
+        "step": "01"
+      },
+      {
+        "icon": "Component",
+        "title": "Selection",
+        "desc": "Choosing premium materials and decorative elements.",
+        "step": "02"
+      },
+      {
+        "icon": "Sparkles",
+        "title": "Execution",
+        "desc": "Meticulous installation and finishing for a perfect look.",
+        "step": "03"
+      }
+    ],
+    "cta": {
+      "title": "Style that inspires.",
+      "description": "Let us help you create a workspace that doesn't just look good, but feels right."
+    },
+    "faqs": [
+      {
+        "q": "Do you offer full-room 3D interior design mockups?",
+        "a": "Yes, we create highly detailed 3D architectural renders and spatial layouts so you can visualize the colors, custom furniture, textures, and ambient lighting before execution."
+      },
+      {
+        "q": "How do you source premium decorative artifacts and fabrics?",
+        "a": "We source high-end textiles, solid woods, wall claddings, and decorative pieces directly from vetted manufacturers, ensuring absolute exclusivity and premium finish qualities."
+      },
+      {
+        "q": "Can you customize graphics and signage for our brand story?",
+        "a": "Absolutely. We specialize in custom fluted wood panels, wall graphics, acoustic fabric panels, and backlit brand signage to perfectly reflect your corporate identity."
+      }
+    ],
+    "chooseUs": [
+      {
+        "title": "Direct Factory Pricing",
+        "desc": "By manufacturing modular materials in-house in Gurgaon, we bypass third-party margins and offer the absolute best commercial pricing."
+      },
+      {
+        "title": "Certified Raw Materials",
+        "desc": "All wood, glass, aluminum profiles, and HVAC/electrical wires match global fire safety and density audits."
+      },
+      {
+        "title": "10-Year Warranty",
+        "desc": "We stand solidly behind our structural elements, offering a 10-year robust structural warranty on partitions and furniture."
+      },
+      {
+        "title": "Zero-Defect Handover",
+        "desc": "Our execution team applies detailed 3-tier quality audits to guarantee a flawless, smooth, and certified project handover."
+      }
+    ]
+  },
+  {
+    "id": "modular-partition",
+    "slug": "modular-partition",
+    "name": "Modular Partition",
+    "hero": {
+      "title": "Modular Partitions.",
+      "description": "Smart, reconfigurable wall systems that adapt to your evolving business needs with zero downtime.",
+      "image": "https://images.unsplash.com/photo-1517502884422-41eaead166d4?q=80&w=2000&auto=format&fit=crop"
+    },
+    "philosophy": {
+      "title": "Agile Structures.",
+      "description": "Our modular partition systems are designed for the modern, fast-paced business world where flexibility is the ultimate competitive advantage.",
+      "image": "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop",
+      "grid": [
+        {
+          "icon": "Zap",
+          "title": "Rapid Installation",
+          "desc": "Prefabricated components for clean and quick on-site assembly."
+        },
+        {
+          "icon": "Maximize2",
+          "title": "Scalability",
+          "desc": "Easily demount and reconfigure as your team grows or changes."
+        },
+        {
+          "icon": "Lock",
+          "title": "Acoustic Privacy",
+          "desc": "High-performance sound insulation for focused work environments."
+        },
+        {
+          "icon": "Box",
+          "title": "Integrated Utilities",
+          "desc": "Internal raceways for seamless electrical and data cabling."
+        }
+      ]
+    },
+    "workflow": [
+      {
+        "icon": "Layout",
+        "title": "Space Mapping",
+        "desc": "Planning the optimal layout for your modular walls.",
+        "step": "01"
+      },
+      {
+        "icon": "Settings",
+        "title": "Manufacturing",
+        "desc": "Precision fabrication of partition panels and frames.",
+        "step": "02"
+      },
+      {
+        "icon": "Hammer",
+        "title": "Seamless Setup",
+        "desc": "Quick and dust-free installation by our expert team.",
+        "step": "03"
+      }
+    ],
+    "cta": {
+      "title": "Need a flexible layout?",
+      "description": "Explore how our modular systems can optimize your space today."
+    },
+    "faqs": [
+      {
+        "q": "What makes modular partitions better than traditional brick walls?",
+        "a": "They are modular and demountable, allowing you to reconfigure your entire floor plan with zero dust, noise, or building permits. They are also 70% faster to install."
+      },
+      {
+        "q": "Can modular walls run integrated electrical power lines?",
+        "a": "Yes, our partitions feature hidden internal wiring raceways and pre-cut cavities to route data sockets and power switches smoothly without visible cabling."
+      },
+      {
+        "q": "Are modular panels fully sound-insulated?",
+        "a": "Yes, the panels feature high-density mineral wool insulation and soundproof gaskets, keeping boardrooms and private offices completely quiet."
+      }
+    ],
+    "chooseUs": [
+      {
+        "title": "Direct Factory Pricing",
+        "desc": "By manufacturing modular materials in-house in Gurgaon, we bypass third-party margins and offer the absolute best commercial pricing."
+      },
+      {
+        "title": "Certified Raw Materials",
+        "desc": "All wood, glass, aluminum profiles, and HVAC/electrical wires match global fire safety and density audits."
+      },
+      {
+        "title": "10-Year Warranty",
+        "desc": "We stand solidly behind our structural elements, offering a 10-year robust structural warranty on partitions and furniture."
+      },
+      {
+        "title": "Zero-Defect Handover",
+        "desc": "Our execution team applies detailed 3-tier quality audits to guarantee a flawless, smooth, and certified project handover."
+      }
+    ]
+  },
+  {
+    "id": "office-interiors",
+    "slug": "office-interiors",
+    "name": "Office Interiors",
+    "hero": {
+      "title": "Office Interiors.",
+      "description": "Transforming corporate environments into high-performance workspaces through innovative design and meticulous execution.",
+      "image": "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2070&auto=format&fit=crop"
+    },
+    "philosophy": {
+      "title": "Think to design beyond.",
+      "description": "We believe that an office is more than just a place to work; it's a tool for success. Our interior solutions are engineered to enhance productivity, foster collaboration, and reflect your brand's unique identity.",
+      "image": "https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=2070&auto=format&fit=crop",
+      "grid": [
+        {
+          "icon": "Maximize",
+          "title": "Space Optimization",
+          "desc": "Maximizing utility without compromising comfort."
+        },
+        {
+          "icon": "Palette",
+          "title": "Modern Aesthetics",
+          "desc": "Curating environments that inspire and impress."
+        },
+        {
+          "icon": "ShieldCheck",
+          "title": "Ergonomic Focus",
+          "desc": "Prioritizing employee health and well-being."
+        },
+        {
+          "icon": "Layout",
+          "title": "Scalable Layouts",
+          "desc": "Designs that grow with your business needs."
+        }
+      ]
+    },
+    "workflow": [
+      {
+        "icon": "Compass",
+        "title": "Strategic Planning",
+        "desc": "Comprehensive site analysis and workspace strategy to define requirements.",
+        "step": "01"
+      },
+      {
+        "icon": "Layout",
+        "title": "Creative Design",
+        "desc": "3D visualization and material selection to bring your vision to life.",
+        "step": "02"
+      },
+      {
+        "icon": "Hammer",
+        "title": "Expert Build",
+        "desc": "Turnkey execution with precision manufacturing and zero-defect delivery.",
+        "step": "03"
+      }
+    ],
+    "cta": {
+      "title": "Ready to build your <br />dream office?",
+      "description": "Consult with our workspace experts today and discover how we can elevate your office environment."
+    },
+    "faqs": [
+      {
+        "q": "Do you offer full turnkey design and build execution?",
+        "a": "Yes, we assume single-point accountability for everything: space planning, civil work, electrical networking, HVAC systems, modular desking, and visual decoration."
+      },
+      {
+        "q": "How long does a full office fit-out execution typically take?",
+        "a": "A typical 5,000 sq. ft. commercial space fit-out takes between 30 to 45 business days from initial layout approval to final key handover."
+      },
+      {
+        "q": "How do you ensure zero-defect handovers?",
+        "a": "We implement strict 3-tier quality audits at every stage of execution, from raw modular alignment to paint finish, ensuring absolute compliance with certified plans."
+      }
+    ],
+    "chooseUs": [
+      {
+        "title": "Direct Factory Pricing",
+        "desc": "By manufacturing modular materials in-house in Gurgaon, we bypass third-party margins and offer the absolute best commercial pricing."
+      },
+      {
+        "title": "Certified Raw Materials",
+        "desc": "All wood, glass, aluminum profiles, and HVAC/electrical wires match global fire safety and density audits."
+      },
+      {
+        "title": "10-Year Warranty",
+        "desc": "We stand solidly behind our structural elements, offering a 10-year robust structural warranty on partitions and furniture."
+      },
+      {
+        "title": "Zero-Defect Handover",
+        "desc": "Our execution team applies detailed 3-tier quality audits to guarantee a flawless, smooth, and certified project handover."
+      }
+    ]
+  },
+  {
+    "id": "solid-wall-partition",
+    "slug": "solid-wall-partition",
+    "name": "Solid Wall Partition",
+    "hero": {
+      "title": "Solid Wall Partitions.",
+      "description": "High-density, durable wall systems designed for executive offices and secure zones.",
+      "image": "https://images.unsplash.com/photo-1505691938895-1758d7eaa511?q=80&w=2070&auto=format&fit=crop"
+    },
+    "philosophy": {
+      "title": "Uncompromised Security.",
+      "description": "Our solid wall partitions provide the highest level of acoustic isolation and physical strength, making them ideal for conference rooms and private suites.",
+      "image": "https://images.unsplash.com/photo-1516455590571-18256e5bb9ff?q=80&w=2070&auto=format&fit=crop",
+      "grid": [
+        {
+          "icon": "VolumeX",
+          "title": "Extreme Soundproofing",
+          "desc": "Multi-layered insulation for total auditory privacy."
+        },
+        {
+          "icon": "ShieldAlert",
+          "title": "Fire Resistance",
+          "desc": "Meets global safety standards for commercial buildings."
+        },
+        {
+          "icon": "Layers",
+          "title": "Premium Finishes",
+          "desc": "Available in laminates, veneers, or acoustic fabrics."
+        },
+        {
+          "icon": "Lock",
+          "title": "Structural Rigidity",
+          "desc": "Built to withstand the most demanding office environments."
+        }
+      ]
+    },
+    "workflow": [
+      {
+        "icon": "Lock",
+        "title": "Secure Planning",
+        "desc": "Defining the security and acoustic needs of your space.",
+        "step": "01"
+      },
+      {
+        "icon": "Layers",
+        "title": "Core Build",
+        "desc": "Installing high-density cores and structural frames.",
+        "step": "02"
+      },
+      {
+        "icon": "Sparkles",
+        "title": "Final Finish",
+        "desc": "Applying the selected premium finish for a solid look.",
+        "step": "03"
+      }
+    ],
+    "cta": {
+      "title": "Built for Longevity.",
+      "description": "Discuss your project requirements with our structural interior experts."
+    },
+    "faqs": [
+      {
+        "q": "What finishes are available for solid partition walls?",
+        "a": "We offer a wide range of premium finishes, including executive natural veneers, luxury laminates, durable melamine, custom fabric padding, and fluted panel sheets."
+      },
+      {
+        "q": "What makes solid walls ideal for executive boardrooms?",
+        "a": "They provide extreme structural rigidity and near-total acoustic isolation (STC ratings up to 50dB), preventing confidential conversations from leaking out."
+      },
+      {
+        "q": "Can we hang heavy TVs or modular shelves on solid partitions?",
+        "a": "Yes, our solid partitions are constructed with internal heavy-gauge steel supports, allowing them to easily support wall-mounted display monitors and shelving."
+      }
+    ],
+    "chooseUs": [
+      {
+        "title": "Direct Factory Pricing",
+        "desc": "By manufacturing modular materials in-house in Gurgaon, we bypass third-party margins and offer the absolute best commercial pricing."
+      },
+      {
+        "title": "Certified Raw Materials",
+        "desc": "All wood, glass, aluminum profiles, and HVAC/electrical wires match global fire safety and density audits."
+      },
+      {
+        "title": "10-Year Warranty",
+        "desc": "We stand solidly behind our structural elements, offering a 10-year robust structural warranty on partitions and furniture."
+      },
+      {
+        "title": "Zero-Defect Handover",
+        "desc": "Our execution team applies detailed 3-tier quality audits to guarantee a flawless, smooth, and certified project handover."
+      }
+    ]
+  },
+  {
+    "id": "vinyl-flooring",
+    "slug": "vinyl-flooring",
+    "name": "Vinyl Flooring",
+    "hero": {
+      "title": "Vinyl Flooring.",
+      "description": "High-performance, waterproof, and acoustically silent flooring for high-traffic office environments.",
+      "image": "https://images.unsplash.com/photo-1581850518616-bcb8186c3f30?q=80&w=2070&auto=format&fit=crop"
+    },
+    "philosophy": {
+      "title": "Built to Last.",
+      "description": "Vibrant, durable, and cost-effective—vinyl is the versatile choice for modern, high-traffic commercial spaces where hygiene and maintenance are key.",
+      "image": "https://images.unsplash.com/photo-1516455590571-18256e5bb9ff?q=80&w=2070&auto=format&fit=crop",
+      "grid": [
+        {
+          "icon": "Droplets",
+          "title": "100% Waterproof",
+          "desc": "Ideal for cafeterias, pantries, and breakrooms."
+        },
+        {
+          "icon": "Wind",
+          "title": "Sound Absorbent",
+          "desc": "Reduces footfall noise for a quieter office atmosphere."
+        },
+        {
+          "icon": "ShieldCheck",
+          "title": "Antimicrobial",
+          "desc": "Easy-to-clean surfaces that promote workplace hygiene."
+        },
+        {
+          "icon": "Maximize2",
+          "title": "Versatile Designs",
+          "desc": "Hundreds of patterns from wood-grain to stone textures."
+        }
+      ]
+    },
+    "workflow": [
+      {
+        "icon": "Layers",
+        "title": "Screed Prep",
+        "desc": "Ensuring a perfectly smooth base for the vinyl overlay.",
+        "step": "01"
+      },
+      {
+        "icon": "Droplets",
+        "title": "Adhesive Application",
+        "desc": "Using high-grade adhesives for a permanent bond.",
+        "step": "02"
+      },
+      {
+        "icon": "Sparkles",
+        "title": "Rolling & Finish",
+        "desc": "Ensuring zero bubbles and perfect seam welding.",
+        "step": "03"
+      }
+    ],
+    "cta": {
+      "title": "The smart Choice.",
+      "description": "Discover why vinyl is the most popular choice for modern corporate offices."
+    },
+    "faqs": [
+      {
+        "q": "Is vinyl flooring suitable for executive offices or only corridors?",
+        "a": "Our premium LVT (Luxury Vinyl Tiles) replicate natural wood grains and stone textures so perfectly that they are widely used in prestigious boardrooms and reception lounges."
+      },
+      {
+        "q": "How do you clean and maintain commercial vinyl floors?",
+        "a": "Maintenance is extremely simple. Being 100% waterproof and stain-resistant, they only require regular sweeping and damp mopping. They require no polishing or resealing."
+      },
+      {
+        "q": "Is vinyl flooring comfortable underfoot?",
+        "a": "Yes, vinyl planks feature soft underlay backings that absorb footfalls and provide a warm, comfortable walking surface compared to ceramic tiles."
+      }
+    ],
+    "chooseUs": [
+      {
+        "title": "Direct Factory Pricing",
+        "desc": "By manufacturing modular materials in-house in Gurgaon, we bypass third-party margins and offer the absolute best commercial pricing."
+      },
+      {
+        "title": "Certified Raw Materials",
+        "desc": "All wood, glass, aluminum profiles, and HVAC/electrical wires match global fire safety and density audits."
+      },
+      {
+        "title": "10-Year Warranty",
+        "desc": "We stand solidly behind our structural elements, offering a 10-year robust structural warranty on partitions and furniture."
+      },
+      {
+        "title": "Zero-Defect Handover",
+        "desc": "Our execution team applies detailed 3-tier quality audits to guarantee a flawless, smooth, and certified project handover."
+      }
+    ]
+  },
+  {
+    "id": "vitrified-tiles",
+    "slug": "vitrified-tiles",
+    "name": "Vitrified Tiles",
+    "hero": {
+      "title": "Vitrified Tiles.",
+      "description": "Ultra-durable, low-maintenance tiling solutions for high-traffic lobbies and commercial corridors.",
+      "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop"
+    },
+    "philosophy": {
+      "title": "Elegance in Stone.",
+      "description": "Vitrified tiles offer a polished, professional look with unmatched resistance to wear, stains, and scratches, making them perfect for public office spaces.",
+      "image": "https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?q=80&w=2000&auto=format&fit=crop",
+      "grid": [
+        {
+          "icon": "ShieldCheck",
+          "title": "Stain Proof",
+          "desc": "Non-porous surfaces that resist spills and chemical damage."
+        },
+        {
+          "icon": "Sparkles",
+          "title": "High Gloss",
+          "desc": "Reflective surfaces that enhance light and feel premium."
+        },
+        {
+          "icon": "Maximize",
+          "title": "Large Format",
+          "desc": "Slab-sized tiles for minimal grout lines and a seamless look."
+        },
+        {
+          "icon": "Box",
+          "title": "Heavy Load",
+          "desc": "Structural integrity that supports the highest commercial traffic."
+        }
+      ]
+    },
+    "workflow": [
+      {
+        "icon": "Grid",
+        "title": "Tile Selection",
+        "desc": "Choosing the format and texture for your commercial space.",
+        "step": "01"
+      },
+      {
+        "icon": "Settings",
+        "title": "Mortar Prep",
+        "desc": "Using industrial-grade adhesives for heavy-load areas.",
+        "step": "02"
+      },
+      {
+        "icon": "Sparkles",
+        "title": "Grouting",
+        "desc": "Epoxy grouting for a waterproof and stain-free floor finish.",
+        "step": "03"
+      }
+    ],
+    "cta": {
+      "title": "Refine your Floor.",
+      "description": "Browse our exclusive catalog of vitrified and ceramic tile solutions."
+    },
+    "faqs": [
+      {
+        "q": "What formats/sizes do vitrified tiles come in?",
+        "a": "We install modern large-format slabs, typically 800x1600mm or 1200x2400mm, which drastically reduce grout lines for a luxurious, continuous stone appearance."
+      },
+      {
+        "q": "Can these tiles handle heavy furniture and high foot traffic?",
+        "a": "Yes, vitrified tiles are manufactured under high pressure and temperature, resulting in extreme density and wear resistance suitable for lobbies and cafeterias."
+      },
+      {
+        "q": "Do you recommend epoxy grouting for vitrified flooring?",
+        "a": "Yes, we use industrial epoxy grouting because it is 100% waterproof, does not discolor over time, and prevents dirt and bacteria from building up in the joints."
+      }
+    ],
+    "chooseUs": [
+      {
+        "title": "Direct Factory Pricing",
+        "desc": "By manufacturing modular materials in-house in Gurgaon, we bypass third-party margins and offer the absolute best commercial pricing."
+      },
+      {
+        "title": "Certified Raw Materials",
+        "desc": "All wood, glass, aluminum profiles, and HVAC/electrical wires match global fire safety and density audits."
+      },
+      {
+        "title": "10-Year Warranty",
+        "desc": "We stand solidly behind our structural elements, offering a 10-year robust structural warranty on partitions and furniture."
+      },
+      {
+        "title": "Zero-Defect Handover",
+        "desc": "Our execution team applies detailed 3-tier quality audits to guarantee a flawless, smooth, and certified project handover."
+      }
+    ]
+  },
+  {
+    "id": "wooden-flooring",
+    "slug": "wooden-flooring",
+    "name": "Wooden Flooring",
+    "hero": {
+      "title": "Wooden Flooring.",
+      "description": "Natural textures and timeless elegance for premium executive suites and boardrooms.",
+      "image": "https://images.unsplash.com/photo-1518131394553-8b9418b53949?q=80&w=2070&auto=format&fit=crop"
+    },
+    "philosophy": {
+      "title": "Nature's Elegance.",
+      "description": "Our wooden flooring collections bring warmth and character to your office, creating a high-end atmosphere that impresses clients and inspires teams.",
+      "image": "https://images.unsplash.com/photo-1581850518616-bcb8186c3f30?q=80&w=2070&auto=format&fit=crop",
+      "grid": [
+        {
+          "icon": "Layers",
+          "title": "Engineered Wood",
+          "desc": "Multi-layered construction for maximum stability in commercial environments."
+        },
+        {
+          "icon": "ShieldCheck",
+          "title": "Scratch Resistant",
+          "desc": "Premium UV-cured finishes that withstand heavy office traffic."
+        },
+        {
+          "icon": "Thermometer",
+          "title": "Natural Insulation",
+          "desc": "Excellent thermal properties for a comfortable walking surface."
+        },
+        {
+          "icon": "Sparkles",
+          "title": "Matte/Gloss Finishes",
+          "desc": "Customizable sheen levels to match your interior design style."
+        }
+      ]
+    },
+    "workflow": [
+      {
+        "icon": "Trees",
+        "title": "Wood Selection",
+        "desc": "Choosing the right species and grain for your space.",
+        "step": "01"
+      },
+      {
+        "icon": "ShieldCheck",
+        "title": "Underlay Prep",
+        "desc": "Installing moisture barriers and sound insulation.",
+        "step": "02"
+      },
+      {
+        "icon": "Hammer",
+        "title": "Meticulous Laying",
+        "desc": "Expert installation with perfect edge finishing.",
+        "step": "03"
+      }
+    ],
+    "cta": {
+      "title": "Step into Luxury.",
+      "description": "Explore our curated collection of oak, walnut, and teak wooden flooring."
+    },
+    "faqs": [
+      {
+        "q": "Is engineered wood flooring durable enough for commercial offices?",
+        "a": "Yes, our engineered wood planks feature multi-layered cross-ply cores that prevent expansion under humidity, topped with hard-wearing UV coatings that resist executive shoe scuffs."
+      },
+      {
+        "q": "Can engineered wood floor planks be resanded and refinished?",
+        "a": "Yes, our premium engineered planks feature a thick 3mm to 4mm real hardwood wear layer, allowing them to be sanded and refinished 2 to 3 times over their lifetime."
+      },
+      {
+        "q": "How do you prevent moisture damage under wooden floors?",
+        "a": "We install specialized heavy-duty foam underlays with integrated vapor barriers and leave micro expansion joints along the walls to allow natural breathing."
+      }
+    ],
+    "chooseUs": [
+      {
+        "title": "Direct Factory Pricing",
+        "desc": "By manufacturing modular materials in-house in Gurgaon, we bypass third-party margins and offer the absolute best commercial pricing."
+      },
+      {
+        "title": "Certified Raw Materials",
+        "desc": "All wood, glass, aluminum profiles, and HVAC/electrical wires match global fire safety and density audits."
+      },
+      {
+        "title": "10-Year Warranty",
+        "desc": "We stand solidly behind our structural elements, offering a 10-year robust structural warranty on partitions and furniture."
+      },
+      {
+        "title": "Zero-Defect Handover",
+        "desc": "Our execution team applies detailed 3-tier quality audits to guarantee a flawless, smooth, and certified project handover."
+      }
+    ]
+  }
+]
