@@ -403,7 +403,7 @@ export default function Header() {
                               {col.items.map((item: any, idx: number) => (
                                 <a
                                   key={idx}
-                                  href={`/${activeMenu.toLowerCase()}/${item.slug}`}
+                                  href={`${navigation.find((n) => n.title === activeMenu)?.href || ""}/${item.slug}`}
                                   className="text-lg font-bold text-secondary hover:text-primary transition-colors block active:translate-x-2 duration-300"
                                   onClick={() => {
                                     setIsOpen(false);

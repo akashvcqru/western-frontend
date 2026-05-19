@@ -1,7 +1,7 @@
 [
   {
-    "id": "products",
-    "title": "Products",
+    "id": "office-furniture",
+    "title": "Office Furniture",
     "href": "/products",
     "columns": [
       {
@@ -16,36 +16,64 @@
         ]
       },
       {
-        "title": "Chairs & Seating",
+        "title": "Storage & Others",
         "items": [
-
-          { "name": "CEO Series Chairs", "slug": "ceo-series-chairs" },
-          { "name": "Office Executive", "slug": "office-executive" },
-          { "name": "Office Workstation", "slug": "office-workstation-chairs" },
-          { "name": "Visitor & Training", "slug": "visitor-training" },
-          { "name": "Waiting Area Series", "slug": "waiting-area-series" }
-        ]
-      },
-      {
-        "title": "Lounge & Dining",
-        "items": [
+          { "name": "Office Storage", "slug": "office-storage" },
           { "name": "Cafeteria and Bar", "slug": "cafeteria-and-bar" },
           { "name": "Sofas Series", "slug": "sofas-series" }
         ]
+      }
+    ]
+  },
+  {
+    "id": "home-furniture",
+    "title": "Home Furniture",
+    "href": "/products",
+    "columns": [
+      {
+        "title": "Home Furniture",
+        "items": [
+          { "name": "Home Furniture Series", "slug": "home-furniture-series" }
+        ]
       },
       {
-        "title": "Storage & Others",
+        "title": "Kitchen & More",
         "items": [
-          { "name": "Home Furniture Series", "slug": "home-furniture-series" },
-          { "name": "Office Storage", "slug": "office-storage" },
           { "name": "Modular Kitchen Series", "slug": "modular-kitchen-series" }
         ]
       }
     ]
   },
   {
-    "id": "services",
-    "title": "Services",
+    "id": "chairs",
+    "title": "Chairs",
+    "href": "/products",
+    "columns": [
+      {
+        "title": "CEO & Executive",
+        "items": [
+          { "name": "CEO Series Chairs", "slug": "ceo-series-chairs" },
+          { "name": "Office Executive", "slug": "office-executive" }
+        ]
+      },
+      {
+        "title": "Workstation & Staff",
+        "items": [
+          { "name": "Office Workstation", "slug": "office-workstation-chairs" }
+        ]
+      },
+      {
+        "title": "Visitor & Waiting",
+        "items": [
+          { "name": "Visitor & Training", "slug": "visitor-training" },
+          { "name": "Waiting Area Series", "slug": "waiting-area-series" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "interior-design",
+    "title": "Interior Design",
     "href": "/services",
     "columns": [
       {
