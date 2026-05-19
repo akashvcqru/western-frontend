@@ -52,6 +52,7 @@ interface CategoryItem {
   name: string;
   image?: string;
   id?: string;
+  description?: string;
 }
 
 export default function Header() {
@@ -140,7 +141,7 @@ export default function Header() {
             )}
           >
             {/* Logo */}
-            <a href={header.homeHref} className="flex items-center gap-4 group">
+            <Link href={header.homeHref} className="flex items-center gap-4 group">
               <Image
                 src="/logo-v3.png"
                 alt="Western Interio"
@@ -152,7 +153,7 @@ export default function Header() {
                 )}
                 priority
               />
-            </a>
+            </Link>
 
             {/* Desktop Navigation - SaaS Style */}
             <nav className="hidden xl:flex items-center gap-2 h-full">
@@ -167,7 +168,7 @@ export default function Header() {
                     onMouseEnter={() => navItem && setActiveMenu(link.name)}
                     onMouseLeave={() => setActiveMenu(null)}
                   >
-                    <a
+                    <Link
                       href={link.href}
                       className={cn(
                         "text-[11px] font-bold text-secondary/70 hover:text-secondary transition-all duration-300 tracking-[0.15em] uppercase relative inline-flex items-center",
@@ -192,7 +193,7 @@ export default function Header() {
                           activeMenu === link.name && "scale-x-100",
                         )}
                       />
-                    </a>
+                    </Link>
 
                     {/* Mega Menu Dropdown - Premium Glassmorphism */}
                     {navItem && navItem.columns && (
@@ -222,14 +223,14 @@ export default function Header() {
                               </p>
                             </div>
 
-                            <a
+                            <Link
                               href={link.href}
                               className="inline-flex items-center gap-2 text-[10px] font-semibold tracking-widest uppercase text-secondary hover:text-primary transition-colors group/btn mt-8"
                               onClick={() => setActiveMenu(null)}
                             >
                               View All Products
                               <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform text-primary" />
-                            </a>
+                            </Link>
                           </div>
 
                           {/* Right Column: Visual Row Grid */}
@@ -251,7 +252,7 @@ export default function Header() {
                                     const previewTitle = subCategoryDetail?.name || item.name;
 
                                     return (
-                                      <a
+                                      <Link
                                         key={idx}
                                         href={navItem.id === "interior-design" ? `/services/${item.slug}` : `${navItem.href}/${item.slug}`}
                                         className="group flex items-start gap-4 p-2 rounded-xl hover:bg-neutral-50/80 transition-all duration-300 cursor-pointer animate-in fade-in slide-in-from-bottom-2 duration-300"
@@ -281,7 +282,7 @@ export default function Header() {
                                             </p>
                                           )}
                                         </div>
-                                      </a>
+                                      </Link>
                                     );
                                   })}
                                 </div>
@@ -443,7 +444,7 @@ export default function Header() {
                                   />
                                 </button>
                               ) : (
-                                <a
+                                <Link
                                   href={link.href}
                                   className="text-2xl font-bold text-secondary tracking-tighter active:text-primary transition-colors flex items-center justify-between w-full group py-5"
                                   onClick={() => setIsOpen(false)}
@@ -453,7 +454,7 @@ export default function Header() {
                                     size={20}
                                     className="text-primary/30 group-active:text-primary transition-transform"
                                   />
-                                </a>
+                                </Link>
                               )}
                             </div>
                           );
@@ -497,7 +498,7 @@ export default function Header() {
                             </h4>
                             <div className="grid gap-4 pl-4">
                               {col.items.map((item: ColumnItem, idx: number) => (
-                                <a
+                                <Link
                                   key={idx}
                                   href={`${(navigation as NavigationItem[]).find((n) => n.title === activeMenu)?.href || ""}/${item.slug}`}
                                   className="text-lg font-bold text-secondary hover:text-primary transition-colors block active:translate-x-2 duration-300"
@@ -507,7 +508,7 @@ export default function Header() {
                                   }}
                                 >
                                   {item.name}
-                                </a>
+                                </Link>
                               ))}
                             </div>
                           </div>

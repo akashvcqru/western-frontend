@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import Image from "next/image";
 import { 
   Quote, 
@@ -350,9 +351,9 @@ export default function TestimonialsPage() {
                     </p>
                     
                     <div className="flex flex-col sm:flex-row gap-4 pt-2 justify-center lg:justify-start">
-                      <a href="/contact" className="px-10 py-4.5 bg-primary text-white font-bold uppercase tracking-[0.2em] text-[10px] rounded-xl hover:bg-white hover:text-black transition-all duration-500 shadow-xl shadow-primary/20 text-center">
+                      <Link href="/contact" className="px-10 py-4.5 bg-primary text-white font-bold uppercase tracking-[0.2em] text-[10px] rounded-xl hover:bg-white hover:text-black transition-all duration-500 shadow-xl shadow-primary/20 text-center">
                          Contact Consult
-                      </a>
+                      </Link>
                       <button 
                         onClick={() => setIsModalOpen(true)}
                         className="px-10 py-4.5 bg-white/5 text-white border border-white/10 font-bold uppercase tracking-[0.2em] text-[10px] rounded-xl hover:bg-white hover:text-black hover:border-transparent transition-all duration-500 text-center"
