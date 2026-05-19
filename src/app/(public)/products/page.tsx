@@ -54,7 +54,7 @@ export default function ProductsPage() {
       />
 
       {/* Product Categories Grid - World Class Showcase */}
-      <section className="py-32 lg:py-48 relative bg-white overflow-hidden">
+      <section className="py-12 lg:py-16 relative bg-white overflow-hidden">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-12 space-y-24">
           
           {/* Filter Bar - Modern & Minimal */}
@@ -183,7 +183,7 @@ export default function ProductsPage() {
               })}
             </div>
           ) : (
-            <div className="text-center py-32 space-y-10">
+            <div className="text-center space-y-10">
               <div className="w-20 h-20 bg-neutral-50 rounded-full flex items-center justify-center mx-auto text-neutral-300">
                 <Search size={40} />
               </div>

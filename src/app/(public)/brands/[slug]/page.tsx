@@ -70,7 +70,7 @@ export default function BrandPage() {
             ))}
           </div>
         ) : (
-          <div className="text-center py-32 space-y-10">
+          <div className="text-center space-y-10">
             <div className="w-24 h-24 bg-neutral-50 rounded-[32px] flex items-center justify-center mx-auto text-neutral-200">
                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="m16 16-4-4-4 4"/><path d="M12 12V8"/></svg>
             </div>

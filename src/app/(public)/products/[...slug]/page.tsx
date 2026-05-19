@@ -14,6 +14,8 @@ import categoriesData from "@/data/categories.json";
 import navigation from "@/data/navigation.json";
 import { AppRoutes } from "@/constants/routes";
 import ProductDetailView from "@/components/sections/ProductDetailView";
+import CtaSection from "@/components/sections/home/CtaSection";
+import QuoteModal from "@/components/common/QuoteModal";
 
 const parsePrice = (priceStr?: string): number => {
   if (!priceStr) return 0;
@@ -22,6 +24,7 @@ const parsePrice = (priceStr?: string): number => {
 };
 
 function CategoryHubPage({ category, navItem }: { category: any; navItem: any }) {
+  const [isQuoteOpen, setIsQuoteOpen] = React.useState(false);
   const allSubcategories = navItem.columns.flatMap((col: any) => col.items);
   const heroImage = category?.image || "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop";
   const categoryName = category?.name || navItem.title;
@@ -37,7 +40,7 @@ function CategoryHubPage({ category, navItem }: { category: any; navItem: any })
         subtitle={categoryDescription}
       />
 
-      <div className="max-w-[1440px] mx-auto px-6 lg:px-12 py-32 space-y-16">
+      <div className="max-w-[1440px] mx-auto px-6 lg:px-12 py-12 lg:py-16 space-y-16">
         {/* Section Title */}
         <div className="space-y-4 text-center max-w-2xl mx-auto">
           <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Browse Subcategories</span>
@@ -107,6 +110,10 @@ function CategoryHubPage({ category, navItem }: { category: any; navItem: any })
           })}
         </div>
       </div>
+      
+      {/* High-Impact CTA Banner */}
+      <CtaSection onOpenQuote={() => setIsQuoteOpen(true)} />
+      <QuoteModal isOpen={isQuoteOpen} onClose={() => setIsQuoteOpen(false)} />
     </div>
   );
 }
@@ -121,6 +128,7 @@ export default function ProductListingPage({
   const [selectedFilters, setSelectedFilters] = React.useState<string[]>([]);
   const [showMobileFilters, setShowMobileFilters] = React.useState(false);
   const [currentPage, setCurrentPage] = React.useState(1);
+  const [isQuoteOpen, setIsQuoteOpen] = React.useState(false);
   const ITEMS_PER_PAGE = 6;
   
   const lastSlugSegment = slug ? slug[slug.length - 1] : "";
@@ -253,7 +261,7 @@ export default function ProductListingPage({
         subtitle={`Professional ${categoryName} solutions engineered for premium workspaces and lasting comfort.`}
       />
 
-      <div className="max-w-[1440px] mx-auto px-6 lg:px-12 py-16 relative z-20">
+      <div className="max-w-[1440px] mx-auto px-6 lg:px-12 py-12 lg:py-16 relative z-20">
         <main className="space-y-12">
           {/* Header Row */}
           <div className="flex items-center justify-between pb-6 border-b border-neutral-100">
@@ -372,6 +380,10 @@ export default function ProductListingPage({
           </div>
         </main>
       </div>
+
+      {/* High-Impact CTA Banner */}
+      <CtaSection onOpenQuote={() => setIsQuoteOpen(true)} />
+      <QuoteModal isOpen={isQuoteOpen} onClose={() => setIsQuoteOpen(false)} />
     </div>
   );
 }
