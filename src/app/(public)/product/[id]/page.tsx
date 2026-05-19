@@ -16,6 +16,8 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import ImagePreview from "@/components/ui/ImagePreview";
+import siteContent from "@/data/site-content.json";
+import QuoteModal from "@/components/ui/QuoteModal";
 
 
 import { useParams, notFound } from "next/navigation";
@@ -49,6 +51,7 @@ export default function ProductDetailPage() {
     return product.variants?.reduce((acc, v) => ({ ...acc, [v.label]: v.options[0] }), {} as Record<string, string>) || {};
   });
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
 
   if (!product) {
     notFound();
@@ -56,13 +59,15 @@ export default function ProductDetailPage() {
   }
 
   const handleWhatsApp = () => {
-    const phone = "917837737373";
-    const message = `Hi, I'm interested in learning more about the product: ${product.name}.`;
+    const contact = siteContent.common.contact;
+    const phone = contact.phones[0].replace(/[^0-9]/g, ""); // Clean mobile phone
+    const message = `Hi, I am interested in ${product.name} (SKU ID: ${product.id}). Please share customized layouts.`;
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, "_blank");
   };
 
   const handleCall = () => {
-    window.location.href = "tel:+917837737373";
+    const contact = siteContent.common.contact;
+    window.location.href = `tel:${contact.phones[0]}`;
   };
 
   return (
@@ -195,7 +200,10 @@ export default function ProductDetailPage() {
 
             {/* CTAs - World Class Buttons */}
             <div className="flex flex-col sm:flex-row gap-6 pt-10">
-              <button className="flex-1 inline-flex items-center justify-center gap-4 px-12 py-7 bg-primary text-white font-bold uppercase tracking-[0.2em] text-[11px] rounded-2xl transition-all duration-500 hover:bg-secondary shadow-2xl shadow-primary/20 hover:shadow-secondary/30 cursor-pointer active:scale-[0.98] group">
+              <button 
+                className="flex-1 inline-flex items-center justify-center gap-4 px-12 py-7 bg-primary text-white font-bold uppercase tracking-[0.2em] text-[11px] rounded-2xl transition-all duration-500 hover:bg-secondary shadow-2xl shadow-primary/20 hover:shadow-secondary/30 cursor-pointer active:scale-[0.98] group"
+                onClick={() => setIsQuoteModalOpen(true)}
+              >
                 <FileText size={18} />
                 Get Expert Quote
                 <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
@@ -204,12 +212,16 @@ export default function ProductDetailPage() {
                 <button 
                   className="w-20 h-20 flex items-center justify-center bg-neutral-50 text-secondary rounded-2xl transition-all duration-500 hover:bg-green-500 hover:text-white hover:shadow-2xl hover:shadow-green-500/20 cursor-pointer active:scale-90"
                   onClick={handleWhatsApp}
+                  aria-label="Contact on WhatsApp"
                 >
-                  <MessageSquare size={24} />
+                  <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.262 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.588 1.485 5.407 1.486 5.417 0 9.822-4.36 9.825-9.711.002-2.592-1.002-5.029-2.828-6.858C17.227 2.241 14.801 1.24 12.01 1.24c-5.42 0-9.827 4.36-9.831 9.713a9.58 9.58 0 0 0 1.464 5.093L2.6 21.43l5.524-1.437l-.477-.282zm9.954-6.83c-.274-.137-1.62-.796-1.87-.887-.252-.09-.435-.137-.617.137-.182.274-.708.887-.868 1.066-.16.182-.32.203-.594.067-.274-.137-1.162-.426-2.214-1.36c-.82-.727-1.374-1.625-1.535-1.897-.16-.273-.017-.42.12-.557.123-.122.274-.32.411-.478.137-.16.182-.273.274-.455.092-.182.046-.341-.023-.478-.069-.137-.618-1.483-.846-2.03c-.22-.53-.446-.458-.618-.467-.16-.008-.343-.01-.525-.01a1.01 1.01 0 0 0-.73.34c-.252.274-.96.938-.96 2.287s.983 2.65 1.12 2.83c.137.182 1.935 2.923 4.69 4.103c.655.282 1.167.45 1.567.576.66.21 1.26.162 1.735.092.53-.078 1.62-.66 1.85-1.294.228-.636.228-1.183.16-1.295-.069-.113-.252-.204-.526-.341z" />
+                  </svg>
                 </button>
                 <button 
                   className="w-20 h-20 flex items-center justify-center bg-neutral-50 text-secondary rounded-2xl transition-all duration-500 hover:bg-secondary hover:text-white hover:shadow-2xl hover:shadow-secondary/20 cursor-pointer active:scale-90"
                   onClick={handleCall}
+                  aria-label="Call Direct"
                 >
                   <Phone size={24} />
                 </button>
@@ -279,6 +291,12 @@ export default function ProductDetailPage() {
         onClose={() => setIsExpanded(false)}
         onNext={() => setSelectedImage((prev) => (prev + 1) % product.images.length)}
         onPrev={() => setSelectedImage((prev) => (prev - 1 + product.images.length) % product.images.length)}
+      />
+
+      <QuoteModal 
+        isOpen={isQuoteModalOpen} 
+        onClose={() => setIsQuoteModalOpen(false)} 
+        product={product}
       />
     </main>
   );

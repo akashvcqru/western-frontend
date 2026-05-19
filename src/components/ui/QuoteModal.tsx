@@ -23,7 +23,7 @@ interface Product {
   name: string;
   catNo?: string;
   id: string;
-  brand: string;
+  brand?: string;
   images: string[];
 }
 
@@ -45,7 +45,7 @@ const QuoteModal: React.FC<QuoteModalProps> = ({ isOpen, onClose, product }) => 
     const contact = siteContent.common.contact;
 
     const methods = useForm<QuoteFormData>({
-        resolver: yupResolver(schema),
+        resolver: yupResolver(schema) as any,
         defaultValues: {
             fullName: '',
             email: '',
@@ -69,7 +69,8 @@ const QuoteModal: React.FC<QuoteModalProps> = ({ isOpen, onClose, product }) => 
             `*Phone:* ${data.phone}\n` +
             `*Message:* ${data.message}`;
 
-        window.open(`https://wa.me/${contact.phoneRaw.replace(/\+/g, "")}?text=${encodeURIComponent(whatsappMessage)}`, "_blank");
+        const phone = contact.phones[0].replace(/[^0-9]/g, ""); // Clean mobile phone
+        window.open(`https://wa.me/${phone}?text=${encodeURIComponent(whatsappMessage)}`, "_blank");
         
         addToast({
             title: 'Inquiry Sent',

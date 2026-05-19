@@ -2300,7 +2300,7 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
                   className="inline-flex items-center justify-center gap-2 px-4 py-4.5 bg-emerald-600 text-white font-bold uppercase tracking-widest text-[10px] rounded-xl hover:bg-emerald-700 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-emerald-600/20 shadow-md shadow-emerald-600/10 cursor-pointer active:scale-[0.98] transition-all duration-300"
                   onClick={() =>
                     window.open(
-                      `https://wa.me/${contact.phone.replace(/[^0-9]/g, "")}?text=Hi, I am interested in ${product.name} (SKU ID: ${product.id}). Please share customized layouts.`,
+                      `https://wa.me/${contact.phones[0].replace(/[^0-9]/g, "")}?text=Hi, I am interested in ${product.name} (SKU ID: ${product.id}). Please share customized layouts.`,
                       "_blank",
                     )
                   }

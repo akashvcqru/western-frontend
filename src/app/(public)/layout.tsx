@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Header from "@/components/layouts/Header";
 import Footer from "@/components/layouts/Footer";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
+import WhatsAppWidget from "@/components/ui/WhatsAppWidget";
 import siteContent from "@/data/site-content.json";
 
 export const metadata: Metadata = {
@@ -22,6 +23,7 @@ export default function PublicLayout({
         {children}
       </main>
       <Footer />
+      <WhatsAppWidget />
     </>
   );
 }
