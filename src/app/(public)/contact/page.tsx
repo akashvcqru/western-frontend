@@ -153,17 +153,17 @@ export default function ContactPage() {
                   <h3 className="text-xl font-bold text-secondary tracking-tight">{card.title}</h3>
                   <div className="space-y-1 pt-1">
                     {card.values.map((val, idx) => (
-                      <p key={idx} className="text-neutral-600 text-sm font-semibold tracking-tight">{val}</p>
+                      <p key={idx} className="text-neutral-600 text-sm font-medium tracking-tight">{val}</p>
                     ))}
                   </div>
                 </div>
               </div>
 
               <div className="pt-6 border-t border-neutral-100 relative z-10 flex items-center justify-between">
-                <span className="text-[10px] text-neutral-400 font-bold uppercase tracking-wider">{card.sub}</span>
+                <span className="text-[10px] text-neutral-400 font-medium uppercase tracking-wider">{card.sub}</span>
                 <a
                   href={card.action}
-                  className="inline-flex items-center gap-1 text-[11px] font-bold text-secondary hover:text-primary transition-colors uppercase tracking-widest group/link"
+                  className="inline-flex items-center gap-1 text-[11px] font-semibold text-secondary hover:text-primary transition-colors uppercase tracking-widest group/link"
                 >
                   <span>{card.actionLabel}</span>
                   <ArrowRight className="w-3.5 h-3.5 group-hover/link:translate-x-1 transition-transform" />
@@ -190,7 +190,7 @@ export default function ContactPage() {
                   Let&apos;s Discuss <br />
                   <span className="text-neutral-500">Your Workspace.</span>
                 </h2>
-                <p className="text-neutral-500 text-base md:text-lg font-medium leading-relaxed max-w-lg">
+                <p className="text-neutral-500 text-base md:text-lg font-normal leading-relaxed max-w-lg">
                   Whether planning a fresh office layout, expanding your seating capacities, or designing custom modular partitions, our commercial workspace consultants provide complete end-to-end guidance.
                 </p>
               </div>
@@ -203,7 +203,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h4 className="text-xs font-bold text-secondary uppercase tracking-wider mb-1">20+ Years</h4>
-                    <p className="text-[11px] text-neutral-400 font-semibold uppercase leading-tight">Design Legacy</p>
+                    <p className="text-[11px] text-neutral-400 font-normal uppercase leading-tight">Design Legacy</p>
                   </div>
                 </div>
 
@@ -213,7 +213,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h4 className="text-xs font-bold text-secondary uppercase tracking-wider mb-1">Premium</h4>
-                    <p className="text-[11px] text-neutral-400 font-semibold uppercase leading-tight">ISO Materials</p>
+                    <p className="text-[11px] text-neutral-400 font-normal uppercase leading-tight">ISO Materials</p>
                   </div>
                 </div>
               </div>
@@ -229,16 +229,16 @@ export default function ContactPage() {
                     <Clock className="w-6 h-6 text-primary" />
                     <div>
                       <h4 className="text-[9px] font-black uppercase tracking-[0.3em] text-primary">BUSINESS HOURS</h4>
-                      <p className="text-sm font-bold opacity-95">{common.businessHours.notice}</p>
+                      <p className="text-sm font-medium opacity-95">{common.businessHours.notice}</p>
                     </div>
                   </div>
                   
                   <div className="flex justify-between items-center text-sm font-semibold">
                     <span className="opacity-70 uppercase tracking-widest text-xs">Standard Timing</span>
-                    <span className="bg-white/10 px-4.5 py-1.5 rounded-xl text-xs font-bold tracking-wider">{common.businessHours.display}</span>
+                    <span className="bg-white/10 px-4.5 py-1.5 rounded-xl text-xs font-semibold tracking-wider">{common.businessHours.display}</span>
                   </div>
                   
-                  <p className="text-[11px] text-neutral-400 font-medium leading-relaxed">
+                  <p className="text-[11px] text-neutral-400 font-normal leading-relaxed">
                     * Visitors are highly encouraged to schedule a showroom/factory visitation in advance for dedicated design consults.
                   </p>
                 </div>
@@ -248,9 +248,9 @@ export default function ContactPage() {
               <div className="p-6 rounded-xl bg-neutral-100/60 border border-neutral-200/50 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <Globe className="w-5 h-5 text-neutral-500" />
-                  <span className="text-xs font-bold text-secondary uppercase tracking-wider">Pan-India Cargo Shipping</span>
+                  <span className="text-xs font-semibold text-secondary uppercase tracking-wider">Pan-India Cargo Shipping</span>
                 </div>
-                <span className="text-[10px] bg-neutral-200 text-neutral-600 px-3 py-1 rounded-lg font-bold uppercase tracking-widest">Active</span>
+                <span className="text-[10px] bg-neutral-200 text-neutral-600 px-3 py-1 rounded-lg font-semibold uppercase tracking-widest">Active</span>
               </div>
             </div>
 
@@ -265,7 +265,7 @@ export default function ContactPage() {
                   <h3 className="text-2xl md:text-3xl font-black text-secondary uppercase tracking-tight">
                     Start a Conversation
                   </h3>
-                  <p className="text-neutral-400 font-semibold mt-2 text-sm md:text-base leading-relaxed">
+                  <p className="text-neutral-400 font-normal mt-2 text-sm md:text-base leading-relaxed">
                     Share your office concept or layouts. Our furniture engineers will analyze and revert within 2 hours.
                   </p>
                 </div>
@@ -332,7 +332,7 @@ export default function ContactPage() {
             <h2 className="text-3xl md:text-4xl font-black text-secondary uppercase tracking-tight">
               Frequently Asked Questions
             </h2>
-            <p className="text-neutral-400 text-sm font-semibold leading-relaxed">
+            <p className="text-neutral-400 text-sm font-normal leading-relaxed">
               Find quick answers regarding our custom design process, lead times, cargo shipping, and workspace layouts.
             </p>
           </div>
@@ -355,7 +355,7 @@ export default function ContactPage() {
                     className="w-full text-left p-6 md:p-8 flex items-center justify-between gap-6 cursor-pointer"
                   >
                     <span className={cn(
-                      "font-bold text-base md:text-lg transition-colors duration-300 tracking-tight",
+                      "font-semibold text-base md:text-lg transition-colors duration-300 tracking-tight",
                       isOpen ? "text-primary" : "text-secondary"
                     )}>
                       {faq.question}
@@ -375,7 +375,7 @@ export default function ContactPage() {
                     )}
                   >
                     <div className="overflow-hidden">
-                      <p className="p-6 md:p-8 text-neutral-500 text-sm md:text-base leading-relaxed font-medium">
+                      <p className="p-6 md:p-8 text-neutral-500 text-sm md:text-base leading-relaxed font-normal">
                         {faq.answer}
                       </p>
                     </div>
@@ -409,7 +409,7 @@ export default function ContactPage() {
                 href="https://maps.app.goo.gl/wJk4zX92vU7vG949A"
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-secondary hover:text-primary transition-colors group/link pt-1"
+                className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-secondary hover:text-primary transition-colors group/link pt-1"
               >
                 <span>Get Directions</span>
                 <ArrowRight className="w-3.5 h-3.5 group-hover/link:translate-x-1 transition-transform" />
