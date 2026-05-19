@@ -1235,7 +1235,7 @@
     "id": "wfu-110",
     "slug": "wfu-110",
     "name": "Modular L-Shape Kitchen",
-    "category": "modular-kitchen-series",
+    "category": "kitchen-designs",
     "price": "1,25,000",
     "images": [
       "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop"
@@ -2896,7 +2896,7 @@
     "id": "wfu-331",
     "slug": "wfu-331",
     "name": "WFU 331 Home Furniture",
-    "category": "home-furniture-series",
+    "category": "bed-designs",
     "price": "55,602",
     "images": [
       "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?q=80&w=2070&auto=format&fit=crop"
@@ -2907,7 +2907,7 @@
     "id": "wfu-332",
     "slug": "wfu-332",
     "name": "WFU 332 Home Furniture",
-    "category": "home-furniture-series",
+    "category": "lounge-area-sofa",
     "price": "79,509",
     "images": [
       "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=2070&auto=format&fit=crop"
@@ -2918,7 +2918,7 @@
     "id": "wfu-333",
     "slug": "wfu-333",
     "name": "WFU 333 Home Furniture",
-    "category": "home-furniture-series",
+    "category": "dining-table",
     "price": "71,351",
     "images": [
       "https://images.unsplash.com/photo-1505691723518-36a5ac3be353?q=80&w=2070&auto=format&fit=crop"
@@ -2929,7 +2929,7 @@
     "id": "wfu-334",
     "slug": "wfu-334",
     "name": "WFU 334 Home Furniture",
-    "category": "home-furniture-series",
+    "category": "wardrobe-designs",
     "price": "80,033",
     "images": [
       "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=2070&auto=format&fit=crop"
@@ -2940,7 +2940,7 @@
     "id": "wfu-335",
     "slug": "wfu-335",
     "name": "WFU 335 Home Furniture",
-    "category": "home-furniture-series",
+    "category": "bed-designs",
     "price": "70,133",
     "images": [
       "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?q=80&w=2070&auto=format&fit=crop"
@@ -2951,7 +2951,7 @@
     "id": "wfu-336",
     "slug": "wfu-336",
     "name": "WFU 336 Home Furniture",
-    "category": "home-furniture-series",
+    "category": "lounge-area-sofa",
     "price": "73,200",
     "images": [
       "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=2070&auto=format&fit=crop"
@@ -2962,7 +2962,7 @@
     "id": "wfu-337",
     "slug": "wfu-337",
     "name": "WFU 337 Home Furniture",
-    "category": "home-furniture-series",
+    "category": "dining-table",
     "price": "78,782",
     "images": [
       "https://images.unsplash.com/photo-1505691723518-36a5ac3be353?q=80&w=2070&auto=format&fit=crop"
@@ -2973,7 +2973,7 @@
     "id": "wfu-338",
     "slug": "wfu-338",
     "name": "WFU 338 Home Furniture",
-    "category": "home-furniture-series",
+    "category": "wardrobe-designs",
     "price": "80,215",
     "images": [
       "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=2070&auto=format&fit=crop"
@@ -2984,7 +2984,7 @@
     "id": "wfu-339",
     "slug": "wfu-339",
     "name": "WFU 339 Home Furniture",
-    "category": "home-furniture-series",
+    "category": "bed-designs",
     "price": "66,298",
     "images": [
       "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?q=80&w=2070&auto=format&fit=crop"
@@ -2995,7 +2995,7 @@
     "id": "wfu-340",
     "slug": "wfu-340",
     "name": "WFU 340 Home Furniture",
-    "category": "home-furniture-series",
+    "category": "lounge-area-sofa",
     "price": "59,046",
     "images": [
       "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=2070&auto=format&fit=crop"
@@ -3006,7 +3006,7 @@
     "id": "wfu-341",
     "slug": "wfu-341",
     "name": "WFU 341 Home Furniture",
-    "category": "home-furniture-series",
+    "category": "dining-table",
     "price": "73,602",
     "images": [
       "https://images.unsplash.com/photo-1505691723518-36a5ac3be353?q=80&w=2070&auto=format&fit=crop"
@@ -3017,7 +3017,7 @@
     "id": "wfu-342",
     "slug": "wfu-342",
     "name": "WFU 342 Home Furniture",
-    "category": "home-furniture-series",
+    "category": "wardrobe-designs",
     "price": "75,744",
     "images": [
       "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=2070&auto=format&fit=crop"
@@ -3028,7 +3028,7 @@
     "id": "wfu-343",
     "slug": "wfu-343",
     "name": "WFU 343 Home Furniture",
-    "category": "home-furniture-series",
+    "category": "bed-designs",
     "price": "52,986",
     "images": [
       "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?q=80&w=2070&auto=format&fit=crop"
@@ -3039,7 +3039,7 @@
     "id": "wfu-344",
     "slug": "wfu-344",
     "name": "WFU 344 Home Furniture",
-    "category": "home-furniture-series",
+    "category": "lounge-area-sofa",
     "price": "53,527",
     "images": [
       "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=2070&auto=format&fit=crop"
@@ -3226,7 +3226,7 @@
     "id": "wfu-316",
     "slug": "wfu-316",
     "name": "WFU 316 Modular Kitchen",
-    "category": "modular-kitchen-series",
+    "category": "kitchen-designs",
     "price": "2,49,915",
     "images": [
       "https://images.unsplash.com/photo-1556912173-3bb406ef7e77?q=80&w=2070&auto=format&fit=crop"
@@ -3237,7 +3237,7 @@
     "id": "wfu-317",
     "slug": "wfu-317",
     "name": "WFU 317 Modular Kitchen",
-    "category": "modular-kitchen-series",
+    "category": "kitchen-designs",
     "price": "2,18,755",
     "images": [
       "https://images.unsplash.com/photo-1556909212-d5b604394962?q=80&w=2070&auto=format&fit=crop"
@@ -3248,7 +3248,7 @@
     "id": "wfu-318",
     "slug": "wfu-318",
     "name": "WFU 318 Modular Kitchen",
-    "category": "modular-kitchen-series",
+    "category": "kitchen-designs",
     "price": "1,96,818",
     "images": [
       "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop"
@@ -3259,7 +3259,7 @@
     "id": "wfu-319",
     "slug": "wfu-319",
     "name": "WFU 319 Modular Kitchen",
-    "category": "modular-kitchen-series",
+    "category": "kitchen-designs",
     "price": "1,45,228",
     "images": [
       "https://images.unsplash.com/photo-1556912173-3bb406ef7e77?q=80&w=2070&auto=format&fit=crop"
@@ -3270,7 +3270,7 @@
     "id": "wfu-320",
     "slug": "wfu-320",
     "name": "WFU 320 Modular Kitchen",
-    "category": "modular-kitchen-series",
+    "category": "kitchen-designs",
     "price": "2,28,544",
     "images": [
       "https://images.unsplash.com/photo-1556909212-d5b604394962?q=80&w=2070&auto=format&fit=crop"
@@ -3281,7 +3281,7 @@
     "id": "wfu-321",
     "slug": "wfu-321",
     "name": "WFU 321 Modular Kitchen",
-    "category": "modular-kitchen-series",
+    "category": "kitchen-designs",
     "price": "2,34,848",
     "images": [
       "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop"
@@ -3292,7 +3292,7 @@
     "id": "wfu-322",
     "slug": "wfu-322",
     "name": "WFU 322 Modular Kitchen",
-    "category": "modular-kitchen-series",
+    "category": "kitchen-designs",
     "price": "2,19,103",
     "images": [
       "https://images.unsplash.com/photo-1556912173-3bb406ef7e77?q=80&w=2070&auto=format&fit=crop"
@@ -3303,7 +3303,7 @@
     "id": "wfu-323",
     "slug": "wfu-323",
     "name": "WFU 323 Modular Kitchen",
-    "category": "modular-kitchen-series",
+    "category": "kitchen-designs",
     "price": "1,64,671",
     "images": [
       "https://images.unsplash.com/photo-1556909212-d5b604394962?q=80&w=2070&auto=format&fit=crop"
@@ -3314,7 +3314,7 @@
     "id": "wfu-324",
     "slug": "wfu-324",
     "name": "WFU 324 Modular Kitchen",
-    "category": "modular-kitchen-series",
+    "category": "kitchen-designs",
     "price": "2,15,040",
     "images": [
       "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop"
@@ -3325,7 +3325,7 @@
     "id": "wfu-325",
     "slug": "wfu-325",
     "name": "WFU 325 Modular Kitchen",
-    "category": "modular-kitchen-series",
+    "category": "kitchen-designs",
     "price": "1,83,699",
     "images": [
       "https://images.unsplash.com/photo-1556912173-3bb406ef7e77?q=80&w=2070&auto=format&fit=crop"
@@ -3336,7 +3336,7 @@
     "id": "wfu-326",
     "slug": "wfu-326",
     "name": "WFU 326 Modular Kitchen",
-    "category": "modular-kitchen-series",
+    "category": "kitchen-designs",
     "price": "1,71,103",
     "images": [
       "https://images.unsplash.com/photo-1556909212-d5b604394962?q=80&w=2070&auto=format&fit=crop"
@@ -3347,7 +3347,7 @@
     "id": "wfu-327",
     "slug": "wfu-327",
     "name": "WFU 327 Modular Kitchen",
-    "category": "modular-kitchen-series",
+    "category": "kitchen-designs",
     "price": "1,94,243",
     "images": [
       "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop"
@@ -3358,7 +3358,7 @@
     "id": "wfu-328",
     "slug": "wfu-328",
     "name": "WFU 328 Modular Kitchen",
-    "category": "modular-kitchen-series",
+    "category": "kitchen-designs",
     "price": "2,07,528",
     "images": [
       "https://images.unsplash.com/photo-1556912173-3bb406ef7e77?q=80&w=2070&auto=format&fit=crop"
@@ -3369,7 +3369,7 @@
     "id": "wfu-329",
     "slug": "wfu-329",
     "name": "WFU 329 Modular Kitchen",
-    "category": "modular-kitchen-series",
+    "category": "kitchen-designs",
     "price": "1,87,833",
     "images": [
       "https://images.unsplash.com/photo-1556909212-d5b604394962?q=80&w=2070&auto=format&fit=crop"
@@ -3380,7 +3380,7 @@
     "id": "wfu-330",
     "slug": "wfu-330",
     "name": "WFU 330 Modular Kitchen",
-    "category": "modular-kitchen-series",
+    "category": "kitchen-designs",
     "price": "2,05,423",
     "images": [
       "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop"
@@ -3419,5 +3419,82 @@
       "https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=2070&auto=format&fit=crop"
     ],
     "description": "Frameless desk-mounted acrylic partition screen for safe and focused office workspaces."
+  },
+  {
+    "id": "wfu-home-001",
+    "slug": "wfu-home-001",
+    "name": "Luxury Entryway Console Table",
+    "category": "console-designs",
+    "price": "18,500",
+    "images": [
+      "https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=2069&auto=format&fit=crop"
+    ],
+    "description": "Elegant gold metallic-framed entryway console table with a polished white marble top."
+  },
+  {
+    "id": "wfu-home-002",
+    "slug": "wfu-home-002",
+    "name": "Modern Float TV Entertainment Unit",
+    "category": "tv-unit-designs",
+    "price": "24,000",
+    "images": [
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop"
+    ],
+    "description": "Sleek wall-mounted floating TV unit with ambient LED lighting integration and soft-close drawers."
+  },
+  {
+    "id": "wfu-home-003",
+    "slug": "wfu-home-003",
+    "name": "Aesthetic LED Dressing Mirror Table",
+    "category": "dressing-table",
+    "price": "16,500",
+    "images": [
+      "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?q=80&w=2070&auto=format&fit=crop"
+    ],
+    "description": "Minimalist dressing vanity featuring a smart touch circular backlight LED mirror and velvet stool."
+  },
+  {
+    "id": "wfu-home-004",
+    "slug": "wfu-home-004",
+    "name": "Bespoke Glass Crockery Showcase Cabinet",
+    "category": "crockery-unit",
+    "price": "29,500",
+    "images": [
+      "https://images.unsplash.com/photo-1595515106969-1ce29566ff1c?q=80&w=2070&auto=format&fit=crop"
+    ],
+    "description": "Stunning tall glassware crockery cabinet with interior warm downlighting and profile shelves."
+  },
+  {
+    "id": "wfu-home-005",
+    "slug": "wfu-home-005",
+    "name": "Floating Quartz Bathroom Vanity",
+    "category": "washroom-vanity-designs",
+    "price": "13,800",
+    "images": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=2070&auto=format&fit=crop"
+    ],
+    "description": "Bespoke moisture-resistant floating washroom vanity with under-basin storage drawers."
+  },
+  {
+    "id": "wfu-home-006",
+    "slug": "wfu-home-006",
+    "name": "Teak Wood Smart Home Temple Mandir",
+    "category": "home-temple-designs",
+    "price": "21,000",
+    "images": [
+      "https://images.unsplash.com/photo-1560185127-6a2806647f81?q=80&w=2070&auto=format&fit=crop"
+    ],
+    "description": "Artisanal handcrafted teak wood pooja mandir designed with drawer units and acoustic bell doors."
+  },
+  {
+    "id": "wfu-home-007",
+    "slug": "wfu-home-007",
+    "name": "Bespoke Pivot Solid Wood Entrance Door",
+    "category": "home-doors-design",
+    "price": "35,000",
+    "images": [
+      "https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=2069&auto=format&fit=crop"
+    ],
+    "description": "Stately architectural solid oak wood main entrance door with premium vertical groove panels."
   }
 ]

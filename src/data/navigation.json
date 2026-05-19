@@ -32,15 +32,35 @@
     "href": "/products",
     "columns": [
       {
-        "title": "Home Furniture",
+        "title": "Living & Lounge",
         "items": [
-          { "name": "Home Furniture Series", "slug": "home-furniture-series" }
+          { "name": "Console Designs", "slug": "console-designs" },
+          { "name": "TV Unit Designs", "slug": "tv-unit-designs" },
+          { "name": "Lounge Area Sofa", "slug": "lounge-area-sofa" },
+          { "name": "Home Wall Partition", "slug": "home-wall-partition" },
+          { "name": "Home Wall Panelling", "slug": "home-wall-panelling" },
+          { "name": "Home Doors Design", "slug": "home-doors-design" }
         ]
       },
       {
-        "title": "Kitchen & More",
+        "title": "Bedroom & Study",
         "items": [
-          { "name": "Modular Kitchen Series", "slug": "modular-kitchen-series" }
+          { "name": "Wardrobe Designs", "slug": "wardrobe-designs" },
+          { "name": "Dressing Table", "slug": "dressing-table" },
+          { "name": "Bed Designs", "slug": "bed-designs" },
+          { "name": "Bedroom Sitting Area Designs", "slug": "bedroom-sitting-area-designs" },
+          { "name": "Study Table Designs", "slug": "study-table-designs" },
+          { "name": "Washroom Vanity Designs", "slug": "washroom-vanity-designs" }
+        ]
+      },
+      {
+        "title": "Kitchen & Dining",
+        "items": [
+          { "name": "Kitchen Designs", "slug": "kitchen-designs" },
+          { "name": "Dining Table", "slug": "dining-table" },
+          { "name": "Crockery Unit", "slug": "crockery-unit" },
+          { "name": "Shoe Rack Designs", "slug": "shoe-rack-designs" },
+          { "name": "Home Temple Designs", "slug": "home-temple-designs" }
         ]
       }
     ]

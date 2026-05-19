@@ -31,7 +31,7 @@
     "id": "reception-desk",
     "name": "Reception Desk",
     "slug": "reception-desk",
-    "image": "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2070&auto=format&fit=crop",
+    "image": "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop",
     "description": "Stunning reception desks designed to make a commanding first impression."
   },
   {
@@ -70,6 +70,125 @@
     "description": "Acoustic panels and glass partition systems to optimize privacy, acoustics, and space division."
   },
   {
+    "id": "console-designs",
+    "name": "Console Designs",
+    "slug": "console-designs",
+    "image": "https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=2069&auto=format&fit=crop",
+    "description": "Elegant accent consoles and entryway table designs to elevate spatial aesthetics."
+  },
+  {
+    "id": "tv-unit-designs",
+    "name": "TV Unit Designs",
+    "slug": "tv-unit-designs",
+    "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop",
+    "description": "Sleek floating entertainment units, custom wall-panel backdrops, and media storage."
+  },
+  {
+    "id": "wardrobe-designs",
+    "name": "Wardrobe Designs",
+    "slug": "wardrobe-designs",
+    "image": "https://images.unsplash.com/photo-1595428774223-ef52624120d2?q=80&w=2070&auto=format&fit=crop",
+    "description": "Spacious walk-in closets, modular sliding wardrobe layouts, and bespoke bedroom storage."
+  },
+  {
+    "id": "dressing-table",
+    "name": "Dressing Table",
+    "slug": "dressing-table",
+    "image": "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?q=80&w=2070&auto=format&fit=crop",
+    "description": "Bespoke dressing tables featuring smart LED backlit mirrors and premium jewelry organizers."
+  },
+  {
+    "id": "bed-designs",
+    "name": "Bed Designs",
+    "slug": "bed-designs",
+    "image": "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=2070&auto=format&fit=crop",
+    "description": "Bespoke modular bed designs, customized luxury headboards, and hydraulic storage beds."
+  },
+  {
+    "id": "study-table-designs",
+    "name": "Study Table Designs",
+    "slug": "study-table-designs",
+    "image": "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?q=80&w=2070&auto=format&fit=crop",
+    "description": "Ergonomic study desks, home office workstations, and integrated bookshelf setups."
+  },
+  {
+    "id": "kitchen-designs",
+    "name": "Kitchen Designs",
+    "slug": "kitchen-designs",
+    "image": "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?q=80&w=2070&auto=format&fit=crop",
+    "description": "Stunning premium modular kitchens with high-end acrylic finishes and smooth motion drawers."
+  },
+  {
+    "id": "dining-table",
+    "name": "Dining Table",
+    "slug": "dining-table",
+    "image": "https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf?q=80&w=2070&auto=format&fit=crop",
+    "description": "Stunning luxury dining tables, solid wood frames, and custom upholstered seating."
+  },
+  {
+    "id": "crockery-unit",
+    "name": "Crockery Unit",
+    "slug": "crockery-unit",
+    "image": "https://images.unsplash.com/photo-1595515106969-1ce29566ff1c?q=80&w=2070&auto=format&fit=crop",
+    "description": "Premium glass-front dining showcases, built-in display racks, and modular buffet sideboards."
+  },
+  {
+    "id": "lounge-area-sofa",
+    "name": "Lounge Area Sofa",
+    "slug": "lounge-area-sofa",
+    "image": "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=2070&auto=format&fit=crop",
+    "description": "Luxurious soft living room sofas, ergonomic chaise lounges, and custom fabric seating."
+  },
+  {
+    "id": "washroom-vanity-designs",
+    "name": "Washroom Vanity Designs",
+    "slug": "washroom-vanity-designs",
+    "image": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=2070&auto=format&fit=crop",
+    "description": "Moisture-resistant bathroom vanity designs, integrated sinks, and quartz stone countertops."
+  },
+  {
+    "id": "shoe-rack-designs",
+    "name": "Shoe Rack Designs",
+    "slug": "shoe-rack-designs",
+    "image": "https://images.unsplash.com/photo-1595428774223-ef52624120d2?q=80&w=2070&auto=format&fit=crop",
+    "description": "Clean, hidden entryway shoe cabinetry and space-saving vertical racks."
+  },
+  {
+    "id": "home-temple-designs",
+    "name": "Home Temple Designs",
+    "slug": "home-temple-designs",
+    "image": "https://images.unsplash.com/photo-1560185127-6a2806647f81?q=80&w=2070&auto=format&fit=crop",
+    "description": "Exquisite wooden pooja mandirs and spiritual spaces designed for tranquil modern homes."
+  },
+  {
+    "id": "home-wall-partition",
+    "name": "Home Wall Partition",
+    "slug": "home-wall-partition",
+    "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053&auto=format&fit=crop",
+    "description": "Aesthetic vertical wooden dividers and laser-cut metal screens to partition spaces."
+  },
+  {
+    "id": "home-wall-panelling",
+    "name": "Home Wall Panelling",
+    "slug": "home-wall-panelling",
+    "image": "https://images.unsplash.com/photo-1618219908412-a29a1bb7b86e?q=80&w=2070&auto=format&fit=crop",
+    "description": "Contemporary fluted panel grids, upholstered fabric walls, and bespoke acoustic cladding."
+  },
+  {
+    "id": "bedroom-sitting-area-designs",
+    "name": "Bedroom Sitting Area Designs",
+    "slug": "bedroom-sitting-area-designs",
+    "image": "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?q=80&w=2070&auto=format&fit=crop",
+    "description": "Cozy bedroom reading corners, modern lounge armchairs, and elegant alcove sitting setups."
+  },
+  {
+    "id": "home-doors-design",
+    "name": "Home Doors Design",
+    "slug": "home-doors-design",
+    "image": "https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=2069&auto=format&fit=crop",
+    "description": "Premium solid wood main entrance doors, interior flush doors, and designer handles."
+  },
+  {
     "id": "office-chair-manufacturer-in-gurgaon",
     "name": "Office Chair Manufacturer in Gurgaon",
     "slug": "office-chair-manufacturer-in-gurgaon",
@@ -103,20 +222,6 @@
     "slug": "waiting-area-series",
     "image": "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2070&auto=format&fit=crop",
     "description": "Seating series for comfortable waiting areas."
-  },
-  {
-    "id": "home-furniture-series",
-    "name": "Home Furniture Series",
-    "slug": "home-furniture-series",
-    "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop",
-    "description": "Elegant home furniture series."
-  },
-  {
-    "id": "modular-kitchen-series",
-    "name": "Modular Kitchen Series",
-    "slug": "modular-kitchen-series",
-    "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop",
-    "description": "Modern modular kitchen series."
   },
   {
     "id": "office-interior-designing",
