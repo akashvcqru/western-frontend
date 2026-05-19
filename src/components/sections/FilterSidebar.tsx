@@ -31,8 +31,37 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
   products,
   selectedFilters, 
   onFilterChange, 
-  onClearAll 
+  onClearAll,
+  maxPrice = 0,
+  onPriceChange
 }) => {
+  // Calculate dynamic min and max prices from products
+  const parsedPrices = React.useMemo(() => {
+    if (!Array.isArray(products)) return [];
+    return products
+      .map(p => {
+        if (!p.price) return 0;
+        const cleaned = p.price.replace(/[^0-9]/g, "");
+        return cleaned ? parseInt(cleaned, 10) : 0;
+      })
+      .filter(price => price > 0);
+  }, [products]);
+
+  const dynamicMinPrice = React.useMemo(() => {
+    return parsedPrices.length > 0 ? Math.min(...parsedPrices) : 0;
+  }, [parsedPrices]);
+
+  const dynamicMaxPrice = React.useMemo(() => {
+    return parsedPrices.length > 0 ? Math.max(...parsedPrices) : 20000;
+  }, [parsedPrices]);
+
+  const currentSliderValue = maxPrice || dynamicMaxPrice;
+
+  const percentage = React.useMemo(() => {
+    if (dynamicMaxPrice === dynamicMinPrice) return 100;
+    return ((currentSliderValue - dynamicMinPrice) / (dynamicMaxPrice - dynamicMinPrice)) * 100;
+  }, [currentSliderValue, dynamicMinPrice, dynamicMaxPrice]);
+
   // Dynamically generate filter groups based on products
   const filterGroupsData = React.useMemo(() => {
     if (!Array.isArray(products)) return [];
@@ -159,22 +188,50 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
           </div>
         ))}
 
-        {/* Price Filter (Mock Slider) */}
+        {/* Price Filter (Interactive Slider) */}
         <div className="border-b border-neutral-50 pb-6 pt-2">
-          <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-secondary">
-            Price Range
-          </span>
-          <div className="mt-6 px-2">
-            <div className="h-1 bg-neutral-100 rounded-full relative">
-              <div className="absolute h-full bg-primary left-0 right-[40%] rounded-full" />
-              <div className="absolute w-4 h-4 bg-white border-2 border-primary rounded-full -top-1.5 left-0 shadow-sm" />
-              <div className="absolute w-4 h-4 bg-white border-2 border-primary rounded-full -top-1.5 right-[40%] shadow-sm" />
-            </div>
-            <div className="flex items-center justify-between mt-4 text-[10px] font-bold text-neutral-400 uppercase tracking-widest">
-              <span>₹1,000</span>
-              <span>₹20,000</span>
-            </div>
+          <div className="flex justify-between items-center">
+            <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-secondary">
+              Price Range
+            </span>
+            {dynamicMaxPrice > dynamicMinPrice && (
+              <span className="text-[10px] font-bold text-primary tracking-wider">
+                Up to ₹{currentSliderValue.toLocaleString('en-IN')}
+              </span>
+            )}
           </div>
+          {dynamicMaxPrice > dynamicMinPrice ? (
+            <div className="mt-6 px-2 relative select-none">
+              {/* Visual track */}
+              <div className="h-1 bg-neutral-100 rounded-full relative pointer-events-none">
+                <div 
+                  className="absolute h-full bg-primary left-0 rounded-full" 
+                  style={{ width: `${percentage}%` }}
+                />
+                <div 
+                  className="absolute w-4 h-4 bg-white border-2 border-primary rounded-full -top-1.5 -translate-x-1/2 shadow-sm transition-all"
+                  style={{ left: `${percentage}%` }}
+                />
+              </div>
+              {/* Invisible Range Input for Interaction */}
+              <input
+                type="range"
+                min={dynamicMinPrice}
+                max={dynamicMaxPrice}
+                value={currentSliderValue}
+                onChange={(e) => onPriceChange?.(Number(e.target.value))}
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+              />
+              <div className="flex items-center justify-between mt-4 text-[10px] font-bold text-neutral-400 uppercase tracking-widest pointer-events-none">
+                <span>₹{dynamicMinPrice.toLocaleString('en-IN')}</span>
+                <span>₹{dynamicMaxPrice.toLocaleString('en-IN')}</span>
+              </div>
+            </div>
+          ) : (
+            <div className="mt-4 text-[11px] text-neutral-400 font-medium italic">
+              No price filter available
+            </div>
+          )}
         </div>
       </div>
     </div>
