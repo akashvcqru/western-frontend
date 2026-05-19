@@ -17,7 +17,7 @@ import {
 import { cn } from "@/lib/utils";
 import ImagePreview from "@/components/ui/ImagePreview";
 import siteContent from "@/data/site-content.json";
-import QuoteModal from "@/components/ui/QuoteModal";
+import QuoteModal from "@/components/common/QuoteModal";
 
 
 import { useParams, notFound } from "next/navigation";
@@ -71,7 +71,7 @@ export default function ProductDetailPage() {
   };
 
   return (
-    <main className="bg-white min-h-screen pt-32 lg:pt-48 pb-32">
+    <main className="bg-white min-h-screen pt-12 lg:pt-16 pb-24">
       <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
         <div className="grid lg:grid-cols-2 gap-20 lg:gap-32 items-start">
           {/* Left: Image Gallery - Premium Presentation */}

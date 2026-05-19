@@ -28,7 +28,8 @@
       { "name": "Home Furniture", "href": "/products/home-furniture" },
       { "name": "Chairs", "href": "/products/chairs" },
       { "name": "Interior Design", "href": "/products/interior-design" },
-      { "name": "About Us", "href": "/about" }
+      { "name": "About Us", "href": "/about" },
+      { "name": "Blog", "href": "/blog" }
     ],
     "searchTags": [
       { "label": "Office Chairs", "slug": "office-chairs" },
@@ -63,6 +64,7 @@
       { "name": "Our Clients", "href": "/clients" },
       { "name": "Gallery", "href": "/gallery" },
       { "name": "Testimonials", "href": "/testimonials" },
+      { "name": "Blog", "href": "/blog" },
       { "name": "Download Center", "href": "/download-center" },
       { "name": "Contact us", "href": "/contact" }
     ],

@@ -8,12 +8,14 @@ import { Send, Phone, User, Mail, MessageSquare, Sparkles, CheckCircle2, X } fro
 import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import siteContent from "@/data/site-content.json";
+import { cn } from "@/lib/utils";
 
 const schema = yup.object({
   fullName: yup.string().required("Full name is required").min(3, "Too short"),
   phone: yup.string().required("Phone number is required").matches(/^[0-9+ ]+$/, "Invalid phone number"),
   email: yup.string().email("Invalid email").required("Email is required"),
-  message: yup.string().required("Please describe your project").min(10, "Provide more detail"),
+  message: yup.string().optional(),
 }).required();
 
 type FormData = yup.InferType<typeof schema>;
@@ -23,13 +25,22 @@ interface QuoteModalProps {
   onClose: () => void;
   title?: string;
   subtitle?: string;
+  product?: {
+    id: string;
+    name: string;
+    category?: string;
+    images: string[];
+    brand?: string;
+    catNo?: string;
+  };
 }
 
 export default function QuoteModal({ 
   isOpen, 
   onClose, 
   title = "Get a Premium Quote",
-  subtitle = "Tell us about your project and our experts will contact you within 24 hours."
+  subtitle = "Tell us about your project and our experts will contact you within 24 hours.",
+  product
 }: QuoteModalProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -47,7 +58,7 @@ export default function QuoteModal({
   }, [isOpen]);
 
   const methods = useForm<FormData>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schema) as any,
     defaultValues: {
       fullName: "",
       phone: "",
@@ -56,19 +67,50 @@ export default function QuoteModal({
     }
   });
 
+  React.useEffect(() => {
+    if (isOpen) {
+      if (product) {
+        methods.setValue("message", `I'm interested in ${product.name}.`);
+      } else {
+        methods.setValue("message", "");
+      }
+    }
+  }, [isOpen, product, methods]);
+
   const onSubmit = (data: FormData) => {
     setIsSubmitting(true);
     console.log("Form Data:", data);
-    // Simulate API call
-    setTimeout(() => {
+
+    if (product) {
+      const whatsappMessage = `*Quote Request from ${data.fullName}*\n\n` +
+          `*Product/Blog:* ${product.name}\n` +
+          `*Model:* ${product.catNo || 'N/A'}\n` +
+          `*Email:* ${data.email}\n` +
+          `*Phone:* ${data.phone}\n` +
+          `*Message:* ${data.message || ''}`;
+
+      const phone = siteContent.common.contact.phones[0].replace(/[^0-9]/g, ""); // Clean mobile phone
+      window.open(`https://wa.me/${phone}?text=${encodeURIComponent(whatsappMessage)}`, "_blank");
+      
       setIsSubmitting(false);
       setIsSuccess(true);
       methods.reset();
       setTimeout(() => {
         setIsSuccess(false);
         onClose();
-      }, 3000);
-    }, 1500);
+      }, 2000);
+    } else {
+      // Simulate API call
+      setTimeout(() => {
+        setIsSubmitting(false);
+        setIsSuccess(true);
+        methods.reset();
+        setTimeout(() => {
+          setIsSuccess(false);
+          onClose();
+        }, 3000);
+      }, 1500);
+    }
   };
 
   return (
@@ -81,25 +123,40 @@ export default function QuoteModal({
       bodyClassName="p-0 quote-modal-body flex flex-col md:flex-row h-[550px] max-h-[85vh] overflow-hidden"
     >
       {/* Left Side - High-Impact Image */}
-      <div className="hidden md:block md:w-1/3 lg:w-2/5 relative overflow-hidden h-full">
+      <div className="hidden md:block md:w-1/3 lg:w-2/5 relative overflow-hidden h-full bg-neutral-50">
         <Image 
-          src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?q=80&w=2071&auto=format&fit=crop"
-          alt="Western Interio"
+          src={product && product.images && product.images.length > 0 ? product.images[0] : "https://images.unsplash.com/photo-1613490493576-7fde63acd811?q=80&w=2071&auto=format&fit=crop"}
+          alt={product ? product.name : "Western Interio"}
           fill
           priority
           sizes="(max-width: 768px) 100vw, 40vw"
-          className="object-cover"
+          className={cn(
+            "transition-all duration-500",
+            product && product.images && product.images.length > 0 && !product.images[0].includes("unsplash")
+              ? "object-contain p-8 bg-white" 
+              : "object-cover"
+          )}
         />
         <div className="absolute inset-0 bg-secondary/40 backdrop-blur-[2px]" />
         
         <div className="absolute inset-0 p-12 flex flex-col justify-between text-white">
           <div className="space-y-6">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full border border-white/10 backdrop-blur-xl">
-              <Sparkles size={14} className="text-primary" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.2em]">Material Excellence</span>
+              <Sparkles size={14} className="text-primary animate-pulse" />
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em]">
+                {product ? product.brand || "Material Excellence" : "Material Excellence"}
+              </span>
             </div>
-            <h2 className="text-4xl font-bold leading-tight tracking-tight">
-              Crafting Your <br /> <span className="text-primary">Masterpiece</span>.
+            <h2 className="text-3xl font-bold leading-tight tracking-tight">
+              {product ? (
+                <>
+                  Inquiring <br /> About <span className="text-primary">Product</span>.
+                </>
+              ) : (
+                <>
+                  Crafting Your <br /> <span className="text-primary">Masterpiece</span>.
+                </>
+              )}
             </h2>
           </div>
 
@@ -110,7 +167,7 @@ export default function QuoteModal({
                 </div>
                 <div>
                    <p className="text-[10px] font-bold text-primary uppercase tracking-[0.2em]">Expert Help</p>
-                   <p className="text-lg font-bold">+91 99996 59940</p>
+                   <p className="text-lg font-bold">{siteContent.common.contact.phones[0] || "+91 99996 59940"}</p>
                 </div>
              </div>
           </div>
@@ -132,16 +189,29 @@ export default function QuoteModal({
              </div>
              <div className="space-y-3">
                 <h3 className="text-3xl font-bold text-secondary uppercase tracking-tighter">Inquiry Sent</h3>
-                <p className="text-sm text-gray-400 font-medium uppercase tracking-widest">Our material consultants will contact you shortly.</p>
+                <p className="text-sm text-gray-400 font-medium uppercase tracking-widest">
+                  {product ? "Your request has been prepared for WhatsApp." : "Our material consultants will contact you shortly."}
+                </p>
              </div>
           </div>
         ) : (
           <div className="space-y-4">
             <div className="space-y-1.5">
-              <h3 className="text-2xl lg:text-3xl font-bold text-secondary tracking-tight leading-none">{title}</h3>
-              <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-[0.2em] leading-relaxed max-w-md">
-                {subtitle}
-              </p>
+              <h3 className="text-2xl lg:text-3xl font-bold text-secondary tracking-tight leading-none">
+                {product ? "Request A Quote" : title}
+              </h3>
+              {product ? (
+                <div className="flex flex-col gap-1">
+                  <p className="text-sm font-bold text-primary truncate uppercase tracking-wider">{product.name}</p>
+                  <p className="text-[9px] text-gray-400 font-semibold uppercase tracking-[0.2em] leading-relaxed">
+                    {product.catNo ? `Model: ${product.catNo}` : `SKU: ${product.id.slice(0, 8).toUpperCase()}`}
+                  </p>
+                </div>
+              ) : (
+                <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-[0.2em] leading-relaxed max-w-md">
+                  {subtitle}
+                </p>
+              )}
             </div>
 
             <FormProvider {...methods}>
