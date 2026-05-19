@@ -159,9 +159,9 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onRemove }) => {
                 </div>
 
                 <div className="ml-4 flex-1">
-                    {toast.title && <h4 className="text-[10px] font-black uppercase tracking-widest text-secondary mb-0.5">{toast.title}</h4>}
+                    {toast.title && <h4 className="text-[10px] font-bold uppercase tracking-widest text-secondary mb-0.5">{toast.title}</h4>}
                     <p className={cn(
-                        "text-[11px] leading-relaxed font-bold uppercase tracking-tight",
+                        "text-[11px] leading-relaxed font-medium tracking-tight",
                         toast.title ? "text-gray-400" : styles.text
                     )}>
                         {toast.message}

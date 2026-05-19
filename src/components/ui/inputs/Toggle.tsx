@@ -13,8 +13,8 @@ const Toggle: React.FC<ToggleProps> = ({ enabled, setEnabled, label, description
         <div className="flex items-center justify-between gap-4">
             {(label || description) && (
                 <div className="flex flex-col">
-                    {label && <span className="text-[10px] font-black uppercase tracking-widest text-secondary">{label}</span>}
-                    {description && <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest leading-relaxed">{description}</span>}
+                    {label && <span className="text-[10px] font-semibold uppercase tracking-widest text-secondary">{label}</span>}
+                    {description && <span className="text-[10px] text-gray-400 font-normal uppercase tracking-widest leading-relaxed">{description}</span>}
                 </div>
             )}
             <button

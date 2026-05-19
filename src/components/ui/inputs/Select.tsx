@@ -14,7 +14,7 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
         return (
             <div className="space-y-2 w-full">
                 {label && (
-                    <label htmlFor={name} className="text-[10px] font-black uppercase tracking-widest text-secondary/60">
+                    <label htmlFor={name} className="text-[10px] font-semibold uppercase tracking-widest text-secondary/60">
                         {label}
                     </label>
                 )}
@@ -29,7 +29,7 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
                         id={name}
                         name={name}
                         className={cn(
-                            "w-full bg-gray-50 border py-3 px-4 text-sm font-bold focus:outline-none focus:border-primary transition-all appearance-none cursor-pointer",
+                            "w-full bg-gray-50 border py-3 px-4 text-sm font-medium focus:outline-none focus:border-primary transition-all appearance-none cursor-pointer",
                             icon ? "pl-12" : "pl-4",
                             error ? "border-red-500" : "border-gray-100",
                             className
@@ -46,7 +46,7 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
                         <ChevronDown size={16} />
                     </div>
                 </div>
-                {error && <p className="text-[10px] font-bold text-red-500 uppercase tracking-tight">{error}</p>}
+                {error && <p className="text-[10px] font-semibold text-red-500 uppercase tracking-tight">{error}</p>}
             </div>
         );
     }

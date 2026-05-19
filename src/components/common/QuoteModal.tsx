@@ -96,7 +96,7 @@ export default function QuoteModal({
           <div className="space-y-6">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full border border-white/10 backdrop-blur-xl">
               <Sparkles size={14} className="text-primary" />
-              <span className="text-[10px] font-black uppercase tracking-[0.2em]">Material Excellence</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em]">Material Excellence</span>
             </div>
             <h2 className="text-4xl font-bold leading-tight tracking-tight">
               Crafting Your <br /> <span className="text-primary">Masterpiece</span>.
@@ -109,8 +109,8 @@ export default function QuoteModal({
                    <Phone size={20} className="text-primary" />
                 </div>
                 <div>
-                   <p className="text-[10px] font-black text-primary uppercase tracking-[0.2em]">Expert Help</p>
-                   <p className="text-lg font-black">+91 99996 59940</p>
+                   <p className="text-[10px] font-bold text-primary uppercase tracking-[0.2em]">Expert Help</p>
+                   <p className="text-lg font-bold">+91 99996 59940</p>
                 </div>
              </div>
           </div>
@@ -131,15 +131,15 @@ export default function QuoteModal({
                 <CheckCircle2 size={48} />
              </div>
              <div className="space-y-3">
-                <h3 className="text-3xl font-black text-secondary uppercase tracking-tighter">Inquiry Sent</h3>
-                <p className="text-sm text-gray-400 font-bold uppercase tracking-widest">Our material consultants will contact you shortly.</p>
+                <h3 className="text-3xl font-bold text-secondary uppercase tracking-tighter">Inquiry Sent</h3>
+                <p className="text-sm text-gray-400 font-medium uppercase tracking-widest">Our material consultants will contact you shortly.</p>
              </div>
           </div>
         ) : (
           <div className="space-y-4">
             <div className="space-y-1.5">
               <h3 className="text-2xl lg:text-3xl font-bold text-secondary tracking-tight leading-none">{title}</h3>
-              <p className="text-[10px] text-gray-400 font-black uppercase tracking-[0.2em] leading-relaxed max-w-md">
+              <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-[0.2em] leading-relaxed max-w-md">
                 {subtitle}
               </p>
             </div>

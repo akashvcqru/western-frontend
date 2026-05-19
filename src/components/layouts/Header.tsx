@@ -209,7 +209,7 @@ export default function Header() {
                           {/* Left Column: Brand Editorial */}
                           <div className="col-span-3 border-r border-neutral-100 pr-10 flex flex-col justify-between">
                             <div className="space-y-4">
-                              <span className="text-[10px] font-black tracking-[0.3em] text-primary uppercase block">
+                              <span className="text-[10px] font-bold tracking-[0.3em] text-primary uppercase block">
                                 Collections
                               </span>
                               <h3 className="text-3xl font-bold text-secondary tracking-tight">
@@ -394,7 +394,7 @@ export default function Header() {
             >
               <div className="p-8 space-y-8 pb-32 bg-white min-h-full">
                 {/* Menu Breadcrumbs */}
-                <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-neutral-400 mb-4">
+                <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-400 mb-4">
                   <button
                     onClick={() => setActiveMenu(null)}
                     className={cn(
@@ -418,7 +418,7 @@ export default function Header() {
                 {!activeMenu ? (
                   <div className="space-y-8">
                     <div className="space-y-2">
-                      <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">
+                      <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-primary">
                         Explore Categories
                       </span>
                       <div className="grid gap-2">
@@ -463,7 +463,7 @@ export default function Header() {
                     </div>
 
                     <div className="pt-8 space-y-6">
-                      <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">
+                      <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-primary">
                         Direct Contact
                       </span>
                       <div className="grid gap-4">
@@ -475,7 +475,7 @@ export default function Header() {
                             <Phone size={18} />
                           </div>
                           <div>
-                            <p className="text-[10px] font-black text-neutral-400 uppercase tracking-widest">
+                            <p className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest">
                               Call Us
                             </p>
                             <p className="font-bold text-secondary">
@@ -493,7 +493,7 @@ export default function Header() {
                         .find((n) => n.title === activeMenu)
                         ?.columns?.map((col: NavigationColumn, i: number) => (
                           <div key={i} className="space-y-6">
-                            <h4 className="text-[10px] font-black tracking-[0.4em] text-primary uppercase border-l-2 border-primary pl-4">
+                            <h4 className="text-[10px] font-bold tracking-[0.4em] text-primary uppercase border-l-2 border-primary pl-4">
                               {col.title}
                             </h4>
                             <div className="grid gap-4 pl-4">
@@ -516,7 +516,7 @@ export default function Header() {
 
                     <button
                       onClick={() => setActiveMenu(null)}
-                      className="flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.3em] text-neutral-400 pt-8 border-t border-neutral-100"
+                      className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-[0.3em] text-neutral-400 pt-8 border-t border-neutral-100"
                     >
                       <ArrowRight size={14} className="rotate-180" />
                       Back to Main Menu

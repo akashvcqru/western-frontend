@@ -196,15 +196,15 @@ export default function OfflineStatus() {
                     <OfflineIllustration />
                 </div>
 
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-secondary/10 text-secondary border border-secondary/20 mb-4">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-secondary/10 text-secondary border border-secondary/20 mb-4">
                     <WifiOff className="w-3 h-3" />
                     No Internet Connection
                 </span>
 
-                <h1 className="text-3xl sm:text-4xl font-black text-secondary uppercase tracking-tighter mb-3">
+                <h1 className="text-3xl sm:text-4xl font-bold text-secondary uppercase tracking-tighter mb-3">
                     You&apos;re <span className="text-primary">Offline</span>
                 </h1>
-                <p className="text-gray-400 text-xs font-bold uppercase tracking-widest leading-relaxed max-w-sm">
+                <p className="text-gray-400 text-xs font-semibold uppercase tracking-widest leading-relaxed max-w-sm">
                     Your connection was interrupted. Please check your network and try again.
                 </p>
 
@@ -219,7 +219,7 @@ export default function OfflineStatus() {
                 </div>
             </div>
 
-            <p className="relative z-10 mt-6 text-[9px] font-black uppercase tracking-[0.2em] text-gray-300 select-none pb-2">
+            <p className="relative z-10 mt-6 text-[9px] font-bold uppercase tracking-[0.2em] text-gray-300 select-none pb-2">
                 Waiting for the signal...
             </p>
         </div>
