@@ -613,17 +613,7 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
             {/* Right: Product Details */}
             <div className="space-y-10">
               <div className="space-y-4">
-                <div className="flex flex-col gap-2">
-                  <div className="flex items-center gap-4">
-                    <span className="px-4 py-1.5 bg-primary/10 text-primary text-[11px] font-black uppercase tracking-[0.2em] rounded-full">
-                      Western Interio
-                    </span>
-                    <span className="text-neutral-300 text-xs">|</span>
-                    <span className="text-neutral-500 text-[11px] font-bold uppercase tracking-[0.2em]">
-                      ID: {product.id.toUpperCase()}
-                    </span>
-                  </div>
-                </div>
+
                 <h1 className="text-3xl lg:text-4xl font-bold text-secondary leading-tight">
                   {product.name}
                 </h1>
@@ -692,20 +682,31 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
               )}
 
               {/* CTAs */}
-              <div className="grid sm:grid-cols-2 gap-4 pt-4">
+              <div className="grid sm:grid-cols-3 gap-4 pt-4">
                 <button 
-                  className="w-full inline-flex items-center justify-center gap-3 px-10 py-6 bg-primary text-white font-extrabold uppercase tracking-[0.15em] text-[12px] rounded-lg transition-all duration-500 hover:bg-secondary hover:-translate-y-1 shadow-xl shadow-primary/20 hover:shadow-secondary/20 cursor-pointer active:scale-95"
+                  className="inline-flex items-center justify-center gap-2.5 px-5 py-4 bg-primary text-white font-semibold uppercase tracking-wider text-xs rounded-xl transition-all duration-300 hover:bg-secondary hover:-translate-y-0.5 shadow-md shadow-primary/10 cursor-pointer active:scale-95"
                   onClick={handleGetQuote}
                 >
-                  <FileText size={18} />
+                  <FileText size={16} />
                   Get A Quote
                 </button>
+                
                 <button 
-                  className="inline-flex items-center justify-center gap-3 px-7 py-6 bg-primary text-white font-extrabold uppercase tracking-[0.15em] text-[11px] rounded-lg transition-all duration-500 hover:bg-secondary hover:-translate-y-1 shadow-xl shadow-primary/20 hover:shadow-secondary/20 cursor-pointer active:scale-95"
+                  className="inline-flex items-center justify-center gap-2.5 px-5 py-4 bg-secondary text-white font-semibold uppercase tracking-wider text-xs rounded-xl transition-all duration-300 hover:bg-primary hover:-translate-y-0.5 shadow-md shadow-secondary/10 cursor-pointer active:scale-95"
                   onClick={() => window.location.href = `tel:${contact.phone}`}
                 >
-                  <Phone size={16} />
+                  <Phone size={14} />
                   Call Now
+                </button>
+
+                <button 
+                  className="inline-flex items-center justify-center gap-2.5 px-5 py-4 bg-emerald-600 text-white font-semibold uppercase tracking-wider text-xs rounded-xl transition-all duration-300 hover:bg-emerald-700 hover:-translate-y-0.5 shadow-md shadow-emerald-600/10 cursor-pointer active:scale-95"
+                  onClick={() => window.open(`https://wa.me/${contact.phone.replace(/[^0-9]/g, '')}?text=Hi, I am interested in ${product.name} (ID: ${product.id}). Please share more details.`, '_blank')}
+                >
+                  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.262 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.588 1.485 5.407 1.486 5.417 0 9.822-4.36 9.825-9.711.002-2.592-1.002-5.029-2.828-6.858C17.227 2.241 14.801 1.24 12.01 1.24c-5.42 0-9.827 4.36-9.831 9.713a9.58 9.58 0 0 0 1.464 5.093L2.6 21.43l5.524-1.437l-.477-.282zm9.954-6.83c-.274-.137-1.62-.796-1.87-.887-.252-.09-.435-.137-.617.137-.182.274-.708.887-.868 1.066-.16.182-.32.203-.594.067-.274-.137-1.162-.426-2.214-1.36c-.82-.727-1.374-1.625-1.535-1.897-.16-.273-.017-.42.12-.557.123-.122.274-.32.411-.478.137-.16.182-.273.274-.455.092-.182.046-.341-.023-.478-.069-.137-.618-1.483-.846-2.03c-.22-.53-.446-.458-.618-.467-.16-.008-.343-.01-.525-.01a1.01 1.01 0 0 0-.73.34c-.252.274-.96.938-.96 2.287s.983 2.65 1.12 2.83c.137.182 1.935 2.923 4.69 4.103c.655.282 1.167.45 1.567.576.66.21 1.26.162 1.735.092.53-.078 1.62-.66 1.85-1.294.228-.636.228-1.183.16-1.295-.069-.113-.252-.204-.526-.341z"/>
+                  </svg>
+                  WhatsApp
                 </button>
               </div>
             </div>
@@ -744,49 +745,6 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
           </div>
         </div>
       </div>
-      
-      {/* Commitment Section */}
-      <section className="py-24 bg-secondary text-white relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-1/3 h-full bg-primary/5 -skew-x-12 translate-x-1/2" />
-        <div className="max-w-[1440px] mx-auto px-4 lg:px-8 relative z-10 text-center space-y-16">
-          <div className="space-y-4">
-            <span className="text-primary font-black uppercase tracking-[0.3em] text-[10px]">The Western Commitment</span>
-            <h2 className="text-4xl lg:text-5xl font-bold leading-tight tracking-tight">Workspace <span className="text-primary">Excellence.</span></h2>
-          </div>
-          
-          <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
-            <div className="p-10 lg:p-12 bg-white/[0.03] border border-white/10 rounded-[32px] space-y-8 group hover:bg-white/[0.05] hover:border-primary/30 transition-all duration-500 hover:-translate-y-2">
-               <div className="w-20 h-20 mx-auto bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-500">
-                 <ShieldCheck size={32} />
-               </div>
-               <div className="space-y-4">
-                 <h3 className="text-xl lg:text-2xl font-bold tracking-tight">Authentic Quality</h3>
-                 <p className="text-gray-400 text-sm lg:text-base leading-relaxed">High-grade materials and ergonomic engineering for lasting comfort.</p>
-               </div>
-            </div>
- 
-            <div className="p-10 lg:p-12 bg-white/[0.03] border border-white/10 rounded-[32px] space-y-8 group hover:bg-white/[0.05] hover:border-primary/30 transition-all duration-500 hover:-translate-y-2">
-               <div className="w-20 h-20 mx-auto bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-500">
-                 <Maximize2 size={32} />
-               </div>
-               <div className="space-y-4">
-                 <h3 className="text-xl lg:text-2xl font-bold tracking-tight">Custom Planning</h3>
-                 <p className="text-gray-400 text-sm lg:text-base leading-relaxed">Tailored workspace solutions from planning to manufacturing.</p>
-               </div>
-            </div>
- 
-            <div className="p-10 lg:p-12 bg-white/[0.03] border border-white/10 rounded-[32px] space-y-8 group hover:bg-white/[0.05] hover:border-primary/30 transition-all duration-500 hover:-translate-y-2">
-               <div className="w-20 h-20 mx-auto bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-500">
-                 <CheckCircle2 size={32} />
-               </div>
-               <div className="space-y-4">
-                 <h3 className="text-xl lg:text-2xl font-bold tracking-tight">End-to-End</h3>
-                 <p className="text-gray-400 text-sm lg:text-base leading-relaxed">Turnkey interior execution with zero-defect delivery.</p>
-               </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
     {/* Full Screen Image Preview */}
     <ImagePreview 
