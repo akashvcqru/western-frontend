@@ -97,10 +97,9 @@ function CategoryHubPage({ category, navItem }: { category: Category | undefined
             const subDescription = subCategoryDetail?.description || "High-end corporate collection featuring premium aesthetics and absolute support.";
             const count = productsData.filter(p => p.category === sub.slug).length;
             
-            const isService = navItem.id === "interior-design";
-            const badgeText = isService ? "Turnkey Service" : `${count} ${count === 1 ? "Model" : "Models"}`;
-            const ctaText = isService ? "Explore Service" : "Explore Series";
-            const cardHref = isService ? `/services/${sub.slug}` : `${navItem.href}/${sub.slug}`;
+            const badgeText = `${count} ${count === 1 ? "Model" : "Models"}`;
+            const ctaText = "Explore Series";
+            const cardHref = `${navItem.href}/${sub.slug}`;
 
             return (
               <Link

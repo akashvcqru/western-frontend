@@ -3538,5 +3538,181 @@
       "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?q=80&w=2070&auto=format&fit=crop"
     ],
     "description": "Vibrant, durable, and stackable polymer molded cafeteria chair with modern solid ash wood legs."
+  },
+  {
+    "id": "wfu-int-001",
+    "slug": "wfu-int-001",
+    "name": "Premium Executive Turnkey Office Design",
+    "category": "office-interior-designing",
+    "price": "1,250,000",
+    "images": [
+      "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2070&auto=format&fit=crop"
+    ],
+    "description": "Complete end-to-end premium corporate office space planning, 3D architectural renders, modular partitions, and execution."
+  },
+  {
+    "id": "wfu-int-002",
+    "slug": "wfu-int-002",
+    "name": "Collaborative Open-Plan Workspace Layout",
+    "category": "office-design-ideas",
+    "price": "850,000",
+    "images": [
+      "https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=2070&auto=format&fit=crop"
+    ],
+    "description": "Modern collaborative open office layout featuring acoustic desking setups, breakrooms, and glass partitions."
+  },
+  {
+    "id": "wfu-int-003",
+    "slug": "wfu-int-003",
+    "name": "Stately CEO Luxury Director Suite",
+    "category": "boss-cabin-interior",
+    "price": "650,000",
+    "images": [
+      "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop"
+    ],
+    "description": "Executive leadership boss cabin setup featuring custom fluted wood panel walls, premium director desk, and integrated conference seating."
+  },
+  {
+    "id": "wfu-int-004",
+    "slug": "wfu-int-004",
+    "name": "Aesthetic Linear Acoustic Grid Ceiling",
+    "category": "false-ceiling-design",
+    "price": "180,000",
+    "images": [
+      "https://images.unsplash.com/photo-1507089947368-19c1da9775ae?q=80&w=2070&auto=format&fit=crop"
+    ],
+    "description": "Modern modular acoustic false ceiling integration with custom wooden rafters, recessed LED diffusers, and premium finishes."
+  },
+  {
+    "id": "wfu-int-005",
+    "slug": "wfu-int-005",
+    "name": "Luxury Customized Living Room Sofa Lounge",
+    "category": "home-furniture-design",
+    "price": "280,000",
+    "images": [
+      "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=2070&auto=format&fit=crop"
+    ],
+    "description": "Premium custom-crafted multi-seater fabric lounge sofa layout, complete with curated coffee table styling."
+  },
+  {
+    "id": "wfu-int-006",
+    "slug": "wfu-int-006",
+    "name": "Bespoke Factory-Direct Modular Kitchen System",
+    "category": "home-furniture-manufacturer",
+    "price": "450,000",
+    "images": [
+      "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?q=80&w=2070&auto=format&fit=crop"
+    ],
+    "description": "High-durability bespoke modular kitchen layout directly manufactured in-house with premium acrylic sheets and soft-close channels."
+  },
+  {
+    "id": "wfu-int-007",
+    "slug": "wfu-int-007",
+    "name": "Modernist Minimalist Bedroom Suite Design",
+    "category": "home-interior-designing-ideas",
+    "price": "550,000",
+    "images": [
+      "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=2070&auto=format&fit=crop"
+    ],
+    "description": "Bespoke warm bedroom interior planning with custom vertical headboard panelling, smart lighting setups, and modular dressing wardrobes."
+  },
+  {
+    "id": "wfu-int-008",
+    "slug": "wfu-int-008",
+    "name": "Premium Residential Turnkey Styling Audit",
+    "category": "home-interior-designer",
+    "price": "950,000",
+    "images": [
+      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053&auto=format&fit=crop"
+    ],
+    "description": "Comprehensive complete home interior styling package, material customization options, and end-to-end site supervisor accountability."
+  },
+  {
+    "id": "wfu-int-009",
+    "slug": "wfu-int-009",
+    "name": "Turnkey Agile Corporate Workspace Setup",
+    "category": "office-interior-designing",
+    "price": "1,750,000",
+    "images": [
+      "https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=2070&auto=format&fit=crop"
+    ],
+    "description": "Innovative agile corporate layout planning, custom collaborative huddle zones, and complete electrical/HVAC turnkey setup."
+  },
+  {
+    "id": "wfu-int-010",
+    "slug": "wfu-int-010",
+    "name": "Modern Executive Conference Room Interior",
+    "category": "office-design-ideas",
+    "price": "480,000",
+    "images": [
+      "https://images.unsplash.com/photo-1577412647305-991150c7d163?q=80&w=2070&auto=format&fit=crop"
+    ],
+    "description": "Stunning acoustic conference room package featuring modular conference table, linear drop ceiling, and smart video conference wall."
+  },
+  {
+    "id": "wfu-int-011",
+    "slug": "wfu-int-011",
+    "name": "Executive Cabin Minimalist Styling Layout",
+    "category": "boss-cabin-interior",
+    "price": "390,000",
+    "images": [
+      "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=2070&auto=format&fit=crop"
+    ],
+    "description": "Clean modern director room interior with glass wall dividers, floating sideboards, and ergonomic lounge seating."
+  },
+  {
+    "id": "wfu-int-012",
+    "slug": "wfu-int-012",
+    "name": "Modern Cove Ambient Lighting Ceiling",
+    "category": "false-ceiling-design",
+    "price": "120,000",
+    "images": [
+      "https://images.unsplash.com/photo-1618219908412-a29a1bb7b86e?q=80&w=2070&auto=format&fit=crop"
+    ],
+    "description": "Seamless gypsum board drop ceiling configuration with integrated smart LED cove strips and architectural spot lighting."
+  },
+  {
+    "id": "wfu-int-013",
+    "slug": "wfu-int-013",
+    "name": "Curated Luxury Dining Room Suite",
+    "category": "home-furniture-design",
+    "price": "220,000",
+    "images": [
+      "https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf?q=80&w=2070&auto=format&fit=crop"
+    ],
+    "description": "Exquisite custom-crafted dining set featuring marble top dining table, upholstered seating, and modern modular side cabinet."
+  },
+  {
+    "id": "wfu-int-014",
+    "slug": "wfu-int-014",
+    "name": "Bespoke Factory-Built Smart Hydraulic Bed",
+    "category": "home-furniture-manufacturer",
+    "price": "140,000",
+    "images": [
+      "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?q=80&w=2070&auto=format&fit=crop"
+    ],
+    "description": "Premium king size hydraulic storage bed frame engineered with certified moisture-proof wood boards directly from our plant."
+  },
+  {
+    "id": "wfu-int-015",
+    "slug": "wfu-int-015",
+    "name": "Luxury Turnkey Villa Living Space Design",
+    "category": "home-interior-designing-ideas",
+    "price": "1,500,000",
+    "images": [
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop"
+    ],
+    "description": "Stunning open layout villa ground floor concept planning, structural panelling, custom fireplaces, and luxury lighting grids."
+  },
+  {
+    "id": "wfu-int-016",
+    "slug": "wfu-int-016",
+    "name": "Turnkey Premium Duplex Apartment Setup",
+    "category": "home-interior-designer",
+    "price": "2,200,000",
+    "images": [
+      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053&auto=format&fit=crop"
+    ],
+    "description": "End-to-end luxury duplex design and fit-out execution package, complete with 3D structural walkthroughs and dedicated site manager."
   }
 ]

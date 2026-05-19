@@ -254,7 +254,7 @@ export default function Header() {
                                     return (
                                       <Link
                                         key={idx}
-                                        href={navItem.id === "interior-design" ? `/services/${item.slug}` : `${navItem.href}/${item.slug}`}
+                                        href={`${navItem.href}/${item.slug}`}
                                         className="group flex items-start gap-4 p-2 rounded-xl hover:bg-neutral-50/80 transition-all duration-300 cursor-pointer animate-in fade-in slide-in-from-bottom-2 duration-300"
                                         style={{ animationDelay: `${idx * 30}ms` }}
                                         onClick={() => setActiveMenu(null)}
