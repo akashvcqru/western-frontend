@@ -55,10 +55,10 @@ export default function ProductsPage() {
 
       {/* Product Categories Grid - World Class Showcase */}
       <section className="py-12 lg:py-16 relative bg-white overflow-hidden">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-12 space-y-24">
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-12 space-y-12">
           
           {/* Filter Bar - Modern & Minimal */}
-          <div className="flex flex-col lg:flex-row justify-between items-center gap-10 pb-12 border-b border-neutral-100">
+          <div className="flex flex-col lg:flex-row justify-between items-center gap-10 pb-8 border-b border-neutral-100">
             <div className="flex items-center gap-12 w-full lg:w-auto justify-between lg:justify-start">
                <div className="space-y-2">
                   <h2 className="text-3xl font-bold text-secondary tracking-tight">{filterBar.title}</h2>
@@ -151,31 +151,41 @@ export default function ProductsPage() {
                     <Link 
                       key={cat.id} 
                       href={`/products/${cat.slug}`} 
-                      className="group flex flex-col md:flex-row items-center gap-8 p-6 bg-neutral-50/50 border border-neutral-100 rounded-xl hover:border-primary/20 hover:bg-white hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.05)] transition-all duration-500 ease-out"
+                      className="group flex flex-col md:flex-row items-center gap-8 p-6 bg-white border border-neutral-100 rounded-2xl hover:border-primary/20 hover:bg-neutral-50/[0.2] hover:shadow-[0_20px_50px_-12px_rgba(237,28,39,0.04)] hover:-translate-y-0.5 transition-all duration-500 ease-out relative overflow-hidden"
                     >
-                      <div className="relative w-full md:w-56 h-40 shrink-0 overflow-hidden rounded-xl border border-neutral-100 shadow-sm">
+                      {/* Left accent bar on hover */}
+                      <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary scale-y-0 group-hover:scale-y-100 transition-transform duration-500 origin-center" />
+
+                      {/* Image container */}
+                      <div className="relative w-full md:w-56 h-36 shrink-0 overflow-hidden rounded-xl border border-neutral-100 bg-neutral-50 shadow-sm">
                         <Image 
                           src={cat.image}
                           alt={cat.name}
                           fill
-                          className="object-cover transition-transform duration-1000 group-hover:scale-105"
+                          sizes="(max-width: 768px) 100vw, 224px"
+                          className="object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-105"
                         />
+                        <div className="absolute inset-0 bg-neutral-950/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                       </div>
-                      <div className="flex-1 space-y-2.5 text-center md:text-left">
-                        <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
-                          <h3 className="text-2xl font-bold text-secondary tracking-tight">
+
+                      {/* Content block */}
+                      <div className="flex-1 space-y-3.5 text-center md:text-left py-2">
+                        <div className="flex flex-wrap items-center justify-center md:justify-start gap-4">
+                          <h3 className="text-xl md:text-2xl font-bold text-secondary group-hover:text-primary transition-colors duration-500 tracking-tight uppercase leading-tight">
                             {cat.name}
                           </h3>
-                          <span className="px-2 py-0.5 bg-primary/10 text-primary text-[9px] font-black tracking-widest rounded uppercase">
-                            {count} Models
+                          <span className="px-3 py-1 bg-primary/10 text-primary text-[9px] font-black tracking-[0.15em] rounded-lg uppercase transition-all duration-500 group-hover:bg-primary group-hover:text-white">
+                            {count} {count === 1 ? "Model" : "Models"}
                           </span>
                         </div>
-                        <p className="text-neutral-500 text-sm font-medium leading-relaxed max-w-3xl">
+                        <p className="text-neutral-400 text-sm font-medium leading-relaxed max-w-3xl group-hover:text-neutral-500 transition-colors duration-500">
                           {cat.description}
                         </p>
                       </div>
-                      <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-neutral-400 border border-neutral-100 group-hover:bg-primary group-hover:border-primary group-hover:text-white transition-all duration-500 shadow-sm group-hover:-translate-x-1.5 active:scale-95 cursor-pointer shrink-0">
-                        <ArrowRight size={18} />
+
+                      {/* Right button - playful rotating arrow */}
+                      <div className="w-14 h-14 bg-neutral-50 rounded-2xl flex items-center justify-center text-neutral-400 border border-neutral-100 group-hover:bg-primary group-hover:border-primary group-hover:text-white transition-all duration-500 shadow-sm group-hover:rotate-45 active:scale-95 cursor-pointer shrink-0">
+                        <ArrowRight size={20} className="-rotate-45 group-hover:rotate-0 transition-transform duration-500" />
                       </div>
                     </Link>
                   );
