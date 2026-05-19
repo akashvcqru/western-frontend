@@ -1,19 +1,121 @@
 [
-  { "id": "desking-workstation", "name": "Desking & Workstation", "slug": "desking-workstation", "image": "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop", "description": "High-quality desking and modular workstation solutions." },
-  { "id": "executive-tables", "name": "Executive Tables", "slug": "executive-tables", "image": "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop", "description": "Premium executive tables for leadership cabins." },
-  { "id": "reception-series", "name": "Reception Series", "slug": "reception-series", "image": "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2070&auto=format&fit=crop", "description": "Elegant reception series for a great first impression." },
-  { "id": "computer-tables", "name": "Computer Tables", "slug": "computer-tables", "image": "https://images.unsplash.com/photo-1517502884422-41eaead166d4?q=80&w=2070&auto=format&fit=crop", "description": "Functional computer tables for office and home." },
-  { "id": "centre-tables", "name": "Centre Tables", "slug": "centre-tables", "image": "https://images.unsplash.com/photo-1577412647305-991150c7d163?q=80&w=2070&auto=format&fit=crop", "description": "Versatile centre tables for lounges and offices." },
-  { "id": "office-chair-manufacturer-in-gurgaon", "name": "Office Chair Manufacturer in Gurgaon", "slug": "office-chair-manufacturer-in-gurgaon", "image": "/images/products/executive-chair-3.png", "description": "Leading manufacturer of ergonomic office chairs." },
-  { "id": "ceo-series-chairs", "name": "CEO Series Chairs", "slug": "ceo-series-chairs", "image": "/images/products/executive-chair-1.png", "description": "Exclusive CEO series chairs for top-tier comfort." },
-  { "id": "office-executive", "name": "Office Executive", "slug": "office-executive", "image": "/images/products/executive-chair-2.png", "description": "Executive chairs for modern office environments." },
-  { "id": "office-workstation-chairs", "name": "Office Workstation", "slug": "office-workstation-chairs", "image": "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop", "description": "Comfortable workstation chairs for daily productivity." },
-  { "id": "visitor-training", "name": "Visitor & Training", "slug": "visitor-training", "image": "/images/products/executive-chair-4.png", "description": "Visitor and training room seating solutions." },
-  { "id": "waiting-area-series", "name": "Waiting Area Series", "slug": "waiting-area-series", "image": "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2070&auto=format&fit=crop", "description": "Seating series for comfortable waiting areas." },
-  { "id": "cafeteria-and-bar", "name": "Cafeteria and Bar", "slug": "cafeteria-and-bar", "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop", "description": "Modern cafeteria and bar furniture." },
-  { "id": "sofas-series", "name": "Sofas Series", "slug": "sofas-series", "image": "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2070&auto=format&fit=crop", "description": "Premium sofa series for office and lounges." },
-  { "id": "conference-meeting", "name": "Conference/ Meeting", "slug": "conference-meeting", "image": "https://images.unsplash.com/photo-1577412647305-991150c7d163?q=80&w=2070&auto=format&fit=crop", "description": "Conference and meeting room furniture." },
-  { "id": "home-furniture-series", "name": "Home Furniture Series", "slug": "home-furniture-series", "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop", "description": "Elegant home furniture series." },
-  { "id": "office-storage", "name": "Office Storage", "slug": "office-storage", "image": "https://images.unsplash.com/photo-1595844730298-b960ff98fee0?q=80&w=2070&auto=format&fit=crop", "description": "Optimized office storage solutions." },
-  { "id": "modular-kitchen-series", "name": "Modular Kitchen Series", "slug": "modular-kitchen-series", "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop", "description": "Modern modular kitchen series." }
+  {
+    "id": "desking-workstation",
+    "name": "Desking & Workstation",
+    "slug": "desking-workstation",
+    "image": "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop",
+    "description": "High-quality desking and modular workstation solutions."
+  },
+  {
+    "id": "executive-tables",
+    "name": "Executive Tables",
+    "slug": "executive-tables",
+    "image": "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop",
+    "description": "Premium executive tables for leadership cabins."
+  },
+  {
+    "id": "reception-series",
+    "name": "Reception Series",
+    "slug": "reception-series",
+    "image": "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2070&auto=format&fit=crop",
+    "description": "Elegant reception series for a great first impression."
+  },
+  {
+    "id": "computer-tables",
+    "name": "Computer Tables",
+    "slug": "computer-tables",
+    "image": "https://images.unsplash.com/photo-1517502884422-41eaead166d4?q=80&w=2070&auto=format&fit=crop",
+    "description": "Functional computer tables for office and home."
+  },
+  {
+    "id": "centre-tables",
+    "name": "Centre Tables",
+    "slug": "centre-tables",
+    "image": "https://images.unsplash.com/photo-1577412647305-991150c7d163?q=80&w=2070&auto=format&fit=crop",
+    "description": "Versatile centre tables for lounges and offices."
+  },
+  {
+    "id": "office-chair-manufacturer-in-gurgaon",
+    "name": "Office Chair Manufacturer in Gurgaon",
+    "slug": "office-chair-manufacturer-in-gurgaon",
+    "image": "/images/products/executive-chair-3.png",
+    "description": "Leading manufacturer of ergonomic office chairs."
+  },
+  {
+    "id": "ceo-series-chairs",
+    "name": "CEO Series Chairs",
+    "slug": "ceo-series-chairs",
+    "image": "/images/products/executive-chair-1.png",
+    "description": "Exclusive CEO series chairs for top-tier comfort."
+  },
+  {
+    "id": "office-executive",
+    "name": "Office Executive",
+    "slug": "office-executive",
+    "image": "/images/products/executive-chair-2.png",
+    "description": "Executive chairs for modern office environments."
+  },
+  {
+    "id": "office-workstation-chairs",
+    "name": "Office Workstation",
+    "slug": "office-workstation-chairs",
+    "image": "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop",
+    "description": "Comfortable workstation chairs for daily productivity."
+  },
+  {
+    "id": "visitor-training",
+    "name": "Visitor & Training",
+    "slug": "visitor-training",
+    "image": "/images/products/executive-chair-4.png",
+    "description": "Visitor and training room seating solutions."
+  },
+  {
+    "id": "waiting-area-series",
+    "name": "Waiting Area Series",
+    "slug": "waiting-area-series",
+    "image": "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2070&auto=format&fit=crop",
+    "description": "Seating series for comfortable waiting areas."
+  },
+  {
+    "id": "cafeteria-and-bar",
+    "name": "Cafeteria and Bar",
+    "slug": "cafeteria-and-bar",
+    "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop",
+    "description": "Modern cafeteria and bar furniture."
+  },
+  {
+    "id": "sofas-series",
+    "name": "Sofas Series",
+    "slug": "sofas-series",
+    "image": "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2070&auto=format&fit=crop",
+    "description": "Premium sofa series for office and lounges."
+  },
+  {
+    "id": "conference-meeting",
+    "name": "Conference/ Meeting",
+    "slug": "conference-meeting",
+    "image": "https://images.unsplash.com/photo-1577412647305-991150c7d163?q=80&w=2070&auto=format&fit=crop",
+    "description": "Conference and meeting room furniture."
+  },
+  {
+    "id": "home-furniture-series",
+    "name": "Home Furniture Series",
+    "slug": "home-furniture-series",
+    "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop",
+    "description": "Elegant home furniture series."
+  },
+  {
+    "id": "office-storage",
+    "name": "Office Storage",
+    "slug": "office-storage",
+    "image": "https://images.unsplash.com/photo-1595844730298-b960ff98fee0?q=80&w=2070&auto=format&fit=crop",
+    "description": "Optimized office storage solutions."
+  },
+  {
+    "id": "modular-kitchen-series",
+    "name": "Modular Kitchen Series",
+    "slug": "modular-kitchen-series",
+    "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop",
+    "description": "Modern modular kitchen series."
+  }
 ]

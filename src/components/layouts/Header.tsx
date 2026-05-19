@@ -13,12 +13,12 @@ import {
   ArrowRight,
   ChevronDown,
 } from "lucide-react";
-
 import { cn } from "@/lib/utils";
 import Badge from "@/components/ui/Badge";
 import QuoteModal from "@/components/common/QuoteModal";
 import siteContent from "@/data/site-content.json";
 import navigation from "@/data/navigation.json";
+import categoriesData from "@/data/categories.json";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -67,7 +67,9 @@ export default function Header() {
                   size={12}
                   className="text-primary group-hover:scale-110 group-hover:rotate-3 transition-transform filter group-hover:drop-shadow-[0_0_4px_rgba(237,28,39,0.5)]"
                 />
-                <span className="transition-colors duration-300">{common.contact.email}</span>
+                <span className="transition-colors duration-300">
+                  {common.contact.email}
+                </span>
               </a>
               {common.contact.phones.map((p: string, i: number) => (
                 <a
@@ -88,7 +90,9 @@ export default function Header() {
                 size={12}
                 className="text-primary group-hover:scale-110 group-hover:-translate-y-0.5 transition-all filter group-hover:drop-shadow-[0_0_4px_rgba(237,28,39,0.5)]"
               />
-              <span className="transition-colors duration-300">{common.contact.locationShort}</span>
+              <span className="transition-colors duration-300">
+                {common.contact.locationShort}
+              </span>
             </div>
           </div>
         </div>
@@ -160,38 +164,98 @@ export default function Header() {
                     {navItem && navItem.columns && (
                       <div
                         className={cn(
-                          "fixed top-full left-0 right-0 bg-white/95 backdrop-blur-2xl shadow-[0_40px_80px_-20px_rgba(0,0,0,0.1)] border-t border-neutral-100 transition-all duration-500 overflow-hidden z-50",
+                          "fixed top-full left-0 right-0 bg-white/95 backdrop-blur-2xl border-t border-neutral-100 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.08)] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] z-50 origin-top transform-gpu",
                           activeMenu === link.name
-                            ? "max-h-[600px] opacity-100"
-                            : "max-h-0 opacity-0 invisible",
+                            ? "opacity-100 translate-y-0 visible"
+                            : "opacity-0 -translate-y-2 invisible pointer-events-none"
                         )}
                       >
-                        <div className="max-w-[1440px] mx-auto px-12 py-16 grid grid-cols-4 gap-16">
-                          {navItem.columns.map((column: any, i: number) => (
-                            <div
-                              key={i}
-                              className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500"
-                              style={{ animationDelay: `${i * 50}ms` }}
-                            >
-                              <h4 className="text-[10px] font-black tracking-[0.4em] text-primary uppercase">
-                                {column.title}
-                              </h4>
-                              <ul className="space-y-5">
-                                {column.items.map((item: any, idx: number) => (
-                                  <li key={idx}>
-                                    <a
-                                      href={`${navItem.href}/${item.slug}`}
-                                      className="text-[13px] font-semibold text-secondary/80 hover:text-primary transition-all flex items-center justify-start group/item relative"
-                                      onClick={() => setActiveMenu(null)}
-                                    >
-                                      <span className="absolute -left-5 w-1.5 h-1.5 rounded-full bg-primary transform scale-0 group-hover/item:scale-100 transition-transform duration-300" />
-                                      {item.name}
-                                    </a>
-                                  </li>
-                                ))}
-                              </ul>
+                        <div className="max-w-[1440px] mx-auto px-12 py-12 grid grid-cols-12 gap-10 items-stretch">
+                          {/* Left Column: Brand Editorial */}
+                          <div className="col-span-3 border-r border-neutral-100 pr-10 flex flex-col justify-between">
+                            <div className="space-y-4">
+                              <span className="text-[10px] font-black tracking-[0.3em] text-primary uppercase block">
+                                Collections
+                              </span>
+                              <h3 className="text-3xl font-black text-secondary tracking-tight">
+                                {link.name}
+                              </h3>
+                              <p className="text-[13px] leading-relaxed text-secondary/60 font-medium">
+                                {link.name === "Office Furniture" && "Elevate your work environment with our ergonomic desking systems, executive series tables, and collaborative storage units."}
+                                {link.name === "Home Furniture" && "Craft a sanctuary of style and comfort. Handcrafted tables, modular kitchens, and elegant storage layouts for modern living."}
+                                {link.name === "Chairs" && "Engineered for absolute posture support and long-term seating comfort. Explore our CEO, executive, and staff collections."}
+                                {link.name === "Interior Design" && "Transform your corporate space. Complete turnkey workspace layouts, partitions, false ceilings, and flooring design solutions."}
+                              </p>
                             </div>
-                          ))}
+
+                            <a
+                              href={link.href}
+                              className="inline-flex items-center gap-2 text-[10px] font-black tracking-widest uppercase text-secondary hover:text-primary transition-colors group/btn mt-8"
+                              onClick={() => setActiveMenu(null)}
+                            >
+                              View All Products
+                              <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform text-primary" />
+                            </a>
+                          </div>
+
+                          {/* Right Column: Visual Row Grid */}
+                          <div className="col-span-9 pl-6">
+                            {(() => {
+                              const allItems = navItem.columns.flatMap((col: any) => col.items);
+                              const numItems = allItems.length;
+
+                              const gridColsClass = 
+                                numItems <= 2
+                                  ? "grid-cols-2 max-w-xl"
+                                  : numItems === 3
+                                  ? "grid-cols-3"
+                                  : numItems >= 10
+                                  ? "grid-cols-4"
+                                  : "grid-cols-3";
+
+                              return (
+                                <div className={cn("grid gap-x-8 gap-y-5", gridColsClass)}>
+                                  {allItems.map((item: any, idx: number) => {
+                                    const subCategoryDetail = categoriesData.find((c: any) => c.slug === item.slug);
+                                    const previewImage = subCategoryDetail?.image || "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop";
+                                    const previewTitle = subCategoryDetail?.name || item.name;
+
+                                    return (
+                                      <a
+                                        key={idx}
+                                        href={`${navItem.href}/${item.slug}`}
+                                        className="group flex items-start gap-4 p-2 rounded-xl hover:bg-neutral-50/80 transition-all duration-300 cursor-pointer animate-in fade-in slide-in-from-bottom-2 duration-300"
+                                        style={{ animationDelay: `${idx * 30}ms` }}
+                                        onClick={() => setActiveMenu(null)}
+                                      >
+                                        {/* Square Thumbnail Image */}
+                                        <div className="relative aspect-square w-16 rounded-xl overflow-hidden shadow-sm bg-neutral-100 border border-neutral-200/40 shrink-0 group-hover:border-primary/20 transition-all duration-300">
+                                          <img
+                                            src={previewImage}
+                                            alt={previewTitle}
+                                            className="object-cover w-full h-full transform group-hover:scale-105 transition-transform duration-700 ease-out"
+                                          />
+                                        </div>
+
+                                        {/* Row Details */}
+                                        <div className="space-y-1 self-center">
+                                          <h4 className="text-[13px] font-bold text-secondary group-hover:text-primary transition-all duration-300 tracking-tight leading-tight flex items-center gap-1">
+                                            {previewTitle}
+                                            <ArrowRight size={12} className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-primary shrink-0" />
+                                          </h4>
+                                          {subCategoryDetail?.description && (
+                                            <p className="text-[11px] leading-normal text-secondary/50 font-medium line-clamp-2">
+                                              {subCategoryDetail.description}
+                                            </p>
+                                          )}
+                                        </div>
+                                      </a>
+                                    );
+                                  })}
+                                </div>
+                              );
+                            })()}
+                          </div>
                         </div>
                       </div>
                     )}
