@@ -365,28 +365,48 @@ export default function FootprintSection() {
 
                       {/* Node Label Tooltip on Map */}
                       {isActive && (
-                        <g>
-                          <rect
-                            x={hub.x - 14}
-                            y={hub.y - 8}
-                            width="28"
-                            height="5.5"
-                            rx="1"
-                            fill="#1a1a1a"
-                            stroke="#ed1c27"
-                            strokeWidth="0.3"
-                          />
-                          <text
-                            x={hub.x}
-                            y={hub.y - 4}
-                            fill="#ffffff"
-                            fontSize="2.5"
-                            fontWeight="bold"
-                            textAnchor="middle"
+                        <foreignObject
+                          x={hub.x - 15}
+                          y={hub.y - 10}
+                          width="30"
+                          height="8"
+                          className="overflow-visible"
+                        >
+                          <div 
+                            className="flex items-center justify-center w-full h-full pointer-events-none"
+                            style={{ width: "100%", height: "100%" }}
                           >
-                            {hub.name.split(' (')[0].split(' Hub')[0]}
-                          </text>
-                        </g>
+                            <div 
+                              className="bg-neutral-950 text-white font-bold flex items-center justify-center relative select-none"
+                              style={{ 
+                                fontSize: "2.4px",
+                                border: "0.3px solid #ed1c27",
+                                padding: "1px 2px",
+                                borderRadius: "0.8px",
+                                boxShadow: "0 1px 2px rgba(0,0,0,0.5)",
+                                letterSpacing: "0.02em",
+                                whiteSpace: "nowrap"
+                              }}
+                            >
+                              {hub.name.split(' (')[0].split(' Hub')[0]}
+                              
+                              {/* Tooltip Arrow */}
+                              <div 
+                                style={{
+                                  position: "absolute",
+                                  bottom: "-0.5px",
+                                  left: "50%",
+                                  transform: "translateX(-50%) rotate(45deg)",
+                                  width: "0.8px",
+                                  height: "0.8px",
+                                  backgroundColor: "#0a0a0a",
+                                  borderRight: "0.3px solid #ed1c27",
+                                  borderBottom: "0.3px solid #ed1c27"
+                                }}
+                              />
+                            </div>
+                          </div>
+                        </foreignObject>
                       )}
                     </g>
                   );
