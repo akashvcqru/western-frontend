@@ -137,14 +137,14 @@ export default function ContactPage() {
           ].map((card, i) => (
             <div
               key={i}
-              className="relative group bg-white rounded-3xl p-8 lg:p-10 border border-neutral-100 shadow-[0_15px_50px_-15px_rgba(0,0,0,0.05)] hover:shadow-[0_30px_70px_-15px_rgba(0,0,0,0.12)] transition-all duration-500 hover:-translate-y-2 flex flex-col justify-between min-h-[290px] overflow-hidden"
+              className="relative group bg-white rounded-xl p-8 lg:p-10 border border-neutral-100 shadow-[0_15px_50px_-15px_rgba(0,0,0,0.05)] hover:shadow-[0_30px_70px_-15px_rgba(0,0,0,0.12)] transition-all duration-500 hover:-translate-y-2 flex flex-col justify-between min-h-[290px] overflow-hidden"
             >
               {/* Subtle hover color fade background */}
-              <div className="absolute inset-0 bg-gradient-to-b from-primary/[0.015] to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-b from-primary/[0.015] to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               
               <div className="space-y-6 relative z-10">
                 {/* Custom icon container with offset shadows */}
-                <div className="w-16 h-16 bg-neutral-50 flex items-center justify-center rounded-2xl text-secondary group-hover:bg-primary group-hover:text-white transition-all duration-500 shadow-sm relative overflow-hidden group-hover:shadow-[0_10px_25px_-5px_rgba(237,28,39,0.35)] group-hover:rotate-3">
+                <div className="w-16 h-16 bg-neutral-50 flex items-center justify-center rounded-xl text-secondary group-hover:bg-primary group-hover:text-white transition-all duration-500 shadow-sm relative overflow-hidden group-hover:shadow-[0_10px_25px_-5px_rgba(237,28,39,0.35)] group-hover:rotate-3">
                   {card.icon}
                 </div>
 
@@ -197,7 +197,7 @@ export default function ContactPage() {
 
               {/* Quality Badges */}
               <div className="grid grid-cols-2 gap-6">
-                <div className="p-6 rounded-2xl bg-white border border-neutral-100 shadow-sm flex items-start gap-4">
+                <div className="p-6 rounded-xl bg-white border border-neutral-100 shadow-sm flex items-start gap-4">
                   <div className="w-10 h-10 rounded-xl bg-neutral-50 flex items-center justify-center text-primary shrink-0">
                     <Award className="w-5 h-5" />
                   </div>
@@ -207,7 +207,7 @@ export default function ContactPage() {
                   </div>
                 </div>
 
-                <div className="p-6 rounded-2xl bg-white border border-neutral-100 shadow-sm flex items-start gap-4">
+                <div className="p-6 rounded-xl bg-white border border-neutral-100 shadow-sm flex items-start gap-4">
                   <div className="w-10 h-10 rounded-xl bg-neutral-50 flex items-center justify-center text-primary shrink-0">
                     <ShieldCheck className="w-5 h-5" />
                   </div>
@@ -219,7 +219,7 @@ export default function ContactPage() {
               </div>
 
               {/* Business Hours Information */}
-              <div className="p-8 lg:p-10 rounded-3xl bg-secondary text-white relative overflow-hidden group shadow-xl">
+              <div className="p-8 lg:p-10 rounded-xl bg-secondary text-white relative overflow-hidden group shadow-xl">
                 {/* SVG pattern background */}
                 <div className="absolute inset-0 opacity-5 bg-[radial-gradient(#fff_1.5px,transparent_1.5px)] bg-[size:1.5rem_1.5rem]" />
                 <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -mr-32 -mt-32" />
@@ -235,7 +235,7 @@ export default function ContactPage() {
                   
                   <div className="flex justify-between items-center text-sm font-semibold">
                     <span className="opacity-70 uppercase tracking-widest text-xs">Standard Timing</span>
-                    <span className="bg-white/10 px-4.5 py-1.5 rounded-full text-xs font-bold tracking-wider">{common.businessHours.display}</span>
+                    <span className="bg-white/10 px-4.5 py-1.5 rounded-xl text-xs font-bold tracking-wider">{common.businessHours.display}</span>
                   </div>
                   
                   <p className="text-[11px] text-neutral-400 font-medium leading-relaxed">
@@ -245,12 +245,12 @@ export default function ContactPage() {
               </div>
 
               {/* Pan-India Delivery Ribbon */}
-              <div className="p-6 rounded-2xl bg-neutral-100/60 border border-neutral-200/50 flex items-center justify-between">
+              <div className="p-6 rounded-xl bg-neutral-100/60 border border-neutral-200/50 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <Globe className="w-5 h-5 text-neutral-500" />
                   <span className="text-xs font-bold text-secondary uppercase tracking-wider">Pan-India Cargo Shipping</span>
                 </div>
-                <span className="text-[10px] bg-neutral-200 text-neutral-600 px-3 py-1 rounded font-bold uppercase tracking-widest">Active</span>
+                <span className="text-[10px] bg-neutral-200 text-neutral-600 px-3 py-1 rounded-lg font-bold uppercase tracking-widest">Active</span>
               </div>
             </div>
 
@@ -260,7 +260,7 @@ export default function ContactPage() {
               <div className="absolute -top-6 -right-6 w-32 h-32 bg-primary/5 rounded-full blur-2xl pointer-events-none" />
               <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-primary/5 rounded-full blur-2xl pointer-events-none" />
 
-              <div className="relative bg-white/95 backdrop-blur-md p-8 lg:p-12 rounded-[32px] shadow-[0_30px_80px_-20px_rgba(0,0,0,0.07)] border border-neutral-100 transition-all duration-700 hover:shadow-[0_40px_100px_-20px_rgba(0,0,0,0.11)]">
+              <div className="relative bg-white/95 backdrop-blur-md p-8 lg:p-12 rounded-xl shadow-[0_30px_80px_-20px_rgba(0,0,0,0.07)] border border-neutral-100 transition-all duration-700 hover:shadow-[0_40px_100px_-20px_rgba(0,0,0,0.11)]">
                 <div className="mb-10">
                   <h3 className="text-2xl md:text-3xl font-black text-secondary uppercase tracking-tight">
                     Start a Conversation
@@ -326,7 +326,7 @@ export default function ContactPage() {
       <section className="py-24 relative overflow-hidden bg-white border-t border-neutral-100">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
           <div className="text-center max-w-2xl mx-auto mb-16 space-y-4">
-            <span className="text-[10px] font-black tracking-[0.25em] text-primary uppercase bg-primary/5 px-4 py-1.5 rounded-full inline-block">
+            <span className="text-[10px] font-black tracking-[0.25em] text-primary uppercase bg-primary/5 px-4 py-1.5 rounded-lg inline-block">
               COMMON INQUIRIES
             </span>
             <h2 className="text-3xl md:text-4xl font-black text-secondary uppercase tracking-tight">
@@ -344,7 +344,7 @@ export default function ContactPage() {
                 <div
                   key={index}
                   className={cn(
-                    "rounded-2xl border transition-all duration-300 overflow-hidden bg-white",
+                    "rounded-xl border transition-all duration-300 overflow-hidden bg-white",
                     isOpen 
                       ? "border-primary/30 shadow-[0_15px_30px_-15px_rgba(237,28,39,0.06)]" 
                       : "border-neutral-200/70 hover:border-neutral-300 shadow-sm"
@@ -394,9 +394,9 @@ export default function ContactPage() {
         <div className="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t from-white to-transparent z-10" />
         
         {/* Floating directions card on the map (desktop only) */}
-        <div className="absolute top-10 left-10 z-20 max-w-sm bg-white/95 backdrop-blur-md p-8 rounded-3xl shadow-2xl border border-white/20 hidden md:block group hover:scale-[1.02] transition-transform duration-500">
+        <div className="absolute top-10 left-10 z-20 max-w-sm bg-white/95 backdrop-blur-md p-8 rounded-xl shadow-2xl border border-white/20 hidden md:block group hover:scale-[1.02] transition-transform duration-500">
           <div className="flex gap-4 items-start">
-            <div className="w-12 h-12 min-w-[48px] min-h-[48px] bg-primary/10 rounded-2xl flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300 shadow-inner shrink-0">
+            <div className="w-12 h-12 min-w-[48px] min-h-[48px] bg-primary/10 rounded-xl flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300 shadow-inner shrink-0">
               <MapPin className="w-6 h-6" />
             </div>
             <div className="space-y-3">
