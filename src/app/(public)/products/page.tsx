@@ -19,6 +19,7 @@ import {
 
 import { cn } from "@/lib/utils";
 import QuoteModal from "@/components/common/QuoteModal";
+import CtaSection from "@/components/sections/home/CtaSection";
 import categoriesData from "@/data/categories.json";
 import productsData from "@/data/products.json";
 import siteContent from "@/data/site-content.json";
@@ -201,36 +202,8 @@ export default function ProductsPage() {
         </div>
       </section>
 
-      {/* Final Call to Action - High Impact Banner */}
-      <section className="py-32 lg:py-48 bg-neutral-950 text-white text-center relative overflow-hidden">
-        <div className="absolute inset-0 z-0">
-           <Image 
-             src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop"
-             alt="CTA Background"
-             fill
-             className="object-cover opacity-10 grayscale"
-           />
-           <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/40 to-neutral-950" />
-        </div>
-        
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-12 relative z-10 space-y-10">
-          <div className="space-y-6">
-             <span className="text-[10px] font-black tracking-[0.5em] text-primary uppercase">{cta.badge}</span>
-             <h2 className="text-3xl lg:text-5xl font-bold text-white leading-tight tracking-tight">{cta.title}</h2>
-             <p className="text-gray-400 text-base font-normal tracking-wide max-w-xl mx-auto">{cta.supportText}</p>
-          </div>
-          
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-6 pt-10">
-             <button 
-               onClick={() => setIsQuoteOpen(true)}
-               className="w-full sm:w-auto px-12 py-5 bg-primary text-white font-bold rounded-xl hover:bg-white hover:text-black transition-all duration-500 shadow-[0_20px_40px_-10px_rgba(var(--primary-rgb),0.3)] tracking-[0.2em] text-[11px] uppercase flex items-center justify-center gap-4 cursor-pointer active:scale-95 group"
-             >
-                {cta.buttons.quote}
-                <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-             </button>
-          </div>
-        </div>
-      </section>
+      {/* High-Impact CTA Banner */}
+      <CtaSection onOpenQuote={() => setIsQuoteOpen(true)} />
       <QuoteModal isOpen={isQuoteOpen} onClose={() => setIsQuoteOpen(false)} />
     </main>
   );

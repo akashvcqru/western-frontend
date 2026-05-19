@@ -177,7 +177,7 @@ export default function Header() {
                               <span className="text-[10px] font-black tracking-[0.3em] text-primary uppercase block">
                                 Collections
                               </span>
-                              <h3 className="text-3xl font-black text-secondary tracking-tight">
+                              <h3 className="text-3xl font-bold text-secondary tracking-tight">
                                 {link.name}
                               </h3>
                               <p className="text-[13px] leading-relaxed text-secondary/60 font-medium">
@@ -190,7 +190,7 @@ export default function Header() {
 
                             <a
                               href={link.href}
-                              className="inline-flex items-center gap-2 text-[10px] font-black tracking-widest uppercase text-secondary hover:text-primary transition-colors group/btn mt-8"
+                              className="inline-flex items-center gap-2 text-[10px] font-semibold tracking-widest uppercase text-secondary hover:text-primary transition-colors group/btn mt-8"
                               onClick={() => setActiveMenu(null)}
                             >
                               View All Products
