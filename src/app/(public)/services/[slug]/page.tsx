@@ -131,7 +131,7 @@ export default function DynamicServicePage() {
     "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop";
 
   return (
-    <main className="bg-white">
+    <div className="bg-white">
       {/* Hero Section */}
       <section className="relative h-[45vh] flex items-center justify-center overflow-hidden bg-neutral-900">
         <Image
@@ -462,6 +462,6 @@ export default function DynamicServicePage() {
         </div>
       </section>
       <QuoteModal isOpen={isQuoteOpen} onClose={() => setIsQuoteOpen(false)} />
-    </main>
+    </div>
   );
 }
