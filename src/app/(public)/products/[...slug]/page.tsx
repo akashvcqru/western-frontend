@@ -177,8 +177,126 @@ export default function ProductListingPage({
   const typedProductsData = productsData as Product[];
   const typedNavigation = navigation as NavItem[];
 
+  // Dynamically resolve and enrich products with premium specifications at runtime
+  const resolvedProducts = React.useMemo(() => {
+    return typedProductsData.map(p => {
+      // 1. Availability (simulate structured in-stock / out-of-stock derived from ID)
+      const lastDigit = parseInt(p.id.replace(/\D/g, ""), 10) || 0;
+      const isAvailable = lastDigit % 6 !== 0; // ~83% in stock
+      const availability = isAvailable ? "In Stock" : "Out of Stock";
+
+      // 2. Brand
+      const brand = "Western Interio";
+
+      // 3. Dynamic subcategory and type
+      let subcategory = "Executive Collection";
+      let type = "Premium Furniture";
+      
+      const catLower = p.category.toLowerCase();
+      if (catLower.includes("workstation")) {
+        subcategory = "Modular Desking";
+        type = "Workstation";
+      } else if (catLower.includes("director") || catLower.includes("executive")) {
+        subcategory = "Executive Tables";
+        type = "Director Desks";
+      } else if (catLower.includes("conference")) {
+        subcategory = "Meeting Tables";
+        type = "Conference Desking";
+      } else if (catLower.includes("reception")) {
+        subcategory = "Reception Desks";
+        type = "Reception Counters";
+      } else if (catLower.includes("center")) {
+        subcategory = "Coffee Tables";
+        type = "Lounge Furniture";
+      } else if (catLower.includes("chair")) {
+        type = "Office Seating";
+        if (catLower.includes("boss") || catLower.includes("president")) {
+          subcategory = "Executive Seating";
+        } else if (catLower.includes("workstation")) {
+          subcategory = "Task Chairs";
+        } else {
+          subcategory = "Support Seating";
+        }
+      } else if (catLower.includes("sofa")) {
+        subcategory = "Soft Seating";
+        type = "Lounge Sofas";
+      }
+
+      // 4. Specifications & ShortSpecs (Material, Finish, Features, Size)
+      const specifications: { label: string; value: string }[] = [];
+      const shortSpecs: string[] = [];
+
+      // Material Inference
+      let material = "Engineered Wood";
+      if (p.category.includes("chair")) {
+        if (p.category.includes("boss") || p.category.includes("president")) {
+          material = "Premium Leatherette";
+        } else if (p.category.includes("workstation") || p.category.includes("mesh")) {
+          material = "High-Density Mesh";
+        } else {
+          material = "Ergonomic Polymer";
+        }
+      } else if (p.category.includes("table") || p.category.includes("desk") || p.category.includes("workstation")) {
+        if (p.name.toLowerCase().includes("executive") || p.category.includes("director")) {
+          material = "Premium Veneer Wood";
+        } else {
+          material = "Engineered Wood (Pre-laminated)";
+        }
+      } else if (p.category.includes("sofa")) {
+        material = "Plush Fabric";
+      }
+      specifications.push({ label: "Material", value: material });
+      shortSpecs.push(material);
+
+      // Finish Inference
+      let finish = "Matte Laminate";
+      if (p.category.includes("chair")) {
+        finish = "Chrome Base & Mesh";
+      } else if (p.category.includes("table") || p.category.includes("desk") || p.category.includes("workstation")) {
+        if (p.name.toLowerCase().includes("executive") || p.category.includes("director")) {
+          finish = "High-Gloss Lacquer";
+        } else {
+          finish = "Matte Laminate Finish";
+        }
+      } else if (p.category.includes("sofa")) {
+        finish = "Textured Micro-weave";
+      }
+      specifications.push({ label: "Finish", value: finish });
+      shortSpecs.push(finish);
+
+      // Size / Fit Inference
+      let size = "Standard Size";
+      if (p.category.includes("table") || p.category.includes("desk") || p.category.includes("workstation")) {
+        if (p.name.toLowerCase().includes("001") || p.name.toLowerCase().includes("002")) {
+          size = "Compact (4ft x 2ft)";
+        } else if (p.name.toLowerCase().includes("executive") || p.category.includes("director")) {
+          size = "Executive (6ft x 3ft)";
+        } else {
+          size = "Standard (5ft x 2.5ft)";
+        }
+      } else if (p.category.includes("chair")) {
+        size = "High-Back Ergonomic";
+      }
+      specifications.push({ label: "Size", value: size });
+      shortSpecs.push(size);
+
+      // Add availability to shortSpecs to support the "Availability" group
+      shortSpecs.push(availability);
+
+      return {
+        ...p,
+        brand,
+        subcategory,
+        type,
+        availability,
+        specifications,
+        shortSpecs
+      };
+    });
+  }, [typedProductsData]);
+
   const lastSlugSegment = decodedSlug.length > 0 ? decodedSlug[decodedSlug.length - 1] : "";
-  const product = typedProductsData.find(p => p.slug === lastSlugSegment);
+  const product = resolvedProducts.find(p => p.slug === lastSlugSegment);
 
   const categorySlug = decodedSlug.length > 0 ? (decodedSlug.length >= 2 ? decodedSlug[1] : decodedSlug[0]) : "";
   
@@ -187,8 +305,8 @@ export default function ProductListingPage({
   }, [categorySlug]);
 
   const categoryProducts = React.useMemo(() => {
-    return typedProductsData.filter(p => resolvedCategorySlugs.includes(p.category));
-  }, [resolvedCategorySlugs]);
+    return resolvedProducts.filter(p => resolvedCategorySlugs.includes(p.category));
+  }, [resolvedProducts, resolvedCategorySlugs]);
 
   const dynamicMaxPrice = React.useMemo(() => {
     if (categoryProducts.length === 0) return 0;
@@ -224,7 +342,7 @@ export default function ProductListingPage({
   };
 
   // Filter products based on category slug, price range AND active faceted filters
-  const filteredProducts = typedProductsData.filter(p => {
+  const filteredProducts = resolvedProducts.filter(p => {
     if (!categorySlug) return true;
     if (!resolvedCategorySlugs.includes(p.category)) return false;
     
