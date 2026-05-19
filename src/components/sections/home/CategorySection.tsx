@@ -57,7 +57,7 @@ export default function CategorySection() {
               Explore Collections
             </span>
             <h2 className="text-3xl lg:text-5xl font-bold text-secondary tracking-tight leading-tight">
-              Shop by <br /> Category.
+              Shop by Category.
             </h2>
           </div>
           <Link 
