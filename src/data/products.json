@@ -619,7 +619,7 @@
     "id": "wfu-101",
     "slug": "wfu-101",
     "name": "WFU 101 CEO Chair",
-    "category": "ceo-series-chairs",
+    "category": "president-chair",
     "price": "18,500",
     "images": [
       "/images/products/executive-chair-1.png"
@@ -630,7 +630,7 @@
     "id": "wfu-102",
     "slug": "wfu-102",
     "name": "WFU 102 CEO Chair",
-    "category": "ceo-series-chairs",
+    "category": "boss-chair",
     "price": "19,800",
     "images": [
       "/images/products/executive-chair-2.png"
@@ -641,7 +641,7 @@
     "id": "wfu-103",
     "slug": "wfu-103",
     "name": "WFU 103 CEO Chair",
-    "category": "ceo-series-chairs",
+    "category": "president-chair",
     "price": "21,500",
     "images": [
       "/images/products/executive-chair-3.png"
@@ -652,7 +652,7 @@
     "id": "wfu-104",
     "slug": "wfu-104",
     "name": "WFU 104 CEO Chair",
-    "category": "ceo-series-chairs",
+    "category": "boss-chair",
     "price": "22,000",
     "images": [
       "/images/products/executive-chair-4.png"
@@ -663,7 +663,7 @@
     "id": "wfu-105",
     "slug": "wfu-105",
     "name": "WFU 105 CEO Chair",
-    "category": "ceo-series-chairs",
+    "category": "president-chair",
     "price": "23,500",
     "images": [
       "/images/products/executive-chair-1.png"
@@ -674,7 +674,7 @@
     "id": "wfu-106",
     "slug": "wfu-106",
     "name": "WFU 106 CEO Chair",
-    "category": "ceo-series-chairs",
+    "category": "boss-chair",
     "price": "24,800",
     "images": [
       "/images/products/executive-chair-2.png"
@@ -685,7 +685,7 @@
     "id": "wfu-107",
     "slug": "wfu-107",
     "name": "WFU 107 CEO Chair",
-    "category": "ceo-series-chairs",
+    "category": "president-chair",
     "price": "26,000",
     "images": [
       "/images/products/executive-chair-3.png"
@@ -696,7 +696,7 @@
     "id": "wfu-108",
     "slug": "wfu-108",
     "name": "WFU 108 CEO Chair",
-    "category": "ceo-series-chairs",
+    "category": "boss-chair",
     "price": "27,500",
     "images": [
       "/images/products/executive-chair-4.png"
@@ -707,7 +707,7 @@
     "id": "wfu-109",
     "slug": "wfu-109",
     "name": "WFU 109 CEO Chair",
-    "category": "ceo-series-chairs",
+    "category": "president-chair",
     "price": "29,000",
     "images": [
       "/images/products/executive-chair-1.png"
@@ -718,7 +718,7 @@
     "id": "wfu-110-cc",
     "slug": "wfu-110-cc",
     "name": "WFU 110 CEO Chair",
-    "category": "ceo-series-chairs",
+    "category": "boss-chair",
     "price": "31,000",
     "images": [
       "/images/products/executive-chair-2.png"
@@ -729,7 +729,7 @@
     "id": "wfu-111",
     "slug": "wfu-111",
     "name": "WFU 111 CEO Chair",
-    "category": "ceo-series-chairs",
+    "category": "president-chair",
     "price": "32,500",
     "images": [
       "/images/products/executive-chair-3.png"
@@ -740,7 +740,7 @@
     "id": "wfu-112",
     "slug": "wfu-112",
     "name": "WFU 112 CEO Chair",
-    "category": "ceo-series-chairs",
+    "category": "boss-chair",
     "price": "34,000",
     "images": [
       "/images/products/executive-chair-4.png"
@@ -751,7 +751,7 @@
     "id": "wfu-113",
     "slug": "wfu-113",
     "name": "WFU 113 CEO Chair",
-    "category": "ceo-series-chairs",
+    "category": "president-chair",
     "price": "35,500",
     "images": [
       "/images/products/executive-chair-1.png"
@@ -762,7 +762,7 @@
     "id": "wfu-114",
     "slug": "wfu-114",
     "name": "WFU 114 CEO Chair",
-    "category": "ceo-series-chairs",
+    "category": "boss-chair",
     "price": "37,000",
     "images": [
       "/images/products/executive-chair-2.png"
@@ -773,7 +773,7 @@
     "id": "wfu-115",
     "slug": "wfu-115",
     "name": "WFU 115 CEO Chair",
-    "category": "ceo-series-chairs",
+    "category": "president-chair",
     "price": "38,500",
     "images": [
       "/images/products/executive-chair-3.png"
@@ -784,7 +784,7 @@
     "id": "wfu-116",
     "slug": "wfu-116",
     "name": "WFU 116 CEO Chair",
-    "category": "ceo-series-chairs",
+    "category": "boss-chair",
     "price": "40,000",
     "images": [
       "/images/products/executive-chair-4.png"
@@ -795,7 +795,7 @@
     "id": "wfu-117",
     "slug": "wfu-117",
     "name": "WFU 117 CEO Chair",
-    "category": "ceo-series-chairs",
+    "category": "president-chair",
     "price": "42,000",
     "images": [
       "/images/products/executive-chair-1.png"
@@ -806,7 +806,7 @@
     "id": "wfu-118",
     "slug": "wfu-118",
     "name": "WFU 118 CEO Chair",
-    "category": "ceo-series-chairs",
+    "category": "boss-chair",
     "price": "44,500",
     "images": [
       "/images/products/executive-chair-2.png"
@@ -817,7 +817,7 @@
     "id": "wfu-119",
     "slug": "wfu-119",
     "name": "WFU 119 CEO Chair",
-    "category": "ceo-series-chairs",
+    "category": "president-chair",
     "price": "46,000",
     "images": [
       "/images/products/executive-chair-3.png"
@@ -828,7 +828,7 @@
     "id": "wfu-120",
     "slug": "wfu-120",
     "name": "WFU 120 CEO Chair",
-    "category": "ceo-series-chairs",
+    "category": "boss-chair",
     "price": "48,500",
     "images": [
       "/images/products/executive-chair-4.png"
@@ -839,7 +839,7 @@
     "id": "wfu-121",
     "slug": "wfu-121",
     "name": "WFU 121 CEO Chair",
-    "category": "ceo-series-chairs",
+    "category": "president-chair",
     "price": "51,000",
     "images": [
       "/images/products/executive-chair-1.png"
@@ -850,7 +850,7 @@
     "id": "wfu-122",
     "slug": "wfu-122",
     "name": "WFU 122 CEO Chair",
-    "category": "ceo-series-chairs",
+    "category": "boss-chair",
     "price": "53,500",
     "images": [
       "/images/products/executive-chair-2.png"
@@ -861,7 +861,7 @@
     "id": "wfu-123",
     "slug": "wfu-123",
     "name": "WFU 123 CEO Chair",
-    "category": "ceo-series-chairs",
+    "category": "president-chair",
     "price": "56,000",
     "images": [
       "/images/products/executive-chair-3.png"
@@ -872,7 +872,7 @@
     "id": "wfu-124",
     "slug": "wfu-124",
     "name": "WFU 124 CEO Chair",
-    "category": "ceo-series-chairs",
+    "category": "boss-chair",
     "price": "59,000",
     "images": [
       "/images/products/executive-chair-4.png"
@@ -883,7 +883,7 @@
     "id": "wfu-125",
     "slug": "wfu-125",
     "name": "WFU 125 CEO Chair",
-    "category": "ceo-series-chairs",
+    "category": "president-chair",
     "price": "62,500",
     "images": [
       "/images/products/executive-chair-1.png"
@@ -894,7 +894,7 @@
     "id": "wfu-141",
     "slug": "wfu-141",
     "name": "WFU 141 Executive Chair",
-    "category": "office-executive",
+    "category": "boss-chair",
     "price": "14,500",
     "images": [
       "/images/products/executive-chair-1.png"
@@ -905,7 +905,7 @@
     "id": "wfu-142",
     "slug": "wfu-142",
     "name": "WFU 142 Executive Chair",
-    "category": "office-executive",
+    "category": "boss-chair",
     "price": "15,800",
     "images": [
       "/images/products/executive-chair-2.png"
@@ -916,7 +916,7 @@
     "id": "wfu-143",
     "slug": "wfu-143",
     "name": "WFU 143 Executive Chair",
-    "category": "office-executive",
+    "category": "boss-chair",
     "price": "16,200",
     "images": [
       "/images/products/executive-chair-3.png"
@@ -927,7 +927,7 @@
     "id": "wfu-144",
     "slug": "wfu-144",
     "name": "WFU 144 Executive Chair",
-    "category": "office-executive",
+    "category": "boss-chair",
     "price": "17,500",
     "images": [
       "/images/products/executive-chair-4.png"
@@ -938,7 +938,7 @@
     "id": "wfu-145",
     "slug": "wfu-145",
     "name": "WFU 145 Executive Chair",
-    "category": "office-executive",
+    "category": "boss-chair",
     "price": "18,000",
     "images": [
       "/images/products/executive-chair-1.png"
@@ -949,7 +949,7 @@
     "id": "wfu-146",
     "slug": "wfu-146",
     "name": "WFU 146 Executive Chair",
-    "category": "office-executive",
+    "category": "boss-chair",
     "price": "19,200",
     "images": [
       "/images/products/executive-chair-2.png"
@@ -960,7 +960,7 @@
     "id": "wfu-147",
     "slug": "wfu-147",
     "name": "WFU 147 Executive Chair",
-    "category": "office-executive",
+    "category": "boss-chair",
     "price": "20,500",
     "images": [
       "/images/products/executive-chair-3.png"
@@ -971,7 +971,7 @@
     "id": "wfu-148",
     "slug": "wfu-148",
     "name": "WFU 148 Executive Chair",
-    "category": "office-executive",
+    "category": "boss-chair",
     "price": "21,800",
     "images": [
       "/images/products/executive-chair-4.png"
@@ -982,7 +982,7 @@
     "id": "wfu-149",
     "slug": "wfu-149",
     "name": "WFU 149 Executive Chair",
-    "category": "office-executive",
+    "category": "boss-chair",
     "price": "23,000",
     "images": [
       "/images/products/executive-chair-1.png"
@@ -993,7 +993,7 @@
     "id": "wfu-150-ec",
     "slug": "wfu-150-ec",
     "name": "WFU 150 Executive Chair",
-    "category": "office-executive",
+    "category": "boss-chair",
     "price": "24,500",
     "images": [
       "/images/products/executive-chair-2.png"
@@ -1004,7 +1004,7 @@
     "id": "wfu-151",
     "slug": "wfu-151",
     "name": "WFU 151 Executive Chair",
-    "category": "office-executive",
+    "category": "boss-chair",
     "price": "25,800",
     "images": [
       "/images/products/executive-chair-3.png"
@@ -1015,7 +1015,7 @@
     "id": "wfu-152",
     "slug": "wfu-152",
     "name": "WFU 152 Executive Chair",
-    "category": "office-executive",
+    "category": "boss-chair",
     "price": "27,200",
     "images": [
       "/images/products/executive-chair-4.png"
@@ -1026,7 +1026,7 @@
     "id": "wfu-153",
     "slug": "wfu-153",
     "name": "WFU 153 Executive Chair",
-    "category": "office-executive",
+    "category": "boss-chair",
     "price": "28,500",
     "images": [
       "/images/products/executive-chair-1.png"
@@ -1037,7 +1037,7 @@
     "id": "wfu-154",
     "slug": "wfu-154",
     "name": "WFU 154 Executive Chair",
-    "category": "office-executive",
+    "category": "boss-chair",
     "price": "29,800",
     "images": [
       "/images/products/executive-chair-2.png"
@@ -1048,7 +1048,7 @@
     "id": "wfu-155",
     "slug": "wfu-155",
     "name": "WFU 155 Executive Chair",
-    "category": "office-executive",
+    "category": "boss-chair",
     "price": "31,200",
     "images": [
       "/images/products/executive-chair-3.png"
@@ -1059,7 +1059,7 @@
     "id": "wfu-156",
     "slug": "wfu-156",
     "name": "WFU 156 Executive Chair",
-    "category": "office-executive",
+    "category": "boss-chair",
     "price": "32,500",
     "images": [
       "/images/products/executive-chair-4.png"
@@ -1070,7 +1070,7 @@
     "id": "wfu-157",
     "slug": "wfu-157",
     "name": "WFU 157 Executive Chair",
-    "category": "office-executive",
+    "category": "boss-chair",
     "price": "34,000",
     "images": [
       "/images/products/executive-chair-1.png"
@@ -1081,7 +1081,7 @@
     "id": "wfu-158",
     "slug": "wfu-158",
     "name": "WFU 158 Executive Chair",
-    "category": "office-executive",
+    "category": "boss-chair",
     "price": "35,500",
     "images": [
       "/images/products/executive-chair-2.png"
@@ -1092,7 +1092,7 @@
     "id": "wfu-159",
     "slug": "wfu-159",
     "name": "WFU 159 Executive Chair",
-    "category": "office-executive",
+    "category": "boss-chair",
     "price": "37,000",
     "images": [
       "/images/products/executive-chair-3.png"
@@ -1103,7 +1103,7 @@
     "id": "wfu-160-ec",
     "slug": "wfu-160-ec",
     "name": "WFU 160 Executive Chair",
-    "category": "office-executive",
+    "category": "boss-chair",
     "price": "38,500",
     "images": [
       "/images/products/executive-chair-4.png"
@@ -1114,7 +1114,7 @@
     "id": "wfu-161",
     "slug": "wfu-161",
     "name": "WFU 161 Executive Chair",
-    "category": "office-executive",
+    "category": "boss-chair",
     "price": "40,000",
     "images": [
       "/images/products/executive-chair-1.png"
@@ -1125,7 +1125,7 @@
     "id": "wfu-162",
     "slug": "wfu-162",
     "name": "WFU 162 Executive Chair",
-    "category": "office-executive",
+    "category": "boss-chair",
     "price": "42,500",
     "images": [
       "/images/products/executive-chair-2.png"
@@ -1180,7 +1180,7 @@
     "id": "wfu-050",
     "slug": "wfu-050",
     "name": "Ergo Pro CEO Chair",
-    "category": "ceo-series-chairs",
+    "category": "boss-chair",
     "price": "18,500",
     "images": [
       "https://images.unsplash.com/photo-1505797149-43b0069ec26b?q=80&w=2071&auto=format&fit=crop"
@@ -1191,7 +1191,7 @@
     "id": "wfu-060",
     "slug": "wfu-060",
     "name": "Executive Mesh Chair",
-    "category": "office-executive",
+    "category": "boss-chair",
     "price": "12,500",
     "images": [
       "https://images.unsplash.com/photo-1505797149-43b0069ec26b?q=80&w=2071&auto=format&fit=crop"
@@ -1246,7 +1246,7 @@
     "id": "wfu-163",
     "slug": "wfu-163",
     "name": "WFU 163 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "9,463",
     "images": [
       "/images/products/workstation-chair-4.png"
@@ -1257,7 +1257,7 @@
     "id": "wfu-164",
     "slug": "wfu-164",
     "name": "WFU 164 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "10,586",
     "images": [
       "/images/products/workstation-chair-1.png"
@@ -1268,7 +1268,7 @@
     "id": "wfu-165",
     "slug": "wfu-165",
     "name": "WFU 165 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "10,663",
     "images": [
       "/images/products/workstation-chair-2.png"
@@ -1279,7 +1279,7 @@
     "id": "wfu-166",
     "slug": "wfu-166",
     "name": "WFU 166 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "9,751",
     "images": [
       "/images/products/workstation-chair-3.png"
@@ -1290,7 +1290,7 @@
     "id": "wfu-167",
     "slug": "wfu-167",
     "name": "WFU 167 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "10,244",
     "images": [
       "/images/products/workstation-chair-4.png"
@@ -1301,7 +1301,7 @@
     "id": "wfu-168",
     "slug": "wfu-168",
     "name": "WFU 168 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "12,189",
     "images": [
       "/images/products/workstation-chair-1.png"
@@ -1312,7 +1312,7 @@
     "id": "wfu-169",
     "slug": "wfu-169",
     "name": "WFU 169 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "10,465",
     "images": [
       "/images/products/workstation-chair-2.png"
@@ -1323,7 +1323,7 @@
     "id": "wfu-170",
     "slug": "wfu-170",
     "name": "WFU 170 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "8,642",
     "images": [
       "/images/products/workstation-chair-3.png"
@@ -1334,7 +1334,7 @@
     "id": "wfu-171",
     "slug": "wfu-171",
     "name": "WFU 171 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "9,426",
     "images": [
       "/images/products/workstation-chair-4.png"
@@ -1345,7 +1345,7 @@
     "id": "wfu-172",
     "slug": "wfu-172",
     "name": "WFU 172 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "11,847",
     "images": [
       "/images/products/workstation-chair-1.png"
@@ -1356,7 +1356,7 @@
     "id": "wfu-173",
     "slug": "wfu-173",
     "name": "WFU 173 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "12,433",
     "images": [
       "/images/products/workstation-chair-2.png"
@@ -1367,7 +1367,7 @@
     "id": "wfu-174",
     "slug": "wfu-174",
     "name": "WFU 174 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "10,254",
     "images": [
       "/images/products/workstation-chair-3.png"
@@ -1378,7 +1378,7 @@
     "id": "wfu-175",
     "slug": "wfu-175",
     "name": "WFU 175 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "11,939",
     "images": [
       "/images/products/workstation-chair-4.png"
@@ -1389,7 +1389,7 @@
     "id": "wfu-176",
     "slug": "wfu-176",
     "name": "WFU 176 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "9,886",
     "images": [
       "/images/products/workstation-chair-1.png"
@@ -1400,7 +1400,7 @@
     "id": "wfu-177",
     "slug": "wfu-177",
     "name": "WFU 177 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "8,806",
     "images": [
       "/images/products/workstation-chair-2.png"
@@ -1411,7 +1411,7 @@
     "id": "wfu-178",
     "slug": "wfu-178",
     "name": "WFU 178 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "9,547",
     "images": [
       "/images/products/workstation-chair-3.png"
@@ -1422,7 +1422,7 @@
     "id": "wfu-179",
     "slug": "wfu-179",
     "name": "WFU 179 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "9,051",
     "images": [
       "/images/products/workstation-chair-4.png"
@@ -1433,7 +1433,7 @@
     "id": "wfu-180",
     "slug": "wfu-180",
     "name": "WFU 180 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "9,554",
     "images": [
       "/images/products/workstation-chair-1.png"
@@ -1444,7 +1444,7 @@
     "id": "wfu-181",
     "slug": "wfu-181",
     "name": "WFU 181 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "11,640",
     "images": [
       "/images/products/workstation-chair-2.png"
@@ -1455,7 +1455,7 @@
     "id": "wfu-182",
     "slug": "wfu-182",
     "name": "WFU 182 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "8,720",
     "images": [
       "/images/products/workstation-chair-3.png"
@@ -1466,7 +1466,7 @@
     "id": "wfu-183",
     "slug": "wfu-183",
     "name": "WFU 183 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "10,976",
     "images": [
       "/images/products/workstation-chair-4.png"
@@ -1477,7 +1477,7 @@
     "id": "wfu-184",
     "slug": "wfu-184",
     "name": "WFU 184 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "8,741",
     "images": [
       "/images/products/workstation-chair-1.png"
@@ -1488,7 +1488,7 @@
     "id": "wfu-185",
     "slug": "wfu-185",
     "name": "WFU 185 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "11,184",
     "images": [
       "/images/products/workstation-chair-2.png"
@@ -1499,7 +1499,7 @@
     "id": "wfu-186",
     "slug": "wfu-186",
     "name": "WFU 186 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "10,998",
     "images": [
       "/images/products/workstation-chair-3.png"
@@ -1510,7 +1510,7 @@
     "id": "wfu-187",
     "slug": "wfu-187",
     "name": "WFU 187 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "10,634",
     "images": [
       "/images/products/workstation-chair-4.png"
@@ -1521,7 +1521,7 @@
     "id": "wfu-188",
     "slug": "wfu-188",
     "name": "WFU 188 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "11,550",
     "images": [
       "/images/products/workstation-chair-1.png"
@@ -1532,7 +1532,7 @@
     "id": "wfu-189",
     "slug": "wfu-189",
     "name": "WFU 189 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "11,231",
     "images": [
       "/images/products/workstation-chair-2.png"
@@ -1543,7 +1543,7 @@
     "id": "wfu-190",
     "slug": "wfu-190",
     "name": "WFU 190 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "11,486",
     "images": [
       "/images/products/workstation-chair-3.png"
@@ -1554,7 +1554,7 @@
     "id": "wfu-191",
     "slug": "wfu-191",
     "name": "WFU 191 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "10,069",
     "images": [
       "/images/products/workstation-chair-4.png"
@@ -1565,7 +1565,7 @@
     "id": "wfu-192",
     "slug": "wfu-192",
     "name": "WFU 192 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "8,606",
     "images": [
       "/images/products/workstation-chair-1.png"
@@ -1576,7 +1576,7 @@
     "id": "wfu-193",
     "slug": "wfu-193",
     "name": "WFU 193 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "9,528",
     "images": [
       "/images/products/workstation-chair-2.png"
@@ -1587,7 +1587,7 @@
     "id": "wfu-194",
     "slug": "wfu-194",
     "name": "WFU 194 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "10,404",
     "images": [
       "/images/products/workstation-chair-3.png"
@@ -1598,7 +1598,7 @@
     "id": "wfu-195",
     "slug": "wfu-195",
     "name": "WFU 195 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "12,363",
     "images": [
       "/images/products/workstation-chair-4.png"
@@ -1609,7 +1609,7 @@
     "id": "wfu-196",
     "slug": "wfu-196",
     "name": "WFU 196 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "11,485",
     "images": [
       "/images/products/workstation-chair-1.png"
@@ -1620,7 +1620,7 @@
     "id": "wfu-197",
     "slug": "wfu-197",
     "name": "WFU 197 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "9,909",
     "images": [
       "/images/products/workstation-chair-2.png"
@@ -1631,7 +1631,7 @@
     "id": "wfu-198",
     "slug": "wfu-198",
     "name": "WFU 198 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "8,995",
     "images": [
       "/images/products/workstation-chair-3.png"
@@ -1642,7 +1642,7 @@
     "id": "wfu-199",
     "slug": "wfu-199",
     "name": "WFU 199 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "9,809",
     "images": [
       "/images/products/workstation-chair-4.png"
@@ -1653,7 +1653,7 @@
     "id": "wfu-200",
     "slug": "wfu-200",
     "name": "WFU 200 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "10,824",
     "images": [
       "/images/products/workstation-chair-1.png"
@@ -1664,7 +1664,7 @@
     "id": "wfu-201",
     "slug": "wfu-201",
     "name": "WFU 201 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "11,922",
     "images": [
       "/images/products/workstation-chair-2.png"
@@ -1675,7 +1675,7 @@
     "id": "wfu-202",
     "slug": "wfu-202",
     "name": "WFU 202 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "11,014",
     "images": [
       "/images/products/workstation-chair-3.png"
@@ -1686,7 +1686,7 @@
     "id": "wfu-203",
     "slug": "wfu-203",
     "name": "WFU 203 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "11,097",
     "images": [
       "/images/products/workstation-chair-4.png"
@@ -1697,7 +1697,7 @@
     "id": "wfu-204",
     "slug": "wfu-204",
     "name": "WFU 204 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "12,271",
     "images": [
       "/images/products/workstation-chair-1.png"
@@ -1708,7 +1708,7 @@
     "id": "wfu-205",
     "slug": "wfu-205",
     "name": "WFU 205 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "11,759",
     "images": [
       "/images/products/workstation-chair-2.png"
@@ -1719,7 +1719,7 @@
     "id": "wfu-206",
     "slug": "wfu-206",
     "name": "WFU 206 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "9,858",
     "images": [
       "/images/products/workstation-chair-3.png"
@@ -1730,7 +1730,7 @@
     "id": "wfu-207",
     "slug": "wfu-207",
     "name": "WFU 207 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "9,176",
     "images": [
       "/images/products/workstation-chair-4.png"
@@ -1741,7 +1741,7 @@
     "id": "wfu-208",
     "slug": "wfu-208",
     "name": "WFU 208 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "10,253",
     "images": [
       "/images/products/workstation-chair-1.png"
@@ -1752,7 +1752,7 @@
     "id": "wfu-209",
     "slug": "wfu-209",
     "name": "WFU 209 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "9,381",
     "images": [
       "/images/products/workstation-chair-2.png"
@@ -1763,7 +1763,7 @@
     "id": "wfu-210",
     "slug": "wfu-210",
     "name": "WFU 210 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "9,878",
     "images": [
       "/images/products/workstation-chair-3.png"
@@ -1774,7 +1774,7 @@
     "id": "wfu-211",
     "slug": "wfu-211",
     "name": "WFU 211 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "10,259",
     "images": [
       "/images/products/workstation-chair-4.png"
@@ -1785,7 +1785,7 @@
     "id": "wfu-212",
     "slug": "wfu-212",
     "name": "WFU 212 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "10,377",
     "images": [
       "/images/products/workstation-chair-1.png"
@@ -1796,7 +1796,7 @@
     "id": "wfu-213",
     "slug": "wfu-213",
     "name": "WFU 213 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "10,216",
     "images": [
       "/images/products/workstation-chair-2.png"
@@ -1807,7 +1807,7 @@
     "id": "wfu-214",
     "slug": "wfu-214",
     "name": "WFU 214 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "10,100",
     "images": [
       "/images/products/workstation-chair-3.png"
@@ -1818,7 +1818,7 @@
     "id": "wfu-215",
     "slug": "wfu-215",
     "name": "WFU 215 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "11,168",
     "images": [
       "/images/products/workstation-chair-4.png"
@@ -1829,7 +1829,7 @@
     "id": "wfu-216",
     "slug": "wfu-216",
     "name": "WFU 216 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "10,080",
     "images": [
       "/images/products/workstation-chair-1.png"
@@ -1840,7 +1840,7 @@
     "id": "wfu-217",
     "slug": "wfu-217",
     "name": "WFU 217 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "8,818",
     "images": [
       "/images/products/workstation-chair-2.png"
@@ -1851,7 +1851,7 @@
     "id": "wfu-218",
     "slug": "wfu-218",
     "name": "WFU 218 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "8,611",
     "images": [
       "/images/products/workstation-chair-3.png"
@@ -1862,7 +1862,7 @@
     "id": "wfu-219",
     "slug": "wfu-219",
     "name": "WFU 219 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "12,304",
     "images": [
       "/images/products/workstation-chair-4.png"
@@ -1873,7 +1873,7 @@
     "id": "wfu-220",
     "slug": "wfu-220",
     "name": "WFU 220 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "12,482",
     "images": [
       "/images/products/workstation-chair-1.png"
@@ -1884,7 +1884,7 @@
     "id": "wfu-221",
     "slug": "wfu-221",
     "name": "WFU 221 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "8,817",
     "images": [
       "/images/products/workstation-chair-2.png"
@@ -1895,7 +1895,7 @@
     "id": "wfu-222",
     "slug": "wfu-222",
     "name": "WFU 222 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "12,374",
     "images": [
       "/images/products/workstation-chair-3.png"
@@ -1906,7 +1906,7 @@
     "id": "wfu-223",
     "slug": "wfu-223",
     "name": "WFU 223 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "9,170",
     "images": [
       "/images/products/workstation-chair-4.png"
@@ -1917,7 +1917,7 @@
     "id": "wfu-224",
     "slug": "wfu-224",
     "name": "WFU 224 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "10,646",
     "images": [
       "/images/products/workstation-chair-1.png"
@@ -1928,7 +1928,7 @@
     "id": "wfu-225",
     "slug": "wfu-225",
     "name": "WFU 225 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "8,594",
     "images": [
       "/images/products/workstation-chair-2.png"
@@ -1939,7 +1939,7 @@
     "id": "wfu-226",
     "slug": "wfu-226",
     "name": "WFU 226 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "11,720",
     "images": [
       "/images/products/workstation-chair-3.png"
@@ -1950,7 +1950,7 @@
     "id": "wfu-227",
     "slug": "wfu-227",
     "name": "WFU 227 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "8,719",
     "images": [
       "/images/products/workstation-chair-4.png"
@@ -1961,7 +1961,7 @@
     "id": "wfu-228",
     "slug": "wfu-228",
     "name": "WFU 228 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "9,093",
     "images": [
       "/images/products/workstation-chair-1.png"
@@ -1972,7 +1972,7 @@
     "id": "wfu-229",
     "slug": "wfu-229",
     "name": "WFU 229 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "11,805",
     "images": [
       "/images/products/workstation-chair-2.png"
@@ -1983,7 +1983,7 @@
     "id": "wfu-230",
     "slug": "wfu-230",
     "name": "WFU 230 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "8,537",
     "images": [
       "/images/products/workstation-chair-3.png"
@@ -1994,7 +1994,7 @@
     "id": "wfu-231",
     "slug": "wfu-231",
     "name": "WFU 231 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "10,703",
     "images": [
       "/images/products/workstation-chair-4.png"
@@ -2005,7 +2005,7 @@
     "id": "wfu-232",
     "slug": "wfu-232",
     "name": "WFU 232 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "11,842",
     "images": [
       "/images/products/workstation-chair-1.png"
@@ -2016,7 +2016,7 @@
     "id": "wfu-233",
     "slug": "wfu-233",
     "name": "WFU 233 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "11,444",
     "images": [
       "/images/products/workstation-chair-2.png"
@@ -2027,7 +2027,7 @@
     "id": "wfu-234",
     "slug": "wfu-234",
     "name": "WFU 234 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "12,326",
     "images": [
       "/images/products/workstation-chair-3.png"
@@ -2038,7 +2038,7 @@
     "id": "wfu-235",
     "slug": "wfu-235",
     "name": "WFU 235 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "10,795",
     "images": [
       "/images/products/workstation-chair-4.png"
@@ -2049,7 +2049,7 @@
     "id": "wfu-236",
     "slug": "wfu-236",
     "name": "WFU 236 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "9,489",
     "images": [
       "/images/products/workstation-chair-1.png"
@@ -2060,7 +2060,7 @@
     "id": "wfu-237",
     "slug": "wfu-237",
     "name": "WFU 237 Workstation Chair",
-    "category": "modern-office-chairs",
+    "category": "workstation-chair",
     "price": "11,351",
     "images": [
       "/images/products/workstation-chair-2.png"
@@ -2071,7 +2071,7 @@
     "id": "wfu-238",
     "slug": "wfu-238",
     "name": "WFU 238 Visitor/Training Chair",
-    "category": "visitor-training",
+    "category": "visitor-chair",
     "price": "6,376",
     "images": [
       "/images/products/visitor-chair-3.png"
@@ -2082,7 +2082,7 @@
     "id": "wfu-239",
     "slug": "wfu-239",
     "name": "WFU 239 Visitor/Training Chair",
-    "category": "visitor-training",
+    "category": "student-chair",
     "price": "6,138",
     "images": [
       "/images/products/visitor-chair-4.png"
@@ -2093,7 +2093,7 @@
     "id": "wfu-240",
     "slug": "wfu-240",
     "name": "WFU 240 Visitor/Training Chair",
-    "category": "visitor-training",
+    "category": "teacher-chair",
     "price": "6,842",
     "images": [
       "/images/products/visitor-chair-1.png"
@@ -2104,7 +2104,7 @@
     "id": "wfu-241",
     "slug": "wfu-241",
     "name": "WFU 241 Visitor/Training Chair",
-    "category": "visitor-training",
+    "category": "visitor-chair",
     "price": "5,318",
     "images": [
       "/images/products/visitor-chair-2.png"
@@ -2115,7 +2115,7 @@
     "id": "wfu-242",
     "slug": "wfu-242",
     "name": "WFU 242 Visitor/Training Chair",
-    "category": "visitor-training",
+    "category": "student-chair",
     "price": "7,373",
     "images": [
       "/images/products/visitor-chair-3.png"
@@ -2126,7 +2126,7 @@
     "id": "wfu-243",
     "slug": "wfu-243",
     "name": "WFU 243 Visitor/Training Chair",
-    "category": "visitor-training",
+    "category": "teacher-chair",
     "price": "4,720",
     "images": [
       "/images/products/visitor-chair-4.png"
@@ -2137,7 +2137,7 @@
     "id": "wfu-244",
     "slug": "wfu-244",
     "name": "WFU 244 Visitor/Training Chair",
-    "category": "visitor-training",
+    "category": "visitor-chair",
     "price": "6,602",
     "images": [
       "/images/products/visitor-chair-1.png"
@@ -2148,7 +2148,7 @@
     "id": "wfu-245",
     "slug": "wfu-245",
     "name": "WFU 245 Visitor/Training Chair",
-    "category": "visitor-training",
+    "category": "student-chair",
     "price": "6,371",
     "images": [
       "/images/products/visitor-chair-2.png"
@@ -2159,7 +2159,7 @@
     "id": "wfu-246",
     "slug": "wfu-246",
     "name": "WFU 246 Visitor/Training Chair",
-    "category": "visitor-training",
+    "category": "teacher-chair",
     "price": "6,524",
     "images": [
       "/images/products/visitor-chair-3.png"
@@ -2170,7 +2170,7 @@
     "id": "wfu-247",
     "slug": "wfu-247",
     "name": "WFU 247 Visitor/Training Chair",
-    "category": "visitor-training",
+    "category": "visitor-chair",
     "price": "7,059",
     "images": [
       "/images/products/visitor-chair-4.png"
@@ -2181,7 +2181,7 @@
     "id": "wfu-248",
     "slug": "wfu-248",
     "name": "WFU 248 Visitor/Training Chair",
-    "category": "visitor-training",
+    "category": "student-chair",
     "price": "6,187",
     "images": [
       "/images/products/visitor-chair-1.png"
@@ -2192,7 +2192,7 @@
     "id": "wfu-249",
     "slug": "wfu-249",
     "name": "WFU 249 Visitor/Training Chair",
-    "category": "visitor-training",
+    "category": "teacher-chair",
     "price": "4,750",
     "images": [
       "/images/products/visitor-chair-2.png"
@@ -2203,7 +2203,7 @@
     "id": "wfu-250",
     "slug": "wfu-250",
     "name": "WFU 250 Visitor/Training Chair",
-    "category": "visitor-training",
+    "category": "visitor-chair",
     "price": "5,822",
     "images": [
       "/images/products/visitor-chair-3.png"
@@ -2214,7 +2214,7 @@
     "id": "wfu-251",
     "slug": "wfu-251",
     "name": "WFU 251 Visitor/Training Chair",
-    "category": "visitor-training",
+    "category": "student-chair",
     "price": "5,754",
     "images": [
       "/images/products/visitor-chair-4.png"
@@ -2225,7 +2225,7 @@
     "id": "wfu-252",
     "slug": "wfu-252",
     "name": "WFU 252 Waiting Area Seating",
-    "category": "waiting-area-series",
+    "category": "reception-sofa",
     "price": "12,627",
     "images": [
       "/images/products/waiting-seating-1.png"
@@ -2236,7 +2236,7 @@
     "id": "wfu-253",
     "slug": "wfu-253",
     "name": "WFU 253 Waiting Area Seating",
-    "category": "waiting-area-series",
+    "category": "reception-sofa",
     "price": "10,821",
     "images": [
       "/images/products/waiting-seating-2.png"
@@ -2247,7 +2247,7 @@
     "id": "wfu-254",
     "slug": "wfu-254",
     "name": "WFU 254 Waiting Area Seating",
-    "category": "waiting-area-series",
+    "category": "reception-sofa",
     "price": "14,034",
     "images": [
       "/images/products/waiting-seating-3.png"
@@ -2258,7 +2258,7 @@
     "id": "wfu-255",
     "slug": "wfu-255",
     "name": "WFU 255 Waiting Area Seating",
-    "category": "waiting-area-series",
+    "category": "reception-sofa",
     "price": "13,664",
     "images": [
       "/images/products/waiting-seating-4.png"
@@ -2269,7 +2269,7 @@
     "id": "wfu-256",
     "slug": "wfu-256",
     "name": "WFU 256 Waiting Area Seating",
-    "category": "waiting-area-series",
+    "category": "reception-sofa",
     "price": "11,162",
     "images": [
       "/images/products/waiting-seating-1.png"
@@ -2280,7 +2280,7 @@
     "id": "wfu-257",
     "slug": "wfu-257",
     "name": "WFU 257 Waiting Area Seating",
-    "category": "waiting-area-series",
+    "category": "reception-sofa",
     "price": "9,738",
     "images": [
       "/images/products/waiting-seating-2.png"
@@ -2291,7 +2291,7 @@
     "id": "wfu-258",
     "slug": "wfu-258",
     "name": "WFU 258 Waiting Area Seating",
-    "category": "waiting-area-series",
+    "category": "reception-sofa",
     "price": "9,695",
     "images": [
       "/images/products/waiting-seating-3.png"
@@ -2500,7 +2500,7 @@
     "id": "wfu-292",
     "slug": "wfu-292",
     "name": "WFU 292 Premium Office Sofa",
-    "category": "office-sofa",
+    "category": "sofa-chair",
     "price": "27,848",
     "images": [
       "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2070&auto=format&fit=crop"
@@ -2511,7 +2511,7 @@
     "id": "wfu-293",
     "slug": "wfu-293",
     "name": "WFU 293 Premium Office Sofa",
-    "category": "office-sofa",
+    "category": "boss-cabin-sofa",
     "price": "43,941",
     "images": [
       "https://images.unsplash.com/photo-1540518614846-7eded433c457?q=80&w=2070&auto=format&fit=crop"
@@ -2522,7 +2522,7 @@
     "id": "wfu-294",
     "slug": "wfu-294",
     "name": "WFU 294 Premium Office Sofa",
-    "category": "office-sofa",
+    "category": "lounge-sofa",
     "price": "32,860",
     "images": [
       "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=2070&auto=format&fit=crop"
@@ -2533,7 +2533,7 @@
     "id": "wfu-295",
     "slug": "wfu-295",
     "name": "WFU 295 Premium Office Sofa",
-    "category": "office-sofa",
+    "category": "sofa-chair",
     "price": "42,914",
     "images": [
       "/images/products/waiting-seating-3.png"
@@ -2544,7 +2544,7 @@
     "id": "wfu-296",
     "slug": "wfu-296",
     "name": "WFU 296 Premium Office Sofa",
-    "category": "office-sofa",
+    "category": "boss-cabin-sofa",
     "price": "28,448",
     "images": [
       "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2070&auto=format&fit=crop"
@@ -2555,7 +2555,7 @@
     "id": "wfu-297",
     "slug": "wfu-297",
     "name": "WFU 297 Premium Office Sofa",
-    "category": "office-sofa",
+    "category": "lounge-sofa",
     "price": "34,969",
     "images": [
       "https://images.unsplash.com/photo-1540518614846-7eded433c457?q=80&w=2070&auto=format&fit=crop"
@@ -2566,7 +2566,7 @@
     "id": "wfu-298",
     "slug": "wfu-298",
     "name": "WFU 298 Premium Office Sofa",
-    "category": "office-sofa",
+    "category": "sofa-chair",
     "price": "41,921",
     "images": [
       "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=2070&auto=format&fit=crop"
@@ -2577,7 +2577,7 @@
     "id": "wfu-299",
     "slug": "wfu-299",
     "name": "WFU 299 Premium Office Sofa",
-    "category": "office-sofa",
+    "category": "boss-cabin-sofa",
     "price": "27,302",
     "images": [
       "/images/products/waiting-seating-3.png"
@@ -2588,7 +2588,7 @@
     "id": "wfu-300",
     "slug": "wfu-300",
     "name": "WFU 300 Premium Office Sofa",
-    "category": "office-sofa",
+    "category": "lounge-sofa",
     "price": "38,975",
     "images": [
       "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2070&auto=format&fit=crop"
@@ -2599,7 +2599,7 @@
     "id": "wfu-301",
     "slug": "wfu-301",
     "name": "WFU 301 Premium Office Sofa",
-    "category": "office-sofa",
+    "category": "sofa-chair",
     "price": "37,813",
     "images": [
       "https://images.unsplash.com/photo-1540518614846-7eded433c457?q=80&w=2070&auto=format&fit=crop"
@@ -2610,7 +2610,7 @@
     "id": "wfu-302",
     "slug": "wfu-302",
     "name": "WFU 302 Premium Office Sofa",
-    "category": "office-sofa",
+    "category": "boss-cabin-sofa",
     "price": "27,089",
     "images": [
       "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=2070&auto=format&fit=crop"
@@ -2621,7 +2621,7 @@
     "id": "wfu-303",
     "slug": "wfu-303",
     "name": "WFU 303 Premium Office Sofa",
-    "category": "office-sofa",
+    "category": "lounge-sofa",
     "price": "40,033",
     "images": [
       "/images/products/waiting-seating-3.png"
@@ -2632,7 +2632,7 @@
     "id": "wfu-304",
     "slug": "wfu-304",
     "name": "WFU 304 Premium Office Sofa",
-    "category": "office-sofa",
+    "category": "sofa-chair",
     "price": "25,556",
     "images": [
       "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2070&auto=format&fit=crop"
@@ -2643,7 +2643,7 @@
     "id": "wfu-305",
     "slug": "wfu-305",
     "name": "WFU 305 Premium Office Sofa",
-    "category": "office-sofa",
+    "category": "boss-cabin-sofa",
     "price": "25,219",
     "images": [
       "https://images.unsplash.com/photo-1540518614846-7eded433c457?q=80&w=2070&auto=format&fit=crop"
@@ -2654,7 +2654,7 @@
     "id": "wfu-306",
     "slug": "wfu-306",
     "name": "WFU 306 Premium Office Sofa",
-    "category": "office-sofa",
+    "category": "lounge-sofa",
     "price": "34,332",
     "images": [
       "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=2070&auto=format&fit=crop"
@@ -2665,7 +2665,7 @@
     "id": "wfu-307",
     "slug": "wfu-307",
     "name": "WFU 307 Premium Office Sofa",
-    "category": "office-sofa",
+    "category": "sofa-chair",
     "price": "40,331",
     "images": [
       "/images/products/waiting-seating-3.png"
@@ -2676,7 +2676,7 @@
     "id": "wfu-308",
     "slug": "wfu-308",
     "name": "WFU 308 Premium Office Sofa",
-    "category": "office-sofa",
+    "category": "boss-cabin-sofa",
     "price": "30,947",
     "images": [
       "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2070&auto=format&fit=crop"
@@ -2687,7 +2687,7 @@
     "id": "wfu-309",
     "slug": "wfu-309",
     "name": "WFU 309 Premium Office Sofa",
-    "category": "office-sofa",
+    "category": "lounge-sofa",
     "price": "29,665",
     "images": [
       "https://images.unsplash.com/photo-1540518614846-7eded433c457?q=80&w=2070&auto=format&fit=crop"
@@ -2698,7 +2698,7 @@
     "id": "wfu-310",
     "slug": "wfu-310",
     "name": "WFU 310 Premium Office Sofa",
-    "category": "office-sofa",
+    "category": "sofa-chair",
     "price": "37,149",
     "images": [
       "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=2070&auto=format&fit=crop"
@@ -2709,7 +2709,7 @@
     "id": "wfu-311",
     "slug": "wfu-311",
     "name": "WFU 311 Premium Office Sofa",
-    "category": "office-sofa",
+    "category": "boss-cabin-sofa",
     "price": "33,940",
     "images": [
       "/images/products/waiting-seating-3.png"
@@ -2720,7 +2720,7 @@
     "id": "wfu-312",
     "slug": "wfu-312",
     "name": "WFU 312 Premium Office Sofa",
-    "category": "office-sofa",
+    "category": "lounge-sofa",
     "price": "40,287",
     "images": [
       "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2070&auto=format&fit=crop"
@@ -2731,7 +2731,7 @@
     "id": "wfu-313",
     "slug": "wfu-313",
     "name": "WFU 313 Premium Office Sofa",
-    "category": "office-sofa",
+    "category": "sofa-chair",
     "price": "26,272",
     "images": [
       "https://images.unsplash.com/photo-1540518614846-7eded433c457?q=80&w=2070&auto=format&fit=crop"
@@ -2742,7 +2742,7 @@
     "id": "wfu-314",
     "slug": "wfu-314",
     "name": "WFU 314 Premium Office Sofa",
-    "category": "office-sofa",
+    "category": "boss-cabin-sofa",
     "price": "26,283",
     "images": [
       "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=2070&auto=format&fit=crop"
@@ -2753,7 +2753,7 @@
     "id": "wfu-315",
     "slug": "wfu-315",
     "name": "WFU 315 Premium Office Sofa",
-    "category": "office-sofa",
+    "category": "lounge-sofa",
     "price": "28,267",
     "images": [
       "/images/products/waiting-seating-3.png"
@@ -3496,5 +3496,38 @@
       "https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=2069&auto=format&fit=crop"
     ],
     "description": "Stately architectural solid oak wood main entrance door with premium vertical groove panels."
+  },
+  {
+    "id": "wfu-chair-001",
+    "slug": "wfu-chair-001",
+    "name": "WFU Ergonomic Teacher Chair",
+    "category": "teacher-chair",
+    "price": "8,900",
+    "images": [
+      "https://images.unsplash.com/photo-1580481072645-022f9a6dbf27?q=80&w=2070&auto=format&fit=crop"
+    ],
+    "description": "Premium high-back active teacher desk chair with adjustable lumbar support and writing tablet compatibility."
+  },
+  {
+    "id": "wfu-chair-002",
+    "slug": "wfu-chair-002",
+    "name": "WFU Smart Student Chair",
+    "category": "student-chair",
+    "price": "4,500",
+    "images": [
+      "https://images.unsplash.com/photo-1580481072645-022f9a6dbf27?q=80&w=2070&auto=format&fit=crop"
+    ],
+    "description": "Ergonomic study desk student chair featuring an attached wooden writing pad and grid storage base."
+  },
+  {
+    "id": "wfu-chair-003",
+    "slug": "wfu-chair-003",
+    "name": "WFU Pastel Cafeteria Seating",
+    "category": "cafeteria-chair",
+    "price": "3,800",
+    "images": [
+      "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?q=80&w=2070&auto=format&fit=crop"
+    ],
+    "description": "Vibrant, durable, and stackable polymer molded cafeteria chair with modern solid ash wood legs."
   }
 ]

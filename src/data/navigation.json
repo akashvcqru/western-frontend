@@ -71,23 +71,24 @@
     "href": "/products",
     "columns": [
       {
-        "title": "CEO & Executive",
+        "title": "Executive & Task",
         "items": [
-          { "name": "CEO Series Chairs", "slug": "ceo-series-chairs" },
-          { "name": "Office Executive", "slug": "office-executive" }
+          { "name": "Boss Chair", "slug": "boss-chair" },
+          { "name": "President Chair", "slug": "president-chair" },
+          { "name": "Workstation Chair", "slug": "workstation-chair" },
+          { "name": "Teacher Chair", "slug": "teacher-chair" },
+          { "name": "Student Chair", "slug": "student-chair" },
+          { "name": "Cafeteria Chair", "slug": "cafeteria-chair" }
         ]
       },
       {
-        "title": "Workstation & Staff",
+        "title": "Lounge & Visitor",
         "items": [
-          { "name": "Modern Office Chairs", "slug": "modern-office-chairs" }
-        ]
-      },
-      {
-        "title": "Visitor & Waiting",
-        "items": [
-          { "name": "Visitor & Training", "slug": "visitor-training" },
-          { "name": "Waiting Area Series", "slug": "waiting-area-series" }
+          { "name": "Sofa Chair", "slug": "sofa-chair" },
+          { "name": "Visitor Chair", "slug": "visitor-chair" },
+          { "name": "Reception Sofa", "slug": "reception-sofa" },
+          { "name": "Boss Cabin Sofa", "slug": "boss-cabin-sofa" },
+          { "name": "Lounge Sofa", "slug": "lounge-sofa" }
         ]
       }
     ]

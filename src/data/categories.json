@@ -189,39 +189,88 @@
     "description": "Premium solid wood main entrance doors, interior flush doors, and designer handles."
   },
   {
+    "id": "boss-chair",
+    "name": "Boss Chair",
+    "slug": "boss-chair",
+    "image": "/images/products/executive-chair-1.png",
+    "description": "Luxurious, high-back ergonomic leather boss chairs engineered for commanding executive comfort."
+  },
+  {
+    "id": "president-chair",
+    "name": "President Chair",
+    "slug": "president-chair",
+    "image": "/images/products/executive-chair-2.png",
+    "description": "Stately high-back traditional leather president chairs featuring premium tufted details and absolute support."
+  },
+  {
+    "id": "workstation-chair",
+    "name": "Workstation Chair",
+    "slug": "workstation-chair",
+    "image": "/images/products/executive-chair-3.png",
+    "description": "Sleek and highly breathable modern mesh workstation chairs for all-day workspace comfort."
+  },
+  {
+    "id": "teacher-chair",
+    "name": "Teacher Chair",
+    "slug": "teacher-chair",
+    "image": "/images/products/executive-chair-4.png",
+    "description": "Highly supportive seminar and classroom active seating designs optimized for teachers."
+  },
+  {
+    "id": "student-chair",
+    "name": "Student Chair",
+    "slug": "student-chair",
+    "image": "https://images.unsplash.com/photo-1580481072645-022f9a6dbf27?q=80&w=2070&auto=format&fit=crop",
+    "description": "Ergonomic student study seating featuring attached wooden writing tablets and utility storage bottoms."
+  },
+  {
+    "id": "sofa-chair",
+    "name": "Sofa Chair",
+    "slug": "sofa-chair",
+    "image": "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?q=80&w=2070&auto=format&fit=crop",
+    "description": "Premium, plush single-seater lounge armchair sofa chairs designed for comfort hosting."
+  },
+  {
+    "id": "visitor-chair",
+    "name": "Visitor Chair",
+    "slug": "visitor-chair",
+    "image": "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?q=80&w=2070&auto=format&fit=crop",
+    "description": "Elegant reception and executive office guest visitor chairs to impress every invitee."
+  },
+  {
+    "id": "cafeteria-chair",
+    "name": "Cafeteria Chair",
+    "slug": "cafeteria-chair",
+    "image": "https://images.unsplash.com/photo-1581428982868-e410dd047a90?q=80&w=2070&auto=format&fit=crop",
+    "description": "Vibrant, stackable, modern polymer molded cafeteria chairs with sleek architectural wood legs."
+  },
+  {
+    "id": "reception-sofa",
+    "name": "Reception Sofa",
+    "slug": "reception-sofa",
+    "image": "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2070&auto=format&fit=crop",
+    "description": "Stately corporate reception lounge sofas providing modular comfort and high-end visual presence."
+  },
+  {
+    "id": "boss-cabin-sofa",
+    "name": "Boss Cabin Sofa",
+    "slug": "boss-cabin-sofa",
+    "image": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=2070&auto=format&fit=crop",
+    "description": "Exclusive rich wood and black leather sofas tailor-made for leadership cabins and executive suites."
+  },
+  {
+    "id": "lounge-sofa",
+    "name": "Lounge Sofa",
+    "slug": "lounge-sofa",
+    "image": "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=2070&auto=format&fit=crop",
+    "description": "Soft modular lounge sofas crafted for high-performance creative collaborative office layouts."
+  },
+  {
     "id": "office-chair-manufacturer-in-gurgaon",
     "name": "Office Chair Manufacturer in Gurgaon",
     "slug": "office-chair-manufacturer-in-gurgaon",
     "image": "/images/products/executive-chair-3.png",
     "description": "Leading manufacturer of ergonomic office chairs."
-  },
-  {
-    "id": "ceo-series-chairs",
-    "name": "CEO Series Chairs",
-    "slug": "ceo-series-chairs",
-    "image": "/images/products/executive-chair-1.png",
-    "description": "Exclusive CEO series chairs for top-tier comfort."
-  },
-  {
-    "id": "office-executive",
-    "name": "Office Executive",
-    "slug": "office-executive",
-    "image": "/images/products/executive-chair-2.png",
-    "description": "Executive chairs for modern office environments."
-  },
-  {
-    "id": "visitor-training",
-    "name": "Visitor & Training",
-    "slug": "visitor-training",
-    "image": "/images/products/executive-chair-4.png",
-    "description": "Visitor and training room seating solutions."
-  },
-  {
-    "id": "waiting-area-series",
-    "name": "Waiting Area Series",
-    "slug": "waiting-area-series",
-    "image": "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2070&auto=format&fit=crop",
-    "description": "Seating series for comfortable waiting areas."
   },
   {
     "id": "office-interior-designing",
