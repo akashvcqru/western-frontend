@@ -202,7 +202,7 @@ export default function OfflineStatus() {
                 </span>
 
                 <h1 className="text-3xl sm:text-4xl font-black text-secondary uppercase tracking-tighter mb-3">
-                    You're <span className="text-primary">Offline</span>
+                    You&apos;re <span className="text-primary">Offline</span>
                 </h1>
                 <p className="text-gray-400 text-xs font-bold uppercase tracking-widest leading-relaxed max-w-sm">
                     Your connection was interrupted. Please check your network and try again.

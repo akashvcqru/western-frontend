@@ -10,12 +10,22 @@ import Link from "next/link";
 import { AppRoutes } from "@/constants/routes";
 import { PageHeader } from "@/components/ui";
 
+interface Product {
+  id: string;
+  name: string;
+  category: string;
+  images: string[];
+  slug: string;
+  price?: string;
+  brand?: string;
+}
+
 export default function BrandPage() {
   const params = useParams();
   const slug = params.slug as string;
   const brandName = slug.split("-").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
 
-  const filteredProducts = productsData.filter((p: any) => 
+  const filteredProducts = productsData.filter((p: Product) => 
     p.brand?.toLowerCase() === brandName.toLowerCase() || 
     p.brand?.toLowerCase().replace(/ /g, "-") === slug.toLowerCase()
   );
@@ -57,7 +67,7 @@ export default function BrandPage() {
 
         {filteredProducts.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
-            {filteredProducts.map((product: any) => (
+            {filteredProducts.map((product: Product) => (
               <ProductCard 
                 key={product.id} 
                 id={product.id}
@@ -76,7 +86,7 @@ export default function BrandPage() {
             </div>
             <div className="space-y-4">
               <h3 className="text-3xl font-bold text-secondary tracking-tight">No products found.</h3>
-              <p className="text-gray-400 font-medium max-w-md mx-auto">We're currently updating this brand's collection. Check back soon for new arrivals.</p>
+              <p className="text-gray-400 font-medium max-w-md mx-auto">We&apos;re currently updating this brand&apos;s collection. Check back soon for new arrivals.</p>
             </div>
             <Link href={AppRoutes.Public.Products} className="inline-flex items-center px-12 py-5 bg-secondary text-white font-bold uppercase tracking-[0.2em] text-[11px] rounded-xl hover:bg-primary transition-all duration-500 shadow-2xl shadow-secondary/10 active:scale-95">
               Browse All Categories

@@ -28,13 +28,16 @@ const AppModal: React.FC<AppModalProps> = ({
     hideFooter = false,
     bodyClassName,
 }) => {
-    const [mounted, setMounted] = useState(false);
+    const [mounted, setMounted] = useState(isOpen);
     const [show, setShow] = useState(false);
     const bodyRef = React.useRef<HTMLDivElement>(null);
 
+    if (isOpen && !mounted) {
+        setMounted(true);
+    }
+
     useEffect(() => {
         if (isOpen) {
-            setMounted(true);
             document.body.style.overflow = 'hidden';
             const timer = setTimeout(() => {
                 setShow(true);
@@ -44,12 +47,17 @@ const AppModal: React.FC<AppModalProps> = ({
             }, 10);
             return () => clearTimeout(timer);
         } else {
-            setShow(false);
+            const showTimer = setTimeout(() => {
+                setShow(false);
+            }, 0);
             const timer = setTimeout(() => {
                 setMounted(false);
                 document.body.style.overflow = 'auto';
             }, 300);
-            return () => clearTimeout(timer);
+            return () => {
+                clearTimeout(showTimer);
+                clearTimeout(timer);
+            };
         }
     }, [isOpen]);
 

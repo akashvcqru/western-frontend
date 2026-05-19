@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { 
-  ChevronRight, 
   Phone, 
   MessageSquare, 
   FileText, 
@@ -22,22 +21,39 @@ import ImagePreview from "@/components/ui/ImagePreview";
 import { useParams, notFound } from "next/navigation";
 import productsData from "@/data/products.json";
 
+interface Product {
+  id: string;
+  name: string;
+  category: string;
+  images: string[];
+  slug: string;
+  price: string;
+  description: string;
+  brand?: string;
+  catNo?: string;
+  mrp?: string;
+  variants?: Array<{ label: string; options: string[] }>;
+  specifications?: Array<{ label: string; value: string }>;
+  features?: Array<{ title: string; desc: string }>;
+}
+
 export default function ProductDetailPage() {
   const params = useParams();
   const id = params.id as string;
   
-  const product = productsData.find(p => p.id === id || p.slug === id);
+  const product = productsData.find(p => p.id === id || p.slug === id) as Product | undefined;
+
+  const [selectedImage, setSelectedImage] = useState(0);
+  const [selectedVariants, setSelectedVariants] = useState<Record<string, string>>(() => {
+    if (!product) return {};
+    return product.variants?.reduce((acc, v) => ({ ...acc, [v.label]: v.options[0] }), {} as Record<string, string>) || {};
+  });
+  const [isExpanded, setIsExpanded] = useState(false);
 
   if (!product) {
     notFound();
     return null;
   }
-
-  const [selectedImage, setSelectedImage] = useState(0);
-  const [selectedVariants, setSelectedVariants] = useState<Record<string, string>>(
-    (product as any).variants?.reduce((acc: any, v: any) => ({ ...acc, [v.label]: v.options[0] }), {}) || {}
-  );
-  const [isExpanded, setIsExpanded] = useState(false);
 
   const handleWhatsApp = () => {
     const phone = "917837737373";
@@ -93,11 +109,11 @@ export default function ProductDetailPage() {
               <div className="space-y-4">
                 <div className="flex items-center gap-4">
                   <span className="px-5 py-2 bg-primary/10 text-primary text-[10px] font-black uppercase tracking-[0.3em] rounded-full border border-primary/20">
-                    {(product as any).brand || "Western Interio"}
+                    {product.brand || "Western Interio"}
                   </span>
                   <span className="w-1 h-1 bg-neutral-200 rounded-full"></span>
                   <span className="text-neutral-400 text-[10px] font-black uppercase tracking-[0.3em]">
-                    {(product as any).catNo ? `Model: ${(product as any).catNo}` : `SKU: ${product.id.slice(0, 8).toUpperCase()}`}
+                    {product.catNo ? `Model: ${product.catNo}` : `SKU: ${product.id.slice(0, 8).toUpperCase()}`}
                   </span>
                 </div>
                 
@@ -108,7 +124,7 @@ export default function ProductDetailPage() {
                 {/* Path Display */}
                 <div className="text-[10px] font-black text-neutral-300 uppercase tracking-[0.4em] pt-2">
                   {[
-                    (product as any).category?.replace(/-/g, " "),
+                    product.category?.replace(/-/g, " "),
                     product.name
                   ].filter(Boolean).map((s: string) => s.toUpperCase()).join(" / ")}
                 </div>
@@ -119,13 +135,13 @@ export default function ProductDetailPage() {
                   <p className="text-4xl font-bold text-primary tracking-tighter">
                     {product.price === "Price on Request" ? product.price : `₹${product.price}`}
                   </p>
-                  {(product as any).mrp && product.price !== "Price on Request" && (
-                    <p className="text-xl text-neutral-300 line-through font-medium">₹{(product as any).mrp}</p>
+                  {product.mrp && product.price !== "Price on Request" && (
+                    <p className="text-xl text-neutral-300 line-through font-medium">₹{product.mrp}</p>
                   )}
                 </div>
-                {(product as any).mrp && product.price !== "Price on Request" && (
+                {product.mrp && product.price !== "Price on Request" && (
                   <span className="inline-flex items-center px-3 py-1 bg-green-50 text-green-600 text-[10px] font-black uppercase tracking-widest rounded-md w-fit">
-                    Exclusive {Math.round(((parseFloat((product as any).mrp.replace(/,/g, '')) - parseFloat(product.price.replace(/,/g, ''))) / parseFloat((product as any).mrp.replace(/,/g, ''))) * 100)}% Discount
+                    Exclusive {Math.round(((parseFloat(product.mrp.replace(/,/g, '')) - parseFloat(product.price.replace(/,/g, ''))) / parseFloat(product.mrp.replace(/,/g, ''))) * 100)}% Discount
                   </span>
                 )}
               </div>
@@ -136,16 +152,16 @@ export default function ProductDetailPage() {
             </div>
 
             {/* Variants - Modern Selection */}
-            {(product as any).variants?.length > 0 && (
+            {product.variants && product.variants.length > 0 && (
               <div className="space-y-10 py-12 border-y border-neutral-100">
-                {(product as any).variants.map((variant: any) => (
+                {product.variants.map((variant) => (
                   <div key={variant.label} className="space-y-6">
                     <div className="flex justify-between items-center">
                       <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-neutral-400">Select {variant.label}</h4>
                       <span className="text-[10px] font-black text-primary uppercase tracking-[0.3em] bg-primary/5 px-3 py-1 rounded-lg">{selectedVariants[variant.label]}</span>
                     </div>
                     <div className="flex flex-wrap gap-4">
-                      {variant.options.map((option: any) => (
+                      {variant.options.map((option) => (
                         <button 
                           key={option}
                           onClick={() => setSelectedVariants(prev => ({ ...prev, [variant.label]: option }))}
@@ -166,9 +182,9 @@ export default function ProductDetailPage() {
             )}
 
             {/* Specs - Minimalist Grid */}
-            {(product as any).specifications && (
+            {product.specifications && (
               <div className="grid grid-cols-2 gap-12">
-                {(product as any).specifications.map((spec: any) => (
+                {product.specifications.map((spec) => (
                   <div key={spec.label} className="space-y-2 group">
                     <p className="text-[10px] font-black text-neutral-300 uppercase tracking-[0.4em] group-hover:text-primary transition-colors">{spec.label}</p>
                     <p className="text-xl font-bold text-secondary tracking-tight">{spec.value}</p>
@@ -201,10 +217,10 @@ export default function ProductDetailPage() {
             </div>
 
             {/* Features - Premium Icons */}
-            {(product as any).features && (
+            {product.features && (
               <div className="grid grid-cols-3 gap-10 pt-16 border-t border-neutral-100">
-                {(product as any).features.map((feature: any, i: number) => {
-                  const IconMap: Record<string, any> = {
+                {product.features.map((feature, i: number) => {
+                  const IconMap: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
                     "Water Saving": Droplets,
                     "Easy Clean": CheckCircle2,
                     "Durable": ShieldCheck,
@@ -247,7 +263,7 @@ export default function ProductDetailPage() {
                   <Image src={product.images[0]} alt={name} fill className="object-contain p-6 group-hover:scale-110 transition-all duration-1000" />
                 </div>
                 <div className="space-y-3">
-                  <span className="text-[10px] font-black text-primary uppercase tracking-[0.3em]">{(product as any).brand || "Western Interio"}</span>
+                  <span className="text-[10px] font-black text-primary uppercase tracking-[0.3em]">{product.brand || "Western Interio"}</span>
                   <h3 className="text-xl font-bold text-secondary tracking-tight group-hover:text-primary transition-colors">{name}</h3>
                 </div>
               </div>

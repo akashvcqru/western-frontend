@@ -6,12 +6,8 @@ import {
   Download,
   Eye,
   FileText,
-  Sparkles,
   ArrowRight,
-  Grid,
   Layers,
-  CheckCircle2,
-  BookOpen,
 } from "lucide-react";
 import QuoteModal from "@/components/common/QuoteModal";
 import cataloguesData from "@/data/download-center.json";
@@ -71,7 +67,7 @@ export default function DownloadCenterPage() {
           {/* Grid Layout of Catalogues */}
           {filteredCatalogues.length > 0 ? (
             <div className="grid md:grid-cols-2 gap-8 lg:gap-10">
-              {filteredCatalogues.map((catalog, idx) => (
+              {filteredCatalogues.map((catalog) => (
                 <div
                   key={catalog.id}
                   className="group relative bg-white rounded-3xl border border-neutral-100 shadow-[0_15px_40px_-15px_rgba(0,0,0,0.04)] hover:shadow-[0_30px_70px_-15px_rgba(0,0,0,0.1)] hover:border-primary/10 transition-all duration-500 overflow-hidden flex flex-col md:flex-row h-full min-h-[260px]"

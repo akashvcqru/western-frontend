@@ -7,16 +7,12 @@ import {
   ShieldCheck, 
   Maximize2, 
   Sparkles,
-  Hammer,
-  Layout,
   ArrowRight,
   Layers
 } from "lucide-react";
-import siteContent from "@/data/site-content.json";
 import { AppRoutes } from "@/constants/routes";
 
 export default function VinylFlooringPage() {
-  const { common } = siteContent;
 
   return (
     <main className="bg-white">

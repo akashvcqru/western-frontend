@@ -5,15 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { 
   Search, 
-  Filter, 
-  ChevronRight, 
   Grid, 
   List,
-  Sparkles,
   ArrowUpRight,
-  ShieldCheck,
-  Zap,
-  Package,
   ArrowRight
 } from "lucide-react";
 
@@ -199,7 +193,7 @@ export default function ProductsPage() {
               </div>
               <div className="space-y-4">
                 <h3 className="text-3xl font-bold text-secondary tracking-tight">{noResults.title}</h3>
-                <p className="text-gray-400 font-medium">Try adjusting your keywords to find what you're looking for.</p>
+                <p className="text-gray-400 font-medium">Try adjusting your keywords to find what you&apos;re looking for.</p>
               </div>
               <button 
                 onClick={() => setSearchQuery("")}

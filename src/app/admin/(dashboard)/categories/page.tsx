@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { Layers, Plus, Search, Filter, MoreVertical, Edit, Trash2, Folder } from "lucide-react";
+import { Plus, Search, Filter, Edit, Trash2, Folder } from "lucide-react";
 import Image from "next/image";
 
 const mockCategories = [

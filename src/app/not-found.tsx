@@ -1,7 +1,6 @@
 "use client";
 
 import React from 'react';
-import Link from 'next/link';
 import { Home, Search, ArrowLeft } from 'lucide-react';
 
 
@@ -92,7 +91,7 @@ export default function NotFound() {
                 </h1>
                 
                 <p className="text-gray-400 text-xs font-bold uppercase tracking-widest leading-relaxed max-w-sm mb-10">
-                    The office section you are looking for has been moved or is currently being renovated. Let's get you back to headquarters.
+                    The office section you are looking for has been moved or is currently being renovated. Let&apos;s get you back to headquarters.
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-4 w-full justify-center">

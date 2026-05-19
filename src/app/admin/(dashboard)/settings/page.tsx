@@ -1,9 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import {
-  Settings,
   Save,
-  Store,
   Mail,
   Phone,
   MapPin,
@@ -45,10 +43,22 @@ const socialSchema = yup.object().shape({
     .url("Invalid URL"),
 });
 
+interface ContactSettingsData {
+  supportEmail: string;
+  phoneNumber: string;
+  storeAddress: string;
+}
+
+interface SocialSettingsData {
+  instagramUrl?: string | null;
+  facebookUrl?: string | null;
+  twitterUrl?: string | null;
+}
+
 export default function AdminSettingsPage() {
   const [activeTab, setActiveTab] = useState("contact");
 
-  const contactMethods = useForm({
+  const contactMethods = useForm<ContactSettingsData>({
     mode: "onChange",
     resolver: yupResolver(contactSchema),
     defaultValues: {
@@ -58,7 +68,7 @@ export default function AdminSettingsPage() {
     },
   });
 
-  const socialMethods = useForm({
+  const socialMethods = useForm<SocialSettingsData>({
     mode: "onChange",
     resolver: yupResolver(socialSchema),
     defaultValues: {
@@ -68,11 +78,11 @@ export default function AdminSettingsPage() {
     },
   });
 
-  const onSubmitContact = (data: any) => {
+  const onSubmitContact = (data: ContactSettingsData) => {
     console.log("Contact Settings Saved:", data);
   };
 
-  const onSubmitSocial = (data: any) => {
+  const onSubmitSocial = (data: SocialSettingsData) => {
     console.log("Social Settings Saved:", data);
   };
 

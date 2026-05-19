@@ -9,7 +9,6 @@ import {
   Image as ImageIcon,
   Mail,
   TrendingUp,
-  Users,
   Eye,
   ArrowUpRight,
   ArrowRight,

@@ -2,7 +2,6 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { 
-  CheckCircle2, 
   ArrowRight, 
   Layout, 
   Maximize, 
@@ -12,11 +11,9 @@ import {
   Hammer,
   Sparkles
 } from "lucide-react";
-import siteContent from "@/data/site-content.json";
 import { AppRoutes } from "@/constants/routes";
 
 export default function OfficeInteriorsPage() {
-  const { common } = siteContent;
 
   return (
     <main className="bg-white">

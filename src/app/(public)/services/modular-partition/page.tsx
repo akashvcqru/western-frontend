@@ -2,7 +2,6 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { 
-  Split, 
   Zap, 
   ArrowRight, 
   Maximize2, 
@@ -13,11 +12,9 @@ import {
   Layout,
   Sparkles
 } from "lucide-react";
-import siteContent from "@/data/site-content.json";
 import { AppRoutes } from "@/constants/routes";
 
 export default function ModularPartitionPage() {
-  const { common } = siteContent;
 
   return (
     <main className="bg-white">

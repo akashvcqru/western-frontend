@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { MapPin, Factory, Truck, ShieldCheck, Award, Sparkles, ArrowRight } from "lucide-react";
+import { MapPin, Factory, Truck, ShieldCheck, Award } from "lucide-react";
 import siteContent from "@/data/site-content.json";
 
 interface Hub {
@@ -16,71 +16,71 @@ interface Hub {
   details: string;
 }
 
+// Regional hubs data with normalized coordinates for the SVG canvas
+const hubs: Hub[] = [
+  {
+    id: "gurgaon",
+    name: "Gurugram (HQ & Plant)",
+    type: "Manufacturing Base & Headquarters",
+    x: 46,
+    y: 28,
+    deliveryTime: "1-2 Days (Immediate)",
+    stats: "15,000+ Sq.Ft. Facility",
+    projectsCount: "650+ Corporate Spaces",
+    details: "Our fully integrated manufacturing unit in Kadipur Industrial Area houses automatic powder coating lines and precision CNC routing for desking desking fabrication."
+  },
+  {
+    id: "mumbai",
+    name: "Mumbai Hub",
+    type: "Western Distribution Node",
+    x: 23,
+    y: 61,
+    deliveryTime: "3-4 Days",
+    stats: "Regional Warehouse & Support",
+    projectsCount: "180+ Offices Executed",
+    details: "Direct supply line with regular bulk logistics routes servicing financial hubs, desking solutions, and corporate spaces in Mumbai and Pune."
+  },
+  {
+    id: "bangalore",
+    name: "Bangalore Hub",
+    type: "Southern Tech Node",
+    x: 37,
+    y: 81,
+    deliveryTime: "4 Days",
+    stats: "Direct Logistics & Installation",
+    projectsCount: "120+ Corporate Sites",
+    details: "Optimized logistics and local deployment teams serving high-tech IT parks with ergonomic desking and modular acoustic partition solutions."
+  },
+  {
+    id: "kolkata",
+    name: "Kolkata Hub",
+    type: "Eastern Distribution Partner",
+    x: 76,
+    y: 47,
+    deliveryTime: "4-5 Days",
+    stats: "Bulk Logistics & Assembly",
+    projectsCount: "60+ Turnkey Projects",
+    details: "Connecting Eastern corporate centers with modular office furniture, heavy-duty desking desking systems, and storage units."
+  },
+  {
+    id: "hyderabad",
+    name: "Hyderabad Node",
+    type: "Deccan Logistics Node",
+    x: 44,
+    y: 68,
+    deliveryTime: "3-4 Days",
+    stats: "Corporate Assembly & Setup",
+    projectsCount: "90+ Workspaces Delivered",
+    details: "Comprehensive interior and modular desking desking logistics with on-demand local engineering teams for seamless office installations."
+  }
+];
+
 export default function FootprintSection() {
   const { footer } = siteContent;
   const deliveryCities = footer.deliveryLocations || [];
 
-  // Regional hubs data with normalized coordinates for the SVG canvas
-  const hubs: Hub[] = [
-    {
-      id: "gurgaon",
-      name: "Gurugram (HQ & Plant)",
-      type: "Manufacturing Base & Headquarters",
-      x: 46,
-      y: 28,
-      deliveryTime: "1-2 Days (Immediate)",
-      stats: "15,000+ Sq.Ft. Facility",
-      projectsCount: "650+ Corporate Spaces",
-      details: "Our fully integrated manufacturing unit in Kadipur Industrial Area houses automatic powder coating lines and precision CNC routing for desking desking fabrication."
-    },
-    {
-      id: "mumbai",
-      name: "Mumbai Hub",
-      type: "Western Distribution Node",
-      x: 23,
-      y: 61,
-      deliveryTime: "3-4 Days",
-      stats: "Regional Warehouse & Support",
-      projectsCount: "180+ Offices Executed",
-      details: "Direct supply line with regular bulk logistics routes servicing financial hubs, desking solutions, and corporate spaces in Mumbai and Pune."
-    },
-    {
-      id: "bangalore",
-      name: "Bangalore Hub",
-      type: "Southern Tech Node",
-      x: 37,
-      y: 81,
-      deliveryTime: "4 Days",
-      stats: "Direct Logistics & Installation",
-      projectsCount: "120+ Corporate Sites",
-      details: "Optimized logistics and local deployment teams serving high-tech IT parks with ergonomic desking and modular acoustic partition solutions."
-    },
-    {
-      id: "kolkata",
-      name: "Kolkata Hub",
-      type: "Eastern Distribution Partner",
-      x: 76,
-      y: 47,
-      deliveryTime: "4-5 Days",
-      stats: "Bulk Logistics & Assembly",
-      projectsCount: "60+ Turnkey Projects",
-      details: "Connecting Eastern corporate centers with modular office furniture, heavy-duty desking desking systems, and storage units."
-    },
-    {
-      id: "hyderabad",
-      name: "Hyderabad Node",
-      type: "Deccan Logistics Node",
-      x: 44,
-      y: 68,
-      deliveryTime: "3-4 Days",
-      stats: "Corporate Assembly & Setup",
-      projectsCount: "90+ Workspaces Delivered",
-      details: "Comprehensive interior and modular desking desking logistics with on-demand local engineering teams for seamless office installations."
-    }
-  ];
-
   const [activeHub, setActiveHub] = useState<Hub>(hubs[0]);
-  const [animateBeams, setAnimateBeams] = useState(true);
+  const animateBeams = true;
 
   // Auto-cycles highlight every few seconds if user is not interacting
   useEffect(() => {
@@ -296,7 +296,7 @@ export default function FootprintSection() {
                           className="animate-pulse"
                           style={{
                             animation: "marquee 4s linear infinite",
-                            animationDelay: `${Math.random() * 2}s`
+                            animationDelay: `${(hub.id.charCodeAt(0) % 5) * 0.5}s`
                           }}
                         />
                       )}

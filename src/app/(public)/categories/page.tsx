@@ -105,7 +105,7 @@ export default function CategoriesPage() {
           <div className="max-w-2xl space-y-6 text-center lg:text-left">
             <span className="text-[10px] font-black uppercase tracking-[0.5em] text-primary">Next Project</span>
             <h3 className="text-3xl lg:text-5xl font-bold leading-tight tracking-tight">Need a <br /> <span className="text-primary">Custom Quote?</span></h3>
-            <p className="text-gray-400 text-base font-normal leading-relaxed">Our experts are here to help you select the best materials for your specific architectural needs. Let's build something extraordinary together.</p>
+            <p className="text-gray-400 text-base font-normal leading-relaxed">Our experts are here to help you select the best materials for your specific architectural needs. Let&apos;s build something extraordinary together.</p>
           </div>
           <div className="flex flex-wrap justify-center lg:justify-end gap-6">
             <Link href={AppRoutes.Public.Contact} className="bg-primary hover:bg-white hover:text-black px-12 py-6 rounded-2xl text-[11px] font-bold uppercase tracking-[0.2em] transition-all duration-500 shadow-2xl shadow-primary/20 active:scale-95 group flex items-center gap-3">

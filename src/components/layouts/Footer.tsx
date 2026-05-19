@@ -9,7 +9,6 @@ import {
   MapPin,
   MessageSquare,
   Check,
-  Copy,
 } from "lucide-react";
 import siteContent from "@/data/site-content.json";
 import { cn } from "@/lib/utils";
@@ -40,7 +39,9 @@ export default function Footer() {
   >("idle");
 
   useEffect(() => {
-    setIsMounted(true);
+    const mountTimer = setTimeout(() => {
+      setIsMounted(true);
+    }, 0);
 
     const checkStatus = () => {
       const now = new Date();
@@ -74,9 +75,20 @@ export default function Footer() {
     const interval = setInterval(checkStatus, 60000);
 
     return () => {
+      clearTimeout(mountTimer);
       clearInterval(interval);
     };
   }, []);
+
+interface SocialLink {
+  platform: string;
+  href: string;
+}
+
+interface FooterLink {
+  name: string;
+  href: string;
+}
 
 
 
@@ -160,9 +172,8 @@ export default function Footer() {
               {footer.brandStatement.desc}
             </p>
 
-            {/* Social Links */}
             <div className="flex items-center gap-3 pt-2">
-              {footer.socialLinks.map((social: any) => {
+              {footer.socialLinks.map((social: SocialLink) => {
                 const getIcon = () => {
                   switch (social.platform.toLowerCase()) {
                     case "facebook":
@@ -239,7 +250,7 @@ export default function Footer() {
               <h4 className="text-[9px] font-black uppercase tracking-[0.3em] text-white">Company</h4>
             </div>
             <ul className="space-y-3">
-              {footer.companyLinks.map((link: any) => (
+              {footer.companyLinks.map((link: FooterLink) => (
                 <li key={link.name}>
                   <Link
                     href={link.href}
@@ -266,7 +277,7 @@ export default function Footer() {
                 { name: "Office Tables", href: "/products/office-tables" },
                 { name: "Storage Solutions", href: "/products/office-storage" },
                 { name: "Modular Kitchen", href: "/products/modular-kitchen-series" }
-              ].map((link: any) => (
+              ].map((link: FooterLink) => (
                 <li key={link.name}>
                   <Link
                     href={link.href}

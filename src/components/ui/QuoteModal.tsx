@@ -19,17 +19,32 @@ const schema = yup.object().shape({
     message: yup.string(),
 });
 
+interface Product {
+  name: string;
+  catNo?: string;
+  id: string;
+  brand: string;
+  images: string[];
+}
+
+interface QuoteFormData {
+  fullName: string;
+  email: string;
+  phone: string;
+  message?: string;
+}
+
 interface QuoteModalProps {
     isOpen: boolean;
     onClose: () => void;
-    product: any;
+    product: Product;
 }
 
 const QuoteModal: React.FC<QuoteModalProps> = ({ isOpen, onClose, product }) => {
     const { addToast } = useAppToast();
     const contact = siteContent.common.contact;
 
-    const methods = useForm({
+    const methods = useForm<QuoteFormData>({
         resolver: yupResolver(schema),
         defaultValues: {
             fullName: '',
@@ -46,7 +61,7 @@ const QuoteModal: React.FC<QuoteModalProps> = ({ isOpen, onClose, product }) => 
         }
     }, [product, methods]);
 
-    const onSubmit = (data: any) => {
+    const onSubmit = (data: QuoteFormData) => {
         const whatsappMessage = `*Quote Request from ${data.fullName}*\n\n` +
             `*Product:* ${product.name}\n` +
             `*Model:* ${product.catNo || 'N/A'}\n` +

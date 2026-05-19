@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Image as ImageIcon, Upload, Trash2, Eye } from "lucide-react";
+import { Upload, Trash2, Eye } from "lucide-react";
 import Image from "next/image";
 
 const mockGallery = [

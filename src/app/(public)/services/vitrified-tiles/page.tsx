@@ -7,16 +7,12 @@ import {
   ShieldCheck, 
   Maximize, 
   Box, 
-  Hammer,
-  Layout,
   ArrowRight,
   Settings
 } from "lucide-react";
-import siteContent from "@/data/site-content.json";
 import { AppRoutes } from "@/constants/routes";
 
 export default function VitrifiedTilesPage() {
-  const { common } = siteContent;
 
   return (
     <main className="bg-white">

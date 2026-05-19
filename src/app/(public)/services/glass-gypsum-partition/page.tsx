@@ -9,14 +9,11 @@ import {
   Music, 
   Construction, 
   Sparkles,
-  Hammer,
-  Layout
+  Hammer
 } from "lucide-react";
-import siteContent from "@/data/site-content.json";
 import { AppRoutes } from "@/constants/routes";
 
 export default function GlassGypsumPartitionPage() {
-  const { common } = siteContent;
 
   return (
     <main className="bg-white">

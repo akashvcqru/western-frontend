@@ -1,23 +1,17 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import {
   Phone,
   Mail,
   MapPin,
   Clock,
-  Send,
   Sparkles,
-  MessageSquare,
   Globe,
   ArrowRight,
   ChevronDown,
-  ChevronUp,
-  CheckCircle2,
   Award,
   ShieldCheck,
-  HelpCircle,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -37,6 +31,13 @@ const contactSchema = yup.object().shape({
   message: yup.string().required("Message is required").min(10, "Message too short"),
 });
 
+interface ContactFormData {
+  fullName: string;
+  email: string;
+  phone: string;
+  message: string;
+}
+
 export default function ContactPage() {
   const { common, contactPage } = siteContent;
   const { addToast } = useAppToast();
@@ -53,7 +54,7 @@ export default function ContactPage() {
     },
   });
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (_data: ContactFormData) => {
     addToast({
       title: "Inquiry Sent",
       message: "Thank you for contacting us. We will get back to you shortly.",
@@ -186,7 +187,7 @@ export default function ContactPage() {
                   Premium Manufacturer
                 </div>
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-secondary leading-tight tracking-tight uppercase">
-                  Let's Discuss <br />
+                  Let&apos;s Discuss <br />
                   <span className="text-neutral-500">Your Workspace.</span>
                 </h2>
                 <p className="text-neutral-500 text-base md:text-lg font-medium leading-relaxed max-w-lg">

@@ -4,8 +4,16 @@ import React from "react";
 import { Quote, Star } from "lucide-react";
 import siteContent from "@/data/site-content.json";
 
+interface Testimonial {
+  author: string;
+  designation: string;
+  company: string;
+  quote: string;
+  rating: number;
+}
+
 export default function TestimonialsSection() {
-  const testimonials = siteContent.testimonialsPage.items;
+  const testimonials = siteContent.testimonialsPage.items as Testimonial[];
 
   return (
     <section className="pt-12 pb-12 lg:pt-16 lg:pb-16 bg-neutral-50 relative overflow-hidden">
@@ -20,7 +28,7 @@ export default function TestimonialsSection() {
         </div>
  
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-          {testimonials.slice(0, 3).map((t: any, i: number) => (
+          {testimonials.slice(0, 3).map((t: Testimonial, i: number) => (
             <div 
               key={i} 
               className="bg-white p-10 lg:p-12 rounded-[32px] border border-neutral-100 flex flex-col justify-between space-y-8 relative group hover:shadow-[0_40px_100px_-20px_rgba(0,0,0,0.1)] hover:-translate-y-2 transition-all duration-700 h-full"
@@ -38,7 +46,7 @@ export default function TestimonialsSection() {
                   ))}
                 </div>
                 <p className="text-base text-secondary/90 font-normal leading-relaxed italic">
-                  "{t.quote}"
+                  &ldquo;{t.quote}&rdquo;
                 </p>
               </div>
 

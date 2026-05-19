@@ -8,14 +8,11 @@ import {
   ShieldCheck, 
   Thermometer, 
   Hammer,
-  Layout,
   ArrowRight
 } from "lucide-react";
-import siteContent from "@/data/site-content.json";
 import { AppRoutes } from "@/constants/routes";
 
 export default function WoodenFlooringPage() {
-  const { common } = siteContent;
 
   return (
     <main className="bg-white">

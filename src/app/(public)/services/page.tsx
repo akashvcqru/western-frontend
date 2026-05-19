@@ -4,8 +4,6 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { 
-  Building2, 
-  Sparkles, 
   ArrowRight, 
   CheckCircle2, 
   Layout, 
@@ -16,13 +14,11 @@ import {
   ShieldCheck 
 } from "lucide-react";
 import QuoteModal from "@/components/common/QuoteModal";
-import siteContent from "@/data/site-content.json";
 import { AppRoutes } from "@/constants/routes";
 import { PageHeader } from "@/components/ui";
 
 export default function ServicesPage() {
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
-  const { aboutPage } = siteContent;
 
   const services = [
     {

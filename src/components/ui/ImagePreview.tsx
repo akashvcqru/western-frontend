@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+import Image from 'next/image';
 
 interface ImagePreviewProps {
     isOpen: boolean;
@@ -88,11 +89,15 @@ const ImagePreview: React.FC<ImagePreviewProps> = ({
                 className="absolute inset-0 flex items-center justify-center animate-in zoom-in-95 duration-300"
                 onClick={(e) => e.stopPropagation()}
             >
-                <img
-                    src={currentImage.url}
-                    alt={currentImage.title || "Preview"}
-                    className="w-full h-full object-contain transition-all duration-300"
-                />
+                <div className="relative w-full h-full">
+                    <Image
+                        src={currentImage.url}
+                        alt={currentImage.title || "Preview"}
+                        fill
+                        unoptimized
+                        className="object-contain transition-all duration-300"
+                    />
+                </div>
             </div>
         </div>
     );

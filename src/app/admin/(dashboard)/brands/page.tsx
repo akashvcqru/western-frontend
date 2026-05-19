@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { Tag, Plus, Search, Filter, Edit, Trash2, ExternalLink } from "lucide-react";
+import { Plus, Search, Filter, Edit, Trash2, ExternalLink } from "lucide-react";
 import Image from "next/image";
 import { Card } from "@/components/ui";
 

@@ -350,20 +350,33 @@ export default function AdminDashboardLayout({
   const pathname = usePathname();
   const { addToast } = useAppToast();
 
-  const [admin, setAdmin]           = useState<AdminUser | null>(null);
+  const [admin]                     = useState<AdminUser | null>(() => {
+    if (typeof window !== "undefined") {
+      const stored = sessionStorage.getItem("bdm_admin");
+      if (stored) {
+        try { return JSON.parse(stored); }
+        catch { return null; }
+      }
+    }
+    return null;
+  });
   const [mobileOpen, setMobileOpen] = useState(false);
   const [notifOpen, setNotifOpen]   = useState(false);
 
   /* Auth guard */
   useEffect(() => {
-    const stored = sessionStorage.getItem("bdm_admin");
-    if (!stored) { router.replace("/admin/login"); return; }
-    try { setAdmin(JSON.parse(stored)); }
-    catch { router.replace("/admin/login"); }
-  }, [router]);
+    if (!admin) {
+      router.replace("/admin/login");
+    }
+  }, [admin, router]);
 
   /* Close mobile sidebar on route change */
-  useEffect(() => { setMobileOpen(false); }, [pathname]);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setMobileOpen(false);
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [pathname]);
 
   const handleLogout = () => {
     sessionStorage.removeItem("bdm_admin");

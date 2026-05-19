@@ -11,6 +11,14 @@ interface HeroSectionProps {
   onOpenQuote: () => void;
 }
 
+interface Slide {
+  id: string;
+  image: string;
+  title: string;
+  subtitle: string;
+  description: string;
+}
+
 export default function HeroSection({ onOpenQuote }: HeroSectionProps) {
   const { homePage } = siteContent;
   const [currentSlide, setCurrentSlide] = React.useState(0);
@@ -25,7 +33,7 @@ export default function HeroSection({ onOpenQuote }: HeroSectionProps) {
   return (
     <section className="relative h-screen overflow-hidden group bg-neutral-950">
       
-      {homePage.heroSlider.map((slide: any, idx: number) => (
+      {homePage.heroSlider.map((slide: Slide, idx: number) => (
         <div
           key={slide.id}
           className={cn(
@@ -80,7 +88,7 @@ export default function HeroSection({ onOpenQuote }: HeroSectionProps) {
 
       {/* Slide Controls - Minimal */}
       <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-30 flex items-center gap-4">
-        {homePage.heroSlider.map((_: any, idx: number) => (
+        {homePage.heroSlider.map((_, idx: number) => (
           <button
             key={idx}
             onClick={() => setCurrentSlide(idx)}

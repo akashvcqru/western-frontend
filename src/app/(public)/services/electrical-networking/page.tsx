@@ -9,15 +9,12 @@ import {
   ShieldCheck, 
   Sparkles,
   Hammer,
-  Layout,
   Activity,
   ArrowRight
 } from "lucide-react";
-import siteContent from "@/data/site-content.json";
 import { AppRoutes } from "@/constants/routes";
 
 export default function ElectricalNetworkingPage() {
-  const { common } = siteContent;
 
   return (
     <main className="bg-white">

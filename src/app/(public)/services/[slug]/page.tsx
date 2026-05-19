@@ -3,9 +3,8 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { 
-  CheckCircle2, 
   ArrowRight, 
   Layout, 
   Maximize, 
@@ -13,24 +12,25 @@ import {
   Palette,
   Compass,
   Hammer,
-  Sparkles,
-  Zap,
-  Lock,
-  Box,
-  Settings
+  Sparkles
 } from "lucide-react";
 import categoriesData from "@/data/categories.json";
-import { AppRoutes } from "@/constants/routes";
 import QuoteModal from "@/components/common/QuoteModal";
-import { PageHeader } from "@/components/ui";
+
+interface ServiceCategory {
+  id: string;
+  name: string;
+  slug: string;
+  description: string;
+  image?: string;
+}
 
 export default function DynamicServicePage() {
   const params = useParams();
-  const router = useRouter();
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
   
   const slug = params?.slug as string;
-  const serviceDetail = categoriesData.find((c: any) => c.slug === slug);
+  const serviceDetail = (categoriesData as ServiceCategory[]).find(c => c.slug === slug);
 
   // Fallback to main services directory if the slug is invalid
   if (!serviceDetail) {

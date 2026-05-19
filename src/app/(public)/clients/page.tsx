@@ -200,7 +200,7 @@ export default function ClientsPage() {
                 </h2>
                 
                 <p className="text-sm text-neutral-500 leading-relaxed font-normal max-w-xl">
-                  We don't just supply layouts and office products; we <strong className="text-secondary font-bold">engineer complete modern environments</strong> that foster active collaboration, human-centric wellness, and world-class productivity standards.
+                  We don&apos;t just supply layouts and office products; we <strong className="text-secondary font-bold">engineer complete modern environments</strong> that foster active collaboration, human-centric wellness, and world-class productivity standards.
                 </p>
               </div>
 

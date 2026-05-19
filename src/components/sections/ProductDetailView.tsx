@@ -2,31 +2,39 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { 
   Phone, 
   FileText, 
   CheckCircle2, 
   ShieldCheck, 
-  Droplets,
-  ArrowRight,
-  Maximize2,
-  Sparkles,
-  X
+  Maximize2
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import ImagePreview from "@/components/ui/ImagePreview";
 import siteContent from "@/data/site-content.json";
 import QuoteModal from "@/components/common/QuoteModal";
 
+interface Product {
+  id: string;
+  name: string;
+  category: string;
+  brand: string;
+  price?: string;
+  description?: string;
+  images: string[];
+  variants?: { label: string; options: string[] }[];
+  specifications?: { label: string; value: string }[];
+  catNo?: string;
+}
+
 interface ProductDetailViewProps {
-  product: any;
+  product: Product;
 }
 
 export default function ProductDetailView({ product }: ProductDetailViewProps) {
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedVariants, setSelectedVariants] = useState<Record<string, string>>(
-    (product.variants || []).reduce((acc: any, v: any) => ({ ...acc, [v.label]: v.options[0] }), {})
+    (product.variants || []).reduce((acc: Record<string, string>, v) => ({ ...acc, [v.label]: v.options[0] }), {})
   );
   const [isExpanded, setIsExpanded] = useState(false);
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
@@ -118,7 +126,7 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
               {/* Variants */}
               {product.variants && product.variants.length > 0 && (
                 <div className="space-y-8 py-8 border-y border-neutral-100">
-                  {product.variants.map((variant: any) => (
+                  {product.variants.map((variant) => (
                     <div key={variant.label} className="space-y-4">
                       <div className="flex justify-between items-center">
                         <h4 className="text-[11px] font-black uppercase tracking-[0.2em] text-secondary/40">Select {variant.label}</h4>
@@ -148,7 +156,7 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
               {/* Specs */}
               {product.specifications && product.specifications.length > 0 && (
                 <div className="grid grid-cols-2 gap-y-6 gap-x-12">
-                  {product.specifications.map((spec: any) => (
+                  {product.specifications.map((spec) => (
                     <div key={spec.label} className="space-y-1">
                       <p className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest">{spec.label}</p>
                       <p className="text-sm font-bold text-secondary uppercase tracking-tight">{spec.value}</p>

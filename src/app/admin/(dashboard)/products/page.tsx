@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { Package, Plus, Search, Filter, MoreVertical, Edit, Trash2, Eye } from "lucide-react";
+import { Plus, Search, Filter, Edit, Trash2, Eye } from "lucide-react";
 import Image from "next/image";
 import { Card } from "@/components/ui";
 

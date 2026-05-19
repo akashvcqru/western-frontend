@@ -3,11 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { 
-  Building2, 
-  Sparkles,
   ArrowRight,
-  CheckCircle2,
-  Palette,
   Layout,
   Layers,
   Settings,

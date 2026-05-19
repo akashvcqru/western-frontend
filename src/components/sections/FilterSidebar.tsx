@@ -4,14 +4,22 @@ import React from "react";
 import { Filter, ChevronDown, ChevronUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-interface FilterGroup {
+interface Product {
   id: string;
-  title: string;
-  options: string[];
+  name: string;
+  category: string;
+  brand: string;
+  type?: string;
+  subcategory?: string;
+  specifications?: { label: string; value: string }[];
+  shortSpecs?: string[];
+  images: string[];
+  price?: string;
+  description?: string;
 }
 
 interface FilterSidebarProps {
-  products: any[];
+  products: Product[];
   selectedFilters: string[];
   onFilterChange: (option: string) => void;
   onClearAll: () => void;
@@ -28,14 +36,14 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
   // Dynamically generate filter groups based on products
   const filterGroupsData = React.useMemo(() => {
     if (!Array.isArray(products)) return [];
-    const brands = Array.from(new Set(products.map(p => p.brand))).filter(Boolean) as string[];
+    const brands = Array.from(new Set(products.map(p => p.brand))).filter(Boolean);
     const types = Array.from(new Set(products.map(p => p.type))).filter(Boolean) as string[];
-    const subcategories = Array.from(new Set(products.map(p => p.subcategory?.replace(/-/g, " ").replace(/\b\w/g, (l: any) => l.toUpperCase())))).filter(Boolean) as string[];
+    const subcategories = Array.from(new Set(products.map(p => p.subcategory?.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase())))).filter(Boolean) as string[];
     
     const getSpecOptions = (label: string) => {
       const options = new Set<string>();
       products.forEach(p => {
-        const spec = p.specifications?.find((s: any) => s.label?.toLowerCase() === label?.toLowerCase());
+        const spec = p.specifications?.find((s: { label: string; value: string }) => s.label?.toLowerCase() === label?.toLowerCase());
         if (spec?.value) options.add(spec.value);
         p.shortSpecs?.forEach((ss: string) => {
           if (ss?.toLowerCase().includes(label?.toLowerCase()) || 

@@ -8,15 +8,11 @@ import {
   Layers, 
   Lightbulb, 
   Component, 
-  Brush,
-  Compass,
-  Hammer
+  Brush
 } from "lucide-react";
-import siteContent from "@/data/site-content.json";
 import { AppRoutes } from "@/constants/routes";
 
 export default function InteriorsDecorationPage() {
-  const { common } = siteContent;
 
   return (
     <main className="bg-white">

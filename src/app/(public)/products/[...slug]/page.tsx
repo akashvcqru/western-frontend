@@ -1,10 +1,9 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import { FilterSidebar } from "@/components/sections/FilterSidebar";
 import { ProductCard } from "@/components/ui/ProductCard";
-import { ChevronRight, ArrowRight, Filter } from "lucide-react";
+import { ArrowRight, Filter } from "lucide-react";
 import Link from "next/link";
 import { Pagination } from "@/components/ui/Pagination";
 import PageHeader from "@/components/ui/PageHeader";
@@ -17,13 +16,50 @@ import ProductDetailView from "@/components/sections/ProductDetailView";
 import CtaSection from "@/components/sections/home/CtaSection";
 import QuoteModal from "@/components/common/QuoteModal";
 
+interface Category {
+  id?: string;
+  name: string;
+  slug: string;
+  description: string;
+  image?: string;
+}
+
+interface NavItem {
+  id: string;
+  title: string;
+  href: string;
+  columns: Array<{
+    title: string;
+    items: Array<{ name: string; slug: string }>;
+  }>;
+}
+
+interface ProductSpec {
+  label: string;
+  value: string;
+}
+
+interface Product {
+  id: string;
+  name: string;
+  category: string;
+  slug: string;
+  price: string;
+  images: string[];
+  brand?: string;
+  subcategory?: string;
+  type?: string;
+  specifications?: ProductSpec[];
+  shortSpecs?: string[];
+}
+
 const parsePrice = (priceStr?: string): number => {
   if (!priceStr) return 0;
   const cleaned = priceStr.replace(/[^0-9]/g, "");
   return cleaned ? parseInt(cleaned, 10) : 0;
 };
 
-function CategoryHubPage({ category, navItem }: { category: any; navItem: any }) {
+function CategoryHubPage({ category, navItem }: { category: Category | undefined; navItem: NavItem }) {
   const [isQuoteOpen, setIsQuoteOpen] = React.useState(false);
   const allSubcategories = navItem.columns.flatMap((col: any) => col.items);
   const heroImage = category?.image || "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop";
@@ -131,13 +167,16 @@ export default function ProductListingPage({
   const [isQuoteOpen, setIsQuoteOpen] = React.useState(false);
   const ITEMS_PER_PAGE = 6;
   
+  const typedProductsData = productsData as Product[];
+  const typedNavigation = navigation as NavItem[];
+
   const lastSlugSegment = slug ? slug[slug.length - 1] : "";
-  const product = productsData.find(p => p.slug === lastSlugSegment);
+  const product = typedProductsData.find(p => p.slug === lastSlugSegment);
 
   const categorySlug = slug ? (slug.length >= 2 ? slug[1] : slug[0]) : "";
   
   const categoryProducts = React.useMemo(() => {
-    return Array.isArray(productsData) ? (productsData as any[]).filter(p => p.category === categorySlug) : [];
+    return typedProductsData.filter(p => p.category === categorySlug);
   }, [categorySlug]);
 
   const dynamicMaxPrice = React.useMemo(() => {
@@ -160,7 +199,7 @@ export default function ProductListingPage({
   // Handle 1-segment routes (e.g. /products/office-furniture) as a Subcategory Hub Page
   if (slug && slug.length === 1) {
     const parentSlug = slug[0];
-    const navItem = Array.isArray(navigation) ? (navigation as any[]).find(item => item.id === parentSlug) : null;
+    const navItem = typedNavigation.find(item => item.id === parentSlug);
     const currentCategory = categoriesData.find(c => c.slug === parentSlug);
     if (navItem) {
       return <CategoryHubPage category={currentCategory} navItem={navItem} />;
@@ -174,7 +213,7 @@ export default function ProductListingPage({
   };
 
   // Filter products based on category slug, price range AND active faceted filters
-  const filteredProducts = Array.isArray(productsData) ? (productsData as any[]).filter(p => {
+  const filteredProducts = typedProductsData.filter(p => {
     if (!categorySlug) return true;
     if (p.category !== categorySlug) return false;
     
@@ -228,7 +267,7 @@ export default function ProductListingPage({
       if (activeSpecs.length > 0) {
         const matchesSpec = activeSpecs.some(spec => {
           if (spec === "In Stock") return true;
-          const specMatch = p.specifications?.some((s: any) => s.value === spec);
+          const specMatch = p.specifications?.some((s) => s.value === spec);
           if (specMatch) return true;
           const shortSpecMatch = p.shortSpecs?.some((ss: string) => ss === spec);
           if (shortSpecMatch) return true;
@@ -239,7 +278,7 @@ export default function ProductListingPage({
     }
 
     return true;
-  }) : [];
+  });
 
   const currentCategory = categoriesData.find(c => c.slug === categorySlug);
   

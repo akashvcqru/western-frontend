@@ -20,6 +20,40 @@ import siteContent from "@/data/site-content.json";
 import navigation from "@/data/navigation.json";
 import categoriesData from "@/data/categories.json";
 
+interface NavigationLink {
+  name: string;
+  href: string;
+}
+
+interface ColumnItem {
+  name: string;
+  slug: string;
+}
+
+interface NavigationColumn {
+  title: string;
+  items: ColumnItem[];
+}
+
+interface NavigationItem {
+  id: string;
+  title: string;
+  href: string;
+  columns: NavigationColumn[];
+}
+
+interface SearchTag {
+  label: string;
+  slug: string;
+}
+
+interface CategoryItem {
+  slug: string;
+  name: string;
+  image?: string;
+  id?: string;
+}
+
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -122,9 +156,9 @@ export default function Header() {
 
             {/* Desktop Navigation - SaaS Style */}
             <nav className="hidden xl:flex items-center gap-2 h-full">
-              {header.navigation.map((link: any) => {
+              {header.navigation.map((link: NavigationLink) => {
                 const navItem = Array.isArray(navigation)
-                  ? navigation.find((item) => item.title === link.name)
+                  ? (navigation as NavigationItem[]).find((item) => item.title === link.name)
                   : null;
                 return (
                   <div
@@ -201,7 +235,7 @@ export default function Header() {
                           {/* Right Column: Visual Row Grid */}
                           <div className="col-span-9 pl-6">
                             {(() => {
-                              const allItems = navItem.columns.flatMap((col: any) => col.items);
+                              const allItems = navItem.columns.flatMap((col: NavigationColumn) => col.items);
                               const numItems = allItems.length;
 
                               const gridColsClass = 
@@ -211,8 +245,8 @@ export default function Header() {
 
                               return (
                                 <div className={cn("grid gap-x-8 gap-y-5", gridColsClass)}>
-                                  {allItems.map((item: any, idx: number) => {
-                                    const subCategoryDetail = categoriesData.find((c: any) => c.slug === item.slug);
+                                  {allItems.map((item: ColumnItem, idx: number) => {
+                                    const subCategoryDetail = (categoriesData as CategoryItem[]).find((c: CategoryItem) => c.slug === item.slug);
                                     const previewImage = subCategoryDetail?.image || "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop";
                                     const previewTitle = subCategoryDetail?.name || item.name;
 
@@ -226,9 +260,11 @@ export default function Header() {
                                       >
                                         {/* Square Thumbnail Image */}
                                         <div className="relative aspect-square w-16 rounded-xl overflow-hidden shadow-sm bg-neutral-100 border border-neutral-200/40 shrink-0 group-hover:border-primary/20 transition-all duration-300">
-                                          <img
+                                          <Image
                                             src={previewImage}
                                             alt={previewTitle}
+                                            width={64}
+                                            height={64}
                                             className="object-cover w-full h-full transform group-hover:scale-105 transition-transform duration-700 ease-out"
                                           />
                                         </div>
@@ -328,7 +364,7 @@ export default function Header() {
                   />
                 </div>
                 <div className="flex flex-wrap justify-center gap-4">
-                  {header.searchTags.map((tag: any) => (
+                  {header.searchTags.map((tag: SearchTag) => (
                     <Link
                       key={tag.label}
                       href={`/products/${tag.slug}`}
@@ -385,10 +421,10 @@ export default function Header() {
                         Explore Categories
                       </span>
                       <div className="grid gap-2">
-                        {header.navigation.map((link: any) => {
+                        {header.navigation.map((link: NavigationLink) => {
                           const hasSubMenu =
                             Array.isArray(navigation) &&
-                            navigation.find((n) => n.title === link.name)
+                            (navigation as NavigationItem[]).find((n) => n.title === link.name)
                               ?.columns;
                           return (
                             <div
@@ -452,18 +488,18 @@ export default function Header() {
                 ) : (
                   <div className="space-y-12">
                     {Array.isArray(navigation) &&
-                      navigation
+                      (navigation as NavigationItem[])
                         .find((n) => n.title === activeMenu)
-                        ?.columns?.map((col: any, i: number) => (
+                        ?.columns?.map((col: NavigationColumn, i: number) => (
                           <div key={i} className="space-y-6">
                             <h4 className="text-[10px] font-black tracking-[0.4em] text-primary uppercase border-l-2 border-primary pl-4">
                               {col.title}
                             </h4>
                             <div className="grid gap-4 pl-4">
-                              {col.items.map((item: any, idx: number) => (
+                              {col.items.map((item: ColumnItem, idx: number) => (
                                 <a
                                   key={idx}
-                                  href={`${navigation.find((n) => n.title === activeMenu)?.href || ""}/${item.slug}`}
+                                  href={`${(navigation as NavigationItem[]).find((n) => n.title === activeMenu)?.href || ""}/${item.slug}`}
                                   className="text-lg font-bold text-secondary hover:text-primary transition-colors block active:translate-x-2 duration-300"
                                   onClick={() => {
                                     setIsOpen(false);
