@@ -11,6 +11,7 @@ import PageHeader from "@/components/ui/PageHeader";
 
 import productsData from "@/data/products.json";
 import categoriesData from "@/data/categories.json";
+import navigation from "@/data/navigation.json";
 import { AppRoutes } from "@/constants/routes";
 import ProductDetailView from "@/components/sections/ProductDetailView";
 
@@ -19,6 +20,91 @@ const parsePrice = (priceStr?: string): number => {
   const cleaned = priceStr.replace(/[^0-9]/g, "");
   return cleaned ? parseInt(cleaned, 10) : 0;
 };
+
+function CategoryHubPage({ category, navItem }: { category: any; navItem: any }) {
+  const allSubcategories = navItem.columns.flatMap((col: any) => col.items);
+  const heroImage = category?.image || "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop";
+  const categoryName = category?.name || navItem.title;
+  const categoryDescription = category?.description || `Professional ${categoryName} solutions engineered for premium workspaces and lasting comfort.`;
+
+  return (
+    <div className="bg-white min-h-screen">
+      <PageHeader 
+        bgImage={heroImage}
+        badgeText="Product Category"
+        titlePrefix="Explore"
+        titleHighlight={categoryName}
+        subtitle={categoryDescription}
+      />
+
+      <div className="max-w-[1440px] mx-auto px-6 lg:px-12 py-32 space-y-16">
+        {/* Section Title */}
+        <div className="space-y-4 text-center max-w-2xl mx-auto">
+          <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Browse Subcategories</span>
+          <h2 className="text-3xl lg:text-4xl font-bold text-secondary tracking-tight leading-tight">
+            Select a product series to browse
+          </h2>
+          <p className="text-sm text-neutral-400 font-medium leading-relaxed">
+            Explore our meticulously designed furniture collections, engineered for long-term ergonomics, durability, and style.
+          </p>
+        </div>
+
+        {/* Subcategories Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
+          {allSubcategories.map((sub: any, idx: number) => {
+            const subCategoryDetail = categoriesData.find((c: any) => c.slug === sub.slug);
+            const subImgUrl = subCategoryDetail?.image || "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop";
+            const subTitle = subCategoryDetail?.name || sub.name;
+            const subDescription = subCategoryDetail?.description || "High-end corporate collection featuring premium aesthetics and absolute support.";
+            const count = productsData.filter(p => p.category === sub.slug).length;
+
+            return (
+              <Link
+                key={idx}
+                href={`/products/${navItem.id}/${sub.slug}`}
+                className="group relative flex flex-col bg-white rounded-2xl overflow-hidden border border-neutral-100/80 shadow-[0_12px_30px_-10px_rgba(0,0,0,0.03)] hover:shadow-[0_30px_60px_-15px_rgba(237,28,39,0.12)] transition-all duration-[600ms] hover:-translate-y-1.5"
+              >
+                {/* Image Container with aspect ratio */}
+                <div className="relative aspect-[16/10] w-full overflow-hidden bg-neutral-100 border-b border-neutral-100/50">
+                  <img
+                    src={subImgUrl}
+                    alt={subTitle}
+                    className="object-cover w-full h-full transform group-hover:scale-105 transition-transform duration-[1.2s] ease-out animate-in fade-in"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  
+                  {/* Dynamic Product Count Badge */}
+                  <div className="absolute top-4 left-4 z-10">
+                    <span className="px-2.5 py-1 bg-neutral-900/70 backdrop-blur-md text-[9px] font-black tracking-[0.2em] text-white rounded-lg border border-white/10 uppercase">
+                      {count} {count === 1 ? "Model" : "Models"}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Subcategory Details */}
+                <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
+                  <div className="space-y-2">
+                    <h3 className="text-xl font-bold text-secondary group-hover:text-primary transition-colors tracking-tight uppercase leading-tight">
+                      {subTitle}
+                    </h3>
+                    <p className="text-xs leading-relaxed text-secondary/60 font-medium line-clamp-3">
+                      {subDescription}
+                    </p>
+                  </div>
+
+                  <div className="pt-2 flex items-center gap-2 text-primary text-[9px] font-black tracking-[0.25em] uppercase border-t border-neutral-50">
+                    Explore Series 
+                    <ArrowRight size={14} className="group-hover:translate-x-1.5 transition-transform duration-300" />
+                  </div>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function ProductListingPage({ 
   params,
@@ -35,7 +121,7 @@ export default function ProductListingPage({
   const lastSlugSegment = slug ? slug[slug.length - 1] : "";
   const product = productsData.find(p => p.slug === lastSlugSegment);
 
-  const categorySlug = slug ? slug[0] : "";
+  const categorySlug = slug ? (slug.length >= 2 ? slug[1] : slug[0]) : "";
   
   const categoryProducts = React.useMemo(() => {
     return Array.isArray(productsData) ? (productsData as any[]).filter(p => p.category === categorySlug) : [];
@@ -56,6 +142,16 @@ export default function ProductListingPage({
 
   if (product) {
     return <ProductDetailView product={product} />;
+  }
+
+  // Handle 1-segment routes (e.g. /products/office-furniture) as a Subcategory Hub Page
+  if (slug && slug.length === 1) {
+    const parentSlug = slug[0];
+    const navItem = Array.isArray(navigation) ? (navigation as any[]).find(item => item.id === parentSlug) : null;
+    const currentCategory = categoriesData.find(c => c.slug === parentSlug);
+    if (navItem) {
+      return <CategoryHubPage category={currentCategory} navItem={navItem} />;
+    }
   }
   
   const toggleFilter = (option: string) => {

@@ -24,9 +24,9 @@
     "cta": "Get a Quote",
     "homeHref": "/",
     "navigation": [
-      { "name": "Office Furniture", "href": "/products" },
-      { "name": "Home Furniture", "href": "/products" },
-      { "name": "Chairs", "href": "/products" },
+      { "name": "Office Furniture", "href": "/products/office-furniture" },
+      { "name": "Home Furniture", "href": "/products/home-furniture" },
+      { "name": "Chairs", "href": "/products/chairs" },
       { "name": "Interior Design", "href": "/services" },
       { "name": "About Us", "href": "/about" }
     ],

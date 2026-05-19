@@ -117,5 +117,96 @@
     "slug": "modular-kitchen-series",
     "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop",
     "description": "Modern modular kitchen series."
+  },
+  {
+    "id": "office-interiors",
+    "name": "Office Interior",
+    "slug": "office-interiors",
+    "image": "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop",
+    "description": "Complete corporate space planning, structural fit-outs, and executive layout design."
+  },
+  {
+    "id": "interiors-decoration",
+    "name": "Interiors Decoration",
+    "slug": "interiors-decoration",
+    "image": "https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=2069&auto=format&fit=crop",
+    "description": "Curated workspace lighting design, accent walls, acoustic paneling, and custom decor."
+  },
+  {
+    "id": "modular-partition",
+    "name": "Modular Partition",
+    "slug": "modular-partition",
+    "image": "https://images.unsplash.com/photo-1504384308090-c89eecaaad8e?q=80&w=2070&auto=format&fit=crop",
+    "description": "Heavy-duty acoustically insulated modular floor-to-ceiling partition panels."
+  },
+  {
+    "id": "glass-gypsum-partition",
+    "name": "Glass/Gypsum Partition",
+    "slug": "glass-gypsum-partition",
+    "image": "https://images.unsplash.com/photo-1600585154526-990dced4db0d?q=80&w=2070&auto=format&fit=crop",
+    "description": "Premium frameless double-glazed glass partition systems and seamless gypsum walls."
+  },
+  {
+    "id": "solid-wall-partition",
+    "name": "Solid Wall Partition",
+    "slug": "solid-wall-partition",
+    "image": "https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=2069&auto=format&fit=crop",
+    "description": "Durable high-impact board partition systems built for absolute boardroom sound insulation."
+  },
+  {
+    "id": "aluminum-partitions",
+    "name": "Aluminum Partitions",
+    "slug": "aluminum-partitions",
+    "image": "https://images.unsplash.com/photo-1504384308090-c89eecaaad8e?q=80&w=2070&auto=format&fit=crop",
+    "description": "Anodized aluminum wall partition framing paired with custom insulated panel inserts."
+  },
+  {
+    "id": "false-ceiling-design",
+    "name": "False Ceiling Design",
+    "slug": "false-ceiling-design",
+    "image": "https://images.unsplash.com/photo-1507089947368-19c1da9775ae?q=80&w=2070&auto=format&fit=crop",
+    "description": "Contemporary grid false ceilings, baffle panels, and integrated ambient lighting systems."
+  },
+  {
+    "id": "ac-ducting",
+    "name": "AC/Ducting",
+    "slug": "ac-ducting",
+    "image": "https://images.unsplash.com/photo-1581094288338-2314dddb7ecc?q=80&w=2070&auto=format&fit=crop",
+    "description": "High-efficiency central AC ductwork, smart HVAC distribution, and ventilation grids."
+  },
+  {
+    "id": "electrical-networking",
+    "name": "Electrical / Networking",
+    "slug": "electrical-networking",
+    "image": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=2070&auto=format&fit=crop",
+    "description": "Heavy-duty server networking racks, smart automated switches, and certified power cabling."
+  },
+  {
+    "id": "false-flooring",
+    "name": "Office False Flooring",
+    "slug": "false-flooring",
+    "image": "https://images.unsplash.com/photo-1504384308090-c89eecaaad8e?q=80&w=2070&auto=format&fit=crop",
+    "description": "Raised access flooring panels providing secure, clean channels for networking cables."
+  },
+  {
+    "id": "wooden-flooring",
+    "name": "Wooden Flooring",
+    "slug": "wooden-flooring",
+    "image": "https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?q=80&w=2070&auto=format&fit=crop",
+    "description": "Premium commercial laminate and hardwood flooring crafted for executive workspaces."
+  },
+  {
+    "id": "vinyl-flooring",
+    "name": "Vinyl Flooring",
+    "slug": "vinyl-flooring",
+    "image": "https://images.unsplash.com/photo-1562663474-6cbb3fee4c77?q=80&w=2070&auto=format&fit=crop",
+    "description": "Anti-static, highly durable vinyl flooring rolls ideal for high-traffic corridors."
+  },
+  {
+    "id": "vitrified-tiles",
+    "name": "Vitrified Tiles",
+    "slug": "vitrified-tiles",
+    "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053&auto=format&fit=crop",
+    "description": "Polished double-charged vitrified tile flooring for high-impact office lobbies."
   }
 ]
