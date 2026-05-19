@@ -5,22 +5,23 @@
     "href": "/products",
     "columns": [
       {
-        "title": "Desking & Tables",
+        "title": "Workspaces & Seating",
         "items": [
-          { "name": "Desking & Workstation", "slug": "desking-workstation" },
-          { "name": "Executive Tables", "slug": "executive-tables" },
-          { "name": "Reception Series", "slug": "reception-series" },
-          { "name": "Computer Tables", "slug": "computer-tables" },
-          { "name": "Centre Tables", "slug": "centre-tables" },
-          { "name": "Conference/ Meeting", "slug": "conference-meeting" }
+          { "name": "Modular Workstation", "slug": "modular-workstation" },
+          { "name": "Workstation", "slug": "workstation" },
+          { "name": "Modern Office Chairs", "slug": "modern-office-chairs" },
+          { "name": "Office Sofa", "slug": "office-sofa" },
+          { "name": "Office Partition", "slug": "office-partition" }
         ]
       },
       {
-        "title": "Storage & Others",
+        "title": "Tables & Storage",
         "items": [
-          { "name": "Office Storage", "slug": "office-storage" },
-          { "name": "Cafeteria and Bar", "slug": "cafeteria-and-bar" },
-          { "name": "Sofas Series", "slug": "sofas-series" }
+          { "name": "Director Table", "slug": "director-table" },
+          { "name": "Conference Table", "slug": "conference-table" },
+          { "name": "Reception Desk", "slug": "reception-desk" },
+          { "name": "Center Table", "slug": "center-table" },
+          { "name": "Storage Solutions", "slug": "storage-solutions" }
         ]
       }
     ]
@@ -59,7 +60,7 @@
       {
         "title": "Workstation & Staff",
         "items": [
-          { "name": "Office Workstation", "slug": "office-workstation-chairs" }
+          { "name": "Modern Office Chairs", "slug": "modern-office-chairs" }
         ]
       },
       {
@@ -74,39 +75,24 @@
   {
     "id": "interior-design",
     "title": "Interior Design",
-    "href": "/services",
+    "href": "/products/interior-design",
     "columns": [
       {
-        "title": "Interiors",
+        "title": "Office & Corporate",
         "items": [
-          { "name": "Office Interior", "slug": "office-interiors" },
-          { "name": "Interiors Decoration", "slug": "interiors-decoration" }
+          { "name": "Office Interior Designing", "slug": "office-interior-designing" },
+          { "name": "Office Design Ideas", "slug": "office-design-ideas" },
+          { "name": "Boss Cabin Interior", "slug": "boss-cabin-interior" },
+          { "name": "False Ceiling Design", "slug": "false-ceiling-design" }
         ]
       },
       {
-        "title": "Partitions",
+        "title": "Home & Residential",
         "items": [
-          { "name": "Modular Partition", "slug": "modular-partition" },
-          { "name": "Glass/Gypsum Partition", "slug": "glass-gypsum-partition" },
-          { "name": "Solid Wall Partition", "slug": "solid-wall-partition" },
-          { "name": "Aluminum Partitions", "slug": "aluminum-partitions" }
-        ]
-      },
-      {
-        "title": "Infrastructure",
-        "items": [
-          { "name": "False Ceiling Design", "slug": "false-ceiling-design" },
-          { "name": "AC/Ducting", "slug": "ac-ducting" },
-          { "name": "Electrical / Networking", "slug": "electrical-networking" }
-        ]
-      },
-      {
-        "title": "Flooring",
-        "items": [
-          { "name": "Office False Flooring", "slug": "false-flooring" },
-          { "name": "Wooden Flooring", "slug": "wooden-flooring" },
-          { "name": "Vinyl Flooring", "slug": "vinyl-flooring" },
-          { "name": "Vitrified Tiles", "slug": "vitrified-tiles" }
+          { "name": "Home Furniture Design", "slug": "home-furniture-design" },
+          { "name": "Home Furniture Manufacturer", "slug": "home-furniture-manufacturer" },
+          { "name": "Home Interior Designing Ideas", "slug": "home-interior-designing-ideas" },
+          { "name": "Home Interior Designer", "slug": "home-interior-designer" }
         ]
       }
     ]

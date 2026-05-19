@@ -27,7 +27,7 @@
       { "name": "Office Furniture", "href": "/products/office-furniture" },
       { "name": "Home Furniture", "href": "/products/home-furniture" },
       { "name": "Chairs", "href": "/products/chairs" },
-      { "name": "Interior Design", "href": "/services" },
+      { "name": "Interior Design", "href": "/products/interior-design" },
       { "name": "About Us", "href": "/about" }
     ],
     "searchTags": [

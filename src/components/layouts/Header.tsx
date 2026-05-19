@@ -164,7 +164,7 @@ export default function Header() {
                     {navItem && navItem.columns && (
                       <div
                         className={cn(
-                          "fixed top-full left-0 right-0 bg-white/95 backdrop-blur-2xl border-t border-neutral-100 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.08)] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] z-50 origin-top transform-gpu",
+                          "fixed top-full left-0 right-0 bg-white backdrop-blur-2xl border-t border-neutral-100 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.08)] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] z-50 origin-top transform-gpu",
                           activeMenu === link.name
                             ? "opacity-100 translate-y-0 visible"
                             : "opacity-0 -translate-y-2 invisible pointer-events-none"
@@ -207,10 +207,6 @@ export default function Header() {
                               const gridColsClass = 
                                 numItems <= 2
                                   ? "grid-cols-2 max-w-xl"
-                                  : numItems === 3
-                                  ? "grid-cols-3"
-                                  : numItems >= 10
-                                  ? "grid-cols-4"
                                   : "grid-cols-3";
 
                               return (
@@ -223,7 +219,7 @@ export default function Header() {
                                     return (
                                       <a
                                         key={idx}
-                                        href={`${navItem.href}/${item.slug}`}
+                                        href={navItem.id === "interior-design" ? `/services/${item.slug}` : `${navItem.href}/${item.slug}`}
                                         className="group flex items-start gap-4 p-2 rounded-xl hover:bg-neutral-50/80 transition-all duration-300 cursor-pointer animate-in fade-in slide-in-from-bottom-2 duration-300"
                                         style={{ animationDelay: `${idx * 30}ms` }}
                                         onClick={() => setActiveMenu(null)}

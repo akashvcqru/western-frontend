@@ -57,11 +57,16 @@ function CategoryHubPage({ category, navItem }: { category: any; navItem: any })
             const subTitle = subCategoryDetail?.name || sub.name;
             const subDescription = subCategoryDetail?.description || "High-end corporate collection featuring premium aesthetics and absolute support.";
             const count = productsData.filter(p => p.category === sub.slug).length;
+            
+            const isService = navItem.id === "interior-design";
+            const badgeText = isService ? "Turnkey Service" : `${count} ${count === 1 ? "Model" : "Models"}`;
+            const ctaText = isService ? "Explore Service" : "Explore Series";
+            const cardHref = isService ? `/services/${sub.slug}` : `${navItem.href}/${sub.slug}`;
 
             return (
               <Link
                 key={idx}
-                href={`/products/${navItem.id}/${sub.slug}`}
+                href={cardHref}
                 className="group relative flex flex-col bg-white rounded-2xl overflow-hidden border border-neutral-100/80 shadow-[0_12px_30px_-10px_rgba(0,0,0,0.03)] hover:shadow-[0_30px_60px_-15px_rgba(237,28,39,0.12)] transition-all duration-[600ms] hover:-translate-y-1.5"
               >
                 {/* Image Container with aspect ratio */}
@@ -73,10 +78,10 @@ function CategoryHubPage({ category, navItem }: { category: any; navItem: any })
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   
-                  {/* Dynamic Product Count Badge */}
+                  {/* Dynamic Badge */}
                   <div className="absolute top-4 left-4 z-10">
                     <span className="px-2.5 py-1 bg-neutral-900/70 backdrop-blur-md text-[9px] font-black tracking-[0.2em] text-white rounded-lg border border-white/10 uppercase">
-                      {count} {count === 1 ? "Model" : "Models"}
+                      {badgeText}
                     </span>
                   </div>
                 </div>
@@ -93,7 +98,7 @@ function CategoryHubPage({ category, navItem }: { category: any; navItem: any })
                   </div>
 
                   <div className="pt-2 flex items-center gap-2 text-primary text-[9px] font-black tracking-[0.25em] uppercase border-t border-neutral-50">
-                    Explore Series 
+                    {ctaText} 
                     <ArrowRight size={14} className="group-hover:translate-x-1.5 transition-transform duration-300" />
                   </div>
                 </div>

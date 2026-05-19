@@ -1,38 +1,73 @@
 [
   {
-    "id": "desking-workstation",
-    "name": "Desking & Workstation",
-    "slug": "desking-workstation",
+    "id": "modular-workstation",
+    "name": "Modular Workstation",
+    "slug": "modular-workstation",
+    "image": "https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=2070&auto=format&fit=crop",
+    "description": "Bespoke modular office workstations designed for maximum productivity and space efficiency."
+  },
+  {
+    "id": "workstation",
+    "name": "Workstation",
+    "slug": "workstation",
     "image": "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop",
-    "description": "High-quality desking and modular workstation solutions."
+    "description": "Sleek and functional team workstations built for collaborative and individual tasks."
   },
   {
-    "id": "executive-tables",
-    "name": "Executive Tables",
-    "slug": "executive-tables",
+    "id": "director-table",
+    "name": "Director Table",
+    "slug": "director-table",
     "image": "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop",
-    "description": "Premium executive tables for leadership cabins."
+    "description": "Premium executive director tables with stately wood finishes and integrated storage."
   },
   {
-    "id": "reception-series",
-    "name": "Reception Series",
-    "slug": "reception-series",
-    "image": "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2070&auto=format&fit=crop",
-    "description": "Elegant reception series for a great first impression."
-  },
-  {
-    "id": "computer-tables",
-    "name": "Computer Tables",
-    "slug": "computer-tables",
-    "image": "https://images.unsplash.com/photo-1517502884422-41eaead166d4?q=80&w=2070&auto=format&fit=crop",
-    "description": "Functional computer tables for office and home."
-  },
-  {
-    "id": "centre-tables",
-    "name": "Centre Tables",
-    "slug": "centre-tables",
+    "id": "conference-table",
+    "name": "Conference Table",
+    "slug": "conference-table",
     "image": "https://images.unsplash.com/photo-1577412647305-991150c7d163?q=80&w=2070&auto=format&fit=crop",
-    "description": "Versatile centre tables for lounges and offices."
+    "description": "Elegant conference and meeting room tables facilitating high-level team collaboration."
+  },
+  {
+    "id": "reception-desk",
+    "name": "Reception Desk",
+    "slug": "reception-desk",
+    "image": "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2070&auto=format&fit=crop",
+    "description": "Stunning reception desks designed to make a commanding first impression."
+  },
+  {
+    "id": "center-table",
+    "name": "Center Table",
+    "slug": "center-table",
+    "image": "https://images.unsplash.com/photo-1581428982868-e410dd047a90?q=80&w=2070&auto=format&fit=crop",
+    "description": "Versatile center and coffee tables for waiting lobbies, lounges, and corporate suites."
+  },
+  {
+    "id": "modern-office-chairs",
+    "name": "Modern Office Chairs",
+    "slug": "modern-office-chairs",
+    "image": "https://images.unsplash.com/photo-1580481072645-022f9a6dbf27?q=80&w=2070&auto=format&fit=crop",
+    "description": "Ergonomic seating engineered for ultimate lumbar support, posture alignment, and all-day comfort."
+  },
+  {
+    "id": "office-sofa",
+    "name": "Office Sofa",
+    "slug": "office-sofa",
+    "image": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=2070&auto=format&fit=crop",
+    "description": "Premium soft seating and lounge sofas crafted for comfortable visitor hosting and breakrooms."
+  },
+  {
+    "id": "storage-solutions",
+    "name": "Storage Solutions",
+    "slug": "storage-solutions",
+    "image": "https://images.unsplash.com/photo-1595844730298-b960ff98fee0?q=80&w=2070&auto=format&fit=crop",
+    "description": "Sleek office filing cabinets, modular sideboards, and optimized organizational storage."
+  },
+  {
+    "id": "office-partition",
+    "name": "Office Partition",
+    "slug": "office-partition",
+    "image": "https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=2070&auto=format&fit=crop",
+    "description": "Acoustic panels and glass partition systems to optimize privacy, acoustics, and space division."
   },
   {
     "id": "office-chair-manufacturer-in-gurgaon",
@@ -56,13 +91,6 @@
     "description": "Executive chairs for modern office environments."
   },
   {
-    "id": "office-workstation-chairs",
-    "name": "Office Workstation",
-    "slug": "office-workstation-chairs",
-    "image": "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop",
-    "description": "Comfortable workstation chairs for daily productivity."
-  },
-  {
     "id": "visitor-training",
     "name": "Visitor & Training",
     "slug": "visitor-training",
@@ -77,39 +105,11 @@
     "description": "Seating series for comfortable waiting areas."
   },
   {
-    "id": "cafeteria-and-bar",
-    "name": "Cafeteria and Bar",
-    "slug": "cafeteria-and-bar",
-    "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop",
-    "description": "Modern cafeteria and bar furniture."
-  },
-  {
-    "id": "sofas-series",
-    "name": "Sofas Series",
-    "slug": "sofas-series",
-    "image": "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2070&auto=format&fit=crop",
-    "description": "Premium sofa series for office and lounges."
-  },
-  {
-    "id": "conference-meeting",
-    "name": "Conference/ Meeting",
-    "slug": "conference-meeting",
-    "image": "https://images.unsplash.com/photo-1577412647305-991150c7d163?q=80&w=2070&auto=format&fit=crop",
-    "description": "Conference and meeting room furniture."
-  },
-  {
     "id": "home-furniture-series",
     "name": "Home Furniture Series",
     "slug": "home-furniture-series",
     "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop",
     "description": "Elegant home furniture series."
-  },
-  {
-    "id": "office-storage",
-    "name": "Office Storage",
-    "slug": "office-storage",
-    "image": "https://images.unsplash.com/photo-1595844730298-b960ff98fee0?q=80&w=2070&auto=format&fit=crop",
-    "description": "Optimized office storage solutions."
   },
   {
     "id": "modular-kitchen-series",
@@ -119,94 +119,59 @@
     "description": "Modern modular kitchen series."
   },
   {
-    "id": "office-interiors",
-    "name": "Office Interior",
-    "slug": "office-interiors",
+    "id": "office-interior-designing",
+    "name": "Office Interior Designing",
+    "slug": "office-interior-designing",
     "image": "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop",
     "description": "Complete corporate space planning, structural fit-outs, and executive layout design."
   },
   {
-    "id": "interiors-decoration",
-    "name": "Interiors Decoration",
-    "slug": "interiors-decoration",
+    "id": "home-furniture-design",
+    "name": "Home Furniture Design",
+    "slug": "home-furniture-design",
     "image": "https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=2069&auto=format&fit=crop",
-    "description": "Curated workspace lighting design, accent walls, acoustic paneling, and custom decor."
+    "description": "Custom handcrafted designer sofa series, dining tables, modular beds, and aesthetic lounge seating."
   },
   {
-    "id": "modular-partition",
-    "name": "Modular Partition",
-    "slug": "modular-partition",
+    "id": "home-furniture-manufacturer",
+    "name": "Home Furniture Manufacturer",
+    "slug": "home-furniture-manufacturer",
+    "image": "https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?q=80&w=2070&auto=format&fit=crop",
+    "description": "Premium modular setups directly manufactured in-house for absolute durability."
+  },
+  {
+    "id": "home-interior-designing-ideas",
+    "name": "Home Interior Designing Ideas",
+    "slug": "home-interior-designing-ideas",
+    "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop",
+    "description": "Creative layouts, warm material pallets, and visual concepts for dynamic residential interiors."
+  },
+  {
+    "id": "home-interior-designer",
+    "name": "Home Interior Designer",
+    "slug": "home-interior-designer",
+    "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053&auto=format&fit=crop",
+    "description": "Comprehensive design consultation, bespoke styling, and full execution management."
+  },
+  {
+    "id": "office-design-ideas",
+    "name": "Office Design Ideas",
+    "slug": "office-design-ideas",
     "image": "https://images.unsplash.com/photo-1504384308090-c89eecaaad8e?q=80&w=2070&auto=format&fit=crop",
-    "description": "Heavy-duty acoustically insulated modular floor-to-ceiling partition panels."
+    "description": "Ergonomic workstations, partition solutions, breakout rooms, and collaborative setups."
   },
   {
-    "id": "glass-gypsum-partition",
-    "name": "Glass/Gypsum Partition",
-    "slug": "glass-gypsum-partition",
-    "image": "https://images.unsplash.com/photo-1600585154526-990dced4db0d?q=80&w=2070&auto=format&fit=crop",
-    "description": "Premium frameless double-glazed glass partition systems and seamless gypsum walls."
-  },
-  {
-    "id": "solid-wall-partition",
-    "name": "Solid Wall Partition",
-    "slug": "solid-wall-partition",
-    "image": "https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=2069&auto=format&fit=crop",
-    "description": "Durable high-impact board partition systems built for absolute boardroom sound insulation."
-  },
-  {
-    "id": "aluminum-partitions",
-    "name": "Aluminum Partitions",
-    "slug": "aluminum-partitions",
-    "image": "https://images.unsplash.com/photo-1504384308090-c89eecaaad8e?q=80&w=2070&auto=format&fit=crop",
-    "description": "Anodized aluminum wall partition framing paired with custom insulated panel inserts."
+    "id": "boss-cabin-interior",
+    "name": "Boss Cabin Interior",
+    "slug": "boss-cabin-interior",
+    "image": "https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=2070&auto=format&fit=crop",
+    "description": "Stately leadership offices featuring rich wood styling, custom panelling, and executive comfort."
   },
   {
     "id": "false-ceiling-design",
     "name": "False Ceiling Design",
     "slug": "false-ceiling-design",
     "image": "https://images.unsplash.com/photo-1507089947368-19c1da9775ae?q=80&w=2070&auto=format&fit=crop",
-    "description": "Contemporary grid false ceilings, baffle panels, and integrated ambient lighting systems."
-  },
-  {
-    "id": "ac-ducting",
-    "name": "AC/Ducting",
-    "slug": "ac-ducting",
-    "image": "https://images.unsplash.com/photo-1581094288338-2314dddb7ecc?q=80&w=2070&auto=format&fit=crop",
-    "description": "High-efficiency central AC ductwork, smart HVAC distribution, and ventilation grids."
-  },
-  {
-    "id": "electrical-networking",
-    "name": "Electrical / Networking",
-    "slug": "electrical-networking",
-    "image": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=2070&auto=format&fit=crop",
-    "description": "Heavy-duty server networking racks, smart automated switches, and certified power cabling."
-  },
-  {
-    "id": "false-flooring",
-    "name": "Office False Flooring",
-    "slug": "false-flooring",
-    "image": "https://images.unsplash.com/photo-1504384308090-c89eecaaad8e?q=80&w=2070&auto=format&fit=crop",
-    "description": "Raised access flooring panels providing secure, clean channels for networking cables."
-  },
-  {
-    "id": "wooden-flooring",
-    "name": "Wooden Flooring",
-    "slug": "wooden-flooring",
-    "image": "https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?q=80&w=2070&auto=format&fit=crop",
-    "description": "Premium commercial laminate and hardwood flooring crafted for executive workspaces."
-  },
-  {
-    "id": "vinyl-flooring",
-    "name": "Vinyl Flooring",
-    "slug": "vinyl-flooring",
-    "image": "https://images.unsplash.com/photo-1562663474-6cbb3fee4c77?q=80&w=2070&auto=format&fit=crop",
-    "description": "Anti-static, highly durable vinyl flooring rolls ideal for high-traffic corridors."
-  },
-  {
-    "id": "vitrified-tiles",
-    "name": "Vitrified Tiles",
-    "slug": "vitrified-tiles",
-    "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053&auto=format&fit=crop",
-    "description": "Polished double-charged vitrified tile flooring for high-impact office lobbies."
+    "description": "Aesthetic grid ceilings, wooden rafters, drop ceiling integrations, and smart ambient lighting."
   }
 ]
