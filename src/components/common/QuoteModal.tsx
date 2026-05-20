@@ -81,6 +81,35 @@ export default function QuoteModal({
     setIsSubmitting(true);
     console.log("Form Data:", data);
 
+    // Save inquiry to sessionStorage for admin simulation
+    if (typeof window !== "undefined") {
+      const stored = sessionStorage.getItem("bdm_inquiries");
+      let currentInquiries = [];
+      if (stored) {
+        try {
+          currentInquiries = JSON.parse(stored);
+        } catch (e) {
+          console.error("Failed to parse existing inquiries in QuoteModal:", e);
+        }
+      }
+
+      const newInquiry = {
+        id: Date.now(),
+        name: data.fullName,
+        email: data.email,
+        phone: data.phone,
+        subject: product ? `Quote: ${product.name}` : "Product Quote Request",
+        message: data.message || `Interested in inquiring about ${product ? product.name : "materials"}.`,
+        date: new Date().toISOString().split("T")[0],
+        status: "new"
+      };
+
+      sessionStorage.setItem("bdm_inquiries", JSON.stringify([newInquiry, ...currentInquiries]));
+      
+      // Dispatch layout updating event
+      window.dispatchEvent(new Event("bdm-inquiries-updated"));
+    }
+
     if (product) {
       const whatsappMessage = `*Quote Request from ${data.fullName}*\n\n` +
           `*Product/Blog:* ${product.name}\n` +

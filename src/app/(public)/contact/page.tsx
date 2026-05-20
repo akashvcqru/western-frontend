@@ -54,7 +54,36 @@ export default function ContactPage() {
     },
   });
 
-  const onSubmit = (_data: ContactFormData) => {
+  const onSubmit = (data: ContactFormData) => {
+    // Persist inquiry details in sessionStorage for dynamic CMS visibility
+    if (typeof window !== "undefined") {
+      const stored = sessionStorage.getItem("bdm_inquiries");
+      let currentInquiries = [];
+      if (stored) {
+        try {
+          currentInquiries = JSON.parse(stored);
+        } catch (e) {
+          console.error("Failed to parse existing inquiries:", e);
+        }
+      }
+
+      const newInquiry = {
+        id: Date.now(),
+        name: data.fullName,
+        email: data.email,
+        phone: data.phone,
+        subject: "General Contact Inquiry",
+        message: data.message,
+        date: new Date().toISOString().split("T")[0],
+        status: "new"
+      };
+
+      sessionStorage.setItem("bdm_inquiries", JSON.stringify([newInquiry, ...currentInquiries]));
+      
+      // Notify layout structure to refresh badges
+      window.dispatchEvent(new Event("bdm-inquiries-updated"));
+    }
+
     addToast({
       title: "Inquiry Sent",
       message: "Thank you for contacting us. We will get back to you shortly.",
