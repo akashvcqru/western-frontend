@@ -88,14 +88,14 @@ export default function AdminDashboardPage() {
       {/* Page Header */}
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-2xl font-black text-gray-900 uppercase tracking-tight">
+          <h1 className="text-2xl font-bold text-gray-900 uppercase tracking-tight">
             Dashboard
           </h1>
           <p className="text-sm text-gray-500 font-medium mt-1">
             Welcome back! Here&apos;s what&apos;s happening with your store.
           </p>
         </div>
-        <div className="hidden sm:flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 bg-white border border-gray-100 rounded-lg px-4 py-2 shadow-sm">
+        <div className="hidden sm:flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-gray-400 bg-white border border-gray-100 rounded-lg px-4 py-2 shadow-sm">
           <Activity size={12} className="text-[#ed1c27]" />
           Live Overview
         </div>
@@ -114,7 +114,7 @@ export default function AdminDashboardPage() {
                 <stat.icon size={18} />
               </div>
               <span
-                className={`inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-tight ${
+                className={`inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-tight ${
                   stat.up ? "text-emerald-600" : "text-red-500"
                 }`}
               >
@@ -122,7 +122,7 @@ export default function AdminDashboardPage() {
                 {stat.change}
               </span>
             </div>
-            <p className="text-3xl font-black text-gray-900">{stat.value}</p>
+            <p className="text-3xl font-bold text-gray-900">{stat.value}</p>
             <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mt-1">
               {stat.label}
             </p>
@@ -136,7 +136,7 @@ export default function AdminDashboardPage() {
         <div className="xl:col-span-1">
           <Card>
             <Card.Header borderBottom>
-              <h2 className="text-[11px] font-black uppercase tracking-widest text-gray-900">
+              <h2 className="text-[11px] font-bold uppercase tracking-widest text-gray-900">
                 Quick Actions
               </h2>
             </Card.Header>
@@ -157,11 +157,11 @@ export default function AdminDashboardPage() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <p className="text-[11px] font-black uppercase tracking-widest text-gray-700 group-hover:text-gray-900 truncate">
+                      <p className="text-[11px] font-bold uppercase tracking-widest text-gray-700 group-hover:text-gray-900 truncate">
                         {link.label}
                       </p>
                       {link.badge && (
-                        <span className="text-[9px] font-black bg-[#ed1c27] text-white rounded-full px-1.5 py-0.5 min-w-[16px] text-center">
+                        <span className="text-[9px] font-bold bg-[#ed1c27] text-white rounded-full px-1.5 py-0.5 min-w-[16px] text-center">
                           {link.badge}
                         </span>
                       )}
@@ -185,12 +185,12 @@ export default function AdminDashboardPage() {
         <div className="xl:col-span-2">
           <Card>
             <Card.Header borderBottom>
-              <h2 className="text-[11px] font-black uppercase tracking-widest text-gray-900">
+              <h2 className="text-[11px] font-bold uppercase tracking-widest text-gray-900">
                 Recent Activity
               </h2>
               <button
                 id="view-all-activity"
-                className="text-[10px] font-black uppercase tracking-widest text-[#ed1c27] hover:text-[#c5141e] transition-colors flex items-center gap-1 cursor-pointer"
+                className="text-[10px] font-bold uppercase tracking-widest text-[#ed1c27] hover:text-[#c5141e] transition-colors flex items-center gap-1 cursor-pointer"
               >
                 View All <ArrowUpRight size={10} />
               </button>
@@ -204,14 +204,14 @@ export default function AdminDashboardPage() {
                   className="flex items-start gap-4 px-6 py-4 hover:bg-gray-50/50 transition-colors"
                 >
                   <span
-                    className={`inline-flex text-[9px] font-black uppercase tracking-widest rounded-lg px-2 py-1 flex-shrink-0 mt-0.5 ${
+                    className={`inline-flex text-[9px] font-semibold uppercase tracking-widest rounded-lg px-2 py-1 flex-shrink-0 mt-0.5 ${
                       typeColors[item.type]
                     }`}
                   >
                     {item.type}
                   </span>
                   <div className="flex-1 min-w-0">
-                    <p className="text-[11px] font-black uppercase tracking-tight text-gray-800">
+                    <p className="text-[11px] font-bold uppercase tracking-tight text-gray-800">
                       {item.action}
                     </p>
                     <p className="text-[10px] font-medium text-gray-400 mt-0.5 truncate">
@@ -234,11 +234,11 @@ export default function AdminDashboardPage() {
         <div>
           <div className="flex items-center gap-2 mb-2">
             <Eye size={14} className="text-[#ed1c27]" />
-            <span className="text-[10px] font-black uppercase tracking-[0.25em] text-[#ed1c27]">
+            <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#ed1c27]">
               Store Preview
             </span>
           </div>
-          <h3 className="text-lg font-black text-white">
+          <h3 className="text-lg font-bold text-white">
             See how your store looks to customers
           </h3>
           <p className="text-sm text-white/40 font-medium mt-1">
@@ -249,7 +249,7 @@ export default function AdminDashboardPage() {
           href="/"
           target="_blank"
           id="view-storefront-btn"
-          className="flex-shrink-0 inline-flex items-center gap-3 bg-[#ed1c27] hover:bg-[#c5141e] text-white font-black uppercase tracking-[0.15em] text-[11px] rounded-xl px-6 py-3.5 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#ed1c27]/25"
+          className="flex-shrink-0 inline-flex items-center gap-3 bg-[#ed1c27] hover:bg-[#c5141e] text-white font-bold uppercase tracking-[0.15em] text-[11px] rounded-xl px-6 py-3.5 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#ed1c27]/25"
         >
           View Store
           <ArrowUpRight size={14} />

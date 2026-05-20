@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Save,
   Mail,
@@ -10,6 +10,7 @@ import {
   Globe,
 } from "lucide-react";
 import { Card } from "@/components/ui";
+import { useAppToast } from "@/components/ui/AppToast";
 
 import { useForm, FormProvider } from "react-hook-form";
 import * as yup from "yup";
@@ -55,7 +56,9 @@ interface ContactSettingsData {
 type SocialSettingsData = yup.InferType<typeof socialSchema>;
 
 export default function AdminSettingsPage() {
+  const { addToast } = useAppToast();
   const [activeTab, setActiveTab] = useState("contact");
+  const [isMounted, setIsMounted] = useState(false);
 
   const contactMethods = useForm<ContactSettingsData>({
     mode: "onChange",
@@ -77,20 +80,71 @@ export default function AdminSettingsPage() {
     },
   });
 
+  // Load configuration from sessionStorage after mount
+  useEffect(() => {
+    setIsMounted(true);
+    
+    const storedContact = sessionStorage.getItem("bdm_settings_contact");
+    if (storedContact) {
+      try {
+        contactMethods.reset(JSON.parse(storedContact));
+      } catch (e) {
+        console.error("Failed to parse stored contact settings:", e);
+      }
+    }
+
+    const storedSocial = sessionStorage.getItem("bdm_settings_social");
+    if (storedSocial) {
+      try {
+        socialMethods.reset(JSON.parse(storedSocial));
+      } catch (e) {
+        console.error("Failed to parse stored social settings:", e);
+      }
+    }
+  }, [contactMethods, socialMethods]);
+
   const onSubmitContact = (data: ContactSettingsData) => {
-    console.log("Contact Settings Saved:", data);
+    sessionStorage.setItem("bdm_settings_contact", JSON.stringify(data));
+    addToast({
+      title: "Contact Settings Saved",
+      message: "Store contact information has been updated successfully.",
+      variant: "success",
+    });
   };
 
   const onSubmitSocial = (data: SocialSettingsData) => {
-    console.log("Social Settings Saved:", data);
+    sessionStorage.setItem("bdm_settings_social", JSON.stringify(data));
+    addToast({
+      title: "Social Links Saved",
+      message: "Store social media profiles have been updated successfully.",
+      variant: "success",
+    });
   };
+
+  if (!isMounted) {
+    return (
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900 uppercase tracking-tight">
+            Settings
+          </h1>
+          <p className="text-sm text-gray-500 font-medium mt-1">
+            Manage store configuration and details
+          </p>
+        </div>
+        <div className="bg-white rounded-2xl border border-gray-100 p-8 flex justify-center items-center shadow-sm">
+          <div className="w-6 h-6 border-2 border-[#ed1c27]/20 border-t-[#ed1c27] rounded-full animate-spin" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-black text-gray-900 uppercase tracking-tight">
+          <h1 className="text-2xl font-bold text-gray-900 uppercase tracking-tight">
             Settings
           </h1>
           <p className="text-sm text-gray-500 font-medium mt-1">
@@ -107,8 +161,9 @@ export default function AdminSettingsPage() {
               <div className="flex flex-col gap-1">
                 <button
                   type="button"
+                  id="tab-btn-contact"
                   onClick={() => setActiveTab("contact")}
-                  className={`w-full text-left px-4 py-3 rounded-xl text-[11px] font-black uppercase tracking-widest transition-colors ${
+                  className={`w-full text-left px-4 py-3 rounded-xl text-[11px] font-bold uppercase tracking-widest transition-colors cursor-pointer ${
                     activeTab === "contact"
                       ? "bg-[#ed1c27]/10 text-[#ed1c27]"
                       : "text-gray-500 hover:bg-gray-50"
@@ -118,8 +173,9 @@ export default function AdminSettingsPage() {
                 </button>
                 <button
                   type="button"
+                  id="tab-btn-social"
                   onClick={() => setActiveTab("social")}
-                  className={`w-full text-left px-4 py-3 rounded-xl text-[11px] font-black uppercase tracking-widest transition-colors ${
+                  className={`w-full text-left px-4 py-3 rounded-xl text-[11px] font-bold uppercase tracking-widest transition-colors cursor-pointer ${
                     activeTab === "social"
                       ? "bg-[#ed1c27]/10 text-[#ed1c27]"
                       : "text-gray-500 hover:bg-gray-50"
@@ -145,7 +201,7 @@ export default function AdminSettingsPage() {
                         <Mail size={18} className="text-emerald-500" />
                       </div>
                       <div>
-                        <h2 className="text-sm font-black text-gray-900 uppercase tracking-tight">
+                        <h2 className="text-sm font-semibold text-gray-900 uppercase tracking-tight">
                           Contact Information
                         </h2>
                         <p className="text-[10px] text-gray-400 font-medium mt-0.5">
@@ -185,8 +241,9 @@ export default function AdminSettingsPage() {
                   </Card.Body>
                   <Card.Footer className="justify-end">
                     <button
+                      id="save-contact-btn"
                       type="submit"
-                      className="inline-flex items-center justify-center gap-2 bg-[#ed1c27] hover:bg-[#c5141e] text-white font-black uppercase tracking-[0.12em] text-[10px] rounded-xl px-6 py-3.5 transition-all duration-300 cursor-pointer hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#ed1c27]/25"
+                      className="inline-flex items-center justify-center gap-2 bg-[#ed1c27] hover:bg-[#c5141e] text-white font-bold uppercase tracking-[0.12em] text-[10px] rounded-xl px-6 py-3.5 transition-all duration-300 cursor-pointer hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#ed1c27]/25"
                     >
                       <Save size={14} /> Save Contact Details
                     </button>
@@ -205,7 +262,7 @@ export default function AdminSettingsPage() {
                         <Share2 size={18} className="text-violet-500" />
                       </div>
                       <div>
-                        <h2 className="text-sm font-black text-gray-900 uppercase tracking-tight">
+                        <h2 className="text-sm font-semibold text-gray-900 uppercase tracking-tight">
                           Social Profiles
                         </h2>
                         <p className="text-[10px] text-gray-400 font-medium mt-0.5">
@@ -244,8 +301,9 @@ export default function AdminSettingsPage() {
                   </Card.Body>
                   <Card.Footer className="justify-end">
                     <button
+                      id="save-social-btn"
                       type="submit"
-                      className="inline-flex items-center justify-center gap-2 bg-[#ed1c27] hover:bg-[#c5141e] text-white font-black uppercase tracking-[0.12em] text-[10px] rounded-xl px-6 py-3.5 transition-all duration-300 cursor-pointer hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#ed1c27]/25"
+                      className="inline-flex items-center justify-center gap-2 bg-[#ed1c27] hover:bg-[#c5141e] text-white font-bold uppercase tracking-[0.12em] text-[10px] rounded-xl px-6 py-3.5 transition-all duration-300 cursor-pointer hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#ed1c27]/25"
                     >
                       <Save size={14} /> Save Social Links
                     </button>
@@ -259,3 +317,4 @@ export default function AdminSettingsPage() {
     </div>
   );
 }
+

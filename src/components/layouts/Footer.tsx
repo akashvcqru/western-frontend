@@ -247,7 +247,7 @@ interface FooterLink {
           <div suppressHydrationWarning={true} className="lg:col-span-2">
             <div suppressHydrationWarning={true} className="flex items-center gap-2 mb-6">
               <span className="w-1 h-1 rounded-full bg-primary" />
-              <h4 className="text-[9px] font-black uppercase tracking-[0.3em] text-white">Company</h4>
+              <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-white">Company</h4>
             </div>
             <ul className="space-y-3">
               {footer.companyLinks.map((link: FooterLink) => (
@@ -268,7 +268,7 @@ interface FooterLink {
           <div suppressHydrationWarning={true} className="lg:col-span-2">
             <div suppressHydrationWarning={true} className="flex items-center gap-2 mb-6">
               <span className="w-1 h-1 rounded-full bg-primary" />
-              <h4 className="text-[9px] font-black uppercase tracking-[0.3em] text-white">Products</h4>
+              <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-white">Products</h4>
             </div>
             <ul className="space-y-3">
               {[
@@ -295,7 +295,7 @@ interface FooterLink {
           <div suppressHydrationWarning={true} className="lg:col-span-2">
             <div suppressHydrationWarning={true} className="flex items-center gap-2 mb-6">
               <span className="w-1 h-1 rounded-full bg-primary" />
-              <h4 className="text-[9px] font-black uppercase tracking-[0.3em] text-white">Get in Touch</h4>
+              <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-white">Get in Touch</h4>
             </div>
             <div suppressHydrationWarning={true} className="space-y-4 text-gray-400 text-xs">
               {/* Address */}
@@ -358,7 +358,7 @@ interface FooterLink {
             <div suppressHydrationWarning={true} className="space-y-4">
               <div suppressHydrationWarning={true} className="flex items-center gap-2">
                 <span className="w-1 h-1 rounded-full bg-primary" />
-                <h4 className="text-[9px] font-black uppercase tracking-[0.3em] text-white">Newsletter</h4>
+                <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-white">Newsletter</h4>
               </div>
               <p className="text-gray-400 text-xs font-medium leading-relaxed">
                 {footer.newsletter.desc}
@@ -369,7 +369,7 @@ interface FooterLink {
                   <div className="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto">
                     <Check size={12} strokeWidth={3} />
                   </div>
-                  <p className="text-[10px] font-black text-white uppercase tracking-widest">Subscribed!</p>
+                  <p className="text-[10px] font-bold text-white uppercase tracking-widest">Subscribed!</p>
                 </div>
               ) : (
                 <form onSubmit={handleSubscribe} className="space-y-2">
@@ -393,7 +393,7 @@ interface FooterLink {
                     suppressHydrationWarning={true}
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full py-2.5 bg-white text-black font-black text-[9px] uppercase tracking-widest rounded-lg hover:bg-primary hover:text-white transition-all cursor-pointer shadow-lg active:scale-95"
+                    className="w-full py-2.5 bg-white text-black font-bold text-[9px] uppercase tracking-widest rounded-lg hover:bg-primary hover:text-white transition-all cursor-pointer shadow-lg active:scale-95"
                   >
                     {isSubmitting ? "Joining..." : "Join Inner Circle"}
                   </button>
@@ -402,7 +402,7 @@ interface FooterLink {
             </div>
 
             <div suppressHydrationWarning={true} className="pt-2">
-              <div suppressHydrationWarning={true} className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-emerald-500/5 border border-emerald-500/10 text-emerald-400 text-[9px] font-black tracking-wider uppercase">
+              <div suppressHydrationWarning={true} className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-emerald-500/5 border border-emerald-500/10 text-emerald-400 text-[9px] font-bold tracking-wider uppercase">
                 <span className="w-1 h-1 rounded-full bg-emerald-400" />
                 Accepting Premium Projects
               </div>
@@ -416,7 +416,7 @@ interface FooterLink {
           <div suppressHydrationWarning={true} className="space-y-4">
             <div suppressHydrationWarning={true} className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-              <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-white">
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.4em] text-white">
                 Popular Search Terms
               </h4>
             </div>
@@ -436,7 +436,7 @@ interface FooterLink {
           <div suppressHydrationWarning={true} className="space-y-4">
             <div suppressHydrationWarning={true} className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-              <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-white">
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.4em] text-white">
                 We Deliver To
               </h4>
             </div>

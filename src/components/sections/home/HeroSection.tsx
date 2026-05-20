@@ -56,7 +56,7 @@ export default function HeroSection({ onOpenQuote }: HeroSectionProps) {
 
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 z-20">
             <div className="max-w-4xl space-y-6">
-              <span className="inline-block px-5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[10px] font-black uppercase tracking-[0.4em] text-primary animate-in fade-in slide-in-from-bottom-8 duration-1000">
+              <span className="inline-block px-5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[10px] font-bold uppercase tracking-[0.4em] text-primary animate-in fade-in slide-in-from-bottom-8 duration-1000">
                 {slide.subtitle}
               </span>
               <h1

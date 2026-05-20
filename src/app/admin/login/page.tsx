@@ -98,12 +98,12 @@ export default function AdminLoginPage() {
         <div className="relative z-10 max-w-lg">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#ed1c27]/30 bg-[#ed1c27]/5 mb-8">
             <Shield size={12} className="text-[#ed1c27]" />
-            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[#ed1c27]">
+            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#ed1c27]">
               Admin Access Portal
             </span>
           </div>
 
-          <h1 className="text-4xl xl:text-5xl font-black text-white leading-tight mb-6">
+          <h1 className="text-4xl xl:text-5xl font-bold text-white leading-tight mb-6">
             Manage Your{" "}
             <span className="text-[#ed1c27]">Store</span>{" "}
             with Confidence
@@ -160,7 +160,7 @@ export default function AdminLoginPage() {
                 </div>
                 <div className="h-px flex-1 bg-gradient-to-r from-[#ed1c27]/40 to-transparent" />
               </div>
-              <h2 className="text-2xl font-black text-white">Sign in to Admin</h2>
+              <h2 className="text-2xl font-bold text-white">Sign in to Admin</h2>
               <p className="text-white/40 text-xs font-medium mt-1.5 uppercase tracking-widest">
                 Enter your credentials to continue
               </p>
@@ -171,7 +171,7 @@ export default function AdminLoginPage() {
               <div className="space-y-2">
                 <label
                   htmlFor="admin-email"
-                  className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40"
+                  className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40"
                 >
                   Email Address
                 </label>
@@ -208,7 +208,7 @@ export default function AdminLoginPage() {
               <div className="space-y-2">
                 <label
                   htmlFor="admin-password"
-                  className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40"
+                  className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40"
                 >
                   Password
                 </label>
@@ -254,7 +254,7 @@ export default function AdminLoginPage() {
                 <button
                   type="button"
                   id="forgot-password-btn"
-                  className="text-[10px] font-black uppercase tracking-widest text-[#ed1c27]/70 hover:text-[#ed1c27] transition-colors cursor-pointer"
+                  className="text-[10px] font-bold uppercase tracking-widest text-[#ed1c27]/70 hover:text-[#ed1c27] transition-colors cursor-pointer"
                 >
                   Forgot Password?
                 </button>
@@ -265,7 +265,7 @@ export default function AdminLoginPage() {
                 id="admin-login-submit"
                 type="submit"
                 disabled={isLoading}
-                className="w-full flex items-center justify-center gap-3 bg-[#ed1c27] hover:bg-[#c5141e] text-white font-black uppercase tracking-[0.15em] text-[11px] rounded-xl py-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#ed1c27]/25 disabled:opacity-50 disabled:cursor-not-allowed disabled:translate-y-0 disabled:shadow-none cursor-pointer group mt-2"
+                className="w-full flex items-center justify-center gap-3 bg-[#ed1c27] hover:bg-[#c5141e] text-white font-bold uppercase tracking-[0.15em] text-[11px] rounded-xl py-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#ed1c27]/25 disabled:opacity-50 disabled:cursor-not-allowed disabled:translate-y-0 disabled:shadow-none cursor-pointer group mt-2"
               >
                 {isLoading ? (
                   <>
@@ -286,7 +286,7 @@ export default function AdminLoginPage() {
 
             {/* Demo credentials hint */}
             <div className="mt-8 p-4 rounded-xl bg-white/[0.03] border border-white/[0.06]">
-              <p className="text-[10px] font-black uppercase tracking-widest text-white/30 mb-2">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-white/30 mb-2">
                 Demo Credentials
               </p>
               <p className="text-[11px] font-medium text-white/40">

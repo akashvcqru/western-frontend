@@ -49,11 +49,13 @@ function SidebarContent({
   pathname,
   onClose,
   onLogout,
+  inquiriesBadge,
 }: {
   admin: AdminUser;
   pathname: string;
   onClose: () => void;
   onLogout: () => void;
+  inquiriesBadge: string | null;
 }) {
   return (
     <div className="flex flex-col h-full bg-[#0f0f0f]">
@@ -85,10 +87,10 @@ function SidebarContent({
             <User size={14} className="text-white" />
           </div>
           <div className="min-w-0">
-            <p className="text-[11px] font-black uppercase tracking-widest text-white truncate">
+            <p className="text-[11px] font-bold uppercase tracking-widest text-white truncate">
               {admin.name}
             </p>
-            <p className="text-[9px] font-bold uppercase tracking-widest text-[#ed1c27] mt-0.5">
+            <p className="text-[9px] font-semibold uppercase tracking-widest text-[#ed1c27] mt-0.5">
               {admin.role}
             </p>
           </div>
@@ -97,7 +99,7 @@ function SidebarContent({
 
       {/* Nav */}
       <nav className="flex-1 overflow-y-auto px-4 py-4 space-y-0.5">
-        <p className="text-[9px] font-black uppercase tracking-[0.25em] text-white/25 px-3 mb-3">
+        <p className="text-[9px] font-bold uppercase tracking-[0.25em] text-white/25 px-3 mb-3">
           Navigation
         </p>
         {navItems.map((item) => {
@@ -106,6 +108,8 @@ function SidebarContent({
               ? pathname === "/admin"
               : pathname.startsWith(item.href);
 
+          const badgeValue = item.label === "Inquiries" ? inquiriesBadge : item.badge;
+
           return (
             <Link
               key={item.href}
@@ -113,7 +117,7 @@ function SidebarContent({
               id={`admin-nav-${item.label.toLowerCase()}`}
               onClick={onClose}
               className={cn(
-                "flex items-center gap-3 px-3 py-2.5 rounded-xl font-bold transition-all duration-200 group",
+                "flex items-center gap-3 px-3 py-2.5 rounded-xl font-semibold transition-all duration-200 group",
                 isActive
                   ? "bg-[#ed1c27] text-white shadow-lg shadow-[#ed1c27]/20"
                   : "text-white/45 hover:text-white hover:bg-white/[0.06]"
@@ -131,14 +135,14 @@ function SidebarContent({
               <span className="text-[11px] uppercase tracking-widest flex-1 min-w-0 truncate">
                 {item.label}
               </span>
-              {item.badge && (
+              {badgeValue && (
                 <span
                   className={cn(
-                    "text-[9px] font-black rounded-full px-1.5 py-0.5 min-w-[18px] text-center leading-none",
+                    "text-[9px] font-bold rounded-full px-1.5 py-0.5 min-w-[18px] text-center leading-none",
                     isActive ? "bg-white/20 text-white" : "bg-[#ed1c27] text-white"
                   )}
                 >
-                  {item.badge}
+                  {badgeValue}
                 </span>
               )}
               {isActive && <ChevronRight size={12} className="text-white/50 flex-shrink-0" />}
@@ -164,7 +168,7 @@ function SidebarContent({
           className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/30 hover:text-red-400 hover:bg-red-400/[0.07] transition-all duration-200 cursor-pointer"
         >
           <LogOut size={15} className="flex-shrink-0" />
-          <span className="text-[11px] font-black uppercase tracking-widest">Sign Out</span>
+          <span className="text-[11px] font-bold uppercase tracking-widest">Sign Out</span>
         </button>
       </div>
     </div>
@@ -249,11 +253,11 @@ function NotificationPanel({
       {/* Header */}
       <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
           <div>
-            <h2 className="text-[13px] font-black uppercase tracking-widest text-gray-900">
+            <h2 className="text-[13px] font-bold uppercase tracking-widest text-gray-900">
               Notifications
             </h2>
             {unreadCount > 0 && (
-              <p className="text-[10px] font-bold text-[#ed1c27] mt-0.5">
+              <p className="text-[10px] font-semibold text-[#ed1c27] mt-0.5">
                 {unreadCount} unread
               </p>
             )}
@@ -263,7 +267,7 @@ function NotificationPanel({
               <button
                 id="mark-all-read-btn"
                 onClick={markAllRead}
-                className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-[#ed1c27] transition-colors cursor-pointer px-3 py-1.5 rounded-lg hover:bg-gray-50"
+                className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:text-[#ed1c27] transition-colors cursor-pointer px-3 py-1.5 rounded-lg hover:bg-gray-50"
               >
                 <CheckCheck size={13} />
                 All read
@@ -307,7 +311,7 @@ function NotificationPanel({
                   <p
                     className={cn(
                       "text-[11px] uppercase tracking-wide leading-snug",
-                      notif.unread ? "font-black text-gray-900" : "font-bold text-gray-600"
+                      notif.unread ? "font-bold text-gray-900" : "font-semibold text-gray-600"
                     )}
                   >
                     {notif.title}
@@ -331,7 +335,7 @@ function NotificationPanel({
         <div className="px-6 py-4 border-t border-gray-100">
           <button
             id="view-all-notifications-btn"
-            className="w-full py-3 text-[10px] font-black uppercase tracking-widest text-[#ed1c27] hover:text-white hover:bg-[#ed1c27] border border-[#ed1c27]/30 hover:border-[#ed1c27] rounded-xl transition-all duration-200 cursor-pointer"
+            className="w-full py-3 text-[10px] font-bold uppercase tracking-widest text-[#ed1c27] hover:text-white hover:bg-[#ed1c27] border border-[#ed1c27]/30 hover:border-[#ed1c27] rounded-xl transition-all duration-200 cursor-pointer"
           >
             View All Notifications
           </button>
@@ -362,6 +366,40 @@ export default function AdminDashboardLayout({
   });
   const [mobileOpen, setMobileOpen] = useState(false);
   const [notifOpen, setNotifOpen]   = useState(false);
+  const [inquiriesBadge, setInquiriesBadge] = useState<string | null>("5");
+
+  /* Dynamic Badge Handler */
+  useEffect(() => {
+    const updateBadge = () => {
+      if (typeof window !== "undefined") {
+        const stored = sessionStorage.getItem("bdm_inquiries");
+        if (stored) {
+          try {
+            const inqs = JSON.parse(stored);
+            const activeCount = inqs.filter((i: any) => i.status === "new").length;
+            setInquiriesBadge(activeCount > 0 ? String(activeCount) : null);
+          } catch {
+            setInquiriesBadge("5");
+          }
+        } else {
+          setInquiriesBadge("5");
+        }
+      }
+    };
+
+    updateBadge();
+
+    window.addEventListener("bdm-inquiries-updated", updateBadge);
+    return () => {
+      window.removeEventListener("bdm-inquiries-updated", updateBadge);
+    };
+  }, []);
+
+  const handleLogout = () => {
+    sessionStorage.removeItem("bdm_admin");
+    addToast({ title: "Signed Out", message: "You have been logged out.", variant: "info" });
+    router.push("/admin/login");
+  };
 
   /* Auth guard */
   useEffect(() => {
@@ -377,12 +415,6 @@ export default function AdminDashboardLayout({
     }, 0);
     return () => clearTimeout(timer);
   }, [pathname]);
-
-  const handleLogout = () => {
-    sessionStorage.removeItem("bdm_admin");
-    addToast({ title: "Signed Out", message: "You have been logged out.", variant: "info" });
-    router.push("/admin/login");
-  };
 
   /* Loading / unauthenticated state */
   if (!admin) {
@@ -407,6 +439,7 @@ export default function AdminDashboardLayout({
           pathname={pathname}
           onClose={() => {}}
           onLogout={handleLogout}
+          inquiriesBadge={inquiriesBadge}
         />
       </aside>
 
@@ -422,6 +455,7 @@ export default function AdminDashboardLayout({
           pathname={pathname}
           onClose={() => setMobileOpen(false)}
           onLogout={handleLogout}
+          inquiriesBadge={inquiriesBadge}
         />
       </Offcanvas>
 
@@ -465,10 +499,10 @@ export default function AdminDashboardLayout({
           {/* Avatar */}
           <div className="flex items-center gap-3 pl-3 border-l border-gray-100 flex-shrink-0">
             <div className="text-right hidden sm:block">
-              <p className="text-[11px] font-black uppercase tracking-widest text-gray-900 leading-tight">
+              <p className="text-[11px] font-bold uppercase tracking-widest text-gray-900 leading-tight">
                 {admin.name}
               </p>
-              <p className="text-[9px] font-bold uppercase tracking-widest text-[#ed1c27]">
+              <p className="text-[9px] font-semibold uppercase tracking-widest text-[#ed1c27]">
                 {admin.role}
               </p>
             </div>
