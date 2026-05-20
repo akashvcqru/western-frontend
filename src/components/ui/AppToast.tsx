@@ -51,7 +51,7 @@ export const AppToastProvider: React.FC<AppToastProviderProps> = ({ children }) 
     return (
         <AppToastContext.Provider value={{ addToast, removeToast }}>
             {children}
-            <div className="fixed z-[110] flex flex-col gap-3 max-w-sm w-full top-6 right-6 items-end pointer-events-none">
+            <div suppressHydrationWarning={true} className="fixed z-[110] flex flex-col gap-3 max-w-sm w-full top-6 right-6 items-end pointer-events-none">
                 {toasts.map((toast) => (
                     <ToastItem key={toast.id} toast={toast} onRemove={() => removeToast(toast.id)} />
                 ))}

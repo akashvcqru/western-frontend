@@ -30,17 +30,20 @@ const socialSchema = yup.object().shape({
     .string()
     .transform((value) => (value === "" ? null : value))
     .nullable()
-    .url("Invalid URL"),
+    .url("Invalid URL")
+    .defined(),
   facebookUrl: yup
     .string()
     .transform((value) => (value === "" ? null : value))
     .nullable()
-    .url("Invalid URL"),
+    .url("Invalid URL")
+    .defined(),
   twitterUrl: yup
     .string()
     .transform((value) => (value === "" ? null : value))
     .nullable()
-    .url("Invalid URL"),
+    .url("Invalid URL")
+    .defined(),
 });
 
 interface ContactSettingsData {
@@ -49,11 +52,7 @@ interface ContactSettingsData {
   storeAddress: string;
 }
 
-interface SocialSettingsData {
-  instagramUrl?: string | null;
-  facebookUrl?: string | null;
-  twitterUrl?: string | null;
-}
+type SocialSettingsData = yup.InferType<typeof socialSchema>;
 
 export default function AdminSettingsPage() {
   const [activeTab, setActiveTab] = useState("contact");

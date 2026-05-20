@@ -12,7 +12,7 @@ interface HeroSectionProps {
 }
 
 interface Slide {
-  id: string;
+  id: string | number;
   image: string;
   title: string;
   subtitle: string;

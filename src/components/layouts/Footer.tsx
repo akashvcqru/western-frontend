@@ -116,7 +116,7 @@ interface FooterLink {
   };
 
   return (
-    <footer className="bg-[#070707] text-white pt-16 pb-12 relative overflow-hidden border-t border-white/5">
+    <footer suppressHydrationWarning={true} className="bg-[#070707] text-white pt-16 pb-12 relative overflow-hidden border-t border-white/5">
       {/* Premium subtle grid backdrop */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff02_1px,transparent_1px),linear-gradient(to_bottom,#ffffff02_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-35 pointer-events-none" />
 
@@ -127,11 +127,11 @@ interface FooterLink {
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[140px] -mr-64 -mt-64 pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-primary/5 rounded-full blur-[100px] -ml-32 -mb-32 pointer-events-none" />
 
-      <div className="max-w-[1440px] mx-auto px-6 lg:px-12 relative z-10">
+      <div suppressHydrationWarning={true} className="max-w-[1440px] mx-auto px-6 lg:px-12 relative z-10">
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-12 mb-12">
+        <div suppressHydrationWarning={true} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-12 mb-12">
           {/* Column 1: Brand & Socials (lg:col-span-3) */}
-          <div className="lg:col-span-3 space-y-6">
+          <div suppressHydrationWarning={true} className="lg:col-span-3 space-y-6">
             <div className="space-y-4">
               <Link
                 href={AppRoutes.Public.Home}
@@ -244,8 +244,8 @@ interface FooterLink {
           </div>
 
           {/* Column 2: Quick Links (lg:col-span-2) */}
-          <div className="lg:col-span-2">
-            <div className="flex items-center gap-2 mb-6">
+          <div suppressHydrationWarning={true} className="lg:col-span-2">
+            <div suppressHydrationWarning={true} className="flex items-center gap-2 mb-6">
               <span className="w-1 h-1 rounded-full bg-primary" />
               <h4 className="text-[9px] font-black uppercase tracking-[0.3em] text-white">Company</h4>
             </div>
@@ -265,8 +265,8 @@ interface FooterLink {
           </div>
 
           {/* Column 3: Products Links (lg:col-span-2) */}
-          <div className="lg:col-span-2">
-            <div className="flex items-center gap-2 mb-6">
+          <div suppressHydrationWarning={true} className="lg:col-span-2">
+            <div suppressHydrationWarning={true} className="flex items-center gap-2 mb-6">
               <span className="w-1 h-1 rounded-full bg-primary" />
               <h4 className="text-[9px] font-black uppercase tracking-[0.3em] text-white">Products</h4>
             </div>
@@ -292,14 +292,15 @@ interface FooterLink {
           </div>
 
           {/* Column 4: Contact details (lg:col-span-2) */}
-          <div className="lg:col-span-2">
-            <div className="flex items-center gap-2 mb-6">
+          <div suppressHydrationWarning={true} className="lg:col-span-2">
+            <div suppressHydrationWarning={true} className="flex items-center gap-2 mb-6">
               <span className="w-1 h-1 rounded-full bg-primary" />
               <h4 className="text-[9px] font-black uppercase tracking-[0.3em] text-white">Get in Touch</h4>
             </div>
-            <div className="space-y-4 text-gray-400 text-xs">
+            <div suppressHydrationWarning={true} className="space-y-4 text-gray-400 text-xs">
               {/* Address */}
               <div 
+                suppressHydrationWarning={true}
                 onClick={() => handleCopy(common.contact.address, "address")}
                 className="relative flex items-start gap-3 hover:text-white cursor-pointer transition-all duration-300 group py-1 rounded hover:bg-white/[0.01]"
               >
@@ -316,11 +317,12 @@ interface FooterLink {
 
               {/* Phones */}
               <div 
+                suppressHydrationWarning={true}
                 onClick={() => handleCopy(common.contact.phones.join(", "), "phone")}
                 className="relative flex items-start gap-3 hover:text-white cursor-pointer transition-all duration-300 group py-1 rounded hover:bg-white/[0.01]"
               >
                 <Phone size={14} className="text-primary mt-0.5 shrink-0 group-hover:scale-110 transition-transform" />
-                <div className="flex flex-col gap-0.5 text-[12px] font-semibold tracking-wider">
+                <div suppressHydrationWarning={true} className="flex flex-col gap-0.5 text-[12px] font-semibold tracking-wider">
                   {common.contact.phones.map((phone: string, i: number) => (
                     <span key={i}>{phone}</span>
                   ))}
@@ -334,6 +336,7 @@ interface FooterLink {
 
               {/* Email */}
               <div 
+                suppressHydrationWarning={true}
                 onClick={() => handleCopy(common.contact.email, "email")}
                 className="relative flex items-center gap-3 hover:text-white cursor-pointer transition-all duration-300 group py-1 rounded hover:bg-white/[0.01]"
               >
@@ -351,9 +354,9 @@ interface FooterLink {
           </div>
 
           {/* Column 5: Newsletter (lg:col-span-3) */}
-          <div className="lg:col-span-3 space-y-6">
-            <div className="space-y-4">
-              <div className="flex items-center gap-2">
+          <div suppressHydrationWarning={true} className="lg:col-span-3 space-y-6">
+            <div suppressHydrationWarning={true} className="space-y-4">
+              <div suppressHydrationWarning={true} className="flex items-center gap-2">
                 <span className="w-1 h-1 rounded-full bg-primary" />
                 <h4 className="text-[9px] font-black uppercase tracking-[0.3em] text-white">Newsletter</h4>
               </div>
@@ -370,9 +373,10 @@ interface FooterLink {
                 </div>
               ) : (
                 <form onSubmit={handleSubscribe} className="space-y-2">
-                  <div className="relative flex items-center group">
+                  <div suppressHydrationWarning={true} className="relative flex items-center group">
                     <Mail size={14} className="absolute left-3.5 text-gray-600 group-focus-within:text-primary transition-colors" />
                     <input
+                      suppressHydrationWarning={true}
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
@@ -386,6 +390,7 @@ interface FooterLink {
                     />
                   </div>
                   <button
+                    suppressHydrationWarning={true}
                     type="submit"
                     disabled={isSubmitting}
                     className="w-full py-2.5 bg-white text-black font-black text-[9px] uppercase tracking-widest rounded-lg hover:bg-primary hover:text-white transition-all cursor-pointer shadow-lg active:scale-95"
@@ -396,8 +401,8 @@ interface FooterLink {
               )}
             </div>
 
-            <div className="pt-2">
-              <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-emerald-500/5 border border-emerald-500/10 text-emerald-400 text-[9px] font-black tracking-wider uppercase">
+            <div suppressHydrationWarning={true} className="pt-2">
+              <div suppressHydrationWarning={true} className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-emerald-500/5 border border-emerald-500/10 text-emerald-400 text-[9px] font-black tracking-wider uppercase">
                 <span className="w-1 h-1 rounded-full bg-emerald-400" />
                 Accepting Premium Projects
               </div>
@@ -406,10 +411,10 @@ interface FooterLink {
         </div>
 
         {/* Delivery Locations & SEO Terms */}
-        <div className="py-14 border-t border-white/5 space-y-10">
+        <div suppressHydrationWarning={true} className="py-14 border-t border-white/5 space-y-10">
           {/* Popular Search Terms */}
-          <div className="space-y-4">
-            <div className="flex items-center gap-2">
+          <div suppressHydrationWarning={true} className="space-y-4">
+            <div suppressHydrationWarning={true} className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-primary" />
               <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-white">
                 Popular Search Terms
@@ -428,8 +433,8 @@ interface FooterLink {
           </div>
 
           {/* We Deliver To */}
-          <div className="space-y-4">
-            <div className="flex items-center gap-2">
+          <div suppressHydrationWarning={true} className="space-y-4">
+            <div suppressHydrationWarning={true} className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-primary" />
               <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-white">
                 We Deliver To
@@ -449,8 +454,8 @@ interface FooterLink {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-10 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] font-bold tracking-[0.2em] text-gray-600 uppercase border-t border-white/5">
-          <div className="flex flex-wrap justify-center md:justify-start items-center gap-x-8 gap-y-4">
+        <div suppressHydrationWarning={true} className="pt-10 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] font-bold tracking-[0.2em] text-gray-600 uppercase border-t border-white/5">
+          <div suppressHydrationWarning={true} className="flex flex-wrap justify-center md:justify-start items-center gap-x-8 gap-y-4">
             <span>
               &copy; {currentYear} {footer.brandStatement.title}.
             </span>
