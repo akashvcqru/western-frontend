@@ -104,29 +104,27 @@ export default function AdminDashboardPage() {
       {/* Stats Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((stat) => (
-          <div
-            key={stat.id}
-            id={stat.id}
-            className={`bg-white rounded-2xl p-5 border ${stat.accent} shadow-sm hover:shadow-md transition-shadow duration-300`}
-          >
-            <div className="flex items-start justify-between mb-4">
-              <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${stat.color}`}>
-                <stat.icon size={18} />
+          <Card key={stat.id}>
+            <Card.Body>
+              <div className="flex items-start justify-between mb-4">
+                <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${stat.color}`}>
+                  <stat.icon size={18} />
+                </div>
+                <span
+                  className={`inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-tight ${
+                    stat.up ? "text-emerald-600" : "text-red-500"
+                  }`}
+                >
+                  <TrendingUp size={10} />
+                  {stat.change}
+                </span>
               </div>
-              <span
-                className={`inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-tight ${
-                  stat.up ? "text-emerald-600" : "text-red-500"
-                }`}
-              >
-                <TrendingUp size={10} />
-                {stat.change}
-              </span>
-            </div>
-            <p className="text-3xl font-bold text-gray-900">{stat.value}</p>
-            <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mt-1">
-              {stat.label}
-            </p>
-          </div>
+              <p className="text-3xl font-bold text-gray-900">{stat.value}</p>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mt-1">
+                {stat.label}
+              </p>
+            </Card.Body>
+          </Card>
         ))}
       </div>
 

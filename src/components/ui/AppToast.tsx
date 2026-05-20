@@ -117,27 +117,27 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onRemove }) => {
     }, [isHovered, toast.duration, handleClose]);
 
     const variantStyles = {
-        success: { iconBg: 'bg-emerald-500', progress: 'bg-emerald-500', text: 'text-emerald-500' },
-        error: { iconBg: 'bg-primary', progress: 'bg-primary', text: 'text-primary' },
-        warning: { iconBg: 'bg-amber-500', progress: 'bg-amber-500', text: 'text-amber-500' },
-        info: { iconBg: 'bg-secondary', progress: 'bg-secondary', text: 'text-secondary' },
+        success: { iconBg: 'bg-emerald-500/10 text-emerald-600', progress: 'bg-emerald-500', text: 'text-emerald-900' },
+        error: { iconBg: 'bg-primary/10 text-primary', progress: 'bg-primary', text: 'text-rose-950' },
+        warning: { iconBg: 'bg-amber-500/10 text-amber-600', progress: 'bg-amber-500', text: 'text-amber-900' },
+        info: { iconBg: 'bg-zinc-100 text-zinc-600', progress: 'bg-zinc-900', text: 'text-zinc-900' },
     };
 
     const styles = variantStyles[toast.variant || 'info'];
 
     const getIcon = () => {
-        const iconClasses = "w-4 h-4 text-white";
+        const iconClasses = "w-4 h-4";
         switch (toast.variant) {
             case 'success':
-                return <svg className={iconClasses} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" /></svg>;
+                return <svg className={cn(iconClasses, "text-emerald-600")} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" /></svg>;
             case 'error':
-                return <svg className={iconClasses} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M6 18L18 6M6 6l12 12" /></svg>;
+                return <svg className={cn(iconClasses, "text-primary")} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" /></svg>;
             case 'warning':
-                return <svg className={iconClasses} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>;
+                return <svg className={cn(iconClasses, "text-amber-600")} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>;
             case 'info':
             default:
                 return (
-                    <svg className={iconClasses} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className={cn(iconClasses, "text-zinc-600")} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                 );
@@ -147,22 +147,22 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onRemove }) => {
     return (
         <div
             className={cn(
-                "pointer-events-auto relative overflow-hidden bg-white min-w-[320px] rounded-sm shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-gray-100 transition-all duration-500 transform",
-                isVisible ? "translate-x-0 opacity-100" : "translate-x-12 opacity-0"
+                "pointer-events-auto relative overflow-hidden bg-white/95 backdrop-blur-md min-w-[340px] max-w-sm rounded-xl shadow-[0_10px_35px_rgba(0,0,0,0.06)] border border-zinc-100 transition-all duration-300 transform",
+                isVisible ? "translate-y-0 opacity-100 scale-100" : "translate-y-2 opacity-0 scale-95"
             )}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
             <div className="flex items-center p-5">
-                <div className={cn("flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center", styles.iconBg)}>
+                <div className={cn("flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center", styles.iconBg)}>
                     {getIcon()}
                 </div>
 
                 <div className="ml-4 flex-1">
-                    {toast.title && <h4 className="text-[10px] font-bold uppercase tracking-widest text-secondary mb-0.5">{toast.title}</h4>}
+                    {toast.title && <h4 className="text-[10px] font-semibold uppercase tracking-widest text-zinc-900 mb-0.5">{toast.title}</h4>}
                     <p className={cn(
-                        "text-[11px] leading-relaxed font-medium tracking-tight",
-                        toast.title ? "text-gray-400" : styles.text
+                        "text-[11px] leading-relaxed font-normal tracking-tight text-zinc-500",
+                        !toast.title && styles.text
                     )}>
                         {toast.message}
                     </p>
@@ -170,16 +170,16 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onRemove }) => {
 
                 <button
                     onClick={handleClose}
-                    className="ml-4 flex-shrink-0 flex items-center justify-center w-6 h-6 rounded-full bg-gray-50 text-gray-400 hover:bg-secondary hover:text-white transition-all cursor-pointer"
+                    className="ml-4 flex-shrink-0 flex items-center justify-center w-6 h-6 rounded-lg text-zinc-400 hover:text-zinc-600 hover:bg-zinc-100 transition-all cursor-pointer"
                 >
                     <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M6 18L18 6M6 6l12 12" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
             </div>
 
             {toast.duration && toast.duration > 0 && (
-                <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gray-50">
+                <div className="absolute bottom-0 left-0 w-full h-[2px] bg-zinc-50">
                     <div
                         className={cn("h-full transition-none", styles.progress)}
                         style={{ width: `${progress}%` }}
