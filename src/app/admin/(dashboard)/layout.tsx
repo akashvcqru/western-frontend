@@ -420,11 +420,13 @@ export default function AdminDashboardLayout({
 
   /* Loading / unauthenticated state */
   if (!admin) {
-    return (
-      <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
+  return (
+    <div className="flex h-screen bg-[#f4f5f7] overflow-hidden">
+      <div className="flex items-center justify-center w-full">
         <div className="w-8 h-8 border-2 border-[#ed1c27]/30 border-t-[#ed1c27] rounded-full animate-spin" />
       </div>
-    );
+    </div>
+  );
   }
 
   return (

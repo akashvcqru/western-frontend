@@ -139,6 +139,14 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
   const [savedSuccess, setSavedSuccess] = useState(false);
   const [notFound, setNotFound] = useState(false);
 
+  // Mount guard to avoid hydration mismatch
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) return null;
+
   const defaultCategoryOptions = [
     { label: "Floor Tiles", value: "floor-tiles" },
     { label: "Wall Tiles", value: "wall-tiles" },
