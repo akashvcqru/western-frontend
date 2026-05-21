@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Plus, Search, Edit, Trash2 } from "lucide-react";
+import { Plus, Edit, Trash2, Upload } from "lucide-react";
 import Image from "next/image";
 import { Card, AppModal, useAppToast, AdminPageHeader, Pagination, RHFControl, SearchInput } from "@/components/ui";
 import { AppRoutes } from "@/constants/routes";
-import { useForm, FormProvider } from "react-hook-form";
+import { useForm, FormProvider, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
@@ -20,12 +20,21 @@ interface Product {
   image: string;
 }
 
+interface Category {
+  id: string;
+  name: string;
+  description: string;
+  count: number;
+  image: string;
+  status: string;
+}
+
 const initialProducts: Product[] = [
-  { id: "PROD-001", name: "Premium Vitrified Tiles", category: "Tiles", brand: "Kajaria", price: "₹850/box", status: "In Stock", stock: 145, image: "https://bawadittamal.com/wp-content/uploads/2023/12/1.jpg" },
-  { id: "PROD-002", name: "Wooden Finish Flooring", category: "Flooring", brand: "Greenply", price: "₹1,200/sqft", status: "Low Stock", stock: 12, image: "https://bawadittamal.com/wp-content/uploads/2023/12/2.jpg" },
-  { id: "PROD-003", name: "Ceramic Wall Tiles", category: "Tiles", brand: "Somany", price: "₹650/box", status: "In Stock", stock: 89, image: "https://bawadittamal.com/wp-content/uploads/2023/12/3.jpg" },
-  { id: "PROD-004", name: "Luxury Bathroom Fittings", category: "Fittings", brand: "Jaquar", price: "₹4,500/set", status: "Out of Stock", stock: 0, image: "https://bawadittamal.com/wp-content/uploads/2023/12/4.jpg" },
-  { id: "PROD-005", name: "Granite Countertop", category: "Stones", brand: "Local", price: "₹3,200/slab", status: "In Stock", stock: 34, image: "https://bawadittamal.com/wp-content/uploads/2023/12/5.jpg" },
+  { id: "PROD-001", name: "Premium Vitrified Tiles", category: "Floor Tiles", brand: "Kajaria", price: "₹850/box", status: "Active", stock: 145, image: "https://bawadittamal.com/wp-content/uploads/2023/12/1.jpg" },
+  { id: "PROD-002", name: "Wooden Finish Flooring", category: "Wooden Flooring", brand: "Greenply", price: "₹1,200/sqft", status: "Active", stock: 12, image: "https://bawadittamal.com/wp-content/uploads/2023/12/2.jpg" },
+  { id: "PROD-003", name: "Ceramic Wall Tiles", category: "Wall Tiles", brand: "Somany", price: "₹650/box", status: "Active", stock: 89, image: "https://bawadittamal.com/wp-content/uploads/2023/12/3.jpg" },
+  { id: "PROD-004", name: "Luxury Bathroom Fittings", category: "Bathroom Fittings", brand: "Jaquar", price: "₹4,500/set", status: "Inactive", stock: 0, image: "https://bawadittamal.com/wp-content/uploads/2023/12/4.jpg" },
+  { id: "PROD-005", name: "Granite Countertop", category: "Granite & Marble", brand: "Local", price: "₹3,200/slab", status: "Active", stock: 34, image: "https://bawadittamal.com/wp-content/uploads/2023/12/5.jpg" },
 ];
 
 // Validation Schema
@@ -50,16 +59,10 @@ const productSchema = yup.object().shape({
     .min(0, "Stock Quantity cannot be negative"),
   image: yup
     .string()
-    .optional()
-    .test("is-url", "Must be a valid URL", (value) => {
-      if (!value) return true;
-      try {
-        const url = new URL(value);
-        return url.protocol === "http:" || url.protocol === "https:";
-      } catch {
-        return false;
-      }
-    }),
+    .required("Product Image is required"),
+  status: yup
+    .string()
+    .required("Status is required"),
 });
 
 type ProductFormData = yup.InferType<typeof productSchema>;
@@ -69,19 +72,12 @@ export default function AdminProductsPage() {
 
   // State
   const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [statusFilter, setStatusFilter] = useState("All");
-  const [categoryFilter, setCategoryFilter] = useState("All");
-  const [showFilterDropdown, setShowFilterDropdown] = useState(false);
 
   // Pagination State
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-
-  // Reset page when filters change
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [searchTerm, statusFilter, categoryFilter]);
 
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -89,14 +85,16 @@ export default function AdminProductsPage() {
 
   // React Hook Form Configuration
   const methods = useForm<ProductFormData>({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resolver: yupResolver(productSchema) as any,
     defaultValues: {
       name: "",
-      category: "Tiles",
+      category: "Floor Tiles",
       brand: "",
       price: "",
       stock: 10,
       image: "",
+      status: "Active",
     },
   });
 
@@ -112,16 +110,18 @@ export default function AdminProductsPage() {
           brand: editingProduct.brand,
           price: editingProduct.price,
           stock: editingProduct.stock,
-          image: editingProduct.image === "https://bawadittamal.com/wp-content/uploads/2023/12/1.jpg" ? "" : editingProduct.image,
+          image: editingProduct.image,
+          status: editingProduct.status,
         });
       } else {
         reset({
           name: "",
-          category: "Tiles",
+          category: "Floor Tiles",
           brand: "",
           price: "",
           stock: 10,
           image: "",
+          status: "Active",
         });
       }
     }
@@ -133,13 +133,33 @@ export default function AdminProductsPage() {
       const stored = sessionStorage.getItem("bdm_products");
       if (stored) {
         try {
-          setProducts(JSON.parse(stored));
+          const parsed = JSON.parse(stored) as Product[];
+          const migrated = parsed.map((p) => {
+            if (p.status !== "Active" && p.status !== "Inactive") {
+              return {
+                ...p,
+                status: p.stock > 0 ? "Active" : "Inactive",
+              };
+            }
+            return p;
+          });
+          // eslint-disable-next-line react-hooks/set-state-in-effect
+          setProducts(migrated);
         } catch {
           setProducts(initialProducts);
         }
       } else {
         setProducts(initialProducts);
         sessionStorage.setItem("bdm_products", JSON.stringify(initialProducts));
+      }
+
+      const storedCats = sessionStorage.getItem("bdm_categories");
+      if (storedCats) {
+        try {
+          setCategories(JSON.parse(storedCats));
+        } catch {
+          setCategories([]);
+        }
       }
     }
   }, []);
@@ -177,14 +197,6 @@ export default function AdminProductsPage() {
 
   // Handle Form Submit
   const onSubmit = (data: ProductFormData) => {
-    // Auto determine status based on stock count
-    let computedStatus = "In Stock";
-    if (data.stock <= 0) {
-      computedStatus = "Out of Stock";
-    } else if (data.stock <= 15) {
-      computedStatus = "Low Stock";
-    }
-
     const defaultImage = "https://bawadittamal.com/wp-content/uploads/2023/12/1.jpg";
     const imageUrl = data.image?.trim() || defaultImage;
 
@@ -199,7 +211,7 @@ export default function AdminProductsPage() {
             brand: data.brand,
             price: data.price,
             stock: data.stock,
-            status: computedStatus,
+            status: data.status,
             image: imageUrl,
           };
         }
@@ -221,7 +233,7 @@ export default function AdminProductsPage() {
         brand: data.brand,
         price: data.price,
         stock: data.stock,
-        status: computedStatus,
+        status: data.status,
         image: imageUrl,
       };
       const updated = [newProduct, ...products];
@@ -236,20 +248,13 @@ export default function AdminProductsPage() {
     setIsModalOpen(false);
   };
 
-  // Filter products based on search and selected options
+  // Filter products based on search
   const filteredProducts = products.filter((prod) => {
-    const matchesSearch =
+    return (
       prod.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       prod.brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      prod.id.toLowerCase().includes(searchTerm.toLowerCase());
-
-    const matchesStatus =
-      statusFilter === "All" || prod.status === statusFilter;
-
-    const matchesCategory =
-      categoryFilter === "All" || prod.category === categoryFilter;
-
-    return matchesSearch && matchesStatus && matchesCategory;
+      prod.id.toLowerCase().includes(searchTerm.toLowerCase())
+    );
   });
 
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
@@ -258,8 +263,16 @@ export default function AdminProductsPage() {
     currentPage * itemsPerPage
   );
 
-  // Unique categories for filtering
-  const categoriesList = ["All", ...Array.from(new Set(products.map((p) => p.category)))];
+  const defaultCategoryOptions = [
+    { label: "Floor Tiles", value: "Floor Tiles" },
+    { label: "Wall Tiles", value: "Wall Tiles" },
+    { label: "Wooden Flooring", value: "Wooden Flooring" },
+    { label: "Bathroom Fittings", value: "Bathroom Fittings" },
+    { label: "Granite & Marble", value: "Granite & Marble" },
+  ];
+  const categoryOptions = categories.length > 0
+    ? categories.map((c) => ({ label: c.name, value: c.name }))
+    : defaultCategoryOptions;
 
   return (
     <div className="space-y-6">
@@ -279,7 +292,10 @@ export default function AdminProductsPage() {
           <SearchInput
             placeholder="Search by Consumer, Mobile or Code"
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setCurrentPage(1);
+            }}
             wrapperClassName="max-w-sm"
           />
 
@@ -336,10 +352,9 @@ export default function AdminProductsPage() {
                         {prod.price}
                       </td>
                       <td className="py-3 px-6">
-                        <span className={`inline-flex items-center px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-widest ${prod.status === "In Stock" ? "bg-emerald-50 text-emerald-600" :
-                          prod.status === "Low Stock" ? "bg-amber-50 text-amber-600" :
-                            "bg-red-50 text-red-600"
-                          }`}>
+                        <span className={`inline-flex items-center px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-widest ${
+                          prod.status === "Active" ? "bg-emerald-50 text-emerald-600" : "bg-red-50 text-red-600"
+                        }`}>
                           {prod.status} ({prod.stock})
                         </span>
                       </td>
@@ -426,12 +441,7 @@ export default function AdminProductsPage() {
                 control="select"
                 name="category"
                 label="Category *"
-                options={[
-                  { label: "Tiles", value: "Tiles" },
-                  { label: "Flooring", value: "Flooring" },
-                  { label: "Fittings", value: "Fittings" },
-                  { label: "Stones", value: "Stones" },
-                ]}
+                options={categoryOptions}
                 className="rounded-xl"
               />
 
@@ -466,16 +476,83 @@ export default function AdminProductsPage() {
               />
             </div>
 
-            {/* Image URL */}
-            <div className="space-y-1">
+            <div className="grid grid-cols-2 gap-4">
+              {/* Status */}
               <RHFControl
-                control="input"
-                name="image"
-                label="Image URL"
-                placeholder="e.g. https://domain.com/path/to/image.jpg"
+                control="select"
+                name="status"
+                label="Status *"
+                options={[
+                  { label: "Active", value: "Active" },
+                  { label: "Inactive", value: "Inactive" },
+                ]}
                 className="rounded-xl"
               />
-              <p className="text-[9px] text-gray-400 mt-0.5">Leave blank to use a default mock illustration.</p>
+            </div>
+
+            {/* Image Upload */}
+            <div className="space-y-2">
+              <label className="text-[10px] font-semibold uppercase tracking-widest text-secondary/60">
+                Product Image *
+              </label>
+              <Controller
+                name="image"
+                control={methods.control}
+                render={({ field, fieldState: { error } }) => {
+                  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      const reader = new FileReader();
+                      reader.onloadend = () => {
+                        field.onChange(reader.result as string);
+                      };
+                      reader.readAsDataURL(file);
+                    }
+                  };
+
+                  return (
+                    <div className="space-y-2">
+                      <div className="border-2 border-dashed border-gray-200 hover:border-[#ed1c27]/50 rounded-xl p-4 transition-all duration-300 cursor-pointer flex flex-col items-center justify-center gap-2 bg-gray-50/50 relative group min-h-[140px]">
+                        {field.value ? (
+                          <div className="relative w-full h-32 rounded-lg overflow-hidden border border-gray-100">
+                            <Image
+                              src={field.value}
+                              alt="Product preview"
+                              fill
+                              className="object-cover"
+                            />
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                field.onChange("");
+                              }}
+                              className="absolute top-2 right-2 p-1.5 bg-red-500 hover:bg-red-600 text-white rounded-lg shadow-md transition-colors cursor-pointer z-10"
+                            >
+                              <Trash2 size={12} />
+                            </button>
+                          </div>
+                        ) : (
+                          <>
+                            <Upload className="w-8 h-8 text-gray-400 group-hover:text-[#ed1c27] transition-colors duration-300" />
+                            <span className="text-xs text-gray-500 font-bold uppercase tracking-wider">Upload Image</span>
+                            <span className="text-[9px] text-gray-400 font-semibold uppercase tracking-widest">Click or drag image file</span>
+                          </>
+                        )}
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleFileChange}
+                          className="absolute inset-0 opacity-0 cursor-pointer"
+                        />
+                      </div>
+                      {error?.message && (
+                        <p className="text-[10px] font-semibold text-red-500 uppercase tracking-tight">{error.message}</p>
+                      )}
+                    </div>
+                  );
+                }}
+              />
             </div>
           </form>
         </FormProvider>

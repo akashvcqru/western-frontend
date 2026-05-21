@@ -17,6 +17,7 @@ interface RHFControlProps {
     options?: { label: string; value: string | number }[];
     type?: string;
     className?: string;
+    disabled?: boolean;
 }
 
 const RHFControl: React.FC<RHFControlProps> = ({ 
@@ -28,7 +29,8 @@ const RHFControl: React.FC<RHFControlProps> = ({
     icon, 
     options = [], 
     type = 'text',
-    className 
+    className,
+    disabled
 }) => {
     const { control: formControl } = useFormContext();
 
@@ -48,6 +50,7 @@ const RHFControl: React.FC<RHFControlProps> = ({
                                 type={type}
                                 error={error?.message}
                                 className={className}
+                                disabled={disabled}
                             />
                         );
                     case 'textarea':
@@ -59,6 +62,7 @@ const RHFControl: React.FC<RHFControlProps> = ({
                                 icon={icon}
                                 error={error?.message}
                                 className={className}
+                                disabled={disabled}
                             />
                         );
                     case 'select':
@@ -70,6 +74,7 @@ const RHFControl: React.FC<RHFControlProps> = ({
                                 options={options}
                                 error={error?.message}
                                 className={className}
+                                disabled={disabled}
                             />
                         );
                     case 'toggle':

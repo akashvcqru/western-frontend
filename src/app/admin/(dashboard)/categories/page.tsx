@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Plus, Search, Edit, Trash2, Folder } from "lucide-react";
+import { Plus, Edit, Trash2, Folder, Upload } from "lucide-react";
 import Image from "next/image";
 import { Card, AppModal, useAppToast, AdminPageHeader, Pagination, RHFControl, SearchInput } from "@/components/ui";
 import { AppRoutes } from "@/constants/routes";
-import { useForm, FormProvider } from "react-hook-form";
+import { useForm, FormProvider, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
@@ -18,6 +18,17 @@ interface Category {
   status: string;
 }
 
+interface Product {
+  id: string;
+  name: string;
+  category: string;
+  brand: string;
+  price: string;
+  status: string;
+  stock: number;
+  image: string;
+}
+
 const initialCategories: Category[] = [
   { id: "CAT-001", name: "Floor Tiles", description: "Premium vitrified and ceramic tiles for flooring.", count: 45, image: "https://bawadittamal.com/wp-content/uploads/2023/12/1.jpg", status: "Active" },
   { id: "CAT-002", name: "Wall Tiles", description: "Designer wall tiles for kitchens and bathrooms.", count: 32, image: "https://bawadittamal.com/wp-content/uploads/2023/12/3.jpg", status: "Active" },
@@ -28,36 +39,23 @@ const initialCategories: Category[] = [
 
 // Validation Schema
 const categorySchema = yup.object().shape({
+  id: yup
+    .string()
+    .required("Category ID is required")
+    .matches(/^[A-Za-z0-9-]+$/, "Category ID can only contain letters, numbers, and hyphens"),
   name: yup
     .string()
     .required("Category Name is required")
     .min(3, "Category Name must be at least 3 characters"),
-  status: yup
-    .string()
-    .required("Status is required")
-    .oneOf(["Active", "Inactive"], "Status must be either Active or Inactive"),
-  count: yup
-    .number()
-    .typeError("Count must be a number")
-    .integer("Count must be an integer")
-    .min(0, "Count cannot be negative")
-    .optional()
-    .default(0),
   description: yup
     .string()
     .required("Description is required"),
   image: yup
     .string()
-    .optional()
-    .test("is-url", "Must be a valid URL", (value) => {
-      if (!value) return true;
-      try {
-        const url = new URL(value);
-        return url.protocol === "http:" || url.protocol === "https:";
-      } catch {
-        return false;
-      }
-    }),
+    .required("Image is required"),
+  status: yup
+    .string()
+    .required("Status is required"),
 });
 
 type CategoryFormData = yup.InferType<typeof categorySchema>;
@@ -67,30 +65,27 @@ export default function AdminCategoriesPage() {
   
   // State
   const [categories, setCategories] = useState<Category[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   
   // Pagination State
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(8);
 
-  // Reset page when search term changes
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [searchTerm]);
-  
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
 
   // React Hook Form Configuration
   const methods = useForm<CategoryFormData>({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resolver: yupResolver(categorySchema) as any,
     defaultValues: {
+      id: "",
       name: "",
       description: "",
-      status: "Active",
-      count: 0,
       image: "",
+      status: "Active",
     },
   });
 
@@ -101,19 +96,19 @@ export default function AdminCategoriesPage() {
     if (isModalOpen) {
       if (editingCategory) {
         reset({
+          id: editingCategory.id,
           name: editingCategory.name,
           description: editingCategory.description,
+          image: editingCategory.image,
           status: editingCategory.status,
-          count: editingCategory.count,
-          image: editingCategory.image === "https://bawadittamal.com/wp-content/uploads/2023/12/3.jpg" ? "" : editingCategory.image,
         });
       } else {
         reset({
+          id: "",
           name: "",
           description: "",
-          status: "Active",
-          count: 0,
           image: "",
+          status: "Active",
         });
       }
     }
@@ -122,6 +117,14 @@ export default function AdminCategoriesPage() {
   // Load from sessionStorage
   useEffect(() => {
     if (typeof window !== "undefined") {
+      const storedProds = sessionStorage.getItem("bdm_products");
+      if (storedProds) {
+        try {
+          // eslint-disable-next-line react-hooks/set-state-in-effect
+          setProducts(JSON.parse(storedProds));
+        } catch {}
+      }
+
       const stored = sessionStorage.getItem("bdm_categories");
       if (stored) {
         try {
@@ -165,8 +168,22 @@ export default function AdminCategoriesPage() {
   };
 
   const onSubmit = (data: CategoryFormData) => {
-    const defaultImage = "https://bawadittamal.com/wp-content/uploads/2023/12/3.jpg";
-    const imageUrl = data.image?.trim() || defaultImage;
+    const trimmedId = data.id.trim();
+
+    // Check Category ID uniqueness on creation
+    if (!editingCategory) {
+      const idExists = categories.some(
+        (c) => c.id.toLowerCase() === trimmedId.toLowerCase()
+      );
+      if (idExists) {
+        addToast({
+          title: "Duplicate ID",
+          message: `Category ID "${trimmedId}" already exists. Please choose a different ID.`,
+          variant: "error",
+        });
+        return;
+      }
+    }
 
     if (editingCategory) {
       const updated = categories.map((c) => {
@@ -175,9 +192,8 @@ export default function AdminCategoriesPage() {
             ...c,
             name: data.name,
             description: data.description,
+            image: data.image,
             status: data.status,
-            image: imageUrl,
-            count: data.count ?? 0,
           };
         }
         return c;
@@ -189,14 +205,13 @@ export default function AdminCategoriesPage() {
         variant: "success",
       });
     } else {
-      const newId = `CAT-${String(categories.length + 1).padStart(3, "0")}`;
       const newCategory: Category = {
-        id: newId,
+        id: trimmedId,
         name: data.name,
         description: data.description,
         status: data.status,
-        image: imageUrl,
-        count: data.count ?? 0,
+        image: data.image,
+        count: 0,
       };
       const updated = [...categories, newCategory];
       saveCategories(updated);
@@ -242,7 +257,10 @@ export default function AdminCategoriesPage() {
           <SearchInput
             placeholder="Search categories by name or ID..."
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setCurrentPage(1);
+            }}
             wrapperClassName="max-w-sm"
           />
 
@@ -286,7 +304,9 @@ export default function AdminCategoriesPage() {
                         </div>
                         <div className="flex items-center gap-1.5 px-2.5 py-1 bg-gray-50 rounded-lg text-gray-600 shrink-0">
                           <Folder size={12} />
-                          <span className="text-[10px] font-bold">{cat.count}</span>
+                          <span className="text-[10px] font-bold">
+                            {products.filter((p) => p.category.toLowerCase() === cat.name.toLowerCase()).length}
+                          </span>
                         </div>
                       </div>
                       <p className="text-xs text-gray-500 font-medium leading-relaxed line-clamp-2">
@@ -360,16 +380,17 @@ export default function AdminCategoriesPage() {
       >
         <FormProvider {...methods}>
           <form id="category-form" onSubmit={methods.handleSubmit(onSubmit)} className="space-y-4">
-            {/* Name */}
-            <RHFControl
-              control="input"
-              name="name"
-              label="Category Name *"
-              placeholder="e.g. Wall Cladding"
-              className="rounded-xl"
-            />
-
             <div className="grid grid-cols-2 gap-4">
+              {/* Category ID */}
+              <RHFControl
+                control="input"
+                name="id"
+                label="Category ID *"
+                placeholder="e.g. CAT-006"
+                className="rounded-xl font-mono uppercase"
+                disabled={!!editingCategory}
+              />
+
               {/* Status */}
               <RHFControl
                 control="select"
@@ -381,17 +402,16 @@ export default function AdminCategoriesPage() {
                 ]}
                 className="rounded-xl"
               />
-
-              {/* Total Products (Initial) */}
-              <RHFControl
-                control="input"
-                type="number"
-                name="count"
-                label="Total Products Count"
-                placeholder="e.g. 10"
-                className="rounded-xl"
-              />
             </div>
+
+            {/* Name */}
+            <RHFControl
+              control="input"
+              name="name"
+              label="Category Name *"
+              placeholder="e.g. Wall Cladding"
+              className="rounded-xl"
+            />
 
             {/* Description */}
             <RHFControl
@@ -402,16 +422,69 @@ export default function AdminCategoriesPage() {
               className="rounded-xl"
             />
 
-            {/* Image URL */}
-            <div className="space-y-1">
-              <RHFControl
-                control="input"
+            {/* Image Upload */}
+            <div className="space-y-2">
+              <label className="text-[10px] font-semibold uppercase tracking-widest text-secondary/60">
+                Category Image *
+              </label>
+              <Controller
                 name="image"
-                label="Image URL"
-                placeholder="e.g. https://domain.com/path/to/category.jpg"
-                className="rounded-xl"
+                control={methods.control}
+                render={({ field, fieldState: { error } }) => {
+                  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      const reader = new FileReader();
+                      reader.onloadend = () => {
+                        field.onChange(reader.result as string);
+                      };
+                      reader.readAsDataURL(file);
+                    }
+                  };
+
+                  return (
+                    <div className="space-y-2">
+                      <div className="border-2 border-dashed border-gray-200 hover:border-[#ed1c27]/50 rounded-xl p-4 transition-all duration-300 cursor-pointer flex flex-col items-center justify-center gap-2 bg-gray-50/50 relative group min-h-[140px]">
+                        {field.value ? (
+                          <div className="relative w-full h-32 rounded-lg overflow-hidden border border-gray-100">
+                            <Image
+                              src={field.value}
+                              alt="Category preview"
+                              fill
+                              className="object-cover"
+                            />
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                field.onChange("");
+                              }}
+                              className="absolute top-2 right-2 p-1.5 bg-red-500 hover:bg-red-600 text-white rounded-lg shadow-md transition-colors cursor-pointer z-10"
+                            >
+                              <Trash2 size={12} />
+                            </button>
+                          </div>
+                        ) : (
+                          <>
+                            <Upload className="w-8 h-8 text-gray-400 group-hover:text-[#ed1c27] transition-colors duration-300" />
+                            <span className="text-xs text-gray-500 font-bold uppercase tracking-wider">Upload Image</span>
+                            <span className="text-[9px] text-gray-400 font-semibold uppercase tracking-widest">Click or drag image file</span>
+                          </>
+                        )}
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleFileChange}
+                          className="absolute inset-0 opacity-0 cursor-pointer"
+                        />
+                      </div>
+                      {error?.message && (
+                        <p className="text-[10px] font-semibold text-red-500 uppercase tracking-tight">{error.message}</p>
+                      )}
+                    </div>
+                  );
+                }}
               />
-              <p className="text-[9px] text-gray-400 mt-0.5">Leave blank to use a default category image.</p>
             </div>
           </form>
         </FormProvider>
