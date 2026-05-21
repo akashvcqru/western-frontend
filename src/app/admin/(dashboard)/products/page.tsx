@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Plus, Search, Edit, Trash2 } from "lucide-react";
 import Image from "next/image";
-import { Card, AppModal, useAppToast, AdminPageHeader, Pagination, RHFControl } from "@/components/ui";
+import { Card, AppModal, useAppToast, AdminPageHeader, Pagination, RHFControl, SearchInput } from "@/components/ui";
 import { AppRoutes } from "@/constants/routes";
 import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -276,16 +276,12 @@ export default function AdminProductsPage() {
       <Card>
         <Card.Header>
           {/* Left: Search input */}
-          <div className="relative w-full max-w-sm">
-            <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
-            <input
-              type="text"
-              placeholder="Search by Consumer, Mobile or Code"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-card border border-gray-200 dark:border-white/10 rounded-xl text-xs font-medium focus:outline-none focus:border-indigo-500 transition-colors"
-            />
-          </div>
+          <SearchInput
+            placeholder="Search by Consumer, Mobile or Code"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            wrapperClassName="max-w-sm"
+          />
 
           {/* Right: Actions */}
           <div className="flex items-center gap-3">
