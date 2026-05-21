@@ -8,19 +8,21 @@ interface PaginationProps {
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
+  className?: string;
 }
 
 export const Pagination: React.FC<PaginationProps> = ({
   currentPage,
   totalPages,
   onPageChange,
+  className,
 }) => {
   if (totalPages <= 1) return null;
 
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   return (
-    <div className="flex items-center justify-center gap-2 pt-10 border-t border-neutral-100 mt-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div className={cn("flex items-center justify-center gap-2 pt-10 border-t border-neutral-100 mt-12 animate-in fade-in slide-in-from-bottom-4 duration-500", className)}>
       {/* Prev Button */}
       <button
         onClick={() => onPageChange(currentPage - 1)}

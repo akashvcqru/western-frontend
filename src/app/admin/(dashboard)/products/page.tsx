@@ -3,7 +3,9 @@
 import React, { useState, useEffect } from "react";
 import { Plus, Search, Filter, Edit, Trash2, Eye, X } from "lucide-react";
 import Image from "next/image";
-import { Card, AppModal, useAppToast } from "@/components/ui";
+import { Card, AppModal, useAppToast, AdminPageHeader } from "@/components/ui";
+import { Pagination } from "@/components/ui/Pagination";
+import { AppRoutes } from "@/constants/routes";
 
 interface Product {
   id: string;
@@ -33,6 +35,15 @@ export default function AdminProductsPage() {
   const [statusFilter, setStatusFilter] = useState("All");
   const [categoryFilter, setCategoryFilter] = useState("All");
   const [showFilterDropdown, setShowFilterDropdown] = useState(false);
+  
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 5;
+
+  // Reset page when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, statusFilter, categoryFilter]);
   
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -199,58 +210,60 @@ export default function AdminProductsPage() {
     return matchesSearch && matchesStatus && matchesCategory;
   });
 
+  const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
+  const paginatedProducts = filteredProducts.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
   // Unique categories for filtering
   const categoriesList = ["All", ...Array.from(new Set(products.map((p) => p.category)))];
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900 uppercase tracking-tight">Products</h1>
-          <p className="text-sm text-gray-500 font-medium mt-1">Manage your product catalog in real time</p>
-        </div>
-        <button
-          id="add-product-btn"
-          onClick={handleAddClick}
-          className="inline-flex items-center justify-center gap-2 bg-[#ed1c27] hover:bg-[#c5141e] text-white font-bold uppercase tracking-[0.12em] text-[10px] rounded-xl px-5 py-3 transition-all duration-300 cursor-pointer hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#ed1c27]/25 flex-shrink-0"
-        >
-          <Plus size={14} /> Add Product
-        </button>
-      </div>
+      {/* Admin Page Header with Breadcrumb */}
+      <AdminPageHeader
+        title="Products"
+        breadcrumbs={[
+          { label: "Admin", href: AppRoutes.Admin.Dashboard },
+          { label: "Products" },
+        ]}
+      />
 
-      {/* Toolbar */}
-      <Card>
-        <Card.Body>
-          <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+      {/* Data Table with Integrated Toolbar */}
+      <Card className="!overflow-visible">
+        <Card.Header>
+          <div className="flex items-center gap-3 w-full">
+            {/* Left: Search bar (flex-1 to fill space) */}
             <div className="relative flex-1">
-              <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+              <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
               <input
                 type="text"
                 placeholder="Search products by name, ID or brand..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-100 rounded-xl text-xs font-medium focus:outline-none focus:border-[#ed1c27]/30 transition-colors"
+                className="w-full pl-9 pr-4 py-2.5 bg-gray-50 border border-gray-100 rounded-xl text-xs font-medium focus:outline-none focus:border-[#ed1c27]/30 transition-colors"
               />
             </div>
-            
-            <div className="flex items-center gap-2 relative">
+
+            {/* Right: Filter button */}
+            <div className="relative flex-shrink-0">
               <button
                 onClick={() => setShowFilterDropdown(!showFilterDropdown)}
-                className="inline-flex items-center gap-2 px-4 py-2.5 border border-gray-200 rounded-xl text-xs font-bold uppercase tracking-widest text-gray-600 hover:bg-gray-50 transition-colors cursor-pointer"
+                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 border border-gray-200 rounded-xl text-xs font-bold uppercase tracking-widest text-gray-600 hover:bg-gray-50 transition-colors cursor-pointer"
               >
-                <Filter size={14} /> Filters
+                <Filter size={12} /> Filters
               </button>
 
               {showFilterDropdown && (
                 <div className="absolute right-0 top-12 z-50 bg-white border border-gray-100 rounded-xl shadow-xl p-4 w-60 space-y-3">
                   <div className="flex justify-between items-center pb-2 border-b border-gray-50">
                     <span className="text-[10px] font-bold uppercase text-gray-400">Filters</span>
-                    <button onClick={() => setShowFilterDropdown(false)} className="text-gray-400 hover:text-gray-600">
+                    <button onClick={() => setShowFilterDropdown(false)} className="text-gray-400 hover:text-gray-600 cursor-pointer">
                       <X size={14} />
                     </button>
                   </div>
-                  
+
                   {/* Category Filter */}
                   <div className="space-y-1">
                     <label className="text-[9px] font-bold uppercase tracking-wider text-gray-400">Category</label>
@@ -282,12 +295,18 @@ export default function AdminProductsPage() {
                 </div>
               )}
             </div>
-          </div>
-        </Card.Body>
-      </Card>
 
-      {/* Data Table */}
-      <Card>
+            {/* Right: Add Product button */}
+            <button
+              id="add-product-btn"
+              onClick={handleAddClick}
+              className="flex-shrink-0 inline-flex items-center justify-center gap-2 bg-[#ed1c27] hover:bg-[#c5141e] text-white font-bold uppercase tracking-[0.12em] text-[10px] rounded-xl px-5 py-2.5 transition-all duration-300 cursor-pointer hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#ed1c27]/25"
+            >
+              <Plus size={14} /> Add Product
+            </button>
+          </div>
+        </Card.Header>
+
         <Card.Body noPadding>
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse min-w-[800px]">
@@ -302,14 +321,14 @@ export default function AdminProductsPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">
-                {filteredProducts.length === 0 ? (
+                {paginatedProducts.length === 0 ? (
                   <tr>
                     <td colSpan={6} className="py-10 text-center text-xs font-medium text-gray-400">
                       No products found matching your search.
                     </td>
                   </tr>
                 ) : (
-                  filteredProducts.map((prod) => (
+                  paginatedProducts.map((prod) => (
                     <tr key={prod.id} className="hover:bg-gray-50/50 transition-colors group">
                       <td className="py-3 px-6">
                         <div className="w-12 h-12 rounded-lg bg-gray-100 overflow-hidden relative border border-gray-100">
@@ -362,14 +381,18 @@ export default function AdminProductsPage() {
           </div>
         </Card.Body>
         <Card.Footer mutedBackground>
-          <div className="w-full flex items-center justify-between">
+          <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-4">
             <p className="text-xs text-gray-500 font-medium">
-              Showing {filteredProducts.length} of {products.length} products
+              Showing {filteredProducts.length > 0 ? (currentPage - 1) * ITEMS_PER_PAGE + 1 : 0}-
+              {Math.min(currentPage * ITEMS_PER_PAGE, filteredProducts.length)} of {filteredProducts.length} products
+              {searchTerm || statusFilter !== "All" || categoryFilter !== "All" ? ` (filtered from ${products.length} total)` : ""}
             </p>
-            <div className="flex gap-1">
-              <button className="px-3 py-1.5 border border-gray-200 rounded-lg bg-white hover:bg-gray-50 text-xs font-medium cursor-pointer disabled:opacity-50" disabled>Prev</button>
-              <button className="px-3 py-1.5 border border-gray-200 rounded-lg bg-white hover:bg-gray-50 text-xs font-medium cursor-pointer disabled:opacity-50" disabled>Next</button>
-            </div>
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+              className="pt-0 border-t-0 mt-0 flex-wrap shrink-0 py-1"
+            />
           </div>
         </Card.Footer>
       </Card>

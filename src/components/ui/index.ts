@@ -10,4 +10,6 @@ export { default as Badge } from './Badge';
 export { default as Accordion } from './Accordion';
 export type { AccordionItem } from './Accordion';
 export { default as PageHeader } from './PageHeader';
+export { default as AdminPageHeader } from './AdminPageHeader';
+export type { AdminPageHeaderProps, BreadcrumbItem } from './AdminPageHeader';
 export * from './inputs';
