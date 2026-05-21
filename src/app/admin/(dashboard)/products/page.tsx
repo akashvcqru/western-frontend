@@ -1,13 +1,11 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Plus, Edit, Trash2, Upload } from "lucide-react";
+import { Plus, Edit, Trash2 } from "lucide-react";
 import Image from "next/image";
-import { Card, AppModal, useAppToast, AdminPageHeader, Pagination, RHFControl, SearchInput } from "@/components/ui";
+import { useRouter } from "next/navigation";
+import { Card, useAppToast, AdminPageHeader, Pagination, SearchInput } from "@/components/ui";
 import { AppRoutes } from "@/constants/routes";
-import { useForm, FormProvider, Controller, useWatch, useFieldArray } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 
 import initialProductsData from "@/data/products.json";
 
@@ -29,6 +27,11 @@ interface Product {
   specifications?: { label: string; value: string }[];
   dimensions?: { name: string; range: string; coord: string }[];
   resources?: { id: string; title: string; desc: string; format: string; size: string }[];
+  variants?: { label: string; options: string[] }[];
+  swatches?: {
+    category: string;
+    options: { name: string; hex: string; desc: string; border?: boolean }[];
+  }[];
 }
 
 interface Category {
@@ -41,6 +44,7 @@ interface Category {
   slug?: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const initialProducts: Product[] = initialProductsData.map((p: any) => ({
   id: p.id || p.slug || "",
   slug: p.slug || p.id || "",
@@ -58,238 +62,42 @@ const initialProducts: Product[] = initialProductsData.map((p: any) => ({
   specifications: Array.isArray(p.specifications) ? p.specifications : [],
   dimensions: Array.isArray(p.dimensions) ? p.dimensions : [],
   resources: Array.isArray(p.resources) ? p.resources : [],
+  variants: Array.isArray(p.variants) ? p.variants : [],
+  swatches: Array.isArray(p.swatches) ? p.swatches : [],
 }));
 
-// Helper to generate slug
-const generateSlug = (name: string) => {
-  return name
-    .toLowerCase()
-    .trim()
-    .replace(/[^\w\s-]/g, "")
-    .replace(/[\s_-]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-};
 
-// Validation Schema
-const productSchema = yup.object().shape({
-  name: yup
-    .string()
-    .required("Product Name is required")
-    .min(3, "Product Name must be at least 3 characters"),
-  category: yup
-    .string()
-    .required("Category is required"),
-  brand: yup
-    .string()
-    .required("Brand is required"),
-  price: yup
-    .string()
-    .required("Price is required"),
-  stock: yup
-    .number()
-    .typeError("Stock must be a number")
-    .required("Stock Quantity is required")
-    .min(0, "Stock Quantity cannot be negative"),
-  status: yup
-    .string()
-    .required("Status is required"),
-  description: yup
-    .string()
-    .required("Description is required"),
-  catNo: yup
-    .string()
-    .nullable()
-    .optional(),
-  blueprintImage: yup
-    .string()
-    .nullable()
-    .optional(),
-  images: yup
-    .array()
-    .of(yup.string().required())
-    .min(1, "At least one product image is required")
-    .required("Product images are required"),
-  features: yup
-    .array()
-    .of(
-      yup.object().shape({
-        title: yup.string().required("Feature title is required"),
-        desc: yup.string().required("Feature description is required"),
-      })
-    )
-    .optional(),
-  specifications: yup
-    .array()
-    .of(
-      yup.object().shape({
-        label: yup.string().required("Label is required"),
-        value: yup.string().required("Value is required"),
-      })
-    )
-    .optional(),
-  dimensions: yup
-    .array()
-    .of(
-      yup.object().shape({
-        name: yup.string().required("Dimension name is required"),
-        range: yup.string().required("Dimension range is required"),
-        coord: yup.string().required("Coordinate label is required"),
-      })
-    )
-    .optional(),
-  resources: yup
-    .array()
-    .of(
-      yup.object().shape({
-        id: yup.string().required("Resource ID is required"),
-        title: yup.string().required("Resource title is required"),
-        desc: yup.string().required("Resource description is required"),
-        format: yup.string().required("Resource format is required"),
-        size: yup.string().required("Resource size is required"),
-      })
-    )
-    .optional(),
-});
-
-type ProductFormData = yup.InferType<typeof productSchema>;
-
-export default function AdminProductsPage() {
   const { addToast } = useAppToast();
+  const router = useRouter();
 
   // State
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [activeTab, setActiveTab] = useState<"general" | "media" | "specs" | "advanced">("general");
 
   // Pagination State
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
 
-  // Modal State
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
-
-  // React Hook Form Configuration
-  const methods = useForm<ProductFormData>({
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    resolver: yupResolver(productSchema) as any,
-    defaultValues: {
-      name: "",
-      category: "",
-      brand: "Western",
-      price: "",
-      stock: 10,
-      status: "Active",
-      description: "",
-      catNo: "",
-      blueprintImage: "",
-      images: [],
-      features: [],
-      specifications: [],
-      dimensions: [],
-      resources: [],
-    },
-  });
-
-  const { reset, setValue, control } = methods;
-  const watchedStatus = useWatch({ control, name: "status" });
-
-  // Field Arrays
-  const { fields: featureFields, append: appendFeature, remove: removeFeature } = useFieldArray({
-    control,
-    name: "features",
-  });
-
-  const { fields: specFields, append: appendSpec, remove: removeSpec } = useFieldArray({
-    control,
-    name: "specifications",
-  });
-
-  const { fields: dimFields, append: appendDim, remove: removeDim } = useFieldArray({
-    control,
-    name: "dimensions",
-  });
-
-  const { fields: resFields, append: appendRes, remove: removeRes } = useFieldArray({
-    control,
-    name: "resources",
-  });
-
-  // Automatically adjust stock based on status
-  useEffect(() => {
-    if (watchedStatus === "Inactive") {
-      setValue("stock", 0);
-    } else if (watchedStatus === "Active") {
-      const currentStock = methods.getValues("stock");
-      if (currentStock === undefined || currentStock === null || currentStock <= 0) {
-        setValue("stock", 10);
-      }
-    }
-  }, [watchedStatus, setValue, methods]);
-
-  // Reset form when modal opens or editingProduct changes
-  useEffect(() => {
-    if (isModalOpen) {
-      if (editingProduct) {
-        reset({
-          name: editingProduct.name || "",
-          category: editingProduct.category || "",
-          brand: editingProduct.brand || "Western",
-          price: editingProduct.price || "",
-          stock: editingProduct.stock !== undefined ? editingProduct.stock : 10,
-          status: editingProduct.status || "Active",
-          description: editingProduct.description || "",
-          catNo: editingProduct.catNo || "",
-          blueprintImage: editingProduct.blueprintImage || "",
-          images: editingProduct.images || [],
-          features: editingProduct.features || [],
-          specifications: editingProduct.specifications || [],
-          dimensions: editingProduct.dimensions || [],
-          resources: editingProduct.resources || [],
-        });
-      } else {
-        reset({
-          name: "",
-          category: categories[0]?.id || categories[0]?.slug || "",
-          brand: "Western",
-          price: "",
-          stock: 10,
-          status: "Active",
-          description: "",
-          catNo: "",
-          blueprintImage: "",
-          images: [],
-          features: [],
-          specifications: [],
-          dimensions: [],
-          resources: [],
-        });
-      }
-      setActiveTab("general");
-    }
-  }, [isModalOpen, editingProduct, reset, categories]);
-
   // Load from sessionStorage on mount
   useEffect(() => {
-    /* eslint-disable react-hooks/set-state-in-effect */
     if (typeof window !== "undefined") {
       const stored = sessionStorage.getItem("bdm_products");
       if (stored) {
         try {
           const parsed = JSON.parse(stored) as Product[];
-          const migrated = parsed.map((p) => {
-            return {
-              ...p,
-              status: p.status || (p.stock > 0 ? "Active" : "Inactive"),
-              stock: p.stock !== undefined ? p.stock : 10,
-              images: Array.isArray(p.images) ? p.images : (p.image ? [p.image] : []),
-              features: Array.isArray(p.features) ? p.features : [],
-              specifications: Array.isArray(p.specifications) ? p.specifications : [],
-              dimensions: Array.isArray(p.dimensions) ? p.dimensions : [],
-              resources: Array.isArray(p.resources) ? p.resources : [],
-            };
-          });
+          const migrated = parsed.map((p) => ({
+            ...p,
+            status: p.status || (p.stock > 0 ? "Active" : "Inactive"),
+            stock: p.stock !== undefined ? p.stock : 10,
+            images: Array.isArray(p.images) ? p.images : (p.image ? [p.image] : []),
+            features: Array.isArray(p.features) ? p.features : [],
+            specifications: Array.isArray(p.specifications) ? p.specifications : [],
+            dimensions: Array.isArray(p.dimensions) ? p.dimensions : [],
+            resources: Array.isArray(p.resources) ? p.resources : [],
+            variants: Array.isArray(p.variants) ? p.variants : [],
+            swatches: Array.isArray(p.swatches) ? p.swatches : [],
+          }));
           setProducts(migrated);
         } catch {
           setProducts(initialProducts);
@@ -301,14 +109,9 @@ export default function AdminProductsPage() {
 
       const storedCats = sessionStorage.getItem("bdm_categories");
       if (storedCats) {
-        try {
-          setCategories(JSON.parse(storedCats));
-        } catch {
-          setCategories([]);
-        }
+        try { setCategories(JSON.parse(storedCats)); } catch { setCategories([]); }
       }
     }
-    /* eslint-enable react-hooks/set-state-in-effect */
   }, []);
 
   // Save to sessionStorage helper
@@ -317,16 +120,14 @@ export default function AdminProductsPage() {
     sessionStorage.setItem("bdm_products", JSON.stringify(updatedList));
   };
 
-  // Open Modal for Create
+  // Navigate to New Product page
   const handleAddClick = () => {
-    setEditingProduct(null);
-    setIsModalOpen(true);
+    router.push(AppRoutes.Admin.NewProduct);
   };
 
-  // Open Modal for Edit
+  // Navigate to Edit Product page
   const handleEditClick = (prod: Product) => {
-    setEditingProduct(prod);
-    setIsModalOpen(true);
+    router.push(AppRoutes.Admin.EditProduct(prod.id));
   };
 
   // Handle Delete
@@ -340,81 +141,6 @@ export default function AdminProductsPage() {
         variant: "info",
       });
     }
-  };
-
-  // Handle Form Submit
-  const onSubmit = (data: ProductFormData) => {
-    const defaultImage = "https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=2070&auto=format&fit=crop";
-    const imagesList = data.images && data.images.length > 0 ? data.images : [defaultImage];
-
-    if (editingProduct) {
-      // Edit mode
-      const updated = products.map((p) => {
-        if (p.id === editingProduct.id) {
-          return {
-            ...p,
-            name: data.name,
-            category: data.category,
-            brand: data.brand,
-            price: data.price,
-            stock: data.stock,
-            status: data.status,
-            description: data.description,
-            catNo: data.catNo || "",
-            blueprintImage: data.blueprintImage || "",
-            images: imagesList,
-            features: data.features || [],
-            specifications: data.specifications || [],
-            dimensions: data.dimensions || [],
-            resources: data.resources || [],
-          };
-        }
-        return p;
-      });
-      saveProducts(updated);
-      addToast({
-        title: "Product Updated",
-        message: `"${data.name}" has been updated successfully.`,
-        variant: "success",
-      });
-    } else {
-      // Create mode
-      const slug = generateSlug(data.name);
-      let uniqueId = slug;
-      let counter = 1;
-      while (products.some((p) => p.id === uniqueId || p.slug === uniqueId)) {
-        uniqueId = `${slug}-${counter}`;
-        counter++;
-      }
-
-      const newProduct: Product = {
-        id: uniqueId,
-        slug: uniqueId,
-        name: data.name,
-        category: data.category,
-        brand: data.brand,
-        price: data.price,
-        stock: data.stock,
-        status: data.status,
-        description: data.description,
-        catNo: data.catNo || "",
-        blueprintImage: data.blueprintImage || "",
-        images: imagesList,
-        features: data.features || [],
-        specifications: data.specifications || [],
-        dimensions: data.dimensions || [],
-        resources: data.resources || [],
-      };
-      const updated = [newProduct, ...products];
-      saveProducts(updated);
-      addToast({
-        title: "Product Created",
-        message: `"${data.name}" was successfully added to the catalog.`,
-        variant: "success",
-      });
-    }
-
-    setIsModalOpen(false);
   };
 
   // Filter products based on search
@@ -598,13 +324,13 @@ export default function AdminProductsPage() {
         <FormProvider {...methods}>
           <form id="product-form" onSubmit={methods.handleSubmit(onSubmit)} className="space-y-6">
             {/* Tabs Header */}
-            <div className="flex border-b border-gray-100 mb-6">
-              {(["general", "media", "specs", "advanced"] as const).map((tab) => (
+            <div className="flex border-b border-gray-100 mb-6 overflow-x-auto scrollbar-none">
+              {(["general", "media", "specs", "advanced", "variants"] as const).map((tab) => (
                 <button
                   key={tab}
                   type="button"
                   onClick={() => setActiveTab(tab)}
-                  className={`flex-1 py-2.5 text-center text-xs font-bold uppercase tracking-wider border-b-2 transition-all duration-300 ${
+                  className={`flex-shrink-0 py-2.5 px-3 text-center text-[10px] font-bold uppercase tracking-wider border-b-2 transition-all duration-300 ${
                     activeTab === tab
                       ? "border-[#ed1c27] text-gray-900"
                       : "border-transparent text-gray-400 hover:text-gray-600"
@@ -614,6 +340,7 @@ export default function AdminProductsPage() {
                   {tab === "media" && "Media / Images"}
                   {tab === "specs" && "Specs & Features"}
                   {tab === "advanced" && "Advanced"}
+                  {tab === "variants" && "Variants & Swatches"}
                 </button>
               ))}
             </div>
@@ -1055,6 +782,133 @@ export default function AdminProductsPage() {
                             className="rounded-xl"
                           />
                         </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Variants & Swatches Tab */}
+            <div className={activeTab === "variants" ? "space-y-6" : "hidden"}>
+
+              {/* Product Variants */}
+              <div className="space-y-3">
+                <div className="flex items-center justify-between border-b border-gray-100 pb-2">
+                  <div>
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-gray-800">Product Variants</h4>
+                    <p className="text-[10px] text-gray-400 font-normal mt-0.5">e.g. Size, Frame Type, Colour option sets shown on product page</p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => appendVariant({ label: "", options: [] })}
+                    className="inline-flex items-center justify-center gap-1 bg-violet-50 text-violet-600 hover:bg-violet-100 text-[10px] font-bold uppercase tracking-wider rounded-lg px-3 py-1.5 transition-colors cursor-pointer shrink-0"
+                  >
+                    <Plus size={10} /> Add Variant
+                  </button>
+                </div>
+
+                {variantFields.length === 0 ? (
+                  <p className="text-[10px] text-gray-400 font-medium py-2">No variants added yet. Add sizing options, frame types, or other customer-selectable configurations.</p>
+                ) : (
+                  <div className="space-y-3">
+                    {variantFields.map((field, index) => (
+                      <div key={field.id} className="border border-gray-100 rounded-xl p-4 bg-gray-50/40 space-y-3 relative">
+                        <button
+                          type="button"
+                          onClick={() => removeVariant(index)}
+                          className="absolute top-2 right-2 p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
+                        >
+                          <Trash2 size={12} />
+                        </button>
+                        <RHFControl
+                          control="input"
+                          name={`variants.${index}.label`}
+                          label="Variant Label *"
+                          placeholder="e.g. Size, Frame Type, Colour"
+                          className="rounded-xl"
+                        />
+                        <Controller
+                          name={`variants.${index}.options`}
+                          control={control}
+                          render={({ field: optField, fieldState: { error } }) => {
+                            const raw = Array.isArray(optField.value) ? (optField.value as string[]).join(", ") : "";
+                            return (
+                              <div className="space-y-1.5">
+                                <label className="text-[10px] font-semibold uppercase tracking-widest text-secondary/60">
+                                  Options <span className="text-gray-400 normal-case tracking-normal font-normal">(comma-separated)</span>
+                                </label>
+                                <input
+                                  type="text"
+                                  defaultValue={raw}
+                                  placeholder="e.g. Standard, Large, Extra Large"
+                                  onBlur={(e) => {
+                                    const vals = e.target.value.split(",").map((s) => s.trim()).filter(Boolean);
+                                    optField.onChange(vals);
+                                  }}
+                                  className="w-full border border-gray-200 rounded-xl px-3 py-2 text-xs font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#ed1c27]/20 focus:border-[#ed1c27]/50 bg-white transition-all"
+                                />
+                                {error?.message && (
+                                  <p className="text-[10px] font-semibold text-red-500 uppercase tracking-tight">{error.message}</p>
+                                )}
+                                {Array.isArray(optField.value) && (optField.value as string[]).length > 0 && (
+                                  <div className="flex flex-wrap gap-1.5 mt-1.5">
+                                    {(optField.value as string[]).map((opt, oi) => (
+                                      <span key={oi} className="inline-flex items-center gap-1 px-2 py-0.5 bg-violet-50 text-violet-700 text-[10px] font-semibold rounded-md border border-violet-100">
+                                        {opt}
+                                      </span>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
+                            );
+                          }}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Material Swatches */}
+              <div className="space-y-3">
+                <div className="flex items-center justify-between border-b border-gray-100 pb-2">
+                  <div>
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-gray-800">Material Swatches</h4>
+                    <p className="text-[10px] text-gray-400 font-normal mt-0.5">Color/material customizer shown in the product page's customization section</p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => appendSwatch({ category: "", options: [] })}
+                    className="inline-flex items-center justify-center gap-1 bg-amber-50 text-amber-600 hover:bg-amber-100 text-[10px] font-bold uppercase tracking-wider rounded-lg px-3 py-1.5 transition-colors cursor-pointer shrink-0"
+                  >
+                    <Plus size={10} /> Add Swatch Category
+                  </button>
+                </div>
+
+                {swatchFields.length === 0 ? (
+                  <p className="text-[10px] text-gray-400 font-medium py-2">No swatch categories added yet. Add material/colour palettes like Tabletop Finishes, Frame Coatings, or Mesh Upholstery.</p>
+                ) : (
+                  <div className="space-y-4">
+                    {swatchFields.map((swField, swIndex) => (
+                      <div key={swField.id} className="border border-amber-100 rounded-xl p-4 bg-amber-50/20 space-y-4 relative">
+                        <button
+                          type="button"
+                          onClick={() => removeSwatch(swIndex)}
+                          className="absolute top-2 right-2 p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
+                        >
+                          <Trash2 size={12} />
+                        </button>
+
+                        <RHFControl
+                          control="input"
+                          name={`swatches.${swIndex}.category`}
+                          label="Category Name *"
+                          placeholder="e.g. Tabletop Finishes, Frame Coatings, Mesh Upholstery"
+                          className="rounded-xl"
+                        />
+
+                        <SwatchOptionsEditor swatchIndex={swIndex} control={control} />
                       </div>
                     ))}
                   </div>

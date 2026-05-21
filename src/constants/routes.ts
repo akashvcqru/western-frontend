@@ -15,6 +15,8 @@ export const AppRoutes = {
     Login: "/admin/login",
     Dashboard: "/admin",
     Products: "/admin/products",
+    NewProduct: "/admin/products/new",
+    EditProduct: (id: string) => `/admin/products/${id}/edit`,
     Categories: "/admin/categories",
     Brands: "/admin/brands",
     Gallery: "/admin/gallery",
