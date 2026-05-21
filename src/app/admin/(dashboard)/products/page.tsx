@@ -3,8 +3,11 @@
 import React, { useState, useEffect } from "react";
 import { Plus, Search, Edit, Trash2 } from "lucide-react";
 import Image from "next/image";
-import { Card, AppModal, useAppToast, AdminPageHeader } from "@/components/ui";
+import { Card, AppModal, useAppToast, AdminPageHeader, Pagination, RHFControl } from "@/components/ui";
 import { AppRoutes } from "@/constants/routes";
+import { useForm, FormProvider } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
 interface Product {
   id: string;
@@ -25,16 +28,52 @@ const initialProducts: Product[] = [
   { id: "PROD-005", name: "Granite Countertop", category: "Stones", brand: "Local", price: "₹3,200/slab", status: "In Stock", stock: 34, image: "https://bawadittamal.com/wp-content/uploads/2023/12/5.jpg" },
 ];
 
+// Validation Schema
+const productSchema = yup.object().shape({
+  name: yup
+    .string()
+    .required("Product Name is required")
+    .min(3, "Product Name must be at least 3 characters"),
+  category: yup
+    .string()
+    .required("Category is required"),
+  brand: yup
+    .string()
+    .required("Brand is required"),
+  price: yup
+    .string()
+    .required("Price is required"),
+  stock: yup
+    .number()
+    .typeError("Stock must be a number")
+    .required("Stock Quantity is required")
+    .min(0, "Stock Quantity cannot be negative"),
+  image: yup
+    .string()
+    .optional()
+    .test("is-url", "Must be a valid URL", (value) => {
+      if (!value) return true;
+      try {
+        const url = new URL(value);
+        return url.protocol === "http:" || url.protocol === "https:";
+      } catch {
+        return false;
+      }
+    }),
+});
+
+type ProductFormData = yup.InferType<typeof productSchema>;
+
 export default function AdminProductsPage() {
   const { addToast } = useAppToast();
-  
+
   // State
   const [products, setProducts] = useState<Product[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
   const [categoryFilter, setCategoryFilter] = useState("All");
   const [showFilterDropdown, setShowFilterDropdown] = useState(false);
-  
+
   // Pagination State
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -43,19 +82,50 @@ export default function AdminProductsPage() {
   useEffect(() => {
     setCurrentPage(1);
   }, [searchTerm, statusFilter, categoryFilter]);
-  
+
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
-  
-  // Form State
-  const [formName, setFormName] = useState("");
-  const [formCategory, setFormCategory] = useState("Tiles");
-  const [formBrand, setFormBrand] = useState("");
-  const [formPrice, setFormPrice] = useState("");
-  const [formStock, setFormStock] = useState<number>(10);
-  const [formStatus, setFormStatus] = useState("In Stock");
-  const [formImage, setFormImage] = useState("");
+
+  // React Hook Form Configuration
+  const methods = useForm<ProductFormData>({
+    resolver: yupResolver(productSchema) as any,
+    defaultValues: {
+      name: "",
+      category: "Tiles",
+      brand: "",
+      price: "",
+      stock: 10,
+      image: "",
+    },
+  });
+
+  const { reset } = methods;
+
+  // Reset form when modal opens or editingProduct changes
+  useEffect(() => {
+    if (isModalOpen) {
+      if (editingProduct) {
+        reset({
+          name: editingProduct.name,
+          category: editingProduct.category,
+          brand: editingProduct.brand,
+          price: editingProduct.price,
+          stock: editingProduct.stock,
+          image: editingProduct.image === "https://bawadittamal.com/wp-content/uploads/2023/12/1.jpg" ? "" : editingProduct.image,
+        });
+      } else {
+        reset({
+          name: "",
+          category: "Tiles",
+          brand: "",
+          price: "",
+          stock: 10,
+          image: "",
+        });
+      }
+    }
+  }, [isModalOpen, editingProduct, reset]);
 
   // Load from sessionStorage on mount
   useEffect(() => {
@@ -83,26 +153,12 @@ export default function AdminProductsPage() {
   // Open Modal for Create
   const handleAddClick = () => {
     setEditingProduct(null);
-    setFormName("");
-    setFormCategory("Tiles");
-    setFormBrand("");
-    setFormPrice("");
-    setFormStock(10);
-    setFormStatus("In Stock");
-    setFormImage("");
     setIsModalOpen(true);
   };
 
   // Open Modal for Edit
   const handleEditClick = (prod: Product) => {
     setEditingProduct(prod);
-    setFormName(prod.name);
-    setFormCategory(prod.category);
-    setFormBrand(prod.brand);
-    setFormPrice(prod.price);
-    setFormStock(prod.stock);
-    setFormStatus(prod.status);
-    setFormImage(prod.image);
     setIsModalOpen(true);
   };
 
@@ -120,30 +176,17 @@ export default function AdminProductsPage() {
   };
 
   // Handle Form Submit
-  const handleFormSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!formName || !formBrand || !formPrice) {
-      addToast({
-        title: "Validation Error",
-        message: "Please fill in all required fields.",
-        variant: "error",
-      });
-      return;
-    }
-
+  const onSubmit = (data: ProductFormData) => {
     // Auto determine status based on stock count
-    let computedStatus = formStatus;
-    if (formStock <= 0) {
+    let computedStatus = "In Stock";
+    if (data.stock <= 0) {
       computedStatus = "Out of Stock";
-    } else if (formStock <= 15) {
+    } else if (data.stock <= 15) {
       computedStatus = "Low Stock";
-    } else {
-      computedStatus = "In Stock";
     }
 
     const defaultImage = "https://bawadittamal.com/wp-content/uploads/2023/12/1.jpg";
-    const imageUrl = formImage.trim() || defaultImage;
+    const imageUrl = data.image?.trim() || defaultImage;
 
     if (editingProduct) {
       // Edit mode
@@ -151,11 +194,11 @@ export default function AdminProductsPage() {
         if (p.id === editingProduct.id) {
           return {
             ...p,
-            name: formName,
-            category: formCategory,
-            brand: formBrand,
-            price: formPrice,
-            stock: formStock,
+            name: data.name,
+            category: data.category,
+            brand: data.brand,
+            price: data.price,
+            stock: data.stock,
             status: computedStatus,
             image: imageUrl,
           };
@@ -165,7 +208,7 @@ export default function AdminProductsPage() {
       saveProducts(updated);
       addToast({
         title: "Product Updated",
-        message: `"${formName}" has been updated successfully.`,
+        message: `"${data.name}" has been updated successfully.`,
         variant: "success",
       });
     } else {
@@ -173,11 +216,11 @@ export default function AdminProductsPage() {
       const newId = `PROD-${String(products.length + 1).padStart(3, "0")}`;
       const newProduct: Product = {
         id: newId,
-        name: formName,
-        category: formCategory,
-        brand: formBrand,
-        price: formPrice,
-        stock: formStock,
+        name: data.name,
+        category: data.category,
+        brand: data.brand,
+        price: data.price,
+        stock: data.stock,
         status: computedStatus,
         image: imageUrl,
       };
@@ -185,7 +228,7 @@ export default function AdminProductsPage() {
       saveProducts(updated);
       addToast({
         title: "Product Created",
-        message: `"${formName}" was successfully added to the catalog.`,
+        message: `"${data.name}" was successfully added to the catalog.`,
         variant: "success",
       });
     }
@@ -230,7 +273,7 @@ export default function AdminProductsPage() {
       />
 
       {/* Data Table with Integrated Toolbar */}
-      <Card className="!overflow-visible">
+      <Card>
         <Card.Header>
           {/* Left: Search input */}
           <div className="relative w-full max-w-sm">
@@ -297,11 +340,10 @@ export default function AdminProductsPage() {
                         {prod.price}
                       </td>
                       <td className="py-3 px-6">
-                        <span className={`inline-flex items-center px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-widest ${
-                          prod.status === "In Stock" ? "bg-emerald-50 text-emerald-600" :
+                        <span className={`inline-flex items-center px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-widest ${prod.status === "In Stock" ? "bg-emerald-50 text-emerald-600" :
                           prod.status === "Low Stock" ? "bg-amber-50 text-amber-600" :
-                          "bg-red-50 text-red-600"
-                        }`}>
+                            "bg-red-50 text-red-600"
+                          }`}>
                           {prod.status} ({prod.stock})
                         </span>
                       </td>
@@ -330,78 +372,19 @@ export default function AdminProductsPage() {
             </table>
           </div>
         </Card.Body>
-        <Card.Footer mutedBackground>
-          <div className="flex flex-col sm:flex-row items-center justify-between w-full gap-4">
-            {/* Left portion: Showing info and Page size select */}
-            <div className="flex flex-col sm:flex-row items-center gap-4 text-xs font-semibold text-gray-500">
-              <span>
-                Showing {filteredProducts.length > 0 ? (currentPage - 1) * itemsPerPage + 1 : 0} to{" "}
-                {Math.min(currentPage * itemsPerPage, filteredProducts.length)} of {filteredProducts.length} results
-              </span>
-              <div className="flex items-center gap-2">
-                <span>Show</span>
-                <select
-                  value={itemsPerPage}
-                  onChange={(e) => {
-                    setItemsPerPage(Number(e.target.value));
-                    setCurrentPage(1);
-                  }}
-                  className="border border-gray-200 dark:border-white/10 rounded-lg px-2.5 py-1 bg-white dark:bg-card text-xs font-semibold outline-none cursor-pointer focus:border-indigo-500"
-                >
-                  <option value={5}>5</option>
-                  <option value={10}>10</option>
-                  <option value={20}>20</option>
-                  <option value={50}>50</option>
-                </select>
-              </div>
-            </div>
-
-            {/* Right portion: Custom purple styled pagination buttons */}
-            <div className="flex items-center gap-1.5 shrink-0 select-none">
-              {/* First button: « */}
-              <button
-                type="button"
-                onClick={() => setCurrentPage(1)}
-                disabled={currentPage === 1}
-                className="w-8 h-8 rounded-lg border border-gray-100 dark:border-white/5 bg-white dark:bg-card text-gray-400 dark:text-gray-500 transition-all hover:bg-gray-50 dark:hover:bg-white/5 flex items-center justify-center cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed text-xs font-medium"
-              >
-                &laquo;
-              </button>
-              {/* Prev button */}
-              <button
-                type="button"
-                onClick={() => setCurrentPage(currentPage - 1)}
-                disabled={currentPage === 1}
-                className="px-3 h-8 rounded-lg border border-gray-100 dark:border-white/5 bg-white dark:bg-card text-gray-500 dark:text-gray-400 transition-all hover:bg-gray-50 dark:hover:bg-white/5 flex items-center justify-center gap-1 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed text-xs font-medium"
-              >
-                &lt; Prev
-              </button>
-              {/* Page number buttons */}
-              {(totalPages > 0 ? Array.from({ length: totalPages }, (_, i) => i + 1) : [1]).map((page) => (
-                <button
-                  type="button"
-                  key={page}
-                  onClick={() => setCurrentPage(page)}
-                  className={`w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold transition-all cursor-pointer ${
-                    currentPage === page
-                      ? "bg-indigo-600 text-white shadow-sm"
-                      : "border border-gray-100 dark:border-white/5 bg-white dark:bg-card text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5"
-                  }`}
-                >
-                  {page}
-                </button>
-              ))}
-              {/* Next button */}
-              <button
-                type="button"
-                onClick={() => setCurrentPage(currentPage + 1)}
-                disabled={currentPage === totalPages || totalPages === 0}
-                className="px-3 h-8 rounded-lg border border-gray-100 dark:border-white/5 bg-white dark:bg-card text-gray-500 dark:text-gray-400 transition-all hover:bg-gray-50 dark:hover:bg-white/5 flex items-center justify-center gap-1 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed text-xs font-medium"
-              >
-                Next &gt;
-              </button>
-            </div>
-          </div>
+        <Card.Footer>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+            pageSize={itemsPerPage}
+            onPageSizeChange={(size) => {
+              setItemsPerPage(size);
+              setCurrentPage(1);
+            }}
+            totalItems={filteredProducts.length}
+            pageSizeOptions={[5, 10, 20, 50]}
+          />
         </Card.Footer>
       </Card>
 
@@ -411,95 +394,8 @@ export default function AdminProductsPage() {
         onClose={() => setIsModalOpen(false)}
         title={editingProduct ? "Edit Product" : "Add New Product"}
         size="md"
-      >
-        <form onSubmit={handleFormSubmit} className="space-y-4">
-          {/* Name */}
-          <div className="space-y-1">
-            <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Product Name *</label>
-            <input
-              type="text"
-              required
-              value={formName}
-              onChange={(e) => setFormName(e.target.value)}
-              placeholder="e.g. Designer Vitrified Tile"
-              className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium focus:outline-none focus:border-[#ed1c27]/40"
-            />
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            {/* Category */}
-            <div className="space-y-1">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Category *</label>
-              <select
-                value={formCategory}
-                onChange={(e) => setFormCategory(e.target.value)}
-                className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-semibold focus:outline-none"
-              >
-                <option value="Tiles">Tiles</option>
-                <option value="Flooring">Flooring</option>
-                <option value="Fittings">Fittings</option>
-                <option value="Stones">Stones</option>
-              </select>
-            </div>
-
-            {/* Brand */}
-            <div className="space-y-1">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Brand *</label>
-              <input
-                type="text"
-                required
-                value={formBrand}
-                onChange={(e) => setFormBrand(e.target.value)}
-                placeholder="e.g. Kajaria"
-                className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium focus:outline-none focus:border-[#ed1c27]/40"
-              />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            {/* Price */}
-            <div className="space-y-1">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Price *</label>
-              <input
-                type="text"
-                required
-                value={formPrice}
-                onChange={(e) => setFormPrice(e.target.value)}
-                placeholder="e.g. ₹950/box"
-                className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium focus:outline-none focus:border-[#ed1c27]/40"
-              />
-            </div>
-
-            {/* Stock */}
-            <div className="space-y-1">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Stock Quantity *</label>
-              <input
-                type="number"
-                required
-                min={0}
-                value={formStock}
-                onChange={(e) => setFormStock(Number(e.target.value))}
-                placeholder="e.g. 50"
-                className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium focus:outline-none focus:border-[#ed1c27]/40"
-              />
-            </div>
-          </div>
-
-          {/* Image URL */}
-          <div className="space-y-1">
-            <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Image URL</label>
-            <input
-              type="text"
-              value={formImage}
-              onChange={(e) => setFormImage(e.target.value)}
-              placeholder="e.g. https://domain.com/path/to/image.jpg"
-              className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium focus:outline-none focus:border-[#ed1c27]/40"
-            />
-            <p className="text-[9px] text-gray-400 mt-0.5">Leave blank to use a default mock illustration.</p>
-          </div>
-
-          {/* Submit */}
-          <div className="flex justify-end gap-2 pt-4 border-t border-gray-100">
+        footer={
+          <>
             <button
               type="button"
               onClick={() => setIsModalOpen(false)}
@@ -509,12 +405,84 @@ export default function AdminProductsPage() {
             </button>
             <button
               type="submit"
+              form="product-form"
               className="px-5 py-2 bg-[#ed1c27] hover:bg-[#c5141e] text-white font-bold uppercase tracking-wider text-xs rounded-xl cursor-pointer shadow-lg shadow-[#ed1c27]/10"
             >
               {editingProduct ? "Save Changes" : "Create Product"}
             </button>
-          </div>
-        </form>
+          </>
+        }
+      >
+        <FormProvider {...methods}>
+          <form id="product-form" onSubmit={methods.handleSubmit(onSubmit)} className="space-y-4">
+            {/* Name */}
+            <RHFControl
+              control="input"
+              name="name"
+              label="Product Name *"
+              placeholder="e.g. Designer Vitrified Tile"
+              className="rounded-xl"
+            />
+
+            <div className="grid grid-cols-2 gap-4">
+              {/* Category */}
+              <RHFControl
+                control="select"
+                name="category"
+                label="Category *"
+                options={[
+                  { label: "Tiles", value: "Tiles" },
+                  { label: "Flooring", value: "Flooring" },
+                  { label: "Fittings", value: "Fittings" },
+                  { label: "Stones", value: "Stones" },
+                ]}
+                className="rounded-xl"
+              />
+
+              {/* Brand */}
+              <RHFControl
+                control="input"
+                name="brand"
+                label="Brand *"
+                placeholder="e.g. Kajaria"
+                className="rounded-xl"
+              />
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              {/* Price */}
+              <RHFControl
+                control="input"
+                name="price"
+                label="Price *"
+                placeholder="e.g. ₹950/box"
+                className="rounded-xl"
+              />
+
+              {/* Stock */}
+              <RHFControl
+                control="input"
+                type="number"
+                name="stock"
+                label="Stock Quantity *"
+                placeholder="e.g. 50"
+                className="rounded-xl"
+              />
+            </div>
+
+            {/* Image URL */}
+            <div className="space-y-1">
+              <RHFControl
+                control="input"
+                name="image"
+                label="Image URL"
+                placeholder="e.g. https://domain.com/path/to/image.jpg"
+                className="rounded-xl"
+              />
+              <p className="text-[9px] text-gray-400 mt-0.5">Leave blank to use a default mock illustration.</p>
+            </div>
+          </form>
+        </FormProvider>
       </AppModal>
     </div>
   );

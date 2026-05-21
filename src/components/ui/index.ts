@@ -12,4 +12,6 @@ export type { AccordionItem } from './Accordion';
 export { default as PageHeader } from './PageHeader';
 export { default as AdminPageHeader } from './AdminPageHeader';
 export type { AdminPageHeaderProps, BreadcrumbItem } from './AdminPageHeader';
+export { default as Pagination } from './Pagination';
+export type { PaginationProps } from './Pagination';
 export * from './inputs';
