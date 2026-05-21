@@ -12,9 +12,40 @@ import { PageHeader } from "@/components/ui";
 
 export default function CategoriesPage() {
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
+  const [categories, setCategories] = useState<typeof categoriesData>(categoriesData);
+  const [products, setProducts] = useState<typeof productsData>(productsData);
+
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedCats = sessionStorage.getItem("bdm_categories");
+      if (storedCats) {
+        try {
+          setCategories(JSON.parse(storedCats));
+        } catch (e) {
+          console.error("Error parsing stored categories:", e);
+        }
+      }
+      const storedProds = sessionStorage.getItem("bdm_products");
+      if (storedProds) {
+        try {
+          setProducts(JSON.parse(storedProds));
+        } catch (e) {
+          console.error("Error parsing stored products:", e);
+        }
+      }
+    }
+  }, []);
 
   const getProductCount = (categoryId: string) => {
-    return productsData.filter(p => p.category === categoryId).length;
+    const cat = categories.find(c => c.id === categoryId || c.slug === categoryId);
+    return products.filter(p => {
+      if (!p.category) return false;
+      return (
+        p.category === categoryId ||
+        (cat?.slug && p.category === cat.slug) ||
+        (cat?.id && p.category === cat.id)
+      );
+    }).length;
   };
 
   return (
@@ -41,7 +72,8 @@ export default function CategoriesPage() {
       {/* Grid - World Class Categories */}
       <div className="max-w-[1440px] mx-auto px-6 lg:px-12 py-32 lg:py-48">
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 lg:gap-12">
-          {categoriesData.map((cat, index) => (
+          {categories.map((cat, index) => (
+
             <Link 
               key={cat.id}
               href={`/products/${cat.slug}`}

@@ -25,7 +25,22 @@ export default function BrandPage() {
   const slug = params.slug as string;
   const brandName = slug.split("-").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
 
-  const filteredProducts = productsData.filter((p: Product) => 
+  const [productsList, setProductsList] = React.useState<Product[]>(productsData as Product[]);
+
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedProds = sessionStorage.getItem("bdm_products");
+      if (storedProds) {
+        try {
+          setProductsList(JSON.parse(storedProds));
+        } catch (e) {
+          console.error(e);
+        }
+      }
+    }
+  }, []);
+
+  const filteredProducts = productsList.filter((p: Product) => 
     p.brand?.toLowerCase() === brandName.toLowerCase() || 
     p.brand?.toLowerCase().replace(/ /g, "-") === slug.toLowerCase()
   );

@@ -62,5 +62,17 @@ export const resolveCategorySlugs = (slug: string): string[] => {
 // Function to calculate counts for any standard or alias category slug
 export const getProductCountBySlug = (slug: string): number => {
   const resolved = resolveCategorySlugs(slug);
-  return productsData.filter((p: any) => resolved.includes(p.category)).length;
+  let products = productsData;
+  if (typeof window !== "undefined") {
+    const stored = sessionStorage.getItem("bdm_products");
+    if (stored) {
+      try {
+        products = JSON.parse(stored);
+      } catch (e) {
+        // fallback
+      }
+    }
+  }
+  return products.filter((p: any) => resolved.includes(p.category)).length;
 };
+

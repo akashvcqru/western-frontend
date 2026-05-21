@@ -23,18 +23,50 @@ export default function ProductsPage() {
   const [isQuoteOpen, setIsQuoteOpen] = React.useState(false);
   const [searchQuery, setSearchQuery] = React.useState("");
   const [viewType, setViewType] = React.useState<"grid" | "list">("grid");
+  const [categories, setCategories] = React.useState<typeof categoriesData>(categoriesData);
+  const [products, setProducts] = React.useState<typeof productsData>(productsData);
+
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedCats = sessionStorage.getItem("bdm_categories");
+      if (storedCats) {
+        try {
+          setCategories(JSON.parse(storedCats));
+        } catch (e) {
+          console.error("Error parsing stored categories:", e);
+        }
+      }
+      const storedProds = sessionStorage.getItem("bdm_products");
+      if (storedProds) {
+        try {
+          setProducts(JSON.parse(storedProds));
+        } catch (e) {
+          console.error("Error parsing stored products:", e);
+        }
+      }
+    }
+  }, []);
 
   const { productsPage } = siteContent;
   const { hero, filterBar, noResults, cta } = productsPage;
 
-  const filteredCategories = categoriesData.filter(cat => 
+  const filteredCategories = categories.filter(cat => 
     cat.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     cat.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const getProductCount = (categoryId: string) => {
-    return productsData.filter(p => p.category === categoryId).length;
+    const cat = categories.find(c => c.id === categoryId || c.slug === categoryId);
+    return products.filter(p => {
+      if (!p.category) return false;
+      return (
+        p.category === categoryId ||
+        (cat?.slug && p.category === cat.slug) ||
+        (cat?.id && p.category === cat.id)
+      );
+    }).length;
   };
+
 
   return (
     <main className="bg-white">

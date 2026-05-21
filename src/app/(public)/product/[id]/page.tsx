@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { 
@@ -43,15 +43,50 @@ export default function ProductDetailPage() {
   const params = useParams();
   const id = params.id as string;
   
-  const product = productsData.find(p => p.id === id || p.slug === id) as Product | undefined;
+  const [productsList, setProductsList] = useState<Product[]>(productsData as Product[]);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+    if (typeof window !== "undefined") {
+      const storedProds = sessionStorage.getItem("bdm_products");
+      if (storedProds) {
+        try {
+          setProductsList(JSON.parse(storedProds));
+        } catch (e) {
+          console.error(e);
+        }
+      }
+    }
+  }, []);
+
+  const product = productsList.find(p => p.id === id || p.slug === id) as Product | undefined;
 
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedVariants, setSelectedVariants] = useState<Record<string, string>>(() => {
     if (!product) return {};
     return product.variants?.reduce((acc, v) => ({ ...acc, [v.label]: v.options[0] }), {} as Record<string, string>) || {};
   });
+
+  useEffect(() => {
+    if (product) {
+      setSelectedVariants(
+        product.variants?.reduce((acc, v) => ({ ...acc, [v.label]: v.options[0] }), {} as Record<string, string>) || {}
+      );
+      setSelectedImage(0);
+    }
+  }, [product]);
+
   const [isExpanded, setIsExpanded] = useState(false);
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
+
+  if (!isMounted) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
 
   if (!product) {
     notFound();

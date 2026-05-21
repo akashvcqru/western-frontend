@@ -9,8 +9,11 @@ import { useForm, FormProvider, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
+import initialCategoriesData from "@/data/categories.json";
+
 interface Category {
   id: string;
+  slug?: string;
   name: string;
   description: string;
   count: number;
@@ -26,16 +29,29 @@ interface Product {
   price: string;
   status: string;
   stock: number;
-  image: string;
+  image?: string;
+  images?: string[];
 }
 
-const initialCategories: Category[] = [
-  { id: "CAT-001", name: "Floor Tiles", description: "Premium vitrified and ceramic tiles for flooring.", count: 45, image: "https://bawadittamal.com/wp-content/uploads/2023/12/1.jpg", status: "Active" },
-  { id: "CAT-002", name: "Wall Tiles", description: "Designer wall tiles for kitchens and bathrooms.", count: 32, image: "https://bawadittamal.com/wp-content/uploads/2023/12/3.jpg", status: "Active" },
-  { id: "CAT-003", name: "Wooden Flooring", description: "High-quality laminate and engineered wood.", count: 18, image: "https://bawadittamal.com/wp-content/uploads/2023/12/2.jpg", status: "Active" },
-  { id: "CAT-004", name: "Bathroom Fittings", description: "Faucets, showers, and luxury bath accessories.", count: 24, image: "https://bawadittamal.com/wp-content/uploads/2023/12/4.jpg", status: "Inactive" },
-  { id: "CAT-005", name: "Granite & Marble", description: "Natural stone slabs for countertop and floors.", count: 12, image: "https://bawadittamal.com/wp-content/uploads/2023/12/5.jpg", status: "Active" },
-];
+const initialCategories: Category[] = initialCategoriesData.map((cat: any) => ({
+  id: cat.id || cat.slug,
+  slug: cat.slug || cat.id,
+  name: cat.name,
+  description: cat.description,
+  count: 0,
+  image: cat.image || "",
+  status: "Active",
+}));
+
+// Helper to generate slug
+const generateSlug = (name: string) => {
+  return name
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, "")
+    .replace(/[\s_-]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+};
 
 // Validation Schema
 const categorySchema = yup.object().shape({
@@ -186,17 +202,18 @@ export default function AdminCategoriesPage() {
         variant: "success",
       });
     } else {
-      // Generate Category ID dynamically
-      const newId = `CAT-${String(categories.length + 1).padStart(3, "0")}`;
-      let uniqueId = newId;
-      let counter = categories.length + 1;
+      // Generate Category ID dynamically from name (slugified)
+      const slug = generateSlug(data.name);
+      let uniqueId = slug;
+      let counter = 1;
       while (categories.some((c) => c.id === uniqueId)) {
+        uniqueId = `${slug}-${counter}`;
         counter++;
-        uniqueId = `CAT-${String(counter).padStart(3, "0")}`;
       }
 
       const newCategory: Category = {
         id: uniqueId,
+        slug: uniqueId,
         name: data.name,
         description: data.description,
         status: data.status,
@@ -207,7 +224,7 @@ export default function AdminCategoriesPage() {
       saveCategories(updated);
       addToast({
         title: "Category Created",
-        message: `"${data.name}" category was added successfully with ID "${uniqueId}".`,
+        message: `"${data.name}" category was added successfully.`,
         variant: "success",
       });
     }
@@ -295,7 +312,12 @@ export default function AdminCategoriesPage() {
                         <div className="flex items-center gap-1.5 px-2.5 py-1 bg-gray-50 rounded-lg text-gray-600 shrink-0">
                           <Folder size={12} />
                           <span className="text-[10px] font-bold">
-                            {products.filter((p) => p.category.toLowerCase() === cat.name.toLowerCase()).length}
+                            {products.filter((p) => {
+                              const pCat = p.category ? p.category.toLowerCase() : "";
+                              const cId = cat.id ? cat.id.toLowerCase() : "";
+                              const cSlug = (cat.slug || cat.id).toLowerCase();
+                              return pCat === cId || pCat === cSlug;
+                            }).length}
                           </span>
                         </div>
                       </div>

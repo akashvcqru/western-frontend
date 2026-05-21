@@ -62,8 +62,23 @@ export default function Header() {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [isScrolled, setIsScrolled] = useState(false);
+  const [categoriesList, setCategoriesList] = useState<CategoryItem[]>(categoriesData as CategoryItem[]);
+
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedCats = sessionStorage.getItem("bdm_categories");
+      if (storedCats) {
+        try {
+          setCategoriesList(JSON.parse(storedCats));
+        } catch (e) {
+          console.error("Error parsing stored categories in Header:", e);
+        }
+      }
+    }
+  }, []);
 
   const { common, header } = siteContent;
+
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -247,7 +262,7 @@ export default function Header() {
                               return (
                                 <div className={cn("grid gap-x-8 gap-y-5", gridColsClass)}>
                                   {allItems.map((item: ColumnItem, idx: number) => {
-                                    const subCategoryDetail = (categoriesData as CategoryItem[]).find((c: CategoryItem) => c.slug === item.slug);
+                                    const subCategoryDetail = categoriesList.find((c: CategoryItem) => c.slug === item.slug);
                                     const previewImage = subCategoryDetail?.image || "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop";
                                     const previewTitle = subCategoryDetail?.name || item.name;
 

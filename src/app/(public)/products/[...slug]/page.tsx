@@ -60,7 +60,17 @@ const parsePrice = (priceStr?: string): number => {
   return cleaned ? parseInt(cleaned, 10) : 0;
 };
 
-function CategoryHubPage({ category, navItem }: { category: Category | undefined; navItem: NavItem }) {
+function CategoryHubPage({ 
+  category, 
+  navItem, 
+  productsList, 
+  categoriesList 
+}: { 
+  category: Category | undefined; 
+  navItem: NavItem; 
+  productsList: Product[]; 
+  categoriesList: Category[] 
+}) {
   const [isQuoteOpen, setIsQuoteOpen] = React.useState(false);
   const allSubcategories = navItem.columns.flatMap((col: any) => col.items);
   const heroImage = category?.image || "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop";
@@ -92,11 +102,11 @@ function CategoryHubPage({ category, navItem }: { category: Category | undefined
         {/* Subcategories Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
           {allSubcategories.map((sub: any, idx: number) => {
-            const subCategoryDetail = categoriesData.find((c: any) => c.slug === sub.slug);
+            const subCategoryDetail = categoriesList.find((c: any) => c.slug === sub.slug);
             const subImgUrl = subCategoryDetail?.image || "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop";
             const subTitle = subCategoryDetail?.name || sub.name;
             const subDescription = subCategoryDetail?.description || "High-end corporate collection featuring premium aesthetics and absolute support.";
-            const count = productsData.filter(p => p.category === sub.slug).length;
+            const count = productsList.filter(p => p.category === sub.slug).length;
             
             const badgeText = `${count} ${count === 1 ? "Model" : "Models"}`;
             const ctaText = "Explore Series";
@@ -173,13 +183,36 @@ export default function ProductListingPage({
   const [currentPage, setCurrentPage] = React.useState(1);
   const [isQuoteOpen, setIsQuoteOpen] = React.useState(false);
   const ITEMS_PER_PAGE = 6;
+
+  const [productsList, setProductsList] = React.useState<Product[]>(productsData as Product[]);
+  const [categoriesList, setCategoriesList] = React.useState<Category[]>(categoriesData as Category[]);
+
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedProds = sessionStorage.getItem("bdm_products");
+      if (storedProds) {
+        try {
+          setProductsList(JSON.parse(storedProds));
+        } catch (e) {
+          console.error(e);
+        }
+      }
+      const storedCats = sessionStorage.getItem("bdm_categories");
+      if (storedCats) {
+        try {
+          setCategoriesList(JSON.parse(storedCats));
+        } catch (e) {
+          console.error(e);
+        }
+      }
+    }
+  }, []);
   
-  const typedProductsData = productsData as Product[];
   const typedNavigation = navigation as NavItem[];
 
   // Dynamically resolve and enrich products with premium specifications at runtime
   const resolvedProducts = React.useMemo(() => {
-    return typedProductsData.map(p => {
+    return productsList.map(p => {
       // 1. Availability (simulate structured in-stock / out-of-stock derived from ID)
       const lastDigit = parseInt(p.id.replace(/\D/g, ""), 10) || 0;
       const isAvailable = lastDigit % 6 !== 0; // ~83% in stock
@@ -293,7 +326,7 @@ export default function ProductListingPage({
         shortSpecs
       };
     });
-  }, [typedProductsData]);
+  }, [productsList]);
 
   const lastSlugSegment = decodedSlug.length > 0 ? decodedSlug[decodedSlug.length - 1] : "";
   const product = resolvedProducts.find(p => p.slug === lastSlugSegment);
@@ -329,9 +362,9 @@ export default function ProductListingPage({
   if (decodedSlug.length === 1) {
     const parentSlug = decodedSlug[0];
     const navItem = typedNavigation.find(item => item.id === parentSlug);
-    const currentCategory = categoriesData.find(c => c.slug === parentSlug);
+    const currentCategory = categoriesList.find(c => c.slug === parentSlug);
     if (navItem) {
-      return <CategoryHubPage category={currentCategory} navItem={navItem} />;
+      return <CategoryHubPage category={currentCategory} navItem={navItem} productsList={productsList} categoriesList={categoriesList} />;
     }
   }
   
@@ -356,7 +389,7 @@ export default function ProductListingPage({
     if (selectedFilters.length > 0) {
       // Group active filters by facet type for precise e-commerce matching
       const activeSubcategories = selectedFilters.filter(f => 
-        categoriesData.some(c => c.name.toLowerCase() === f.toLowerCase()) || 
+        categoriesList.some(c => c.name.toLowerCase() === f.toLowerCase()) || 
         categoryProducts.some(p => p.subcategory?.toLowerCase() === f.toLowerCase())
       );
       
@@ -409,8 +442,8 @@ export default function ProductListingPage({
     return true;
   });
 
-  const currentCategory = categoriesData.find(c => c.slug === categorySlug) ||
-                          categoriesData.find(c => resolvedCategorySlugs.includes(c.slug));
+  const currentCategory = categoriesList.find(c => c.slug === categorySlug) ||
+                          categoriesList.find(c => resolvedCategorySlugs.includes(c.slug));
   
   const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
