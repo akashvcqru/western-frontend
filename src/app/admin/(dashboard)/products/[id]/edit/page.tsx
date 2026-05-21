@@ -132,6 +132,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
 
   const [activeTab, setActiveTab] = useState<"general" | "media" | "specs" | "advanced" | "variants">("general");
   const [categories, setCategories] = useState<Category[]>([]);
+  const [brands, setBrands] = useState<{ id: string; name: string }[]>([]);
   const [savedSuccess, setSavedSuccess] = useState(false);
   const [notFound, setNotFound] = useState(false);
 
@@ -141,6 +142,15 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
     { label: "Wooden Flooring", value: "wooden-flooring" },
     { label: "Bathroom Fittings", value: "bathroom-fittings" },
     { label: "Granite & Marble", value: "granite-marble" },
+  ];
+
+  const defaultBrandOptions = [
+    { label: "Western", value: "Western" },
+    { label: "Kajaria", value: "Kajaria" },
+    { label: "Somany", value: "Somany" },
+    { label: "Jaquar", value: "Jaquar" },
+    { label: "Greenply", value: "Greenply" },
+    { label: "Hindware", value: "Hindware" },
   ];
 
   const methods = useForm<ProductFormData>({
@@ -173,13 +183,18 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
     }
   }, [watchedStatus, setValue, methods]);
 
-  // Load categories + find product by id and prefill the form
+  // Load categories, brands + find product by id and prefill the form
   useEffect(() => {
     if (typeof window === "undefined") return;
 
     const storedCats = sessionStorage.getItem("bdm_categories");
     if (storedCats) {
       try { setCategories(JSON.parse(storedCats)); } catch { setCategories([]); }
+    }
+
+    const storedBrands = sessionStorage.getItem("bdm_brands");
+    if (storedBrands) {
+      try { setBrands(JSON.parse(storedBrands)); } catch { setBrands([]); }
     }
 
     const stored = sessionStorage.getItem("bdm_products");
@@ -214,6 +229,16 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
   const categoryOptions = categories.length > 0
     ? categories.map((c) => ({ label: c.name, value: c.id || c.slug || "" }))
     : defaultCategoryOptions;
+
+  const brandOptions = (() => {
+    const list = brands.length > 0
+      ? brands.map((b) => ({ label: b.name, value: b.name }))
+      : defaultBrandOptions;
+    if (!list.some((opt) => opt.value.toLowerCase() === "western")) {
+      return [{ label: "Western", value: "Western" }, ...list];
+    }
+    return list;
+  })();
 
   const onSubmit = (data: ProductFormData) => {
     const defaultImage = "https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=2070&auto=format&fit=crop";
@@ -321,7 +346,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
                   <RHFControl control="input" name="name" label="Product Name *" placeholder="e.g. WFU 001 Modular Workstation" className="rounded-xl" />
                   <div className="grid grid-cols-2 gap-4">
                     <RHFControl control="select" name="category" label="Category *" options={categoryOptions} className="rounded-xl" />
-                    <RHFControl control="input" name="brand" label="Brand *" placeholder="e.g. Western" className="rounded-xl" />
+                    <RHFControl control="select" name="brand" label="Brand *" options={brandOptions} className="rounded-xl" />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <RHFControl control="input" name="price" label="Price *" placeholder="e.g. 24,500 or Price on Request" className="rounded-xl" />

@@ -158,6 +158,7 @@ export default function NewProductPage() {
 
   const [activeTab, setActiveTab] = useState<"general" | "media" | "specs" | "advanced" | "variants">("general");
   const [categories, setCategories] = useState<Category[]>([]);
+  const [brands, setBrands] = useState<{ id: string; name: string }[]>([]);
   const [savedSuccess, setSavedSuccess] = useState(false);
 
   const defaultCategoryOptions = [
@@ -166,6 +167,15 @@ export default function NewProductPage() {
     { label: "Wooden Flooring", value: "wooden-flooring" },
     { label: "Bathroom Fittings", value: "bathroom-fittings" },
     { label: "Granite & Marble", value: "granite-marble" },
+  ];
+
+  const defaultBrandOptions = [
+    { label: "Western", value: "Western" },
+    { label: "Kajaria", value: "Kajaria" },
+    { label: "Somany", value: "Somany" },
+    { label: "Jaquar", value: "Jaquar" },
+    { label: "Greenply", value: "Greenply" },
+    { label: "Hindware", value: "Hindware" },
   ];
 
   const methods = useForm<ProductFormData>({
@@ -199,12 +209,16 @@ export default function NewProductPage() {
     }
   }, [watchedStatus, setValue, methods]);
 
-  // Load categories from sessionStorage
+  // Load categories and brands from sessionStorage
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedCats = sessionStorage.getItem("bdm_categories");
       if (storedCats) {
         try { setCategories(JSON.parse(storedCats)); } catch { setCategories([]); }
+      }
+      const storedBrands = sessionStorage.getItem("bdm_brands");
+      if (storedBrands) {
+        try { setBrands(JSON.parse(storedBrands)); } catch { setBrands([]); }
       }
     }
   }, []);
@@ -212,6 +226,16 @@ export default function NewProductPage() {
   const categoryOptions = categories.length > 0
     ? categories.map((c) => ({ label: c.name, value: c.id || c.slug || "" }))
     : defaultCategoryOptions;
+
+  const brandOptions = (() => {
+    const list = brands.length > 0
+      ? brands.map((b) => ({ label: b.name, value: b.name }))
+      : defaultBrandOptions;
+    if (!list.some((opt) => opt.value.toLowerCase() === "western")) {
+      return [{ label: "Western", value: "Western" }, ...list];
+    }
+    return list;
+  })();
 
   const onSubmit = (data: ProductFormData) => {
     const defaultImage = "https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=2070&auto=format&fit=crop";
@@ -322,7 +346,7 @@ export default function NewProductPage() {
 
                   <div className="grid grid-cols-2 gap-4">
                     <RHFControl control="select" name="category" label="Category *" options={categoryOptions} className="rounded-xl" />
-                    <RHFControl control="input" name="brand" label="Brand *" placeholder="e.g. Western" className="rounded-xl" />
+                    <RHFControl control="select" name="brand" label="Brand *" options={brandOptions} className="rounded-xl" />
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
