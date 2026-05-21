@@ -1,10 +1,9 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Plus, Search, Filter, Edit, Trash2, Eye, X } from "lucide-react";
+import { Plus, Search, Edit, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { Card, AppModal, useAppToast, AdminPageHeader } from "@/components/ui";
-import { Pagination } from "@/components/ui/Pagination";
 import { AppRoutes } from "@/constants/routes";
 
 interface Product {
@@ -38,7 +37,7 @@ export default function AdminProductsPage() {
   
   // Pagination State
   const [currentPage, setCurrentPage] = useState(1);
-  const ITEMS_PER_PAGE = 5;
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   // Reset page when filters change
   useEffect(() => {
@@ -210,10 +209,10 @@ export default function AdminProductsPage() {
     return matchesSearch && matchesStatus && matchesCategory;
   });
 
-  const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
   const paginatedProducts = filteredProducts.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
   );
 
   // Unique categories for filtering
@@ -233,74 +232,25 @@ export default function AdminProductsPage() {
       {/* Data Table with Integrated Toolbar */}
       <Card className="!overflow-visible">
         <Card.Header>
-          <div className="flex items-center gap-3 w-full">
-            {/* Left: Search bar (flex-1 to fill space) */}
-            <div className="relative flex-1">
-              <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
-              <input
-                type="text"
-                placeholder="Search products by name, ID or brand..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-9 pr-4 py-2.5 bg-gray-50 border border-gray-100 rounded-xl text-xs font-medium focus:outline-none focus:border-[#ed1c27]/30 transition-colors"
-              />
-            </div>
+          {/* Left: Search input */}
+          <div className="relative w-full max-w-sm">
+            <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+            <input
+              type="text"
+              placeholder="Search by Consumer, Mobile or Code"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-card border border-gray-200 dark:border-white/10 rounded-xl text-xs font-medium focus:outline-none focus:border-indigo-500 transition-colors"
+            />
+          </div>
 
-            {/* Right: Filter button */}
-            <div className="relative flex-shrink-0">
-              <button
-                onClick={() => setShowFilterDropdown(!showFilterDropdown)}
-                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 border border-gray-200 rounded-xl text-xs font-bold uppercase tracking-widest text-gray-600 hover:bg-gray-50 transition-colors cursor-pointer"
-              >
-                <Filter size={12} /> Filters
-              </button>
-
-              {showFilterDropdown && (
-                <div className="absolute right-0 top-12 z-50 bg-white border border-gray-100 rounded-xl shadow-xl p-4 w-60 space-y-3">
-                  <div className="flex justify-between items-center pb-2 border-b border-gray-50">
-                    <span className="text-[10px] font-bold uppercase text-gray-400">Filters</span>
-                    <button onClick={() => setShowFilterDropdown(false)} className="text-gray-400 hover:text-gray-600 cursor-pointer">
-                      <X size={14} />
-                    </button>
-                  </div>
-
-                  {/* Category Filter */}
-                  <div className="space-y-1">
-                    <label className="text-[9px] font-bold uppercase tracking-wider text-gray-400">Category</label>
-                    <select
-                      value={categoryFilter}
-                      onChange={(e) => setCategoryFilter(e.target.value)}
-                      className="w-full text-xs font-semibold bg-gray-50 border border-gray-200 rounded-lg p-2 focus:outline-none"
-                    >
-                      {categoriesList.map((cat) => (
-                        <option key={cat} value={cat}>{cat}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  {/* Status Filter */}
-                  <div className="space-y-1">
-                    <label className="text-[9px] font-bold uppercase tracking-wider text-gray-400">Status</label>
-                    <select
-                      value={statusFilter}
-                      onChange={(e) => setStatusFilter(e.target.value)}
-                      className="w-full text-xs font-semibold bg-gray-50 border border-gray-200 rounded-lg p-2 focus:outline-none"
-                    >
-                      <option value="All">All Statuses</option>
-                      <option value="In Stock">In Stock</option>
-                      <option value="Low Stock">Low Stock</option>
-                      <option value="Out of Stock">Out of Stock</option>
-                    </select>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Right: Add Product button */}
+          {/* Right: Actions */}
+          <div className="flex items-center gap-3">
+            {/* Add Product button */}
             <button
               id="add-product-btn"
               onClick={handleAddClick}
-              className="flex-shrink-0 inline-flex items-center justify-center gap-2 bg-[#ed1c27] hover:bg-[#c5141e] text-white font-bold uppercase tracking-[0.12em] text-[10px] rounded-xl px-5 py-2.5 transition-all duration-300 cursor-pointer hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#ed1c27]/25"
+              className="inline-flex items-center justify-center gap-2 bg-[#ed1c27] hover:bg-[#c5141e] text-white font-bold uppercase tracking-[0.12em] text-[10px] rounded-xl px-5 py-2 transition-all duration-300 cursor-pointer hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#ed1c27]/25"
             >
               <Plus size={14} /> Add Product
             </button>
@@ -381,18 +331,76 @@ export default function AdminProductsPage() {
           </div>
         </Card.Body>
         <Card.Footer mutedBackground>
-          <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-xs text-gray-500 font-medium">
-              Showing {filteredProducts.length > 0 ? (currentPage - 1) * ITEMS_PER_PAGE + 1 : 0}-
-              {Math.min(currentPage * ITEMS_PER_PAGE, filteredProducts.length)} of {filteredProducts.length} products
-              {searchTerm || statusFilter !== "All" || categoryFilter !== "All" ? ` (filtered from ${products.length} total)` : ""}
-            </p>
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={setCurrentPage}
-              className="pt-0 border-t-0 mt-0 flex-wrap shrink-0 py-1"
-            />
+          <div className="flex flex-col sm:flex-row items-center justify-between w-full gap-4">
+            {/* Left portion: Showing info and Page size select */}
+            <div className="flex flex-col sm:flex-row items-center gap-4 text-xs font-semibold text-gray-500">
+              <span>
+                Showing {filteredProducts.length > 0 ? (currentPage - 1) * itemsPerPage + 1 : 0} to{" "}
+                {Math.min(currentPage * itemsPerPage, filteredProducts.length)} of {filteredProducts.length} results
+              </span>
+              <div className="flex items-center gap-2">
+                <span>Show</span>
+                <select
+                  value={itemsPerPage}
+                  onChange={(e) => {
+                    setItemsPerPage(Number(e.target.value));
+                    setCurrentPage(1);
+                  }}
+                  className="border border-gray-200 dark:border-white/10 rounded-lg px-2.5 py-1 bg-white dark:bg-card text-xs font-semibold outline-none cursor-pointer focus:border-indigo-500"
+                >
+                  <option value={5}>5</option>
+                  <option value={10}>10</option>
+                  <option value={20}>20</option>
+                  <option value={50}>50</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Right portion: Custom purple styled pagination buttons */}
+            <div className="flex items-center gap-1.5 shrink-0 select-none">
+              {/* First button: « */}
+              <button
+                type="button"
+                onClick={() => setCurrentPage(1)}
+                disabled={currentPage === 1}
+                className="w-8 h-8 rounded-lg border border-gray-100 dark:border-white/5 bg-white dark:bg-card text-gray-400 dark:text-gray-500 transition-all hover:bg-gray-50 dark:hover:bg-white/5 flex items-center justify-center cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed text-xs font-medium"
+              >
+                &laquo;
+              </button>
+              {/* Prev button */}
+              <button
+                type="button"
+                onClick={() => setCurrentPage(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="px-3 h-8 rounded-lg border border-gray-100 dark:border-white/5 bg-white dark:bg-card text-gray-500 dark:text-gray-400 transition-all hover:bg-gray-50 dark:hover:bg-white/5 flex items-center justify-center gap-1 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed text-xs font-medium"
+              >
+                &lt; Prev
+              </button>
+              {/* Page number buttons */}
+              {(totalPages > 0 ? Array.from({ length: totalPages }, (_, i) => i + 1) : [1]).map((page) => (
+                <button
+                  type="button"
+                  key={page}
+                  onClick={() => setCurrentPage(page)}
+                  className={`w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold transition-all cursor-pointer ${
+                    currentPage === page
+                      ? "bg-indigo-600 text-white shadow-sm"
+                      : "border border-gray-100 dark:border-white/5 bg-white dark:bg-card text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5"
+                  }`}
+                >
+                  {page}
+                </button>
+              ))}
+              {/* Next button */}
+              <button
+                type="button"
+                onClick={() => setCurrentPage(currentPage + 1)}
+                disabled={currentPage === totalPages || totalPages === 0}
+                className="px-3 h-8 rounded-lg border border-gray-100 dark:border-white/5 bg-white dark:bg-card text-gray-500 dark:text-gray-400 transition-all hover:bg-gray-50 dark:hover:bg-white/5 flex items-center justify-center gap-1 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed text-xs font-medium"
+              >
+                Next &gt;
+              </button>
+            </div>
           </div>
         </Card.Footer>
       </Card>
