@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Calendar, Clock, ShieldCheck } from "lucide-react";
@@ -21,8 +21,34 @@ interface BlogPost {
 }
 
 export default function BlogLandingPage() {
-  const blogs = blogsData as BlogPost[];
+  const [blogs, setBlogs] = useState<BlogPost[]>(blogsData as BlogPost[]);
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const stored = sessionStorage.getItem("bdm_blogs");
+      if (stored) {
+        try {
+          setBlogs(JSON.parse(stored));
+        } catch {}
+      } else {
+        sessionStorage.setItem("bdm_blogs", JSON.stringify(blogsData));
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    const handleUpdate = () => {
+      const stored = sessionStorage.getItem("bdm_blogs");
+      if (stored) {
+        try {
+          setBlogs(JSON.parse(stored));
+        } catch {}
+      }
+    };
+    window.addEventListener("bdm-blogs-updated", handleUpdate);
+    return () => window.removeEventListener("bdm-blogs-updated", handleUpdate);
+  }, []);
 
   const categories = ["All", ...Array.from(new Set(blogs.map((b) => b.category)))];
 

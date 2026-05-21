@@ -6,6 +6,7 @@ export const AppRoutes = {
     Gallery: "/gallery",
     Contact: "/contact",
     Products: "/products",
+    Blog: "/blog",
     DownloadCenter: "/download-center",
     PrivacyPolicy: "/privacy-policy",
     TermsOfService: "/terms-of-service",
@@ -18,6 +19,7 @@ export const AppRoutes = {
     Brands: "/admin/brands",
     Gallery: "/admin/gallery",
     Inquiries: "/admin/inquiries",
+    Blogs: "/admin/blogs",
     Settings: "/admin/settings",
   },
 } as const;

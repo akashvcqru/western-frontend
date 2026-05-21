@@ -14,6 +14,7 @@ import {
   ArrowRight,
   Layers,
   Activity,
+  Newspaper,
 } from "lucide-react";
 
 const stats = [
@@ -65,6 +66,7 @@ const quickLinks = [
   { label: "Manage Categories", href: "/admin/categories", icon: Layers, desc: "Organise product categories" },
   { label: "View Inquiries", href: "/admin/inquiries", icon: Mail, desc: "Respond to customer enquiries", badge: "5" },
   { label: "Gallery Editor", href: "/admin/gallery", icon: ImageIcon, desc: "Upload & arrange gallery images" },
+  { label: "Manage Blogs", href: "/admin/blogs", icon: Newspaper, desc: "Add, edit or delete blog posts" },
 ];
 
 const recentActivity = [
@@ -83,6 +85,88 @@ const typeColors: Record<string, string> = {
 };
 
 export default function AdminDashboardPage() {
+  const [counts, setCounts] = React.useState({
+    products: 124,
+    brands: 18,
+    gallery: 56,
+    inquiries: 5,
+    blogs: 3,
+  });
+
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      const getCount = (key: string, fallback: number) => {
+        const stored = sessionStorage.getItem(key);
+        if (stored) {
+          try {
+            return JSON.parse(stored).length;
+          } catch {}
+        }
+        return fallback;
+      };
+      setCounts({
+        products: getCount("bdm_products", 124),
+        brands: getCount("bdm_brands", 18),
+        gallery: getCount("bdm_gallery", 56),
+        inquiries: getCount("bdm_inquiries", 5),
+        blogs: getCount("bdm_blogs", 3),
+      });
+    }
+  }, []);
+
+  const dynamicStats = [
+    {
+      id: "stat-products",
+      label: "Total Products",
+      value: String(counts.products),
+      change: "+12%",
+      up: true,
+      icon: Package,
+      color: "bg-blue-50 text-blue-600",
+      accent: "border-blue-200",
+    },
+    {
+      id: "stat-brands",
+      label: "Active Brands",
+      value: String(counts.brands),
+      change: "+3%",
+      up: true,
+      icon: Tag,
+      color: "bg-violet-50 text-violet-600",
+      accent: "border-violet-200",
+    },
+    {
+      id: "stat-gallery",
+      label: "Gallery Items",
+      value: String(counts.gallery),
+      change: "+8%",
+      up: true,
+      icon: ImageIcon,
+      color: "bg-emerald-50 text-emerald-600",
+      accent: "border-emerald-200",
+    },
+    {
+      id: "stat-blogs",
+      label: "Total Blogs",
+      value: String(counts.blogs),
+      change: "+33%",
+      up: true,
+      icon: Newspaper,
+      color: "bg-amber-50 text-amber-600",
+      accent: "border-amber-200",
+    },
+    {
+      id: "stat-inquiries",
+      label: "New Inquiries",
+      value: String(counts.inquiries),
+      change: "+2",
+      up: true,
+      icon: Mail,
+      color: "bg-red-50 text-[#ed1c27]",
+      accent: "border-red-200",
+    },
+  ];
+
   return (
     <div className="space-y-8">
       {/* Page Header */}
@@ -102,8 +186,8 @@ export default function AdminDashboardPage() {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {stats.map((stat) => (
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+        {dynamicStats.map((stat) => (
           <Card key={stat.id}>
             <Card.Body>
               <div className="flex items-start justify-between mb-4">

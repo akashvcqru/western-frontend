@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams, notFound } from "next/navigation";
@@ -27,8 +27,33 @@ export default function BlogDetailPage() {
   const params = useParams();
   const id = params.id as string;
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
+  const [post, setPost] = useState<BlogPost | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const post = blogsData.find((b) => b.id === id) as BlogPost | undefined;
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const stored = sessionStorage.getItem("bdm_blogs");
+      let currentBlogs = blogsData as BlogPost[];
+      if (stored) {
+        try {
+          currentBlogs = JSON.parse(stored);
+        } catch {}
+      } else {
+        sessionStorage.setItem("bdm_blogs", JSON.stringify(blogsData));
+      }
+      const foundPost = currentBlogs.find((b) => b.id === id);
+      setPost(foundPost || null);
+      setLoading(false);
+    }
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="w-8 h-8 border-2 border-[#ed1c27]/30 border-t-[#ed1c27] rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   if (!post) {
     notFound();

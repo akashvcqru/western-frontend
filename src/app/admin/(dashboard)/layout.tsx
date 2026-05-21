@@ -22,6 +22,7 @@ import {
   ExternalLink,
   CheckCheck,
   MessageSquare,
+  Newspaper,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAppToast } from "@/components/ui/AppToast";
@@ -39,6 +40,7 @@ const navItems = [
   { label: "Categories",href: "/admin/categories", icon: Layers,          badge: null },
   { label: "Brands",    href: "/admin/brands",      icon: Tag,             badge: null },
   { label: "Gallery",   href: "/admin/gallery",     icon: ImageIcon,       badge: null },
+  { label: "Blogs",     href: "/admin/blogs",       icon: Newspaper,       badge: null },
   { label: "Inquiries", href: "/admin/inquiries",   icon: Mail,            badge: "5"  },
   { label: "Settings",  href: "/admin/settings",    icon: Settings,        badge: null },
 ];
