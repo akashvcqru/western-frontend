@@ -5,7 +5,7 @@ import { Plus, Edit, Trash2, Upload } from "lucide-react";
 import Image from "next/image";
 import { Card, AppModal, useAppToast, AdminPageHeader, Pagination, RHFControl, SearchInput } from "@/components/ui";
 import { AppRoutes } from "@/constants/routes";
-import { useForm, FormProvider, Controller } from "react-hook-form";
+import { useForm, FormProvider, Controller, useWatch } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
@@ -98,7 +98,20 @@ export default function AdminProductsPage() {
     },
   });
 
-  const { reset } = methods;
+  const { reset, setValue, control } = methods;
+  const watchedStatus = useWatch({ control, name: "status" });
+
+  // Automatically adjust stock based on status
+  useEffect(() => {
+    if (watchedStatus === "Inactive") {
+      setValue("stock", 0);
+    } else if (watchedStatus === "Active") {
+      const currentStock = methods.getValues("stock");
+      if (currentStock === undefined || currentStock === null || currentStock <= 0) {
+        setValue("stock", 10);
+      }
+    }
+  }, [watchedStatus, setValue, methods]);
 
   // Reset form when modal opens or editingProduct changes
   useEffect(() => {
@@ -129,6 +142,7 @@ export default function AdminProductsPage() {
 
   // Load from sessionStorage on mount
   useEffect(() => {
+    /* eslint-disable react-hooks/set-state-in-effect */
     if (typeof window !== "undefined") {
       const stored = sessionStorage.getItem("bdm_products");
       if (stored) {
@@ -143,7 +157,6 @@ export default function AdminProductsPage() {
             }
             return p;
           });
-          // eslint-disable-next-line react-hooks/set-state-in-effect
           setProducts(migrated);
         } catch {
           setProducts(initialProducts);
@@ -162,6 +175,7 @@ export default function AdminProductsPage() {
         }
       }
     }
+    /* eslint-enable react-hooks/set-state-in-effect */
   }, []);
 
   // Save to sessionStorage helper
@@ -465,18 +479,6 @@ export default function AdminProductsPage() {
                 className="rounded-xl"
               />
 
-              {/* Stock */}
-              <RHFControl
-                control="input"
-                type="number"
-                name="stock"
-                label="Stock Quantity *"
-                placeholder="e.g. 50"
-                className="rounded-xl"
-              />
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
               {/* Status */}
               <RHFControl
                 control="select"

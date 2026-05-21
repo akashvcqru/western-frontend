@@ -40,9 +40,7 @@ const initialCategories: Category[] = [
 // Validation Schema
 const categorySchema = yup.object().shape({
   id: yup
-    .string()
-    .required("Category ID is required")
-    .matches(/^[A-Za-z0-9-]+$/, "Category ID can only contain letters, numbers, and hyphens"),
+    .string(),
   name: yup
     .string()
     .required("Category Name is required")
@@ -168,23 +166,6 @@ export default function AdminCategoriesPage() {
   };
 
   const onSubmit = (data: CategoryFormData) => {
-    const trimmedId = data.id.trim();
-
-    // Check Category ID uniqueness on creation
-    if (!editingCategory) {
-      const idExists = categories.some(
-        (c) => c.id.toLowerCase() === trimmedId.toLowerCase()
-      );
-      if (idExists) {
-        addToast({
-          title: "Duplicate ID",
-          message: `Category ID "${trimmedId}" already exists. Please choose a different ID.`,
-          variant: "error",
-        });
-        return;
-      }
-    }
-
     if (editingCategory) {
       const updated = categories.map((c) => {
         if (c.id === editingCategory.id) {
@@ -205,8 +186,17 @@ export default function AdminCategoriesPage() {
         variant: "success",
       });
     } else {
+      // Generate Category ID dynamically
+      const newId = `CAT-${String(categories.length + 1).padStart(3, "0")}`;
+      let uniqueId = newId;
+      let counter = categories.length + 1;
+      while (categories.some((c) => c.id === uniqueId)) {
+        counter++;
+        uniqueId = `CAT-${String(counter).padStart(3, "0")}`;
+      }
+
       const newCategory: Category = {
-        id: trimmedId,
+        id: uniqueId,
         name: data.name,
         description: data.description,
         status: data.status,
@@ -217,7 +207,7 @@ export default function AdminCategoriesPage() {
       saveCategories(updated);
       addToast({
         title: "Category Created",
-        message: `"${data.name}" category was added successfully.`,
+        message: `"${data.name}" category was added successfully with ID "${uniqueId}".`,
         variant: "success",
       });
     }
@@ -380,29 +370,17 @@ export default function AdminCategoriesPage() {
       >
         <FormProvider {...methods}>
           <form id="category-form" onSubmit={methods.handleSubmit(onSubmit)} className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              {/* Category ID */}
-              <RHFControl
-                control="input"
-                name="id"
-                label="Category ID *"
-                placeholder="e.g. CAT-006"
-                className="rounded-xl font-mono uppercase"
-                disabled={!!editingCategory}
-              />
-
-              {/* Status */}
-              <RHFControl
-                control="select"
-                name="status"
-                label="Status *"
-                options={[
-                  { label: "Active", value: "Active" },
-                  { label: "Inactive", value: "Inactive" },
-                ]}
-                className="rounded-xl"
-              />
-            </div>
+            {/* Status */}
+            <RHFControl
+              control="select"
+              name="status"
+              label="Status *"
+              options={[
+                { label: "Active", value: "Active" },
+                { label: "Inactive", value: "Inactive" },
+              ]}
+              className="rounded-xl"
+            />
 
             {/* Name */}
             <RHFControl
