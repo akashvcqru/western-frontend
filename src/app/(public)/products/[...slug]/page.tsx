@@ -52,6 +52,10 @@ interface Product {
   type?: string;
   specifications?: ProductSpec[];
   shortSpecs?: string[];
+  detailsTitle?: string;
+  detailsText1?: string;
+  detailsText2?: string;
+  quickSpecs?: string[];
 }
 
 const parsePrice = (priceStr?: string): number => {

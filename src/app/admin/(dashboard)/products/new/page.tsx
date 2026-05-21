@@ -53,6 +53,10 @@ interface Product {
     category: string;
     options: { name: string; hex: string; desc: string; border?: boolean }[];
   }[];
+  detailsTitle?: string;
+  detailsText1?: string;
+  detailsText2?: string;
+  quickSpecs?: string[];
 }
 
 interface Category {
@@ -91,6 +95,10 @@ const productSchema = yup.object().shape({
     category: yup.string().required(),
     options: yup.array().of(yup.object().shape({ name: yup.string().required(), hex: yup.string().required(), desc: yup.string().required(), border: yup.boolean().optional() })).optional(),
   })).optional(),
+  detailsTitle: yup.string().nullable().optional(),
+  detailsText1: yup.string().nullable().optional(),
+  detailsText2: yup.string().nullable().optional(),
+  quickSpecs: yup.array().of(yup.object().shape({ value: yup.string().required() })).optional(),
 });
 
 type ProductFormData = yup.InferType<typeof productSchema>;
@@ -186,6 +194,7 @@ export default function NewProductPage() {
       status: "Active", description: "", catNo: "", blueprintImage: "",
       images: [], features: [], specifications: [], dimensions: [],
       resources: [], variants: [], swatches: [],
+      detailsTitle: "", detailsText1: "", detailsText2: "", quickSpecs: [],
     },
   });
 
@@ -198,6 +207,7 @@ export default function NewProductPage() {
   const { fields: resFields, append: appendRes, remove: removeRes } = useFieldArray({ control, name: "resources" });
   const { fields: variantFields, append: appendVariant, remove: removeVariant } = useFieldArray({ control, name: "variants" });
   const { fields: swatchFields, append: appendSwatch, remove: removeSwatch } = useFieldArray({ control, name: "swatches" });
+  const { fields: quickSpecFields, append: appendQuickSpec, remove: removeQuickSpec } = useFieldArray({ control, name: "quickSpecs" });
 
   // Auto-adjust stock by status
   useEffect(() => {
@@ -274,6 +284,10 @@ export default function NewProductPage() {
       resources: data.resources || [],
       variants: (data.variants || []).map((v) => ({ label: v.label, options: Array.isArray(v.options) ? v.options.filter(Boolean) as string[] : [] })),
       swatches: (data.swatches || []).map((sw) => ({ category: sw.category, options: (sw.options || []).map((opt) => ({ name: opt.name, hex: opt.hex, desc: opt.desc, border: opt.border ?? false })) })),
+      detailsTitle: data.detailsTitle || "",
+      detailsText1: data.detailsText1 || "",
+      detailsText2: data.detailsText2 || "",
+      quickSpecs: (data.quickSpecs || []).map((q) => q.value).filter(Boolean),
     };
 
     const updated = [newProduct, ...existing];
@@ -503,6 +517,40 @@ export default function NewProductPage() {
                         ))}
                       </div>
                     )}
+                  </div>
+
+                  {/* Product Details Tab Content */}
+                  <div className="space-y-3 pt-4 border-t border-gray-100">
+                    <div className="pb-2 border-b border-gray-100">
+                      <h4 className="text-xs font-bold uppercase tracking-wider text-gray-800">Product Details Tab Content <span className="text-gray-400 normal-case tracking-normal font-normal">(Storefront View)</span></h4>
+                      <p className="text-[10px] text-gray-400 mt-0.5">Customize the title, description paragraphs, and quick specification checklist shown on the storefront&apos;s Product Details tab. Leave empty to use category defaults.</p>
+                    </div>
+
+                    <RHFControl control="input" name="detailsTitle" label="Details Tab Title" placeholder="e.g. Elevating Workspace Productivity" className="rounded-xl" />
+                    <RHFControl control="textarea" name="detailsText1" label="Description Paragraph 1" placeholder="e.g. Crafted for high-density, modern corporate environments..." className="rounded-xl" />
+                    <RHFControl control="textarea" name="detailsText2" label="Description Paragraph 2" placeholder="e.g. All Western Interio furniture is manufactured using premium grade MDF/PLPB..." className="rounded-xl" />
+
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <label className="text-[10px] font-semibold uppercase tracking-widest text-secondary/60">Quick Checklist Bullet Points</label>
+                        <button type="button" onClick={() => appendQuickSpec({ value: "" })}
+                          className="inline-flex items-center gap-1 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 text-[10px] font-bold uppercase tracking-wider rounded-lg px-3 py-1.5 cursor-pointer">
+                          <Plus size={10} /> Add Bullet
+                        </button>
+                      </div>
+                      {quickSpecFields.length === 0 ? (
+                        <p className="text-[10px] text-gray-400 py-1">No custom bullet points. Default checklist (e.g. &quot;100% Anti-Moisture Sealing&quot;) will be shown.</p>
+                      ) : (
+                        <div className="space-y-2">
+                          {quickSpecFields.map((f, i) => (
+                            <div key={f.id} className="flex gap-3 items-end">
+                              <div className="flex-1"><RHFControl control="input" name={`quickSpecs.${i}.value`} label={i === 0 ? "Bullet Text *" : ""} placeholder="e.g. 100% Anti-Moisture Sealing" className="rounded-xl" /></div>
+                              <button type="button" onClick={() => removeQuickSpec(i)} className="p-2 text-red-500 hover:bg-red-50 rounded-lg cursor-pointer mb-1 shrink-0"><Trash2 size={14} /></button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
 

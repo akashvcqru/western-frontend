@@ -35,6 +35,10 @@ interface Product {
     category: string;
     options: { name: string; hex: string; desc: string; border?: boolean }[];
   }[];
+  detailsTitle?: string;
+  detailsText1?: string;
+  detailsText2?: string;
+  quickSpecs?: string[];
 }
 
 interface Category {
@@ -59,11 +63,10 @@ const productSchema = yup.object().shape({
   specifications: yup.array().of(yup.object().shape({ label: yup.string().required(), value: yup.string().required() })).optional(),
   dimensions: yup.array().of(yup.object().shape({ name: yup.string().required(), range: yup.string().required(), coord: yup.string().required() })).optional(),
   resources: yup.array().of(yup.object().shape({ id: yup.string().required(), title: yup.string().required(), desc: yup.string().required(), format: yup.string().required(), size: yup.string().required() })).optional(),
-  variants: yup.array().of(yup.object().shape({ label: yup.string().required(), options: yup.array().of(yup.string().required()).optional() })).optional(),
-  swatches: yup.array().of(yup.object().shape({
-    category: yup.string().required(),
-    options: yup.array().of(yup.object().shape({ name: yup.string().required(), hex: yup.string().required(), desc: yup.string().required(), border: yup.boolean().optional() })).optional(),
-  })).optional(),
+  detailsTitle: yup.string().nullable().optional(),
+  detailsText1: yup.string().nullable().optional(),
+  detailsText2: yup.string().nullable().optional(),
+  quickSpecs: yup.array().of(yup.object().shape({ value: yup.string().required() })).optional(),
 });
 
 type ProductFormData = yup.InferType<typeof productSchema>;
@@ -130,7 +133,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
   const router = useRouter();
   const { addToast } = useAppToast();
 
-  const [activeTab, setActiveTab] = useState<"general" | "media" | "specs" | "advanced" | "variants">("general");
+  const [activeTab, setActiveTab] = useState<"general" | "media" | "specs" | "features" | "details" | "advanced" | "variants">("general");
   const [categories, setCategories] = useState<Category[]>([]);
   const [brands, setBrands] = useState<{ id: string; name: string }[]>([]);
   const [savedSuccess, setSavedSuccess] = useState(false);
@@ -157,10 +160,26 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resolver: yupResolver(productSchema) as any,
     defaultValues: {
-      name: "", category: "", brand: "Western", price: "", stock: 10,
-      status: "Active", description: "", catNo: "", blueprintImage: "",
-      images: [], features: [], specifications: [], dimensions: [],
-      resources: [], variants: [], swatches: [],
+      name: "",
+      category: "",
+      brand: "Western",
+      price: "",
+      stock: 10,
+      status: "Active",
+      description: "",
+      catNo: "",
+      blueprintImage: "",
+      images: [],
+      features: [],
+      specifications: [],
+      dimensions: [],
+      resources: [],
+      variants: [],
+      swatches: [],
+      detailsTitle: "",
+      detailsText1: "",
+      detailsText2: "",
+      quickSpecs: [],
     },
   });
 
@@ -173,6 +192,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
   const { fields: resFields, append: appendRes, remove: removeRes } = useFieldArray({ control, name: "resources" });
   const { fields: variantFields, append: appendVariant, remove: removeVariant } = useFieldArray({ control, name: "variants" });
   const { fields: swatchFields, append: appendSwatch, remove: removeSwatch } = useFieldArray({ control, name: "swatches" });
+  const { fields: quickSpecFields, append: appendQuickSpec, remove: removeQuickSpec } = useFieldArray({ control, name: "quickSpecs" });
 
   // Auto-adjust stock by status
   useEffect(() => {
@@ -223,6 +243,10 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
       resources: found.resources || [],
       variants: found.variants || [],
       swatches: found.swatches || [],
+      detailsTitle: found.detailsTitle || "",
+      detailsText1: found.detailsText1 || "",
+      detailsText2: found.detailsText2 || "",
+      quickSpecs: found.quickSpecs?.map(q => ({ value: q })) || [],
     });
   }, [id, reset]);
 
@@ -267,6 +291,10 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
         resources: data.resources || [],
         variants: (data.variants || []).map((v) => ({ label: v.label, options: Array.isArray(v.options) ? v.options.filter(Boolean) as string[] : [] })),
         swatches: (data.swatches || []).map((sw) => ({ category: sw.category, options: (sw.options || []).map((opt) => ({ name: opt.name, hex: opt.hex, desc: opt.desc, border: opt.border ?? false })) })),
+        detailsTitle: data.detailsTitle || "",
+        detailsText1: data.detailsText1 || "",
+        detailsText2: data.detailsText2 || "",
+        quickSpecs: (data.quickSpecs || []).map((q) => q.value).filter(Boolean),
       };
     });
 
@@ -279,7 +307,9 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
   const TABS = [
     { key: "general", label: "General Info" },
     { key: "media", label: "Media / Images" },
-    { key: "specs", label: "Specs & Features" },
+    { key: "specs", label: "Specs" },
+    { key: "features", label: "Features" },
+    { key: "details", label: "Details" },
     { key: "advanced", label: "Advanced" },
     { key: "variants", label: "Variants & Swatches" },
   ] as const;
@@ -422,7 +452,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
                   </div>
                 </div>
 
-                {/* SPECS & FEATURES */}
+                {/* SPECS */}
                 <div className={activeTab === "specs" ? "space-y-8" : "hidden"}>
                   <div className="space-y-3">
                     <div className="flex items-center justify-between pb-2 border-b border-gray-100">
@@ -441,6 +471,10 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
                       </div>
                     )}
                   </div>
+                </div>
+
+                {/* FEATURES */}
+                <div className={activeTab === "features" ? "space-y-8" : "hidden"}>
                   <div className="space-y-3">
                     <div className="flex items-center justify-between pb-2 border-b border-gray-100">
                       <h4 className="text-xs font-bold uppercase tracking-wider text-gray-800">Features</h4>
@@ -458,6 +492,26 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
                       </div>
                     )}
                   </div>
+                  <div className="space-y-3 pt-6 border-t border-gray-100">
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-gray-800 pb-2">Quick Specs / Highlights</h4>
+                    <button type="button" onClick={() => appendQuickSpec({ value: "" })} className="inline-flex items-center gap-1 bg-blue-50 text-blue-600 hover:bg-blue-100 text-[10px] font-bold uppercase tracking-wider rounded-lg px-3 py-1.5 cursor-pointer"><Plus size={10} /> Add Item</button>
+                    <div className="grid grid-cols-2 gap-3">
+                      {quickSpecFields.map((f, i) => (
+                        <div key={f.id} className="flex gap-2">
+                          <RHFControl control="input" name={`quickSpecs.${i}.value`} label={i === 0 ? "Highlight *" : ""} placeholder="e.g. 5-year Warranty" className="rounded-xl" />
+                          <button type="button" onClick={() => removeQuickSpec(i)} className="p-2 text-red-500 hover:bg-red-50 rounded-lg cursor-pointer mt-5"><Trash2 size={14} /></button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* DETAILS */}
+                <div className={activeTab === "details" ? "space-y-3" : "hidden"}>
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-gray-800 pb-2">Details Section</h4>
+                  <RHFControl control="input" name="detailsTitle" label="Details Title" placeholder="e.g. Why Choose Us?" className="rounded-xl" />
+                  <RHFControl control="textarea" name="detailsText1" label="Text Block 1" placeholder="Detailed content..." className="rounded-xl" />
+                  <RHFControl control="textarea" name="detailsText2" label="Text Block 2" placeholder="Detailed content..." className="rounded-xl" />
                 </div>
 
                 {/* ADVANCED */}

@@ -55,6 +55,10 @@ interface Product {
     size: string;
     colorClass?: string;
   }[];
+  detailsTitle?: string;
+  detailsText1?: string;
+  detailsText2?: string;
+  quickSpecs?: string[];
 }
 
 interface ProductDetailViewProps {
@@ -291,6 +295,26 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
               },
             ]);
 
+    const defaultQuickSpecs = [
+      "100% Anti-Moisture Sealing",
+      "High Tensile Frame Strength",
+      "BIFMA Level-3 Hardware",
+      "Fire-Retardant Upholstery",
+    ];
+    const quickSpecsToShow =
+      product.quickSpecs && product.quickSpecs.length > 0
+        ? product.quickSpecs
+        : defaultQuickSpecs;
+
+    const defaultText2 =
+      "All Western Interio furniture is manufactured using premium grade MDF/PLPB, high-gauge structural steel leg understructures, and world-class certified hardware. We guarantee maximum resistance to heavy daily use, scratches, and liquid spills, making it a sound long-term asset for modern corporate offices.";
+
+    const fallbackText1 = isChair
+      ? "Engineered for high-intensity work environments, this premium chair integrates anatomical design principles to dynamically support natural spine alignment. Every curve and control has been carefully tailored to minimize fatigue, enhance thermal comfort, and promote active seating throughout long corporate shifts."
+      : isWorkstation
+        ? "Crafted for high-density, modern corporate environments, our modular workstations combine a sleek industrial footprint with customizable versatility. This series is engineered to support seamless collaboration while respecting private acoustics, giving teams the perfect foundation for focused productivity."
+        : "Designed with clean modern aesthetics and heavy-duty structural engineering, our executive tables and lobby furniture represent the perfect blend of status, functionality, and lasting durability. Made using high-grade panels and hardware, they stand out in any boardroom or reception suite.";
+
     return (
       <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
         {/* Left Column: Visual Storytelling */}
@@ -301,63 +325,27 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
               Engineered Excellence
             </span>
             <h3 className="text-2xl lg:text-3xl font-bold text-secondary tracking-tight">
-              Elevating Workspace Productivity
+              {product.detailsTitle || "Elevating Workspace Productivity"}
             </h3>
           </div>
 
           <div className="space-y-4 text-neutral-500 leading-relaxed text-sm font-normal">
-            <p>
-              {isChair &&
-                "Engineered for high-intensity work environments, this premium chair integrates anatomical design principles to dynamically support natural spine alignment. Every curve and control has been carefully tailored to minimize fatigue, enhance thermal comfort, and promote active seating throughout long corporate shifts."}
-              {isWorkstation &&
-                "Crafted for high-density, modern corporate environments, our modular workstations combine a sleek industrial footprint with customizable versatility. This series is engineered to support seamless collaboration while respecting private acoustics, giving teams the perfect foundation for focused productivity."}
-              {!isChair &&
-                !isWorkstation &&
-                "Designed with clean modern aesthetics and heavy-duty structural engineering, our executive tables and lobby furniture represent the perfect blend of status, functionality, and lasting durability. Made using high-grade panels and hardware, they stand out in any boardroom or reception suite."}
-            </p>
-            <p>
-              All Western Interio furniture is manufactured using premium grade
-              MDF/PLPB, high-gauge structural steel leg understructures, and
-              world-class certified hardware. We guarantee maximum resistance to
-              heavy daily use, scratches, and liquid spills, making it a sound
-              long-term asset for modern corporate offices.
-            </p>
+            <p>{product.detailsText1 || fallbackText1}</p>
+            <p>{product.detailsText2 || defaultText2}</p>
           </div>
 
           {/* Quick Specifications Checklist */}
           <div className="grid sm:grid-cols-2 gap-4 pt-4 border-t border-neutral-100">
-            <div className="flex items-center gap-3">
-              <div className="w-5 h-5 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600">
-                <Check size={12} strokeWidth={3} />
+            {quickSpecsToShow.map((spec, idx) => (
+              <div key={idx} className="flex items-center gap-3">
+                <div className="w-5 h-5 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600">
+                  <Check size={12} strokeWidth={3} />
+                </div>
+                <span className="text-xs text-secondary font-bold">
+                  {spec}
+                </span>
               </div>
-              <span className="text-xs text-secondary font-bold">
-                100% Anti-Moisture Sealing
-              </span>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="w-5 h-5 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600">
-                <Check size={12} strokeWidth={3} />
-              </div>
-              <span className="text-xs text-secondary font-bold">
-                High Tensile Frame Strength
-              </span>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="w-5 h-5 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600">
-                <Check size={12} strokeWidth={3} />
-              </div>
-              <span className="text-xs text-secondary font-bold">
-                BIFMA Level-3 Hardware
-              </span>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="w-5 h-5 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600">
-                <Check size={12} strokeWidth={3} />
-              </div>
-              <span className="text-xs text-secondary font-bold">
-                Fire-Retardant Upholstery
-              </span>
-            </div>
+            ))}
           </div>
         </div>
 
