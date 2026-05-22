@@ -8,6 +8,7 @@ import {
   Share2,
   Link as LinkIcon,
   Globe,
+  AlertCircle,
 } from "lucide-react";
 import { Card } from "@/components/ui";
 import { useAppToast } from "@/components/ui/AppToast";
@@ -16,6 +17,7 @@ import { useForm, FormProvider } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import RHFControl from "@/components/ui/inputs/RHFControl";
+import { apiGet, apiPut } from "@/lib/api";
 
 const contactSchema = yup.object().shape({
   supportEmail: yup
@@ -59,6 +61,9 @@ export default function AdminSettingsPage() {
   const { addToast } = useAppToast();
   const [activeTab, setActiveTab] = useState("contact");
   const [isMounted, setIsMounted] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
 
   const contactMethods = useForm<ContactSettingsData>({
     mode: "onChange",
@@ -80,51 +85,82 @@ export default function AdminSettingsPage() {
     },
   });
 
-  // Load configuration from sessionStorage after mount
-  useEffect(() => {
-    const timer = setTimeout(() => {
+  const loadSettings = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      // Fetch contact details
+      try {
+        const contactRes = await apiGet<ContactSettingsData>("/api/settings/bdm_settings_contact");
+        if (contactRes.success && contactRes.data) {
+          contactMethods.reset(contactRes.data);
+        }
+      } catch (e) {
+        console.warn("Failed to load contact settings from API, using defaults:", e);
+      }
+
+      // Fetch social details
+      try {
+        const socialRes = await apiGet<SocialSettingsData>("/api/settings/bdm_settings_social");
+        if (socialRes.success && socialRes.data) {
+          socialMethods.reset(socialRes.data);
+        }
+      } catch (e) {
+        console.warn("Failed to load social settings from API, using defaults:", e);
+      }
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "An error occurred while loading settings");
+    } finally {
+      setIsLoading(false);
       setIsMounted(true);
-      
-      const storedContact = sessionStorage.getItem("bdm_settings_contact");
-      if (storedContact) {
-        try {
-          contactMethods.reset(JSON.parse(storedContact));
-        } catch (e) {
-          console.error("Failed to parse stored contact settings:", e);
-        }
-      }
-
-      const storedSocial = sessionStorage.getItem("bdm_settings_social");
-      if (storedSocial) {
-        try {
-          socialMethods.reset(JSON.parse(storedSocial));
-        } catch (e) {
-          console.error("Failed to parse stored social settings:", e);
-        }
-      }
-    }, 0);
-    return () => clearTimeout(timer);
-  }, [contactMethods, socialMethods]);
-
-  const onSubmitContact = (data: ContactSettingsData) => {
-    sessionStorage.setItem("bdm_settings_contact", JSON.stringify(data));
-    addToast({
-      title: "Contact Settings Saved",
-      message: "Store contact information has been updated successfully.",
-      variant: "success",
-    });
+    }
   };
 
-  const onSubmitSocial = (data: SocialSettingsData) => {
-    sessionStorage.setItem("bdm_settings_social", JSON.stringify(data));
-    addToast({
-      title: "Social Links Saved",
-      message: "Store social media profiles have been updated successfully.",
-      variant: "success",
-    });
+  useEffect(() => {
+    loadSettings();
+  }, []);
+
+  const onSubmitContact = async (data: ContactSettingsData) => {
+    setIsSaving(true);
+    try {
+      await apiPut("/api/settings/bdm_settings_contact", data);
+      addToast({
+        title: "Contact Settings Saved",
+        message: "Store contact information has been updated successfully.",
+        variant: "success",
+      });
+    } catch (err: unknown) {
+      addToast({
+        title: "Error Saving Settings",
+        message: err instanceof Error ? err.message : "Failed to save contact settings",
+        variant: "error",
+      });
+    } finally {
+      setIsSaving(false);
+    }
   };
 
-  if (!isMounted) {
+  const onSubmitSocial = async (data: SocialSettingsData) => {
+    setIsSaving(true);
+    try {
+      await apiPut("/api/settings/bdm_settings_social", data);
+      addToast({
+        title: "Social Links Saved",
+        message: "Store social media profiles have been updated successfully.",
+        variant: "success",
+      });
+    } catch (err: unknown) {
+      addToast({
+        title: "Error Saving Settings",
+        message: err instanceof Error ? err.message : "Failed to save social links",
+        variant: "error",
+      });
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  if (!isMounted || isLoading) {
     return (
       <div className="space-y-6">
         <div>
@@ -155,6 +191,16 @@ export default function AdminSettingsPage() {
           </p>
         </div>
       </div>
+
+      {error && (
+        <div className="flex items-center gap-3 p-4 text-red-600 bg-red-50 border border-red-100 rounded-xl">
+          <AlertCircle size={18} />
+          <p className="text-sm font-semibold">{error}</p>
+          <button onClick={loadSettings} className="ml-auto text-xs underline cursor-pointer font-bold uppercase tracking-widest">
+            Retry
+          </button>
+        </div>
+      )}
 
       <div className="flex flex-col lg:flex-row gap-6">
         {/* Sidebar Nav */}
@@ -246,9 +292,10 @@ export default function AdminSettingsPage() {
                     <button
                       id="save-contact-btn"
                       type="submit"
-                      className="inline-flex items-center justify-center gap-2 bg-[#ed1c27] hover:bg-[#c5141e] text-white font-bold uppercase tracking-[0.12em] text-[10px] rounded-xl px-6 py-3.5 transition-all duration-300 cursor-pointer hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#ed1c27]/25"
+                      disabled={isSaving}
+                      className="inline-flex items-center justify-center gap-2 bg-[#ed1c27] hover:bg-[#c5141e] text-white font-bold uppercase tracking-[0.12em] text-[10px] rounded-xl px-6 py-3.5 transition-all duration-300 cursor-pointer hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#ed1c27]/25 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      <Save size={14} /> Save Contact Details
+                      <Save size={14} /> {isSaving ? "Saving..." : "Save Contact Details"}
                     </button>
                   </Card.Footer>
                 </form>
@@ -306,9 +353,10 @@ export default function AdminSettingsPage() {
                     <button
                       id="save-social-btn"
                       type="submit"
-                      className="inline-flex items-center justify-center gap-2 bg-[#ed1c27] hover:bg-[#c5141e] text-white font-bold uppercase tracking-[0.12em] text-[10px] rounded-xl px-6 py-3.5 transition-all duration-300 cursor-pointer hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#ed1c27]/25"
+                      disabled={isSaving}
+                      className="inline-flex items-center justify-center gap-2 bg-[#ed1c27] hover:bg-[#c5141e] text-white font-bold uppercase tracking-[0.12em] text-[10px] rounded-xl px-6 py-3.5 transition-all duration-300 cursor-pointer hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#ed1c27]/25 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      <Save size={14} /> Save Social Links
+                      <Save size={14} /> {isSaving ? "Saving..." : "Save Social Links"}
                     </button>
                   </Card.Footer>
                 </form>
@@ -320,4 +368,3 @@ export default function AdminSettingsPage() {
     </div>
   );
 }
-

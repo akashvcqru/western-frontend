@@ -4,6 +4,7 @@ import "./globals.css";
 import { AppToastProvider } from "@/components/ui/AppToast";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
 import OfflineStatus from "@/components/ui/OfflineStatus";
+import { ReduxProvider } from "@/redux/provider";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -27,12 +28,14 @@ export default function RootLayout({
   return (
     <html lang="en" className={poppins.variable} suppressHydrationWarning>
       <body className="font-sans antialiased">
-        <AppToastProvider>
-          <ErrorBoundary>
-            <OfflineStatus />
-            {children}
-          </ErrorBoundary>
-        </AppToastProvider>
+        <ReduxProvider>
+          <AppToastProvider>
+            <ErrorBoundary>
+              <OfflineStatus />
+              {children}
+            </ErrorBoundary>
+          </AppToastProvider>
+        </ReduxProvider>
       </body>
     </html>
   );

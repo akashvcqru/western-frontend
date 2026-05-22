@@ -40,20 +40,34 @@ export default function AdminLoginPage() {
 
     setIsLoading(true);
     try {
-      // Simulate API call
-      await new Promise((res) => setTimeout(res, 1200));
+      const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5073";
+      const res = await fetch(`${BASE_URL}/api/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
-      // Demo credentials check for westernofficesolutions
-      if (email === "admin@westernofficesolutions.com" && password === "admin123") {
+      if (res.ok) {
+        const data = await res.json();
+        // Store JWT token for API calls
+        localStorage.setItem("auth_token", data.token);
+        // Store session info for layout/guards
         sessionStorage.setItem(
           "bdm_admin",
-          JSON.stringify({ email, role: "admin", name: "Western Office Solutions" })
+          JSON.stringify({ email: data.email, role: "admin", name: "Western Office Solutions" })
         );
         addToast({ title: "Welcome Back!", message: "Login successful.", variant: "success" });
         router.push("/admin");
       } else {
-        addToast({ title: "Access Denied", message: "Invalid email or password.", variant: "error" });
+        const errData = await res.json().catch(() => null);
+        addToast({
+          title: "Access Denied",
+          message: errData?.message || "Invalid email or password.",
+          variant: "error",
+        });
       }
+    } catch {
+      addToast({ title: "Connection Error", message: "Could not reach the server. Please try again.", variant: "error" });
     } finally {
       setIsLoading(false);
     }

@@ -1,0 +1,120 @@
+// ─── Shared API Response Types ───────────────────────────────────────────────
+
+export interface PaginationMeta {
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
+  limit: number;
+}
+
+/** Standard single-item response */
+export interface ApiResponse<T> {
+  success: boolean;
+  message: string;
+  data: T;
+}
+
+/** Paginated list response */
+export interface PaginatedApiResponse<T> {
+  success: boolean;
+  message: string;
+  data: T[];
+  pagination: PaginationMeta;
+}
+
+/** Error response */
+export interface ErrorApiResponse {
+  success: false;
+  message: string;
+  errors: string[];
+}
+
+// ─── Domain Model Types (mirror backend) ────────────────────────────────────
+
+export interface BlogPost {
+  id: string;
+  title: string;
+  excerpt: string;
+  category: string;
+  date: string;
+  readTime: string;
+  image: string;
+  author: string;
+  authorRole: string;
+  tags: string[];
+  content: string[];
+}
+
+export interface Product {
+  id: string;
+  slug: string;
+  name: string;
+  category: string;
+  brand: string;
+  price: string;
+  status: string;
+  stock: number;
+  description: string;
+  images: string[];
+  image?: string;
+  catNo?: string;
+  blueprintImage?: string;
+  material?: string;
+  finish?: string;
+  size?: string;
+  features?: { title: string; desc: string }[];
+  specifications?: { label: string; value: string }[];
+  dimensions?: { name: string; range: string; coord: string }[];
+  resources?: { id: string; title: string; desc: string; format: string; size: string }[];
+  variants?: { label: string; options: string[] }[];
+  swatches?: { category: string; options: { name: string; hex: string; desc: string; border?: boolean }[] }[];
+  detailsTitle?: string;
+  detailsText1?: string;
+  detailsText2?: string;
+  quickSpecs?: string;
+}
+
+export interface Category {
+  id: string;
+  slug?: string;
+  name: string;
+  description: string;
+  count: number;
+  image: string;
+  status: string;
+}
+
+export interface Brand {
+  id: string;
+  name: string;
+  url: string;
+  link: string;
+}
+
+export interface GalleryItem {
+  id: number;
+  title: string;
+  category: string;
+  image: string;
+}
+
+export interface Inquiry {
+  id: number;
+  name: string;
+  email: string;
+  phone?: string;
+  subject: string;
+  message?: string;
+  date: string;
+  status: string;
+}
+
+export interface DashboardStats {
+  products: number;
+  categories: number;
+  brands: number;
+  gallery: number;
+  blogs: number;
+  totalInquiries: number;
+  pendingInquiries: number;
+}

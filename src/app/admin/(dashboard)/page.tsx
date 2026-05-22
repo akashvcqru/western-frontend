@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { Card } from "@/components/ui";
 import {
@@ -15,13 +15,16 @@ import {
   Layers,
   Activity,
   Newspaper,
+  AlertCircle,
 } from "lucide-react";
+import { apiAuthGet } from "@/lib/api";
+import type { DashboardStats } from "@/types/api";
 
 const quickLinks = [
   { label: "Manage Products", href: "/admin/products", icon: Package, desc: "Add, edit or remove products" },
   { label: "Manage Brands", href: "/admin/brands", icon: Tag, desc: "Control brand listings" },
   { label: "Manage Categories", href: "/admin/categories", icon: Layers, desc: "Organise product categories" },
-  { label: "View Inquiries", href: "/admin/inquiries", icon: Mail, desc: "Respond to customer enquiries", badge: "5" },
+  { label: "View Inquiries", href: "/admin/inquiries", icon: Mail, desc: "Respond to customer enquiries", badge: "" },
   { label: "Gallery Editor", href: "/admin/gallery", icon: ImageIcon, desc: "Upload & arrange gallery images" },
   { label: "Manage Blogs", href: "/admin/blogs", icon: Newspaper, desc: "Add, edit or delete blog posts" },
 ];
@@ -42,36 +45,54 @@ const typeColors: Record<string, string> = {
 };
 
 export default function AdminDashboardPage() {
-  const [counts, setCounts] = React.useState({
-    products: 124,
-    brands: 18,
-    gallery: 56,
-    inquiries: 5,
-    blogs: 3,
+  const [counts, setCounts] = useState({
+    products: 0,
+    brands: 0,
+    gallery: 0,
+    inquiries: 0,
+    blogs: 0,
   });
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  React.useEffect(() => {
-    if (typeof window !== "undefined") {
-      const getCount = (key: string, fallback: number) => {
-        const stored = localStorage.getItem(key) || sessionStorage.getItem(key);
-        if (stored) {
-          try {
-            return JSON.parse(stored).length;
-          } catch {}
-        }
-        return fallback;
-      };
-      setTimeout(() => {
+  const fetchStats = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const res = await apiAuthGet<DashboardStats>("/api/dashboard/stats");
+      if (res.success && res.data) {
         setCounts({
-          products: getCount("bdm_products", 124),
-          brands: getCount("bdm_brands", 18),
-          gallery: getCount("bdm_gallery", 56),
-          inquiries: getCount("bdm_inquiries", 5),
-          blogs: getCount("bdm_blogs", 3),
+          products: res.data.products,
+          brands: res.data.brands,
+          gallery: res.data.gallery,
+          inquiries: res.data.pendingInquiries,
+          blogs: res.data.blogs,
         });
-      }, 0);
+      } else {
+        setError(res.message || "Failed to fetch stats");
+      }
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Failed to load dashboard stats");
+    } finally {
+      setIsLoading(false);
     }
+  };
+
+  useEffect(() => {
+    fetchStats();
   }, []);
+
+  const dynamicQuickLinks = useMemo(() => {
+    return quickLinks.map((link) => {
+      if (link.label === "View Inquiries") {
+        return {
+          ...link,
+          badge: counts.inquiries > 0 ? String(counts.inquiries) : "",
+        };
+      }
+      return link;
+    });
+  }, [counts.inquiries]);
 
   const dynamicStats = [
     {
@@ -126,6 +147,81 @@ export default function AdminDashboardPage() {
     },
   ];
 
+  if (isLoading) {
+    return (
+      <div className="space-y-8">
+        <div className="flex items-start justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900 uppercase tracking-tight">
+              Dashboard
+            </h1>
+            <p className="text-sm text-gray-500 font-medium mt-1 animate-pulse">
+              Loading dashboard overview...
+            </p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          {Array.from({ length: 5 }).map((_, idx) => (
+            <Card key={idx}>
+              <Card.Body>
+                <div className="flex items-start justify-between mb-4">
+                  <div className="w-10 h-10 bg-gray-150 rounded-xl animate-pulse" />
+                  <div className="w-12 h-4 bg-gray-100 rounded animate-pulse" />
+                </div>
+                <div className="h-8 w-16 bg-gray-200 rounded animate-pulse mb-2" />
+                <div className="h-3 w-20 bg-gray-100 rounded animate-pulse" />
+              </Card.Body>
+            </Card>
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+          <div className="xl:col-span-1">
+            <Card>
+              <Card.Header borderBottom>
+                <div className="h-4 w-28 bg-gray-200 rounded animate-pulse" />
+              </Card.Header>
+              <Card.Body>
+                <div className="space-y-4">
+                  {Array.from({ length: 4 }).map((_, i) => (
+                    <div key={i} className="flex gap-3">
+                      <div className="w-9 h-9 bg-gray-100 rounded-xl animate-pulse" />
+                      <div className="flex-1 space-y-2">
+                        <div className="h-3 w-24 bg-gray-200 rounded animate-pulse" />
+                        <div className="h-2 w-32 bg-gray-100 rounded animate-pulse" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </Card.Body>
+            </Card>
+          </div>
+          <div className="xl:col-span-2">
+            <Card>
+              <Card.Header borderBottom>
+                <div className="h-4 w-32 bg-gray-200 rounded animate-pulse" />
+              </Card.Header>
+              <Card.Body>
+                <div className="space-y-4">
+                  {Array.from({ length: 4 }).map((_, i) => (
+                    <div key={i} className="flex gap-4">
+                      <div className="w-12 h-6 bg-gray-100 rounded-lg animate-pulse" />
+                      <div className="flex-1 space-y-2">
+                        <div className="h-3 w-32 bg-gray-200 rounded animate-pulse" />
+                        <div className="h-2 w-48 bg-gray-100 rounded animate-pulse" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </Card.Body>
+            </Card>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-8">
       {/* Page Header */}
@@ -143,6 +239,16 @@ export default function AdminDashboardPage() {
           Live Overview
         </div>
       </div>
+
+      {error && (
+        <div className="flex items-center gap-3 p-4 text-red-600 bg-red-50 border border-red-100 rounded-xl">
+          <AlertCircle size={18} />
+          <p className="text-sm font-semibold">{error}</p>
+          <button onClick={fetchStats} className="ml-auto text-xs underline cursor-pointer font-bold uppercase tracking-widest">
+            Retry
+          </button>
+        </div>
+      )}
 
       {/* Stats Grid */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
@@ -183,40 +289,40 @@ export default function AdminDashboardPage() {
             </Card.Header>
             <Card.Body noPadding>
               <div className="p-3 space-y-1">
-              {quickLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  id={`quick-link-${link.label.toLowerCase().replace(/\s+/g, "-")}`}
-                  className="flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-gray-50 transition-all duration-200 group"
-                >
-                  <div className="w-9 h-9 rounded-xl bg-gray-50 group-hover:bg-[#ed1c27]/10 flex items-center justify-center flex-shrink-0 transition-colors">
-                    <link.icon
-                      size={16}
-                      className="text-gray-400 group-hover:text-[#ed1c27] transition-colors"
-                    />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <p className="text-[11px] font-bold uppercase tracking-widest text-gray-700 group-hover:text-gray-900 truncate">
-                        {link.label}
-                      </p>
-                      {link.badge && (
-                        <span className="text-[9px] font-bold bg-[#ed1c27] text-white rounded-full px-1.5 py-0.5 min-w-[16px] text-center">
-                          {link.badge}
-                        </span>
-                      )}
+                {dynamicQuickLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    id={`quick-link-${link.label.toLowerCase().replace(/\s+/g, "-")}`}
+                    className="flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-gray-50 transition-all duration-200 group"
+                  >
+                    <div className="w-9 h-9 rounded-xl bg-gray-50 group-hover:bg-[#ed1c27]/10 flex items-center justify-center flex-shrink-0 transition-colors">
+                      <link.icon
+                        size={16}
+                        className="text-gray-400 group-hover:text-[#ed1c27] transition-colors"
+                      />
                     </div>
-                    <p className="text-[10px] font-medium text-gray-400 mt-0.5 truncate">
-                      {link.desc}
-                    </p>
-                  </div>
-                  <ArrowRight
-                    size={14}
-                    className="text-gray-300 group-hover:text-[#ed1c27] group-hover:translate-x-0.5 transition-all flex-shrink-0"
-                  />
-                </Link>
-              ))}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <p className="text-[11px] font-bold uppercase tracking-widest text-gray-700 group-hover:text-gray-900 truncate">
+                          {link.label}
+                        </p>
+                        {link.badge && (
+                          <span className="text-[9px] font-bold bg-[#ed1c27] text-white rounded-full px-1.5 py-0.5 min-w-[16px] text-center">
+                            {link.badge}
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-[10px] font-medium text-gray-400 mt-0.5 truncate">
+                        {link.desc}
+                      </p>
+                    </div>
+                    <ArrowRight
+                      size={14}
+                      className="text-gray-300 group-hover:text-[#ed1c27] group-hover:translate-x-0.5 transition-all flex-shrink-0"
+                    />
+                  </Link>
+                ))}
               </div>
             </Card.Body>
           </Card>
@@ -238,37 +344,37 @@ export default function AdminDashboardPage() {
             </Card.Header>
             <Card.Body noPadding>
               <div className="divide-y divide-gray-50">
-              {recentActivity.map((item) => (
-                <div
-                  key={item.id}
-                  id={`activity-${item.id}`}
-                  className="flex items-start gap-4 px-6 py-4 hover:bg-gray-50/50 transition-colors"
-                >
-                  <span
-                    className={`inline-flex text-[9px] font-semibold uppercase tracking-widest rounded-lg px-2 py-1 flex-shrink-0 mt-0.5 ${
-                      typeColors[item.type]
-                    }`}
+                {recentActivity.map((item) => (
+                  <div
+                    key={item.id}
+                    id={`activity-${item.id}`}
+                    className="flex items-start gap-4 px-6 py-4 hover:bg-gray-50/50 transition-colors"
                   >
-                    {item.type}
-                  </span>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-[11px] font-bold uppercase tracking-tight text-gray-800">
-                      {item.action}
-                    </p>
-                    <p className="text-[10px] font-medium text-gray-400 mt-0.5 truncate">
-                      {item.detail}
-                    </p>
+                    <span
+                      className={`inline-flex text-[9px] font-semibold uppercase tracking-widest rounded-lg px-2 py-1 flex-shrink-0 mt-0.5 ${
+                        typeColors[item.type]
+                      }`}
+                    >
+                      {item.type}
+                    </span>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[11px] font-bold uppercase tracking-tight text-gray-800">
+                        {item.action}
+                      </p>
+                      <p className="text-[10px] font-medium text-gray-400 mt-0.5 truncate">
+                        {item.detail}
+                      </p>
+                    </div>
+                    <span className="text-[9px] font-bold uppercase tracking-widest text-gray-300 flex-shrink-0 whitespace-nowrap">
+                      {item.time}
+                    </span>
                   </div>
-                  <span className="text-[9px] font-bold uppercase tracking-widest text-gray-300 flex-shrink-0 whitespace-nowrap">
-                    {item.time}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </Card.Body>
-        </Card>
+                ))}
+              </div>
+            </Card.Body>
+          </Card>
+        </div>
       </div>
-    </div>
 
       {/* Bottom banner */}
       <div className="bg-[#0f0f0f] rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
