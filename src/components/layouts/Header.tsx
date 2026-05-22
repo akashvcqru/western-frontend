@@ -69,7 +69,10 @@ export default function Header() {
       const storedCats = sessionStorage.getItem("bdm_categories");
       if (storedCats) {
         try {
-          setCategoriesList(JSON.parse(storedCats));
+          const parsed = JSON.parse(storedCats);
+          setTimeout(() => {
+            setCategoriesList(parsed);
+          }, 0);
         } catch (e) {
           console.error("Error parsing stored categories in Header:", e);
         }

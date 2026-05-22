@@ -17,49 +17,6 @@ import {
   Newspaper,
 } from "lucide-react";
 
-const stats = [
-  {
-    id: "stat-products",
-    label: "Total Products",
-    value: "124",
-    change: "+12%",
-    up: true,
-    icon: Package,
-    color: "bg-blue-50 text-blue-600",
-    accent: "border-blue-200",
-  },
-  {
-    id: "stat-brands",
-    label: "Active Brands",
-    value: "18",
-    change: "+3%",
-    up: true,
-    icon: Tag,
-    color: "bg-violet-50 text-violet-600",
-    accent: "border-violet-200",
-  },
-  {
-    id: "stat-gallery",
-    label: "Gallery Items",
-    value: "56",
-    change: "+8%",
-    up: true,
-    icon: ImageIcon,
-    color: "bg-emerald-50 text-emerald-600",
-    accent: "border-emerald-200",
-  },
-  {
-    id: "stat-inquiries",
-    label: "New Inquiries",
-    value: "5",
-    change: "+2",
-    up: true,
-    icon: Mail,
-    color: "bg-red-50 text-[#ed1c27]",
-    accent: "border-red-200",
-  },
-];
-
 const quickLinks = [
   { label: "Manage Products", href: "/admin/products", icon: Package, desc: "Add, edit or remove products" },
   { label: "Manage Brands", href: "/admin/brands", icon: Tag, desc: "Control brand listings" },
@@ -104,13 +61,15 @@ export default function AdminDashboardPage() {
         }
         return fallback;
       };
-      setCounts({
-        products: getCount("bdm_products", 124),
-        brands: getCount("bdm_brands", 18),
-        gallery: getCount("bdm_gallery", 56),
-        inquiries: getCount("bdm_inquiries", 5),
-        blogs: getCount("bdm_blogs", 3),
-      });
+      setTimeout(() => {
+        setCounts({
+          products: getCount("bdm_products", 124),
+          brands: getCount("bdm_brands", 18),
+          gallery: getCount("bdm_gallery", 56),
+          inquiries: getCount("bdm_inquiries", 5),
+          blogs: getCount("bdm_blogs", 3),
+        });
+      }, 0);
     }
   }, []);
 

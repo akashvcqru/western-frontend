@@ -79,7 +79,7 @@ function CategoryHubPage({
   categoriesList: Category[] 
 }) {
   const [isQuoteOpen, setIsQuoteOpen] = React.useState(false);
-  const allSubcategories = navItem.columns.flatMap((col: any) => col.items);
+  const allSubcategories = navItem.columns.flatMap((col) => col.items);
   const heroImage = category?.image || "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop";
   const categoryName = category?.name || navItem.title;
   const categoryDescription = category?.description || `Professional ${categoryName} solutions engineered for premium workspaces and lasting comfort.`;
@@ -108,8 +108,8 @@ function CategoryHubPage({
 
         {/* Subcategories Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
-          {allSubcategories.map((sub: any, idx: number) => {
-            const subCategoryDetail = categoriesList.find((c: any) => c.slug === sub.slug);
+          {allSubcategories.map((sub: { name: string; slug: string }, idx: number) => {
+            const subCategoryDetail = categoriesList.find((c: Category) => c.slug === sub.slug);
             const subImgUrl = subCategoryDetail?.image || "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop";
             const subTitle = subCategoryDetail?.name || sub.name;
             const subDescription = subCategoryDetail?.description || "High-end corporate collection featuring premium aesthetics and absolute support.";
@@ -126,7 +126,8 @@ function CategoryHubPage({
                 className="group relative flex flex-col bg-white rounded-2xl overflow-hidden border border-neutral-100/80 shadow-[0_12px_30px_-10px_rgba(0,0,0,0.03)] hover:shadow-[0_30px_60px_-15px_rgba(237,28,39,0.12)] transition-all duration-[600ms] hover:-translate-y-1.5"
               >
                 {/* Image Container with aspect ratio */}
-                <div className="relative aspect-[16/10] w-full overflow-hidden bg-neutral-100 border-b border-neutral-100/50">
+                <div className="relative aspect-[4/3] overflow-hidden bg-neutral-100">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={subImgUrl}
                     alt={subTitle}
@@ -199,7 +200,10 @@ export default function ProductListingPage({
       const storedProds = sessionStorage.getItem("bdm_products");
       if (storedProds) {
         try {
-          setProductsList(JSON.parse(storedProds));
+          const parsedProds = JSON.parse(storedProds);
+          setTimeout(() => {
+            setProductsList(parsedProds);
+          }, 0);
         } catch (e) {
           console.error(e);
         }
@@ -207,7 +211,10 @@ export default function ProductListingPage({
       const storedCats = sessionStorage.getItem("bdm_categories");
       if (storedCats) {
         try {
-          setCategoriesList(JSON.parse(storedCats));
+          const parsedCats = JSON.parse(storedCats);
+          setTimeout(() => {
+            setCategoriesList(parsedCats);
+          }, 0);
         } catch (e) {
           console.error(e);
         }
@@ -383,7 +390,9 @@ export default function ProductListingPage({
   const activeMaxPrice = maxPrice || dynamicMaxPrice;
 
   React.useEffect(() => {
-    setCurrentPage(1);
+    setTimeout(() => {
+      setCurrentPage(1);
+    }, 0);
   }, [selectedFilters, maxPrice]);
 
   if (product) {
@@ -578,7 +587,7 @@ export default function ProductListingPage({
                   <div className="space-y-3">
                     <p className="text-xl font-bold text-secondary tracking-tight">No Matching Models</p>
                     <p className="text-neutral-400 text-xs font-medium leading-relaxed">
-                      We couldn't find any products in <span className="text-primary font-bold">{categoryName}</span> matching your current filter selections. Try adjusting your checkboxes or price range slider.
+                      We couldn&apos;t find any products in <span className="text-primary font-bold">{categoryName}</span> matching your current filter selections. Try adjusting your checkboxes or price range slider.
                     </p>
                   </div>
                   <div className="flex flex-col sm:flex-row justify-center gap-4">

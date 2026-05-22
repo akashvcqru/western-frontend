@@ -57,9 +57,20 @@ const mockInquiries = [
   },
 ];
 
+interface Inquiry {
+  id: number;
+  name: string;
+  email: string;
+  phone?: string;
+  subject: string;
+  message: string;
+  date: string;
+  status: string;
+}
+
 export default function AdminInquiriesPage() {
   const { addToast } = useAppToast();
-  const [inquiries, setInquiries] = useState<any[]>([]);
+  const [inquiries, setInquiries] = useState<Inquiry[]>([]);
   const [isMounted, setIsMounted] = useState(false);
   
   // Search & Filter state
@@ -71,23 +82,25 @@ export default function AdminInquiriesPage() {
   const [itemsPerPage, setItemsPerPage] = useState(5);
 
   // Selected Inquiry for details modal
-  const [selectedInquiry, setSelectedInquiry] = useState<any | null>(null);
+  const [selectedInquiry, setSelectedInquiry] = useState<Inquiry | null>(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
 
   useEffect(() => {
-    setIsMounted(true);
     const stored = sessionStorage.getItem("bdm_inquiries");
-    if (stored) {
-      try {
-        setInquiries(JSON.parse(stored));
-      } catch {
+    setTimeout(() => {
+      setIsMounted(true);
+      if (stored) {
+        try {
+          setInquiries(JSON.parse(stored));
+        } catch {
+          setInquiries(mockInquiries);
+          sessionStorage.setItem("bdm_inquiries", JSON.stringify(mockInquiries));
+        }
+      } else {
         setInquiries(mockInquiries);
         sessionStorage.setItem("bdm_inquiries", JSON.stringify(mockInquiries));
       }
-    } else {
-      setInquiries(mockInquiries);
-      sessionStorage.setItem("bdm_inquiries", JSON.stringify(mockInquiries));
-    }
+    }, 0);
   }, []);
 
   const handleResolve = (id: number) => {
@@ -116,7 +129,7 @@ export default function AdminInquiriesPage() {
     });
   };
 
-  const openDetails = (inq: any) => {
+  const openDetails = (inq: Inquiry) => {
     setSelectedInquiry(inq);
     setIsDetailOpen(true);
   };

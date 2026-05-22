@@ -5,7 +5,7 @@ import Image from "next/image";
 import AppModal from "@/components/ui/AppModal";
 import RHFControl from "@/components/ui/inputs/RHFControl";
 import { Send, Phone, User, Mail, MessageSquare, Sparkles, CheckCircle2, X } from "lucide-react";
-import { useForm, FormProvider } from "react-hook-form";
+import { useForm, FormProvider, Resolver } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import siteContent from "@/data/site-content.json";
@@ -19,6 +19,8 @@ const schema = yup.object({
 }).required();
 
 type FormData = yup.InferType<typeof schema>;
+
+const getTimestamp = () => Date.now();
 
 interface QuoteModalProps {
   isOpen: boolean;
@@ -58,7 +60,7 @@ export default function QuoteModal({
   }, [isOpen]);
 
   const methods = useForm<FormData>({
-    resolver: yupResolver(schema) as any,
+    resolver: yupResolver(schema) as Resolver<FormData>,
     defaultValues: {
       fullName: "",
       phone: "",
@@ -94,7 +96,7 @@ export default function QuoteModal({
       }
 
       const newInquiry = {
-        id: Date.now(),
+        id: getTimestamp(),
         name: data.fullName,
         email: data.email,
         phone: data.phone,

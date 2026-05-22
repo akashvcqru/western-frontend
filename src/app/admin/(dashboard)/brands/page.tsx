@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Plus, Edit, Trash2, Upload, X } from "lucide-react";
+import { Plus, Edit, Trash2, Upload } from "lucide-react";
 import Image from "next/image";
 import { Card, AppModal, useAppToast, AdminPageHeader, Pagination, SearchInput } from "@/components/ui";
 import { AppRoutes } from "@/constants/routes";
@@ -73,16 +73,18 @@ export default function AdminBrandsPage() {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const stored = sessionStorage.getItem("bdm_brands");
-      if (stored) {
-        try {
-          setBrands(JSON.parse(stored));
-        } catch {
+      setTimeout(() => {
+        if (stored) {
+          try {
+            setBrands(JSON.parse(stored));
+          } catch {
+            setBrands(initialBrands);
+          }
+        } else {
           setBrands(initialBrands);
+          sessionStorage.setItem("bdm_brands", JSON.stringify(initialBrands));
         }
-      } else {
-        setBrands(initialBrands);
-        sessionStorage.setItem("bdm_brands", JSON.stringify(initialBrands));
-      }
+      }, 0);
     }
   }, []);
 

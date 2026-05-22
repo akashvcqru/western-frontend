@@ -86,34 +86,38 @@ export default function AdminProductsPage() {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const stored = sessionStorage.getItem("bdm_products");
-      if (stored) {
-        try {
-          const parsed = JSON.parse(stored) as Product[];
-          const migrated = parsed.map((p) => ({
-            ...p,
-            status: p.status || (p.stock > 0 ? "Active" : "Inactive"),
-            stock: p.stock !== undefined ? p.stock : 10,
-            images: Array.isArray(p.images) ? p.images : (p.image ? [p.image] : []),
-            features: Array.isArray(p.features) ? p.features : [],
-            specifications: Array.isArray(p.specifications) ? p.specifications : [],
-            dimensions: Array.isArray(p.dimensions) ? p.dimensions : [],
-            resources: Array.isArray(p.resources) ? p.resources : [],
-            variants: Array.isArray(p.variants) ? p.variants : [],
-            swatches: Array.isArray(p.swatches) ? p.swatches : [],
-          }));
-          setProducts(migrated);
-        } catch {
-          setProducts(initialProducts);
-        }
-      } else {
-        setProducts(initialProducts);
-        sessionStorage.setItem("bdm_products", JSON.stringify(initialProducts));
-      }
-
       const storedCats = sessionStorage.getItem("bdm_categories");
-      if (storedCats) {
-        try { setCategories(JSON.parse(storedCats)); } catch { setCategories([]); }
-      }
+
+      const timer = setTimeout(() => {
+        if (stored) {
+          try {
+            const parsed = JSON.parse(stored) as Product[];
+            const migrated = parsed.map((p) => ({
+              ...p,
+              status: p.status || (p.stock > 0 ? "Active" : "Inactive"),
+              stock: p.stock !== undefined ? p.stock : 10,
+              images: Array.isArray(p.images) ? p.images : (p.image ? [p.image] : []),
+              features: Array.isArray(p.features) ? p.features : [],
+              specifications: Array.isArray(p.specifications) ? p.specifications : [],
+              dimensions: Array.isArray(p.dimensions) ? p.dimensions : [],
+              resources: Array.isArray(p.resources) ? p.resources : [],
+              variants: Array.isArray(p.variants) ? p.variants : [],
+              swatches: Array.isArray(p.swatches) ? p.swatches : [],
+            }));
+            setProducts(migrated);
+          } catch {
+            setProducts(initialProducts);
+          }
+        } else {
+          setProducts(initialProducts);
+          sessionStorage.setItem("bdm_products", JSON.stringify(initialProducts));
+        }
+
+        if (storedCats) {
+          try { setCategories(JSON.parse(storedCats)); } catch { setCategories([]); }
+        }
+      }, 0);
+      return () => clearTimeout(timer);
     }
   }, []);
 
@@ -160,17 +164,6 @@ export default function AdminProductsPage() {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
-
-  const defaultCategoryOptions = [
-    { label: "Floor Tiles", value: "floor-tiles" },
-    { label: "Wall Tiles", value: "wall-tiles" },
-    { label: "Wooden Flooring", value: "wooden-flooring" },
-    { label: "Bathroom Fittings", value: "bathroom-fittings" },
-    { label: "Granite & Marble", value: "granite-marble" },
-  ];
-  const categoryOptions = categories.length > 0
-    ? categories.map((c) => ({ label: c.name, value: c.id || c.slug || "" }))
-    : defaultCategoryOptions;
 
   return (
     <div className="space-y-6">

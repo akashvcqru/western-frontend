@@ -17,7 +17,13 @@ interface GalleryItem {
   image: string;
 }
 
-const initialGallery: GalleryItem[] = initialGalleryData.map((item: any, index: number) => ({
+interface RawGalleryItem {
+  title: string;
+  category?: string;
+  image: string;
+}
+
+const initialGallery: GalleryItem[] = (initialGalleryData as RawGalleryItem[]).map((item, index: number) => ({
   id: `IMG-${String(index + 1).padStart(3, "0")}`,
   title: item.title,
   category: item.category || "Interiors",
@@ -53,34 +59,37 @@ export default function AdminGalleryPage() {
     if (typeof window !== "undefined") {
       // Load Categories
       const storedCats = sessionStorage.getItem("bdm_categories");
-      if (storedCats) {
-        try {
-          const parsed = JSON.parse(storedCats);
-          const activeCats = parsed
-            .filter((c: any) => c.status === "Active")
-            .map((c: any) => c.name);
-          setCategories(activeCats);
-        } catch {
-          const defaultCats = Array.from(new Set(initialCategoriesData.map((c: any) => c.name)));
+      const stored = sessionStorage.getItem("bdm_gallery");
+
+      setTimeout(() => {
+        if (storedCats) {
+          try {
+            const parsed = JSON.parse(storedCats);
+            const activeCats = parsed
+              .filter((c: { status: string }) => c.status === "Active")
+              .map((c: { name: string }) => c.name);
+            setCategories(activeCats);
+          } catch {
+            const defaultCats = Array.from(new Set(initialCategoriesData.map((c: { name: string }) => c.name)));
+            setCategories(defaultCats);
+          }
+        } else {
+          const defaultCats = Array.from(new Set(initialCategoriesData.map((c: { name: string }) => c.name)));
           setCategories(defaultCats);
         }
-      } else {
-        const defaultCats = Array.from(new Set(initialCategoriesData.map((c: any) => c.name)));
-        setCategories(defaultCats);
-      }
 
-      // Load Gallery
-      const stored = sessionStorage.getItem("bdm_gallery");
-      if (stored) {
-        try {
-          setGallery(JSON.parse(stored));
-        } catch {
+        // Load Gallery
+        if (stored) {
+          try {
+            setGallery(JSON.parse(stored));
+          } catch {
+            setGallery(initialGallery);
+          }
+        } else {
           setGallery(initialGallery);
+          sessionStorage.setItem("bdm_gallery", JSON.stringify(initialGallery));
         }
-      } else {
-        setGallery(initialGallery);
-        sessionStorage.setItem("bdm_gallery", JSON.stringify(initialGallery));
-      }
+      }, 0);
     }
   }, []);
 

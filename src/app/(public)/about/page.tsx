@@ -18,7 +18,6 @@ import {
   Check,
   MapPin,
   Clock,
-  Heart,
   Phone,
   Mail
 } from "lucide-react";
@@ -289,7 +288,7 @@ export default function AboutPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            {testimonialsPage.items.slice(0, 6).map((t: any, i: number) => (
+            {testimonialsPage.items.slice(0, 6).map((t: { rating: number; quote: string; author: string; designation: string; company: string }, i: number) => (
               <div 
                 key={i} 
                 className="bg-white p-10 lg:p-12 rounded-xl border border-neutral-100 flex flex-col justify-between space-y-8 relative group hover:shadow-[0_40px_100px_-20px_rgba(237,28,39,0.08)] hover:-translate-y-2 hover:border-primary/20 transition-all duration-700 h-full"
@@ -378,7 +377,7 @@ export default function AboutPage() {
                     </span>
                   </h2>
                   <p className="text-neutral-300 text-sm sm:text-base leading-relaxed max-w-xl font-normal">
-                    From modular workstations and CEO seating to turnkey corporate false ceilings and acoustics. Partner with Gurgaon's premier furniture manufacturer to design beyond.
+                    From modular workstations and CEO seating to turnkey corporate false ceilings and acoustics. Partner with Gurgaon&apos;s premier furniture manufacturer to design beyond.
                   </p>
                 </div>
 

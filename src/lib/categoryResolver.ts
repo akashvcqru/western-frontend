@@ -68,11 +68,11 @@ export const getProductCountBySlug = (slug: string): number => {
     if (stored) {
       try {
         products = JSON.parse(stored);
-      } catch (e) {
+      } catch {
         // fallback
       }
     }
   }
-  return products.filter((p: any) => resolved.includes(p.category)).length;
+  return products.filter((p: { category: string }) => resolved.includes(p.category)).length;
 };
 

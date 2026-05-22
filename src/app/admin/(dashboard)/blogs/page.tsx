@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Plus, Filter, Edit, Trash2, X, Calendar, Clock, ShieldCheck, Upload } from "lucide-react";
+import { Plus, Filter, Edit, Trash2, X, Clock, Upload } from "lucide-react";
 import Image from "next/image";
 import { Card, AppModal, useAppToast, AdminPageHeader, Pagination, SearchInput } from "@/components/ui";
 import { AppRoutes } from "@/constants/routes";
@@ -36,7 +36,10 @@ export default function AdminBlogsPage() {
 
   // Reset page when filters change
   useEffect(() => {
-    setCurrentPage(1);
+    const timer = setTimeout(() => {
+      setCurrentPage(1);
+    }, 0);
+    return () => clearTimeout(timer);
   }, [searchTerm, categoryFilter]);
 
   // Modal State
@@ -59,16 +62,19 @@ export default function AdminBlogsPage() {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const stored = localStorage.getItem("bdm_blogs");
-      if (stored) {
-        try {
-          setBlogs(JSON.parse(stored));
-        } catch {
+      const timer = setTimeout(() => {
+        if (stored) {
+          try {
+            setBlogs(JSON.parse(stored));
+          } catch {
+            setBlogs(initialBlogsData as BlogPost[]);
+          }
+        } else {
           setBlogs(initialBlogsData as BlogPost[]);
+          localStorage.setItem("bdm_blogs", JSON.stringify(initialBlogsData));
         }
-      } else {
-        setBlogs(initialBlogsData as BlogPost[]);
-        localStorage.setItem("bdm_blogs", JSON.stringify(initialBlogsData));
-      }
+      }, 0);
+      return () => clearTimeout(timer);
     }
   }, []);
 

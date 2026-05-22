@@ -20,6 +20,14 @@ import { cn } from "@/lib/utils";
 import galleryItems from "@/data/gallery.json";
 import siteContent from "@/data/site-content.json";
 
+interface GalleryItem {
+  id: string;
+  title: string;
+  category: string;
+  date: string;
+  image: string;
+}
+
 export default function GalleryPage() {
   const [selectedCategory, setSelectedCategory] = React.useState<string>("All");
   const [selectedIndex, setSelectedIndex] = React.useState<number | null>(null);
@@ -27,7 +35,7 @@ export default function GalleryPage() {
   const [quoteTitle, setQuoteTitle] = React.useState<string>("Get a Premium Quote");
   const [quoteSubtitle, setQuoteSubtitle] = React.useState<string>("Tell us about your project and our experts will contact you within 24 hours.");
   
-  const [gallery, setGallery] = React.useState<any[]>([]);
+  const [gallery, setGallery] = React.useState<GalleryItem[]>([]);
 
   const { galleryPage } = siteContent;
 
@@ -37,9 +45,21 @@ export default function GalleryPage() {
       const stored = sessionStorage.getItem("bdm_gallery");
       if (stored) {
         try {
-          setGallery(JSON.parse(stored));
+          const parsed = JSON.parse(stored) as GalleryItem[];
+          setTimeout(() => {
+            setGallery(parsed);
+          }, 0);
         } catch {
-          setGallery(galleryItems);
+          const fallback = galleryItems.map((item, index) => ({
+            id: `IMG-${String(index + 1).padStart(3, "0")}`,
+            title: item.title,
+            category: item.category || "Interiors",
+            date: `${String(10 - index).padStart(2, "0")} May 2026`,
+            image: item.image,
+          }));
+          setTimeout(() => {
+            setGallery(fallback);
+          }, 0);
         }
       } else {
         // Map the static items to include ID and Date if they don't have them
@@ -50,7 +70,9 @@ export default function GalleryPage() {
           date: `${String(10 - index).padStart(2, "0")} May 2026`,
           image: item.image,
         }));
-        setGallery(formatted);
+        setTimeout(() => {
+          setGallery(formatted);
+        }, 0);
         sessionStorage.setItem("bdm_gallery", JSON.stringify(formatted));
       }
     }

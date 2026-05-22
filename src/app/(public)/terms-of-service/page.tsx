@@ -40,7 +40,7 @@ export default function TermsOfServicePage() {
             <h2 className="text-2xl font-medium mb-4 text-foreground">2. Use of Services</h2>
             <p className="mb-6">
               You agree to use our website and services only for lawful purposes and in a way that does not infringe 
-              the rights of, restrict, or inhibit anyone else's use and enjoyment of the services. 
+              the rights of, restrict, or inhibit anyone else&apos;s use and enjoyment of the services. 
               Prohibited behavior includes:
             </p>
             <ul className="list-disc pl-6 mb-8 space-y-2">

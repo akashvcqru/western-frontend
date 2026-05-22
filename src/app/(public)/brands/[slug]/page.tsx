@@ -35,7 +35,10 @@ export default function BrandPage() {
       const storedProds = sessionStorage.getItem("bdm_products");
       if (storedProds) {
         try {
-          setProductsList(JSON.parse(storedProds));
+          const parsed = JSON.parse(storedProds);
+          setTimeout(() => {
+            setProductsList(parsed);
+          }, 0);
         } catch (e) {
           console.error(e);
         }

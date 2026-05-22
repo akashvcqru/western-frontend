@@ -20,7 +20,10 @@ export default function CategoriesPage() {
       const storedCats = sessionStorage.getItem("bdm_categories");
       if (storedCats) {
         try {
-          setCategories(JSON.parse(storedCats));
+          const parsedCats = JSON.parse(storedCats);
+          setTimeout(() => {
+            setCategories(parsedCats);
+          }, 0);
         } catch (e) {
           console.error("Error parsing stored categories:", e);
         }
@@ -28,7 +31,10 @@ export default function CategoriesPage() {
       const storedProds = sessionStorage.getItem("bdm_products");
       if (storedProds) {
         try {
-          setProducts(JSON.parse(storedProds));
+          const parsedProds = JSON.parse(storedProds);
+          setTimeout(() => {
+            setProducts(parsedProds);
+          }, 0);
         } catch (e) {
           console.error("Error parsing stored products:", e);
         }

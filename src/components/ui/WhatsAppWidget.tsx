@@ -8,7 +8,9 @@ export default function WhatsAppWidget() {
   const [showTooltip, setShowTooltip] = useState(false);
 
   useEffect(() => {
-    setIsMounted(true);
+    const mountTimer = setTimeout(() => {
+      setIsMounted(true);
+    }, 0);
     // Show tooltip after a short delay, then hide it
     const timer = setTimeout(() => {
       setShowTooltip(true);
@@ -19,6 +21,7 @@ export default function WhatsAppWidget() {
     }, 8000);
 
     return () => {
+      clearTimeout(mountTimer);
       clearTimeout(timer);
       clearTimeout(hideTimer);
     };

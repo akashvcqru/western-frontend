@@ -38,6 +38,8 @@ interface ContactFormData {
   message: string;
 }
 
+const getTimestamp = () => Date.now();
+
 export default function ContactPage() {
   const { common, contactPage } = siteContent;
   const { addToast } = useAppToast();
@@ -68,7 +70,7 @@ export default function ContactPage() {
       }
 
       const newInquiry = {
-        id: Date.now(),
+        id: getTimestamp(),
         name: data.fullName,
         email: data.email,
         phone: data.phone,

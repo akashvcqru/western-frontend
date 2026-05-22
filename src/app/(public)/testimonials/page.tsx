@@ -2,24 +2,19 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { 
   Quote, 
   Star, 
-  Zap, 
   MessageSquare, 
-  Plus, 
   Check, 
-  ChevronDown, 
   Sparkles, 
   Building2, 
   HelpCircle,
   TrendingUp,
   Clock,
-  VolumeX,
-  MapPin
+  VolumeX
 } from "lucide-react";
-import { useForm, FormProvider } from "react-hook-form";
+import { useForm, FormProvider, Resolver } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import siteContent from "@/data/site-content.json";
@@ -43,11 +38,22 @@ type TestimonialFormValues = {
   quote: string;
 };
 
+interface Testimonial {
+  author: string;
+  designation: string;
+  company: string;
+  category: string;
+  quote: string;
+  rating: number;
+}
+
 export default function TestimonialsPage() {
   const { testimonialsPage } = siteContent;
 
   // React State for managing testimonials and filters
-  const [testimonialsList, setTestimonialsList] = useState(testimonialsPage.items);
+  const [testimonialsList, setTestimonialsList] = useState<Testimonial[]>(
+    testimonialsPage.items as Testimonial[]
+  );
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formSuccess, setFormSuccess] = useState(false);
@@ -56,7 +62,7 @@ export default function TestimonialsPage() {
 
   // Form setup
   const methods = useForm<TestimonialFormValues>({
-    resolver: yupResolver(testimonialSchema) as any,
+    resolver: yupResolver(testimonialSchema) as Resolver<TestimonialFormValues>,
     defaultValues: {
       author: "",
       designation: "",
@@ -97,13 +103,13 @@ export default function TestimonialsPage() {
   // Dynamic counter
   const getCount = (catId: string) => {
     if (catId === "all") return testimonialsList.length;
-    return testimonialsList.filter((t: any) => t.category === catId).length;
+    return testimonialsList.filter((t) => t.category === catId).length;
   };
 
   // Filtered Testimonials
   const filteredTestimonials = selectedCategory === "all"
     ? testimonialsList
-    : testimonialsList.filter((t: any) => t.category === selectedCategory);
+    : testimonialsList.filter((t) => t.category === selectedCategory);
 
   // Initial generator for avatar fallback
   const getInitials = (name: string) => {
@@ -171,7 +177,7 @@ export default function TestimonialsPage() {
                 <div className="relative">
                   <Quote size={80} className="absolute -left-6 -top-8 text-white/5 pointer-events-none" strokeWidth={1} />
                   <p className="text-lg md:text-xl text-white italic leading-relaxed font-normal relative z-10 pl-2">
-                    "The quality of the modular partitions is top-notch. It gave our office a modern and premium look while maintaining absolute workspace acoustic privacy. Perfect execution by Western Interio."
+                    &quot;The quality of the modular partitions is top-notch. It gave our office a modern and premium look while maintaining absolute workspace acoustic privacy. Perfect execution by Western Interio.&quot;
                   </p>
                 </div>
               </div>
@@ -268,7 +274,7 @@ export default function TestimonialsPage() {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
-              {filteredTestimonials.map((t: any, i: number) => (
+              {filteredTestimonials.map((t, i) => (
                 <div 
                   key={i} 
                   className="bg-white p-8 md:p-10 rounded-xl border border-neutral-100 flex flex-col justify-between space-y-8 relative group hover:border-primary/20 hover:shadow-[0_30px_70px_-15px_rgba(237,28,39,0.08)] hover:-translate-y-2.5 transition-all duration-500 animate-in fade-in slide-in-from-bottom-6 duration-700 h-full"
@@ -305,7 +311,7 @@ export default function TestimonialsPage() {
 
                     {/* Review text */}
                     <p className="text-neutral-800 text-base leading-relaxed font-normal tracking-wide italic">
-                      "{t.quote}"
+                      &quot;{t.quote}&quot;
                     </p>
                   </div>
 

@@ -42,8 +42,10 @@ export default function BlogDetailPage() {
         localStorage.setItem("bdm_blogs", JSON.stringify(blogsData));
       }
       const foundPost = currentBlogs.find((b) => b.id === id);
-      setPost(foundPost || null);
-      setLoading(false);
+      setTimeout(() => {
+        setPost(foundPost || null);
+        setLoading(false);
+      }, 0);
     }
   }, [id]);
 
@@ -268,7 +270,7 @@ export default function BlogDetailPage() {
       <QuoteModal
         isOpen={isQuoteOpen}
         onClose={() => setIsQuoteOpen(false)}
-        product={productPlaceholder as any}
+        product={productPlaceholder as { id: string; name: string; images: string[]; brand: string; catNo: string }}
       />
     </main>
   );

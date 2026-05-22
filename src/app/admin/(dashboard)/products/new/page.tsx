@@ -158,7 +158,7 @@ export default function NewProductPage() {
     },
   });
 
-  const { reset, setValue, control, handleSubmit, formState: { errors, isSubmitting } } = methods;
+  const { setValue, control, handleSubmit, formState: { errors, isSubmitting } } = methods;
   const watchedStatus = useWatch({ control, name: "status" });
   const watchedResources = useWatch({ control, name: "resources" }) || [];
 
@@ -166,8 +166,6 @@ export default function NewProductPage() {
   const { fields: specFields, append: appendSpec, remove: removeSpec } = useFieldArray({ control, name: "specifications" });
   const { fields: dimFields, append: appendDim, remove: removeDim } = useFieldArray({ control, name: "dimensions" });
   const { fields: resFields, append: appendRes, remove: removeRes } = useFieldArray({ control, name: "resources" });
-  const { fields: variantFields, append: appendVariant, remove: removeVariant } = useFieldArray({ control, name: "variants" });
-  const { fields: swatchFields, append: appendSwatch, remove: removeSwatch } = useFieldArray({ control, name: "swatches" });
   const { fields: quickSpecFields, append: appendQuickSpec, remove: removeQuickSpec } = useFieldArray({ control, name: "quickSpecs" });
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
@@ -221,13 +219,20 @@ export default function NewProductPage() {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedCats = sessionStorage.getItem("bdm_categories");
-      if (storedCats) {
-        try { setCategories(JSON.parse(storedCats)); } catch { setCategories([]); }
-      }
       const storedBrands = sessionStorage.getItem("bdm_brands");
-      if (storedBrands) {
-        try { setBrands(JSON.parse(storedBrands)); } catch { setBrands([]); }
-      }
+      const timer = setTimeout(() => {
+        if (storedCats) {
+          try { setCategories(JSON.parse(storedCats)); } catch { setCategories([]); }
+        }
+        if (storedBrands) {
+          try {
+            if (storedBrands) setBrands(JSON.parse(storedBrands));
+          } catch {
+            setBrands([]);
+          }
+        }
+      }, 0);
+      return () => clearTimeout(timer);
     }
   }, []);
 

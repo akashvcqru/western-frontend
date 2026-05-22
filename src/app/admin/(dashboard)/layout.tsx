@@ -364,15 +364,17 @@ export default function AdminDashboardLayout({
 
   /* Load admin details on mount to avoid hydration mismatch */
   useEffect(() => {
-    setMounted(true);
     const stored = sessionStorage.getItem("bdm_admin");
-    if (stored) {
-      try {
-        setAdmin(JSON.parse(stored));
-      } catch {
-        setAdmin(null);
+    setTimeout(() => {
+      setMounted(true);
+      if (stored) {
+        try {
+          setAdmin(JSON.parse(stored));
+        } catch {
+          setAdmin(null);
+        }
       }
-    }
+    }, 0);
   }, []);
 
   /* Dynamic Badge Handler */
@@ -383,7 +385,7 @@ export default function AdminDashboardLayout({
         if (stored) {
           try {
             const inqs = JSON.parse(stored);
-            const activeCount = inqs.filter((i: any) => i.status === "new").length;
+            const activeCount = inqs.filter((i: { status: string }) => i.status === "new").length;
             setInquiriesBadge(activeCount > 0 ? String(activeCount) : null);
           } catch {
             setInquiriesBadge("5");

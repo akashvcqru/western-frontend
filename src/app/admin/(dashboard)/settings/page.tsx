@@ -82,25 +82,28 @@ export default function AdminSettingsPage() {
 
   // Load configuration from sessionStorage after mount
   useEffect(() => {
-    setIsMounted(true);
-    
-    const storedContact = sessionStorage.getItem("bdm_settings_contact");
-    if (storedContact) {
-      try {
-        contactMethods.reset(JSON.parse(storedContact));
-      } catch (e) {
-        console.error("Failed to parse stored contact settings:", e);
+    const timer = setTimeout(() => {
+      setIsMounted(true);
+      
+      const storedContact = sessionStorage.getItem("bdm_settings_contact");
+      if (storedContact) {
+        try {
+          contactMethods.reset(JSON.parse(storedContact));
+        } catch (e) {
+          console.error("Failed to parse stored contact settings:", e);
+        }
       }
-    }
 
-    const storedSocial = sessionStorage.getItem("bdm_settings_social");
-    if (storedSocial) {
-      try {
-        socialMethods.reset(JSON.parse(storedSocial));
-      } catch (e) {
-        console.error("Failed to parse stored social settings:", e);
+      const storedSocial = sessionStorage.getItem("bdm_settings_social");
+      if (storedSocial) {
+        try {
+          socialMethods.reset(JSON.parse(storedSocial));
+        } catch (e) {
+          console.error("Failed to parse stored social settings:", e);
+        }
       }
-    }
+    }, 0);
+    return () => clearTimeout(timer);
   }, [contactMethods, socialMethods]);
 
   const onSubmitContact = (data: ContactSettingsData) => {

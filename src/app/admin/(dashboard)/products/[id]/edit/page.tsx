@@ -105,10 +105,11 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
   // Mount guard to avoid hydration mismatch
   const [isMounted, setIsMounted] = useState(false);
   useEffect(() => {
-    setIsMounted(true);
+    const timer = setTimeout(() => {
+      setIsMounted(true);
+    }, 0);
+    return () => clearTimeout(timer);
   }, []);
-
-  if (!isMounted) return null;
 
   const defaultCategoryOptions = [
     { label: "Floor Tiles", value: "floor-tiles" },
@@ -165,8 +166,6 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
   const { fields: specFields, append: appendSpec, remove: removeSpec } = useFieldArray({ control, name: "specifications" });
   const { fields: dimFields, append: appendDim, remove: removeDim } = useFieldArray({ control, name: "dimensions" });
   const { fields: resFields, append: appendRes, remove: removeRes } = useFieldArray({ control, name: "resources" });
-  const { fields: variantFields, append: appendVariant, remove: removeVariant } = useFieldArray({ control, name: "variants" });
-  const { fields: swatchFields, append: appendSwatch, remove: removeSwatch } = useFieldArray({ control, name: "swatches" });
   const { fields: quickSpecFields, append: appendQuickSpec, remove: removeQuickSpec } = useFieldArray({ control, name: "quickSpecs" });
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
@@ -220,49 +219,53 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
     if (typeof window === "undefined") return;
 
     const storedCats = sessionStorage.getItem("bdm_categories");
-    if (storedCats) {
-      try { setCategories(JSON.parse(storedCats)); } catch { setCategories([]); }
-    }
-
     const storedBrands = sessionStorage.getItem("bdm_brands");
-    if (storedBrands) {
-      try { setBrands(JSON.parse(storedBrands)); } catch { setBrands([]); }
-    }
-
     const stored = sessionStorage.getItem("bdm_products");
-    const all: Product[] = stored ? JSON.parse(stored) : (initialProductsData as Product[]);
-    const found = all.find((p) => p.id === id || p.slug === id);
 
-    if (!found) {
-      setNotFound(true);
-      return;
-    }
+    const timer = setTimeout(() => {
+      if (storedCats) {
+        try { setCategories(JSON.parse(storedCats)); } catch { setCategories([]); }
+      }
 
-    reset({
-      name: found.name || "",
-      category: found.category || "",
-      brand: found.brand || "Western",
-      price: found.price || "",
-      stock: found.stock ?? 10,
-      status: found.status || "Active",
-      description: found.description || "",
-      catNo: found.catNo || "",
-      blueprintImage: found.blueprintImage || "",
-      material: found.material || "",
-      finish: found.finish || "",
-      size: found.size || "",
-      images: found.images || [],
-      features: found.features || [],
-      specifications: found.specifications || [],
-      dimensions: found.dimensions || [],
-      resources: found.resources || [],
-      variants: found.variants || [],
-      swatches: found.swatches || [],
-      detailsTitle: found.detailsTitle || "",
-      detailsText1: found.detailsText1 || "",
-      detailsText2: found.detailsText2 || "",
-      quickSpecs: found.quickSpecs?.map(q => ({ value: q })) || [],
-    });
+      if (storedBrands) {
+        try { setBrands(JSON.parse(storedBrands)); } catch { setBrands([]); }
+      }
+
+      const all: Product[] = stored ? JSON.parse(stored) : (initialProductsData as Product[]);
+      const found = all.find((p) => p.id === id || p.slug === id);
+
+      if (!found) {
+        setNotFound(true);
+        return;
+      }
+
+      reset({
+        name: found.name || "",
+        category: found.category || "",
+        brand: found.brand || "Western",
+        price: found.price || "",
+        stock: found.stock ?? 10,
+        status: found.status || "Active",
+        description: found.description || "",
+        catNo: found.catNo || "",
+        blueprintImage: found.blueprintImage || "",
+        material: found.material || "",
+        finish: found.finish || "",
+        size: found.size || "",
+        images: found.images || [],
+        features: found.features || [],
+        specifications: found.specifications || [],
+        dimensions: found.dimensions || [],
+        resources: found.resources || [],
+        variants: found.variants || [],
+        swatches: found.swatches || [],
+        detailsTitle: found.detailsTitle || "",
+        detailsText1: found.detailsText1 || "",
+        detailsText2: found.detailsText2 || "",
+        quickSpecs: found.quickSpecs?.map(q => ({ value: q })) || [],
+      });
+    }, 0);
+    return () => clearTimeout(timer);
   }, [id, reset]);
 
   const categoryOptions = categories.length > 0
@@ -337,6 +340,8 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
     { key: "specs", label: "Specifications" },
     { key: "resources", label: "Downloads & Resources" },
   ] as const;
+
+  if (!isMounted) return null;
 
   if (notFound) {
     return (

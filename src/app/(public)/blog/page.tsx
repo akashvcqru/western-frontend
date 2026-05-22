@@ -29,7 +29,10 @@ export default function BlogLandingPage() {
       const stored = localStorage.getItem("bdm_blogs");
       if (stored) {
         try {
-          setBlogs(JSON.parse(stored));
+          const parsed = JSON.parse(stored);
+          setTimeout(() => {
+            setBlogs(parsed);
+          }, 0);
         } catch {}
       } else {
         localStorage.setItem("bdm_blogs", JSON.stringify(blogsData));

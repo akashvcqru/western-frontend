@@ -94,7 +94,10 @@ export default function DynamicServicePage() {
 
   // Get dynamic Lucide icon
   const getIconComponent = (iconName: string) => {
-    const Icon = (LucideIcons as any)[iconName];
+    const Icon = (LucideIcons as unknown as Record<
+      string,
+      React.ComponentType<{ size?: number; className?: string; strokeWidth?: number }>
+    >)[iconName];
     return Icon || LucideIcons.Sparkles;
   };
 

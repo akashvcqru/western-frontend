@@ -5,7 +5,7 @@ import { Plus, Edit, Trash2, Folder, Upload } from "lucide-react";
 import Image from "next/image";
 import { Card, AppModal, useAppToast, AdminPageHeader, Pagination, RHFControl, SearchInput } from "@/components/ui";
 import { AppRoutes } from "@/constants/routes";
-import { useForm, FormProvider, Controller } from "react-hook-form";
+import { useForm, FormProvider, Controller, Resolver } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
@@ -36,9 +36,17 @@ interface Product {
   images?: string[];
 }
 
-const initialCategories: Category[] = initialCategoriesData.map((cat: any) => ({
-  id: cat.id || cat.slug,
-  slug: cat.slug || cat.id,
+interface RawCategoryData {
+  id?: string;
+  slug?: string;
+  name: string;
+  description: string;
+  image?: string;
+}
+
+const initialCategories: Category[] = (initialCategoriesData as RawCategoryData[]).map((cat) => ({
+  id: cat.id || cat.slug || "",
+  slug: cat.slug || cat.id || "",
   name: cat.name,
   description: cat.description,
   count: 0,
@@ -95,8 +103,7 @@ export default function AdminCategoriesPage() {
 
   // React Hook Form Configuration
   const methods = useForm<CategoryFormData>({
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    resolver: yupResolver(categorySchema) as any,
+    resolver: yupResolver(categorySchema) as Resolver<CategoryFormData>,
     defaultValues: {
       id: "",
       name: "",

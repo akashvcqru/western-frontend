@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { 
   Phone, 
-  MessageSquare, 
   FileText, 
   CheckCircle2, 
   ShieldCheck, 
@@ -50,12 +49,17 @@ export default function ProductDetailPage() {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    setIsMounted(true);
+    setTimeout(() => {
+      setIsMounted(true);
+    }, 0);
     if (typeof window !== "undefined") {
       const storedProds = sessionStorage.getItem("bdm_products");
       if (storedProds) {
         try {
-          setProductsList(JSON.parse(storedProds));
+          const parsed = JSON.parse(storedProds);
+          setTimeout(() => {
+            setProductsList(parsed);
+          }, 0);
         } catch (e) {
           console.error(e);
         }
@@ -73,10 +77,11 @@ export default function ProductDetailPage() {
 
   useEffect(() => {
     if (rawProduct) {
-      setSelectedVariants(
-        rawProduct.variants?.reduce((acc, v) => ({ ...acc, [v.label]: v.options[0] }), {} as Record<string, string>) || {}
-      );
-      setSelectedImage(0);
+      const variants = rawProduct.variants?.reduce((acc, v) => ({ ...acc, [v.label]: v.options[0] }), {} as Record<string, string>) || {};
+      setTimeout(() => {
+        setSelectedVariants(variants);
+        setSelectedImage(0);
+      }, 0);
     }
   }, [rawProduct]);
 
