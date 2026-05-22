@@ -1,10 +1,9 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Plus, Search, Filter, Edit, Trash2, X, FileText, Calendar, Clock, User, ShieldCheck } from "lucide-react";
+import { Plus, Filter, Edit, Trash2, X, Calendar, Clock, ShieldCheck, Upload } from "lucide-react";
 import Image from "next/image";
-import { Card, AppModal, useAppToast, AdminPageHeader } from "@/components/ui";
-import { Pagination } from "@/components/ui/Pagination";
+import { Card, AppModal, useAppToast, AdminPageHeader, Pagination, SearchInput } from "@/components/ui";
 import { AppRoutes } from "@/constants/routes";
 import initialBlogsData from "@/data/blogs.json";
 
@@ -33,7 +32,7 @@ export default function AdminBlogsPage() {
 
   // Pagination State
   const [currentPage, setCurrentPage] = useState(1);
-  const ITEMS_PER_PAGE = 5;
+  const [itemsPerPage, setItemsPerPage] = useState(5);
 
   // Reset page when filters change
   useEffect(() => {
@@ -56,10 +55,10 @@ export default function AdminBlogsPage() {
   const [formContent, setFormContent] = useState("");
   const [formDate, setFormDate] = useState("");
 
-  // Load from sessionStorage on mount
+  // Load from localStorage on mount
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const stored = sessionStorage.getItem("bdm_blogs");
+      const stored = localStorage.getItem("bdm_blogs");
       if (stored) {
         try {
           setBlogs(JSON.parse(stored));
@@ -68,7 +67,7 @@ export default function AdminBlogsPage() {
         }
       } else {
         setBlogs(initialBlogsData as BlogPost[]);
-        sessionStorage.setItem("bdm_blogs", JSON.stringify(initialBlogsData));
+        localStorage.setItem("bdm_blogs", JSON.stringify(initialBlogsData));
       }
     }
   }, []);
@@ -76,7 +75,7 @@ export default function AdminBlogsPage() {
   // Save helper
   const saveBlogs = (updatedList: BlogPost[]) => {
     setBlogs(updatedList);
-    sessionStorage.setItem("bdm_blogs", JSON.stringify(updatedList));
+    localStorage.setItem("bdm_blogs", JSON.stringify(updatedList));
     window.dispatchEvent(new Event("bdm-blogs-updated"));
   };
 
@@ -246,10 +245,10 @@ export default function AdminBlogsPage() {
     return matchesSearch && matchesCategory;
   });
 
-  const totalPages = Math.ceil(filteredBlogs.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(filteredBlogs.length / itemsPerPage);
   const paginatedBlogs = filteredBlogs.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
   );
 
   // Unique categories for filtering
@@ -269,33 +268,33 @@ export default function AdminBlogsPage() {
       {/* Data Table Card */}
       <Card className="!overflow-visible">
         <Card.Header>
-          <div className="flex items-center gap-3 w-full">
-            {/* Search Bar */}
-            <div className="relative flex-1">
-              <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
-              <input
-                type="text"
-                placeholder="Search blogs by title, excerpt or ID..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-9 pr-4 py-2.5 bg-gray-50 border border-gray-100 rounded-xl text-xs font-medium focus:outline-none focus:border-[#ed1c27]/30 transition-colors"
-              />
-            </div>
+          {/* Left: Search input */}
+          <SearchInput
+            placeholder="Search blogs by title, excerpt or ID..."
+            value={searchTerm}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setCurrentPage(1);
+            }}
+            wrapperClassName="max-w-sm"
+          />
 
+          {/* Right: Actions */}
+          <div className="flex items-center gap-3">
             {/* Category Filter */}
-            <div className="relative flex-shrink-0">
+            <div className="relative">
               <button
                 onClick={() => setShowFilterDropdown(!showFilterDropdown)}
-                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 border border-gray-200 rounded-xl text-xs font-bold uppercase tracking-widest text-gray-600 hover:bg-gray-50 transition-colors cursor-pointer"
+                className="inline-flex items-center justify-center gap-2 px-4 py-2 border border-gray-200 rounded-xl text-[10px] font-bold uppercase tracking-widest text-gray-600 hover:bg-gray-55 transition-colors cursor-pointer"
               >
                 <Filter size={12} /> Filters
               </button>
 
               {showFilterDropdown && (
-                <div className="absolute right-0 top-12 z-50 bg-white border border-gray-100 rounded-xl shadow-xl p-4 w-60 space-y-3">
+                <div className="absolute right-0 top-12 z-50 bg-white border border-gray-100 rounded-xl shadow-xl p-4 w-60 space-y-3 text-left">
                   <div className="flex justify-between items-center pb-2 border-b border-gray-50">
                      <span className="text-[10px] font-bold uppercase text-gray-400">Filters</span>
-                     <button onClick={() => setShowFilterDropdown(false)} className="text-gray-400 hover:text-gray-600 cursor-pointer">
+                     <button onClick={() => setShowFilterDropdown(false)} className="text-gray-400 hover:text-gray-650 cursor-pointer">
                        <X size={14} />
                      </button>
                   </div>
@@ -304,8 +303,11 @@ export default function AdminBlogsPage() {
                     <label className="text-[9px] font-bold uppercase tracking-wider text-gray-400">Category</label>
                     <select
                       value={categoryFilter}
-                      onChange={(e) => setCategoryFilter(e.target.value)}
-                      className="w-full text-xs font-semibold bg-gray-50 border border-gray-200 rounded-lg p-2 focus:outline-none"
+                      onChange={(e) => {
+                        setCategoryFilter(e.target.value);
+                        setCurrentPage(1);
+                      }}
+                      className="w-full text-xs font-semibold bg-gray-50 border border-gray-200 rounded-lg p-2 focus:outline-none cursor-pointer"
                     >
                       {categoriesList.map((cat) => (
                         <option key={cat} value={cat}>{cat}</option>
@@ -318,8 +320,9 @@ export default function AdminBlogsPage() {
 
             {/* Add Blog Button */}
             <button
+              id="add-blog-btn"
               onClick={handleAddClick}
-              className="flex-shrink-0 inline-flex items-center justify-center gap-2 bg-[#ed1c27] hover:bg-[#c5141e] text-white font-bold uppercase tracking-[0.12em] text-[10px] rounded-xl px-5 py-2.5 transition-all duration-300 cursor-pointer hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#ed1c27]/25"
+              className="inline-flex items-center justify-center gap-2 bg-[#ed1c27] hover:bg-[#c5141e] text-white font-bold uppercase tracking-[0.12em] text-[10px] rounded-xl px-5 py-2 transition-all duration-300 cursor-pointer hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#ed1c27]/25"
             >
               <Plus size={14} /> Add Blog
             </button>
@@ -404,20 +407,19 @@ export default function AdminBlogsPage() {
           </div>
         </Card.Body>
 
-        <Card.Footer mutedBackground>
-          <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-xs text-gray-500 font-medium">
-              Showing {filteredBlogs.length > 0 ? (currentPage - 1) * ITEMS_PER_PAGE + 1 : 0}-
-              {Math.min(currentPage * ITEMS_PER_PAGE, filteredBlogs.length)} of {filteredBlogs.length} blogs
-              {searchTerm || categoryFilter !== "All" ? ` (filtered from ${blogs.length} total)` : ""}
-            </p>
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={setCurrentPage}
-              className="pt-0 border-t-0 mt-0 flex-wrap shrink-0 py-1"
-            />
-          </div>
+        <Card.Footer>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+            pageSize={itemsPerPage}
+            onPageSizeChange={(size) => {
+              setItemsPerPage(size);
+              setCurrentPage(1);
+            }}
+            totalItems={filteredBlogs.length}
+            pageSizeOptions={[5, 10, 20, 50]}
+          />
         </Card.Footer>
       </Card>
 
@@ -496,30 +498,16 @@ export default function AdminBlogsPage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            {/* Date */}
-            <div className="space-y-1">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Publish Date *</label>
-              <input
-                type="text"
-                required
-                value={formDate}
-                onChange={(e) => setFormDate(e.target.value)}
-                className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium focus:outline-none focus:border-[#ed1c27]/40"
-              />
-            </div>
-
-            {/* Tags */}
-            <div className="space-y-1">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Tags (Comma-separated)</label>
-              <input
-                type="text"
-                value={formTags}
-                onChange={(e) => setFormTags(e.target.value)}
-                placeholder="e.g. Ergonomics, Posture, Office"
-                className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium focus:outline-none focus:border-[#ed1c27]/40"
-              />
-            </div>
+          {/* Tags */}
+          <div className="space-y-1">
+            <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Tags (Comma-separated)</label>
+            <input
+              type="text"
+              value={formTags}
+              onChange={(e) => setFormTags(e.target.value)}
+              placeholder="e.g. Ergonomics, Posture, Office"
+              className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium focus:outline-none focus:border-[#ed1c27]/40"
+            />
           </div>
 
           {/* Excerpt */}
@@ -548,17 +536,70 @@ export default function AdminBlogsPage() {
             />
           </div>
 
-          {/* Image URL */}
-          <div className="space-y-1">
-            <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Featured Image URL</label>
-            <input
-              type="text"
-              value={formImage}
-              onChange={(e) => setFormImage(e.target.value)}
-              placeholder="e.g. https://images.unsplash.com/photo-1524758631624-e2822e304c36..."
-              className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium focus:outline-none focus:border-[#ed1c27]/40"
-            />
-            <p className="text-[8px] text-gray-450 mt-0.5">Leave blank to use a default high-quality office space image.</p>
+          {/* Featured Image Upload */}
+          <div className="space-y-2">
+            <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Featured Image *</label>
+
+            {/* Dropzone */}
+            <div className={`border-2 border-dashed rounded-xl p-6 flex flex-col items-center justify-center gap-2 bg-gray-50/50 relative group cursor-pointer transition-all duration-300 min-h-[140px] ${
+              !formImage ? "border-gray-200 hover:border-[#ed1c27]/40" : "border-emerald-200 hover:border-emerald-400"
+            }`}>
+              {formImage ? (
+                <div className="relative w-full h-32 rounded-lg overflow-hidden border border-gray-150">
+                  <Image src={formImage} alt="Featured Blog Image" fill className="object-cover" />
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setFormImage("");
+                    }}
+                    className="absolute top-2 right-2 bg-black/60 hover:bg-red-600 text-white rounded-full p-1.5 transition-colors z-10"
+                    title="Remove image"
+                  >
+                    <X size={12} />
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <Upload className="w-8 h-8 text-gray-300 group-hover:text-[#ed1c27] transition-colors duration-300" />
+                  <span className="text-xs text-gray-500 font-bold uppercase tracking-wider text-center">
+                    Upload Featured Image
+                  </span>
+                  <span className="text-[9px] text-gray-400 font-semibold uppercase tracking-widest text-center">
+                    Click or drag — PNG, JPG or WEBP (Max 2MB)
+                  </span>
+                </>
+              )}
+              <input
+                id="blog-image-upload"
+                type="file"
+                accept="image/*"
+                className="absolute inset-0 opacity-0 cursor-pointer"
+                disabled={!!formImage}
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (!file) return;
+                  if (file.size > 2 * 1024 * 1024) {
+                    addToast({
+                      title: "File Too Large",
+                      message: "Please choose an image smaller than 2 MB.",
+                      variant: "warning",
+                    });
+                    return;
+                  }
+                  const reader = new FileReader();
+                  reader.onloadend = () => {
+                    if (typeof reader.result === "string") {
+                      setFormImage(reader.result);
+                    }
+                  };
+                  reader.readAsDataURL(file);
+                }}
+              />
+            </div>
+            <p className="text-[9px] text-gray-450 font-semibold uppercase tracking-widest">
+              {formImage ? "Featured image uploaded. Click the X button to remove." : "Required — select a featured image."}
+            </p>
           </div>
 
           {/* Form Actions */}

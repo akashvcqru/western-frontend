@@ -23,10 +23,13 @@ interface Product {
   image?: string;
   catNo?: string;
   blueprintImage?: string;
+  material?: string;
+  finish?: string;
+  size?: string;
   features?: { title: string; desc: string }[];
   specifications?: { label: string; value: string }[];
   dimensions?: { name: string; range: string; coord: string }[];
-  resources?: { id: string; title: string; desc: string; format: string; size: string }[];
+  resources?: { id: string; title: string; desc: string; format: string; size: string; fileData?: string; fileName?: string }[];
   variants?: { label: string; options: string[] }[];
   swatches?: {
     category: string;

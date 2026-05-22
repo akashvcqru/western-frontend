@@ -11,6 +11,9 @@ interface Product {
   brand?: string;
   type?: string;
   subcategory?: string;
+  material?: string;
+  finish?: string;
+  size?: string;
   specifications?: { label: string; value: string }[];
   shortSpecs?: string[];
   images: string[];

@@ -50,6 +50,9 @@ interface Product {
   brand?: string;
   subcategory?: string;
   type?: string;
+  material?: string;
+  finish?: string;
+  size?: string;
   specifications?: ProductSpec[];
   shortSpecs?: string[];
   detailsTitle?: string;
@@ -263,59 +266,84 @@ export default function ProductListingPage({
       const specifications: { label: string; value: string }[] = [];
       const shortSpecs: string[] = [];
 
-      // Material Inference
-      let material = "Engineered Wood";
-      if (p.category.includes("chair")) {
-        if (p.category.includes("boss") || p.category.includes("president")) {
-          material = "Premium Leatherette";
-        } else if (p.category.includes("workstation") || p.category.includes("mesh")) {
-          material = "High-Density Mesh";
+      // Material Inference / Override
+      let material = p.material || "";
+      if (!material) {
+        if (p.category.includes("chair")) {
+          if (p.category.includes("boss") || p.category.includes("president")) {
+            material = "Premium Leatherette";
+          } else if (p.category.includes("workstation") || p.category.includes("mesh")) {
+            material = "High-Density Mesh";
+          } else {
+            material = "Ergonomic Polymer";
+          }
+        } else if (p.category.includes("table") || p.category.includes("desk") || p.category.includes("workstation")) {
+          if (p.name.toLowerCase().includes("executive") || p.category.includes("director")) {
+            material = "Premium Veneer Wood";
+          } else {
+            material = "Engineered Wood (Pre-laminated)";
+          }
+        } else if (p.category.includes("sofa")) {
+          material = "Plush Fabric";
         } else {
-          material = "Ergonomic Polymer";
+          material = "Engineered Wood";
         }
-      } else if (p.category.includes("table") || p.category.includes("desk") || p.category.includes("workstation")) {
-        if (p.name.toLowerCase().includes("executive") || p.category.includes("director")) {
-          material = "Premium Veneer Wood";
-        } else {
-          material = "Engineered Wood (Pre-laminated)";
-        }
-      } else if (p.category.includes("sofa")) {
-        material = "Plush Fabric";
       }
       specifications.push({ label: "Material", value: material });
       shortSpecs.push(material);
 
-      // Finish Inference
-      let finish = "Matte Laminate";
-      if (p.category.includes("chair")) {
-        finish = "Chrome Base & Mesh";
-      } else if (p.category.includes("table") || p.category.includes("desk") || p.category.includes("workstation")) {
-        if (p.name.toLowerCase().includes("executive") || p.category.includes("director")) {
-          finish = "High-Gloss Lacquer";
+      // Finish Inference / Override
+      let finish = p.finish || "";
+      if (!finish) {
+        if (p.category.includes("chair")) {
+          finish = "Chrome Base & Mesh";
+        } else if (p.category.includes("table") || p.category.includes("desk") || p.category.includes("workstation")) {
+          if (p.name.toLowerCase().includes("executive") || p.category.includes("director")) {
+            finish = "High-Gloss Lacquer";
+          } else {
+            finish = "Matte Laminate Finish";
+          }
+        } else if (p.category.includes("sofa")) {
+          finish = "Textured Micro-weave";
         } else {
-          finish = "Matte Laminate Finish";
+          finish = "Matte Laminate";
         }
-      } else if (p.category.includes("sofa")) {
-        finish = "Textured Micro-weave";
       }
       specifications.push({ label: "Finish", value: finish });
       shortSpecs.push(finish);
 
-      // Size / Fit Inference
-      let size = "Standard Size";
-      if (p.category.includes("table") || p.category.includes("desk") || p.category.includes("workstation")) {
-        if (p.name.toLowerCase().includes("001") || p.name.toLowerCase().includes("002")) {
-          size = "Compact (4ft x 2ft)";
-        } else if (p.name.toLowerCase().includes("executive") || p.category.includes("director")) {
-          size = "Executive (6ft x 3ft)";
+      // Size / Fit Inference / Override
+      let size = p.size || "";
+      if (!size) {
+        if (p.category.includes("table") || p.category.includes("desk") || p.category.includes("workstation")) {
+          if (p.name.toLowerCase().includes("001") || p.name.toLowerCase().includes("002")) {
+            size = "Compact (4ft x 2ft)";
+          } else if (p.name.toLowerCase().includes("executive") || p.category.includes("director")) {
+            size = "Executive (6ft x 3ft)";
+          } else {
+            size = "Standard (5ft x 2.5ft)";
+          }
+        } else if (p.category.includes("chair")) {
+          size = "High-Back Ergonomic";
         } else {
-          size = "Standard (5ft x 2.5ft)";
+          size = "Standard Size";
         }
-      } else if (p.category.includes("chair")) {
-        size = "High-Back Ergonomic";
       }
       specifications.push({ label: "Size", value: size });
       shortSpecs.push(size);
+
+      // Merge other custom specifications from p.specifications
+      if (p.specifications && Array.isArray(p.specifications)) {
+        p.specifications.forEach(spec => {
+          const isDuplicate = ["material", "finish", "size"].includes(spec.label.toLowerCase());
+          if (!isDuplicate) {
+            specifications.push(spec);
+            if (spec.value) {
+              shortSpecs.push(spec.value);
+            }
+          }
+        });
+      }
 
       // Add availability to shortSpecs to support the "Availability" group
       shortSpecs.push(availability);

@@ -29,6 +29,9 @@ interface Product {
   price: string;
   status: string;
   stock: number;
+  material?: string;
+  finish?: string;
+  size?: string;
   image?: string;
   images?: string[];
 }

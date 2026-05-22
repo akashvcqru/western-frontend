@@ -65,11 +65,11 @@ function SidebarContent({
       <div className="flex items-center justify-between px-6 py-5 border-b border-white/[0.06]">
         <Link href="/admin" onClick={onClose} className="flex-shrink-0">
           <Image
-            src="https://bawadittamal.com/wp-content/uploads/2019/07/bdm-website-logo-Copy.png"
-            alt="BDM"
+            src="/logo-western.png"
+            alt="Western Interio AI"
             width={140}
             height={50}
-            className="h-8 w-auto brightness-0 invert"
+            className="h-10 w-auto bg-white p-1 rounded-lg"
           />
         </Link>
         {/* Close button — mobile only */}
@@ -356,19 +356,24 @@ export default function AdminDashboardLayout({
   const pathname = usePathname();
   const { addToast } = useAppToast();
 
-  const [admin]                     = useState<AdminUser | null>(() => {
-    if (typeof window !== "undefined") {
-      const stored = sessionStorage.getItem("bdm_admin");
-      if (stored) {
-        try { return JSON.parse(stored); }
-        catch { return null; }
-      }
-    }
-    return null;
-  });
+  const [admin, setAdmin] = useState<AdminUser | null>(null);
+  const [mounted, setMounted] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [notifOpen, setNotifOpen]   = useState(false);
   const [inquiriesBadge, setInquiriesBadge] = useState<string | null>("5");
+
+  /* Load admin details on mount to avoid hydration mismatch */
+  useEffect(() => {
+    setMounted(true);
+    const stored = sessionStorage.getItem("bdm_admin");
+    if (stored) {
+      try {
+        setAdmin(JSON.parse(stored));
+      } catch {
+        setAdmin(null);
+      }
+    }
+  }, []);
 
   /* Dynamic Badge Handler */
   useEffect(() => {
@@ -399,16 +404,17 @@ export default function AdminDashboardLayout({
 
   const handleLogout = () => {
     sessionStorage.removeItem("bdm_admin");
+    setAdmin(null);
     addToast({ title: "Signed Out", message: "You have been logged out.", variant: "info" });
     router.push("/admin/login");
   };
 
   /* Auth guard */
   useEffect(() => {
-    if (!admin) {
+    if (mounted && !admin) {
       router.replace("/admin/login");
     }
-  }, [admin, router]);
+  }, [admin, router, mounted]);
 
   /* Close mobile sidebar on route change */
   useEffect(() => {
@@ -419,14 +425,14 @@ export default function AdminDashboardLayout({
   }, [pathname]);
 
   /* Loading / unauthenticated state */
-  if (!admin) {
-  return (
-    <div className="flex h-screen bg-[#f4f5f7] overflow-hidden">
-      <div className="flex items-center justify-center w-full">
-        <div className="w-8 h-8 border-2 border-[#ed1c27]/30 border-t-[#ed1c27] rounded-full animate-spin" />
+  if (!mounted || !admin) {
+    return (
+      <div className="flex h-screen bg-[#f4f5f7] overflow-hidden">
+        <div className="flex items-center justify-center w-full">
+          <div className="w-8 h-8 border-2 border-[#ed1c27]/30 border-t-[#ed1c27] rounded-full animate-spin" />
+        </div>
       </div>
-    </div>
-  );
+    );
   }
 
   return (

@@ -18,6 +18,9 @@ interface Product {
   slug: string;
   price?: string;
   brand?: string;
+  material?: string;
+  finish?: string;
+  size?: string;
 }
 
 export default function BrandPage() {

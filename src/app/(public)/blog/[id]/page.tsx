@@ -32,19 +32,50 @@ export default function BlogDetailPage() {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const stored = sessionStorage.getItem("bdm_blogs");
+      const stored = localStorage.getItem("bdm_blogs");
       let currentBlogs = blogsData as BlogPost[];
       if (stored) {
         try {
           currentBlogs = JSON.parse(stored);
         } catch {}
       } else {
-        sessionStorage.setItem("bdm_blogs", JSON.stringify(blogsData));
+        localStorage.setItem("bdm_blogs", JSON.stringify(blogsData));
       }
       const foundPost = currentBlogs.find((b) => b.id === id);
       setPost(foundPost || null);
       setLoading(false);
     }
+  }, [id]);
+
+  useEffect(() => {
+    const handleUpdate = () => {
+      const stored = localStorage.getItem("bdm_blogs");
+      let currentBlogs = blogsData as BlogPost[];
+      if (stored) {
+        try {
+          currentBlogs = JSON.parse(stored);
+        } catch {}
+      }
+      const foundPost = currentBlogs.find((b) => b.id === id);
+      setPost(foundPost || null);
+    };
+
+    const handleStorageUpdate = (e: StorageEvent) => {
+      if (e.key === "bdm_blogs" && e.newValue) {
+        try {
+          const currentBlogs = JSON.parse(e.newValue) as BlogPost[];
+          const foundPost = currentBlogs.find((b) => b.id === id);
+          setPost(foundPost || null);
+        } catch {}
+      }
+    };
+
+    window.addEventListener("storage", handleStorageUpdate);
+    window.addEventListener("bdm-blogs-updated", handleUpdate);
+    return () => {
+      window.removeEventListener("storage", handleStorageUpdate);
+      window.removeEventListener("bdm-blogs-updated", handleUpdate);
+    };
   }, [id]);
 
   if (loading) {

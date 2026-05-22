@@ -26,28 +26,39 @@ export default function BlogLandingPage() {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const stored = sessionStorage.getItem("bdm_blogs");
+      const stored = localStorage.getItem("bdm_blogs");
       if (stored) {
         try {
           setBlogs(JSON.parse(stored));
         } catch {}
       } else {
-        sessionStorage.setItem("bdm_blogs", JSON.stringify(blogsData));
+        localStorage.setItem("bdm_blogs", JSON.stringify(blogsData));
       }
     }
   }, []);
 
   useEffect(() => {
-    const handleUpdate = () => {
-      const stored = sessionStorage.getItem("bdm_blogs");
+    const handleUpdate = (e: StorageEvent) => {
+      if (e.key === "bdm_blogs" && e.newValue) {
+        try {
+          setBlogs(JSON.parse(e.newValue));
+        } catch {}
+      }
+    };
+    const handleLocalUpdate = () => {
+      const stored = localStorage.getItem("bdm_blogs");
       if (stored) {
         try {
           setBlogs(JSON.parse(stored));
         } catch {}
       }
     };
-    window.addEventListener("bdm-blogs-updated", handleUpdate);
-    return () => window.removeEventListener("bdm-blogs-updated", handleUpdate);
+    window.addEventListener("storage", handleUpdate);
+    window.addEventListener("bdm-blogs-updated", handleLocalUpdate);
+    return () => {
+      window.removeEventListener("storage", handleUpdate);
+      window.removeEventListener("bdm-blogs-updated", handleLocalUpdate);
+    };
   }, []);
 
   const categories = ["All", ...Array.from(new Set(blogs.map((b) => b.category)))];

@@ -26,20 +26,47 @@ export default function GalleryPage() {
   const [isQuoteOpen, setIsQuoteOpen] = React.useState(false);
   const [quoteTitle, setQuoteTitle] = React.useState<string>("Get a Premium Quote");
   const [quoteSubtitle, setQuoteSubtitle] = React.useState<string>("Tell us about your project and our experts will contact you within 24 hours.");
+  
+  const [gallery, setGallery] = React.useState<any[]>([]);
 
   const { galleryPage } = siteContent;
 
+  // Load from sessionStorage or fallback to static json
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      const stored = sessionStorage.getItem("bdm_gallery");
+      if (stored) {
+        try {
+          setGallery(JSON.parse(stored));
+        } catch {
+          setGallery(galleryItems);
+        }
+      } else {
+        // Map the static items to include ID and Date if they don't have them
+        const formatted = galleryItems.map((item, index) => ({
+          id: `IMG-${String(index + 1).padStart(3, "0")}`,
+          title: item.title,
+          category: item.category || "Interiors",
+          date: `${String(10 - index).padStart(2, "0")} May 2026`,
+          image: item.image,
+        }));
+        setGallery(formatted);
+        sessionStorage.setItem("bdm_gallery", JSON.stringify(formatted));
+      }
+    }
+  }, []);
+
   // Dynamically extract categories
   const categories = React.useMemo(() => {
-    return ["All", ...Array.from(new Set(galleryItems.map((item) => item.category)))];
-  }, []);
+    return ["All", ...Array.from(new Set(gallery.map((item) => item.category)))];
+  }, [gallery]);
 
   // Filter items based on selected category
   const filteredItems = React.useMemo(() => {
     return selectedCategory === "All"
-      ? galleryItems
-      : galleryItems.filter((item) => item.category === selectedCategory);
-  }, [selectedCategory]);
+      ? gallery
+      : gallery.filter((item) => item.category === selectedCategory);
+  }, [selectedCategory, gallery]);
 
   const handleNext = () => {
     if (selectedIndex === null) return;
@@ -98,8 +125,8 @@ export default function GalleryPage() {
             <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-3 md:pb-0 scroll-smooth -mx-6 px-6 md:mx-0 md:px-0">
               {categories.map((category) => {
                 const count = category === "All" 
-                  ? galleryItems.length 
-                  : galleryItems.filter(item => item.category === category).length;
+                  ? gallery.length 
+                  : gallery.filter(item => item.category === category).length;
                 
                 const isActive = selectedCategory === category;
                 

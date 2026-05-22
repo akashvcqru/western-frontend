@@ -96,7 +96,7 @@ export default function AdminDashboardPage() {
   React.useEffect(() => {
     if (typeof window !== "undefined") {
       const getCount = (key: string, fallback: number) => {
-        const stored = sessionStorage.getItem(key);
+        const stored = localStorage.getItem(key) || sessionStorage.getItem(key);
         if (stored) {
           try {
             return JSON.parse(stored).length;

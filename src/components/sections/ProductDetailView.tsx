@@ -39,6 +39,10 @@ interface Product {
   specifications?: { label: string; value: string }[];
   catNo?: string;
 
+  material?: string;
+  finish?: string;
+  size?: string;
+
   // Dynamic admin/editor editable properties:
   features?: { title: string; desc: string }[];
   blueprintImage?: string;
@@ -53,6 +57,8 @@ interface Product {
     desc: string;
     format: string;
     size: string;
+    fileData?: string;
+    fileName?: string;
     colorClass?: string;
   }[];
   detailsTitle?: string;
@@ -240,60 +246,60 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
       product.features ||
       (isChair
         ? [
-            {
-              title: "Dynamic Lumbar System",
-              desc: "Contoured mechanical backrest with adjustable depth tension.",
-            },
-            {
-              title: "Korea Grade-A Aero Mesh",
-              desc: "High-elasticity double woven mesh with passive thermal cooling ventilation.",
-            },
-            {
-              title: "Synchronous Multi-Lock",
-              desc: "Locks in 4 distinct reclining angles for productive work or relaxed pause.",
-            },
-            {
-              title: "3D Arm Adjustments",
-              desc: "Soft PU padded arm supports configurable in height, angle, and depth.",
-            },
-          ]
+          {
+            title: "Dynamic Lumbar System",
+            desc: "Contoured mechanical backrest with adjustable depth tension.",
+          },
+          {
+            title: "Korea Grade-A Aero Mesh",
+            desc: "High-elasticity double woven mesh with passive thermal cooling ventilation.",
+          },
+          {
+            title: "Synchronous Multi-Lock",
+            desc: "Locks in 4 distinct reclining angles for productive work or relaxed pause.",
+          },
+          {
+            title: "3D Arm Adjustments",
+            desc: "Soft PU padded arm supports configurable in height, angle, and depth.",
+          },
+        ]
         : isWorkstation
           ? [
-              {
-                title: "Modular Cluster Layouts",
-                desc: "Easily scales from linear rows to L-shaped and 120° desk clusters.",
-              },
-              {
-                title: "Dual Integrated Raceways",
-                desc: "Separate aluminum channels internally separating power wiring and network lines.",
-              },
-              {
-                title: "Acoustic Shielding Panels",
-                desc: "Sound-dampening screen dividers wrapped in rich, durable fire-retardant fabric.",
-              },
-              {
-                title: "Heavy Metal Leg Structure",
-                desc: "Solid steel structural components finished in protective electrostatically applied powder coat.",
-              },
-            ]
+            {
+              title: "Modular Cluster Layouts",
+              desc: "Easily scales from linear rows to L-shaped and 120° desk clusters.",
+            },
+            {
+              title: "Dual Integrated Raceways",
+              desc: "Separate aluminum channels internally separating power wiring and network lines.",
+            },
+            {
+              title: "Acoustic Shielding Panels",
+              desc: "Sound-dampening screen dividers wrapped in rich, durable fire-retardant fabric.",
+            },
+            {
+              title: "Heavy Metal Leg Structure",
+              desc: "Solid steel structural components finished in protective electrostatically applied powder coat.",
+            },
+          ]
           : [
-              {
-                title: "Veneer Melamine Top Finish",
-                desc: "Stunning, high-fidelity wood patterns that are highly scratch and stain resistant.",
-              },
-              {
-                title: "Seamless Soft-Close Rails",
-                desc: "Industrial-grade drawer slides for ultra-smooth and silent desk operations.",
-              },
-              {
-                title: "Integrated Cable Ports",
-                desc: "Brushed aluminum flip grommets with integrated desk-level power sockets.",
-              },
-              {
-                title: "Anti-Moisture Edgeband",
-                desc: "High-pressure hot-melt banding sealing all sides, preventing moisture penetration.",
-              },
-            ]);
+            {
+              title: "Veneer Melamine Top Finish",
+              desc: "Stunning, high-fidelity wood patterns that are highly scratch and stain resistant.",
+            },
+            {
+              title: "Seamless Soft-Close Rails",
+              desc: "Industrial-grade drawer slides for ultra-smooth and silent desk operations.",
+            },
+            {
+              title: "Integrated Cable Ports",
+              desc: "Brushed aluminum flip grommets with integrated desk-level power sockets.",
+            },
+            {
+              title: "Anti-Moisture Edgeband",
+              desc: "High-pressure hot-melt banding sealing all sides, preventing moisture penetration.",
+            },
+          ]);
 
     const defaultQuickSpecs = [
       "100% Anti-Moisture Sealing",
@@ -536,71 +542,71 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
       product.dimensions ||
       (isChair
         ? [
+          {
+            name: "Total Chair Height",
+            range: "1180 - 1280 mm",
+            coord: "height",
+          },
+          {
+            name: "Seat Cushion Height",
+            range: "450 - 550 mm",
+            coord: "seat-h",
+          },
+          { name: "Seat Cushion Depth", range: "480 mm", coord: "depth" },
+          { name: "Seat Cushion Width", range: "500 mm", coord: "width" },
+          { name: "Backrest Mesh Width", range: "460 mm", coord: "mesh" },
+          { name: "5-Star Base Diameter", range: "700 mm", coord: "base" },
+        ]
+        : isWorkstation
+          ? [
             {
-              name: "Total Chair Height",
-              range: "1180 - 1280 mm",
+              name: "Standard Desk Height",
+              range: "750 mm",
               coord: "height",
             },
             {
-              name: "Seat Cushion Height",
-              range: "450 - 550 mm",
-              coord: "seat-h",
+              name: "Desk Width Options",
+              range: "1200 / 1400 / 1600 mm",
+              coord: "width",
             },
-            { name: "Seat Cushion Depth", range: "480 mm", coord: "depth" },
-            { name: "Seat Cushion Width", range: "500 mm", coord: "width" },
-            { name: "Backrest Mesh Width", range: "460 mm", coord: "mesh" },
-            { name: "5-Star Base Diameter", range: "700 mm", coord: "base" },
+            {
+              name: "Desk Depth Options",
+              range: "600 / 750 mm",
+              coord: "depth",
+            },
+            {
+              name: "Partition Screen Height",
+              range: "350 mm / 450 mm",
+              coord: "partition",
+            },
+            {
+              name: "Mobile Pedestal Unit",
+              range: "400 x 450 x 600 mm",
+              coord: "pedestal",
+            },
           ]
-        : isWorkstation
-          ? [
-              {
-                name: "Standard Desk Height",
-                range: "750 mm",
-                coord: "height",
-              },
-              {
-                name: "Desk Width Options",
-                range: "1200 / 1400 / 1600 mm",
-                coord: "width",
-              },
-              {
-                name: "Desk Depth Options",
-                range: "600 / 750 mm",
-                coord: "depth",
-              },
-              {
-                name: "Partition Screen Height",
-                range: "350 mm / 450 mm",
-                coord: "partition",
-              },
-              {
-                name: "Mobile Pedestal Unit",
-                range: "400 x 450 x 600 mm",
-                coord: "pedestal",
-              },
-            ]
           : [
-              {
-                name: "Standard Cabinet Height",
-                range: "750 mm",
-                coord: "height",
-              },
-              {
-                name: "Cabinet Width Options",
-                range: "1500 / 1800 / 2100 mm",
-                coord: "width",
-              },
-              {
-                name: "Cabinet Depth Options",
-                range: "450 / 500 mm",
-                coord: "depth",
-              },
-              {
-                name: "Drawer Storage Compartment",
-                range: "400 x 450 x 600 mm",
-                coord: "pedestal",
-              },
-            ]);
+            {
+              name: "Standard Cabinet Height",
+              range: "750 mm",
+              coord: "height",
+            },
+            {
+              name: "Cabinet Width Options",
+              range: "1500 / 1800 / 2100 mm",
+              coord: "width",
+            },
+            {
+              name: "Cabinet Depth Options",
+              range: "450 / 500 mm",
+              coord: "depth",
+            },
+            {
+              name: "Drawer Storage Compartment",
+              range: "400 x 450 x 600 mm",
+              coord: "pedestal",
+            },
+          ]);
 
     return (
       <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
@@ -643,7 +649,7 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
                   className={cn(
                     "stroke-white/30 text-white/50",
                     hoveredCoordinate === "mesh" &&
-                      "stroke-primary text-primary font-bold",
+                    "stroke-primary text-primary font-bold",
                   )}
                 >
                   <line
@@ -671,7 +677,7 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
                     "stroke-white/30 text-white/50",
                     (hoveredCoordinate === "width" ||
                       hoveredCoordinate === "depth") &&
-                      "stroke-primary text-primary font-bold",
+                    "stroke-primary text-primary font-bold",
                   )}
                 >
                   <line
@@ -699,7 +705,7 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
                   className={cn(
                     "stroke-white/30 text-white/50",
                     hoveredCoordinate === "depth" &&
-                      "stroke-primary text-primary font-bold",
+                    "stroke-primary text-primary font-bold",
                   )}
                 >
                   <line
@@ -726,7 +732,7 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
                   className={cn(
                     "stroke-white/30 text-white/50",
                     hoveredCoordinate === "seat-h" &&
-                      "stroke-primary text-primary font-bold",
+                    "stroke-primary text-primary font-bold",
                   )}
                 >
                   <line
@@ -753,7 +759,7 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
                   className={cn(
                     "stroke-white/30 text-white/50",
                     hoveredCoordinate === "base" &&
-                      "stroke-primary text-primary font-bold",
+                    "stroke-primary text-primary font-bold",
                   )}
                 >
                   <line
@@ -832,8 +838,8 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
                   )}
                   strokeWidth={
                     hoveredCoordinate === "depth" ||
-                    hoveredCoordinate === "width" ||
-                    hoveredCoordinate === "seat-h"
+                      hoveredCoordinate === "width" ||
+                      hoveredCoordinate === "seat-h"
                       ? 2.5
                       : 1.5
                   }
@@ -959,7 +965,7 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
                     "stroke-white/30 text-white/50",
                     (hoveredCoordinate === "width" ||
                       hoveredCoordinate === "depth") &&
-                      "stroke-primary text-primary font-bold",
+                    "stroke-primary text-primary font-bold",
                   )}
                 >
                   <line
@@ -986,7 +992,7 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
                   className={cn(
                     "stroke-white/30 text-white/50",
                     hoveredCoordinate === "partition" &&
-                      "stroke-primary text-primary font-bold",
+                    "stroke-primary text-primary font-bold",
                   )}
                 >
                   <line
@@ -1013,7 +1019,7 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
                   className={cn(
                     "stroke-white/30 text-white/50",
                     hoveredCoordinate === "height" &&
-                      "stroke-primary text-primary font-bold",
+                    "stroke-primary text-primary font-bold",
                   )}
                 >
                   <line
@@ -1120,7 +1126,7 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
                   )}
                   strokeWidth={
                     hoveredCoordinate === "width" ||
-                    hoveredCoordinate === "depth"
+                      hoveredCoordinate === "depth"
                       ? 2.5
                       : 1.5
                   }
@@ -1257,7 +1263,7 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
                     "stroke-white/30 text-white/50",
                     (hoveredCoordinate === "width" ||
                       hoveredCoordinate === "depth") &&
-                      "stroke-primary text-primary font-bold",
+                    "stroke-primary text-primary font-bold",
                   )}
                 >
                   <line
@@ -1284,7 +1290,7 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
                   className={cn(
                     "stroke-white/30 text-white/50",
                     hoveredCoordinate === "height" &&
-                      "stroke-primary text-primary font-bold",
+                    "stroke-primary text-primary font-bold",
                   )}
                 >
                   <line
@@ -1311,7 +1317,7 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
                   className={cn(
                     "stroke-white/30 text-white/50",
                     hoveredCoordinate === "depth" &&
-                      "stroke-primary text-primary font-bold",
+                    "stroke-primary text-primary font-bold",
                   )}
                 >
                   <line
@@ -1345,7 +1351,7 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
                   )}
                   strokeWidth={
                     hoveredCoordinate === "width" ||
-                    hoveredCoordinate === "depth"
+                      hoveredCoordinate === "depth"
                       ? 2.5
                       : 1.5
                   }
@@ -1888,12 +1894,21 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
     );
   };
 
-  const simulateDownload = (id: string, name: string) => {
-    setDownloadingId(id);
+  const handleDownload = (res: { id: string; title: string; fileData?: string; fileName?: string; format: string }) => {
+    setDownloadingId(res.id);
     setTimeout(() => {
       setDownloadingId(null);
-      alert(`"${name}" is downloading successfully!`);
-    }, 1500);
+      if (res.fileData) {
+        const link = document.createElement("a");
+        link.href = res.fileData;
+        link.download = res.fileName || `${res.title.replace(/\s+/g, "_")}.${res.format.toLowerCase()}`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } else {
+        alert(`"${res.title}" is downloading successfully!`);
+      }
+    }, 1200);
   };
 
   const renderResources = () => {
@@ -2005,7 +2020,7 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
                       className={cn(
                         "px-2.5 py-1 text-[9px] font-bold tracking-widest uppercase rounded-lg border",
                         res.colorClass ||
-                          "bg-neutral-50 text-neutral-600 border-neutral-100",
+                        "bg-neutral-50 text-neutral-600 border-neutral-100",
                       )}
                     >
                       {res.format}
@@ -2025,7 +2040,7 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
                 </div>
 
                 <button
-                  onClick={() => simulateDownload(res.id, res.title)}
+                  onClick={() => handleDownload(res)}
                   disabled={downloadingId !== null}
                   className={cn(
                     "w-full py-3 text-[10px] font-bold uppercase tracking-widest rounded-lg border flex items-center justify-center gap-2 cursor-pointer transition-all duration-200 active:scale-[0.98] disabled:opacity-50",
@@ -2046,10 +2061,15 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
                         strokeWidth={2.5}
                         className="group-hover:translate-y-0.5 transition-transform duration-200"
                       />
-                      {res.id === "datasheet" && "Download Tech Spec PDF"}
-                      {res.id === "cad" && "Download CAD Blocks ZIP"}
-                      {res.id === "ergo" && "Download Ergonomics Guide"}
-                      {res.id === "warranty" && "Download Warranty Certificate"}
+                      {res.fileData ? `Download ${res.format}` : (
+                        <>
+                          {res.id === "datasheet" && "Download Tech Spec PDF"}
+                          {res.id === "cad" && "Download CAD Blocks ZIP"}
+                          {res.id === "ergo" && "Download Ergonomics Guide"}
+                          {res.id === "warranty" && "Download Warranty Certificate"}
+                          {!["datasheet", "cad", "ergo", "warranty"].includes(res.id) && `Download ${res.format}`}
+                        </>
+                      )}
                     </>
                   )}
                 </button>

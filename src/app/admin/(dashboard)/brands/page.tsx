@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Plus, Search, Filter, Edit, Trash2, ExternalLink, X } from "lucide-react";
+import { Plus, Edit, Trash2, Upload, X } from "lucide-react";
 import Image from "next/image";
-import { Card, AppModal, useAppToast } from "@/components/ui";
+import { Card, AppModal, useAppToast, AdminPageHeader, Pagination, SearchInput } from "@/components/ui";
+import { AppRoutes } from "@/constants/routes";
 
 interface Brand {
   id: string;
@@ -23,20 +24,50 @@ const initialBrands: Brand[] = [
 
 export default function AdminBrandsPage() {
   const { addToast } = useAppToast();
-  
+
   // State
   const [brands, setBrands] = useState<Brand[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
-  
+
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingBrand, setEditingBrand] = useState<Brand | null>(null);
-  
+
   // Form State
   const [formName, setFormName] = useState("");
-  const [formProducts, setFormProducts] = useState<number>(0);
+  const [formProducts, setFormProducts] = useState("");
   const [formStatus, setFormStatus] = useState("Active");
   const [formLogo, setFormLogo] = useState("");
+
+  // Count products belonging to a brand from sessionStorage
+  const getProductCount = (brandName: string): number => {
+    try {
+      const stored = sessionStorage.getItem("bdm_products");
+      if (!stored) return 0;
+      const products: { brand?: string }[] = JSON.parse(stored);
+      return products.filter(
+        (p) => p.brand?.toLowerCase() === brandName.toLowerCase()
+      ).length;
+    } catch {
+      return 0;
+    }
+  };
+
+  const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 2 * 1024 * 1024) {
+      addToast({ title: "File Too Large", message: "Please choose an image smaller than 2 MB.", variant: "warning" });
+      return;
+    }
+    const reader = new FileReader();
+    reader.onloadend = () => setFormLogo(reader.result as string);
+    reader.readAsDataURL(file);
+  };
 
   // Load from sessionStorage
   useEffect(() => {
@@ -64,7 +95,7 @@ export default function AdminBrandsPage() {
   const handleAddClick = () => {
     setEditingBrand(null);
     setFormName("");
-    setFormProducts(0);
+    setFormProducts("");
     setFormStatus("Active");
     setFormLogo("");
     setIsModalOpen(true);
@@ -73,9 +104,10 @@ export default function AdminBrandsPage() {
   const handleEditClick = (brd: Brand) => {
     setEditingBrand(brd);
     setFormName(brd.name);
-    setFormProducts(brd.products);
+    setFormProducts(String(getProductCount(brd.name) || brd.products));
     setFormStatus(brd.status);
-    setFormLogo(brd.logo);
+    // Only restore logo if it's a real uploaded image (base64 data URL)
+    setFormLogo(brd.logo?.startsWith("data:") ? brd.logo : "");
     setIsModalOpen(true);
   };
 
@@ -94,17 +126,19 @@ export default function AdminBrandsPage() {
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!formName) {
+    if (!formName || !formLogo) {
       addToast({
         title: "Validation Error",
-        message: "Please fill in all required fields.",
+        message: !formName ? "Brand name is required." : "Please upload a brand logo image.",
         variant: "error",
       });
       return;
     }
 
-    const defaultLogo = "https://bawadittamal.com/wp-content/uploads/2019/07/bdm-website-logo-Copy.png";
-    const logoUrl = formLogo.trim() || defaultLogo;
+    const logoUrl = formLogo;
+
+    // Use manually entered count if provided, otherwise fall back to dynamic count
+    const productCount = formProducts.trim() !== "" ? parseInt(formProducts, 10) || 0 : getProductCount(formName);
 
     if (editingBrand) {
       const updated = brands.map((b) => {
@@ -112,7 +146,7 @@ export default function AdminBrandsPage() {
           return {
             ...b,
             name: formName,
-            products: formProducts,
+            products: productCount,
             status: formStatus,
             logo: logoUrl,
           };
@@ -130,7 +164,7 @@ export default function AdminBrandsPage() {
       const newBrand: Brand = {
         id: newId,
         name: formName,
-        products: formProducts,
+        products: productCount,
         status: formStatus,
         logo: logoUrl,
       };
@@ -148,46 +182,56 @@ export default function AdminBrandsPage() {
 
   // Filter brands
   const filteredBrands = brands.filter((brd) => {
-    return brd.name.toLowerCase().includes(searchTerm.toLowerCase());
+    return (
+      brd.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      brd.id.toLowerCase().includes(searchTerm.toLowerCase())
+    );
   });
+
+  const totalPages = Math.ceil(filteredBrands.length / itemsPerPage);
+  const paginatedBrands = filteredBrands.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900 uppercase tracking-tight">Brands</h1>
-          <p className="text-sm text-gray-500 font-medium mt-1">Manage brand listings, status, and partner logos</p>
-        </div>
-        <button
-          id="add-brand-btn"
-          onClick={handleAddClick}
-          className="inline-flex items-center justify-center gap-2 bg-[#ed1c27] hover:bg-[#c5141e] text-white font-bold uppercase tracking-[0.12em] text-[10px] rounded-xl px-5 py-3 transition-all duration-300 cursor-pointer hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#ed1c27]/25 flex-shrink-0"
-        >
-          <Plus size={14} /> Add Brand
-        </button>
-      </div>
+      {/* Admin Page Header with Breadcrumb */}
+      <AdminPageHeader
+        title="Brands"
+        breadcrumbs={[
+          { label: "Admin", href: AppRoutes.Admin.Dashboard },
+          { label: "Brands" },
+        ]}
+      />
 
-      {/* Toolbar */}
+      {/* Data Table with Integrated Toolbar */}
       <Card>
-        <Card.Body>
-          <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-            <div className="relative flex-1">
-              <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Search brands by name..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-100 rounded-xl text-xs font-medium focus:outline-none focus:border-[#ed1c27]/30 transition-colors"
-              />
-            </div>
+        <Card.Header>
+          {/* Left: Search input */}
+          <SearchInput
+            placeholder="Search brands by name or ID..."
+            value={searchTerm}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setCurrentPage(1);
+            }}
+            wrapperClassName="max-w-sm"
+          />
+
+          {/* Right: Actions */}
+          <div className="flex items-center gap-3">
+            {/* Add Brand button */}
+            <button
+              id="add-brand-btn"
+              onClick={handleAddClick}
+              className="inline-flex items-center justify-center gap-2 bg-[#ed1c27] hover:bg-[#c5141e] text-white font-bold uppercase tracking-[0.12em] text-[10px] rounded-xl px-5 py-2 transition-all duration-300 cursor-pointer hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#ed1c27]/25"
+            >
+              <Plus size={14} /> Add Brand
+            </button>
           </div>
-        </Card.Body>
-      </Card>
+        </Card.Header>
 
-      {/* Data Table */}
-      <Card>
         <Card.Body noPadding>
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse min-w-[800px]">
@@ -201,18 +245,22 @@ export default function AdminBrandsPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">
-                {filteredBrands.length === 0 ? (
+                {paginatedBrands.length === 0 ? (
                   <tr>
                     <td colSpan={5} className="py-8 text-center text-xs font-semibold text-gray-400">
                       No brands found matching your search.
                     </td>
                   </tr>
                 ) : (
-                  filteredBrands.map((brand) => (
+                  paginatedBrands.map((brand) => (
                     <tr key={brand.id} className="hover:bg-gray-50/50 transition-colors group">
                       <td className="py-3 px-6">
                         <div className="w-16 h-10 rounded-lg bg-gray-900 overflow-hidden relative flex items-center justify-center p-2 border border-gray-800">
-                          <Image src={brand.logo} alt={brand.name} fill className="object-contain p-1 invert brightness-0" />
+                          {brand.logo ? (
+                            <Image src={brand.logo} alt={brand.name} fill className="object-contain p-1 invert brightness-0" />
+                          ) : (
+                            <span className="text-[8px] text-gray-500 font-bold uppercase tracking-wider text-center leading-tight">No Logo</span>
+                          )}
                         </div>
                       </td>
                       <td className="py-3 px-6">
@@ -221,12 +269,12 @@ export default function AdminBrandsPage() {
                       </td>
                       <td className="py-3 px-6">
                         <span className="inline-flex items-center justify-center bg-gray-100 text-gray-600 rounded-lg px-2.5 py-1 text-[10px] font-semibold">
-                          {brand.products} Items
+                          {getProductCount(brand.name) || brand.products} Items
                         </span>
                       </td>
                       <td className="py-3 px-6">
                         <span className={`inline-flex items-center px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-widest ${
-                          brand.status === "Active" ? "bg-emerald-50 text-emerald-600" : "bg-gray-100 text-gray-500"
+                          brand.status === "Active" ? "bg-emerald-50 text-emerald-600" : "bg-red-50 text-red-600"
                         }`}>
                           {brand.status}
                         </span>
@@ -256,6 +304,20 @@ export default function AdminBrandsPage() {
             </table>
           </div>
         </Card.Body>
+        <Card.Footer>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+            pageSize={itemsPerPage}
+            onPageSizeChange={(size) => {
+              setItemsPerPage(size);
+              setCurrentPage(1);
+            }}
+            totalItems={filteredBrands.length}
+            pageSizeOptions={[5, 10, 20, 50]}
+          />
+        </Card.Footer>
       </Card>
 
       {/* Brands Add/Edit Modal */}
@@ -279,45 +341,61 @@ export default function AdminBrandsPage() {
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            {/* Status */}
-            <div className="space-y-1">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Status *</label>
-              <select
-                value={formStatus}
-                onChange={(e) => setFormStatus(e.target.value)}
-                className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-semibold focus:outline-none"
-              >
-                <option value="Active">Active</option>
-                <option value="Inactive">Inactive</option>
-              </select>
-            </div>
-
-            {/* Product Count */}
-            <div className="space-y-1">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Total Products</label>
+          {/* Total Products */}
+          <div className="space-y-1">
+            <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Total Products</label>
+            <div className="relative">
               <input
                 type="number"
-                min={0}
+                min="0"
                 value={formProducts}
-                onChange={(e) => setFormProducts(Number(e.target.value))}
-                placeholder="e.g. 24"
+                onChange={(e) => setFormProducts(e.target.value)}
+                placeholder={String(getProductCount(formName) || 0)}
                 className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium focus:outline-none focus:border-[#ed1c27]/40"
               />
+              <p className="text-[9px] text-gray-400 font-semibold mt-1">
+                Auto-filled from products list. Override manually if needed.
+              </p>
             </div>
           </div>
 
-          {/* Logo URL */}
           <div className="space-y-1">
-            <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Logo Image URL</label>
-            <input
-              type="text"
-              value={formLogo}
-              onChange={(e) => setFormLogo(e.target.value)}
-              placeholder="e.g. https://domain.com/path/to/logo.png"
-              className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium focus:outline-none focus:border-[#ed1c27]/40"
-            />
-            <p className="text-[9px] text-gray-400 mt-0.5">Leave blank to use the default storefront logo.</p>
+            <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Status *</label>
+            <select
+              value={formStatus}
+              onChange={(e) => setFormStatus(e.target.value)}
+              className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-semibold focus:outline-none"
+            >
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+            </select>
+          </div>
+
+          {/* Logo Upload */}
+          <div className="space-y-2">
+            <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Brand Logo *</label>
+
+            {/* Dropzone */}
+            <div className={`border-2 border-dashed rounded-xl p-8 flex flex-col items-center justify-center gap-2 bg-gray-50/50 relative group cursor-pointer transition-all duration-300 min-h-[140px] ${!formLogo ? "border-red-200 hover:border-[#ed1c27]/60" : "border-emerald-200 hover:border-emerald-400"
+              }`}>
+              <Upload className={`w-8 h-8 transition-colors duration-300 ${!formLogo ? "text-gray-300 group-hover:text-[#ed1c27]" : "text-emerald-400"
+                }`} />
+              <span className="text-xs text-gray-500 font-bold uppercase tracking-wider">
+                {formLogo ? "Logo Uploaded — Click to Replace" : "Upload Brand Logo"}
+              </span>
+              <span className="text-[9px] text-gray-400 font-semibold uppercase tracking-widest">Click or drag — PNG, JPG or SVG</span>
+              <input
+                id="brand-logo-upload"
+                type="file"
+                accept="image/*"
+                className="absolute inset-0 opacity-0 cursor-pointer"
+                onChange={handleLogoUpload}
+              />
+            </div>
+
+            <p className={`text-[9px] font-semibold ${!formLogo ? "text-red-400" : "text-gray-400"}`}>
+              {!formLogo ? "Required — please upload a brand logo." : "Max 2 MB. Click the dropzone above to replace."}
+            </p>
           </div>
 
           {/* Action Buttons */}
@@ -331,7 +409,13 @@ export default function AdminBrandsPage() {
             </button>
             <button
               type="submit"
-              className="px-5 py-2 bg-[#ed1c27] hover:bg-[#c5141e] text-white font-bold uppercase tracking-wider text-xs rounded-xl cursor-pointer shadow-lg"
+              disabled={!formLogo}
+              className={`px-5 py-2 text-white font-bold uppercase tracking-wider text-xs rounded-xl shadow-lg transition-all duration-200 ${
+                formLogo
+                  ? "bg-[#ed1c27] hover:bg-[#c5141e] cursor-pointer"
+                  : "bg-gray-300 cursor-not-allowed opacity-60"
+              }`}
+              title={!formLogo ? "Upload a brand logo to continue" : undefined}
             >
               {editingBrand ? "Save Changes" : "Create Brand"}
             </button>

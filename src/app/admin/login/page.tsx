@@ -82,14 +82,16 @@ export default function AdminLoginPage() {
         
         {/* Logo and Brand Header */}
         <div className="flex flex-col items-center mb-8">
-          <Image
-            src="/logo-v3.png"
-            alt="Western Office Solutions Logo"
-            width={240}
-            height={68}
-            className="h-12 w-auto object-contain brightness-105"
-            priority
-          />
+          <div className="bg-white px-6 py-3 rounded-2xl shadow-sm border border-zinc-100 flex items-center justify-center">
+            <Image
+              src="/logo-western.png"
+              alt="Western Interio AI Logo"
+              width={240}
+              height={68}
+              className="h-12 w-auto object-contain"
+              priority
+            />
+          </div>
         </div>
 
         {/* Premium Light-Mode Card using custom Card component with no custom classes */}

@@ -34,6 +34,9 @@ interface Product {
   brand?: string;
   catNo?: string;
   mrp?: string;
+  material?: string;
+  finish?: string;
+  size?: string;
   variants?: Array<{ label: string; options: string[] }>;
   specifications?: Array<{ label: string; value: string }>;
   features?: Array<{ title: string; desc: string }>;
@@ -60,25 +63,113 @@ export default function ProductDetailPage() {
     }
   }, []);
 
-  const product = productsList.find(p => p.id === id || p.slug === id) as Product | undefined;
+  const rawProduct = productsList.find(p => p.id === id || p.slug === id) as Product | undefined;
 
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedVariants, setSelectedVariants] = useState<Record<string, string>>(() => {
-    if (!product) return {};
-    return product.variants?.reduce((acc, v) => ({ ...acc, [v.label]: v.options[0] }), {} as Record<string, string>) || {};
+    if (!rawProduct) return {};
+    return rawProduct.variants?.reduce((acc, v) => ({ ...acc, [v.label]: v.options[0] }), {} as Record<string, string>) || {};
   });
 
   useEffect(() => {
-    if (product) {
+    if (rawProduct) {
       setSelectedVariants(
-        product.variants?.reduce((acc, v) => ({ ...acc, [v.label]: v.options[0] }), {} as Record<string, string>) || {}
+        rawProduct.variants?.reduce((acc, v) => ({ ...acc, [v.label]: v.options[0] }), {} as Record<string, string>) || {}
       );
       setSelectedImage(0);
     }
-  }, [product]);
+  }, [rawProduct]);
 
   const [isExpanded, setIsExpanded] = useState(false);
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
+
+  // Dynamically resolve and enrich the product with premium specifications at runtime
+  const product = React.useMemo(() => {
+    if (!rawProduct) return undefined;
+
+    // 1. Material
+    let material = rawProduct.material || "";
+    if (!material) {
+      const catLower = rawProduct.category.toLowerCase();
+      if (catLower.includes("chair")) {
+        if (catLower.includes("boss") || catLower.includes("president")) {
+          material = "Premium Leatherette";
+        } else if (catLower.includes("workstation") || catLower.includes("mesh")) {
+          material = "High-Density Mesh";
+        } else {
+          material = "Ergonomic Polymer";
+        }
+      } else if (catLower.includes("table") || catLower.includes("desk") || catLower.includes("workstation")) {
+        if (rawProduct.name.toLowerCase().includes("executive") || catLower.includes("director")) {
+          material = "Premium Veneer Wood";
+        } else {
+          material = "Engineered Wood (Pre-laminated)";
+        }
+      } else if (catLower.includes("sofa")) {
+        material = "Plush Fabric";
+      } else {
+        material = "Engineered Wood";
+      }
+    }
+
+    // 2. Finish
+    let finish = rawProduct.finish || "";
+    if (!finish) {
+      const catLower = rawProduct.category.toLowerCase();
+      if (catLower.includes("chair")) {
+        finish = "Chrome Base & Mesh";
+      } else if (catLower.includes("table") || catLower.includes("desk") || catLower.includes("workstation")) {
+        if (rawProduct.name.toLowerCase().includes("executive") || catLower.includes("director")) {
+          finish = "High-Gloss Lacquer";
+        } else {
+          finish = "Matte Laminate Finish";
+        }
+      } else if (catLower.includes("sofa")) {
+        finish = "Textured Micro-weave";
+      } else {
+        finish = "Matte Laminate";
+      }
+    }
+
+    // 3. Size
+    let size = rawProduct.size || "";
+    if (!size) {
+      const catLower = rawProduct.category.toLowerCase();
+      if (catLower.includes("table") || catLower.includes("desk") || catLower.includes("workstation")) {
+        if (rawProduct.name.toLowerCase().includes("001") || rawProduct.name.toLowerCase().includes("002")) {
+          size = "Compact (4ft x 2ft)";
+        } else if (rawProduct.name.toLowerCase().includes("executive") || catLower.includes("director")) {
+          size = "Executive (6ft x 3ft)";
+        } else {
+          size = "Standard (5ft x 2.5ft)";
+        }
+      } else if (catLower.includes("chair")) {
+        size = "High-Back Ergonomic";
+      } else {
+        size = "Standard Size";
+      }
+    }
+
+    const specifications: { label: string; value: string }[] = [
+      { label: "Material", value: material },
+      { label: "Finish", value: finish },
+      { label: "Size", value: size }
+    ];
+
+    if (rawProduct.specifications && Array.isArray(rawProduct.specifications)) {
+      rawProduct.specifications.forEach(spec => {
+        const isDuplicate = ["material", "finish", "size"].includes(spec.label.toLowerCase());
+        if (!isDuplicate) {
+          specifications.push(spec);
+        }
+      });
+    }
+
+    return {
+      ...rawProduct,
+      specifications
+    };
+  }, [rawProduct]);
 
   if (!isMounted) {
     return (
