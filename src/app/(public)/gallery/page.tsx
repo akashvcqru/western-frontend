@@ -54,14 +54,6 @@ export default function GalleryPage() {
     return galleryResult.data;
   }, [galleryResult]);
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-white">
-        <Loader2 className="animate-spin text-primary" size={32} />
-      </div>
-    );
-  }
-
   // Dynamically extract categories
   const categories = React.useMemo(() => {
     return ["All", ...Array.from(new Set(gallery.map((item) => item.category)))];
@@ -96,6 +88,14 @@ export default function GalleryPage() {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <Loader2 className="animate-spin text-primary" size={32} />
+      </div>
+    );
+  }
 
   const currentItem =
     selectedIndex !== null ? filteredItems[selectedIndex] : null;

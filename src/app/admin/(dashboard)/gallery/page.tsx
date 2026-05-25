@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { Plus, Trash2, Eye, X, Upload, AlertCircle } from "lucide-react";
 import Image from "next/image";
 import { Card, AppModal, useAppToast, AdminPageHeader, Pagination, SearchInput } from "@/components/ui";
@@ -57,7 +57,7 @@ export default function AdminGalleryPage() {
   };
   const isLoading = isFetching;
   const error = fetchError
-    ? (fetchError as any)?.data?.message || "Failed to load gallery"
+    ? (fetchError as { data?: { message?: string } })?.data?.message || "Failed to load gallery"
     : null;
 
   const [isSubmitting, setIsSubmitting] = useState(false);

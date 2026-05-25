@@ -9,7 +9,6 @@ import { AppRoutes } from "@/constants/routes";
 import { useForm, FormProvider, Controller, useWatch, useFieldArray } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import initialProductsData from "@/data/products.json";
 import { apiGet, apiPut, apiGetPaginated } from "@/lib/api";
 
 const generateSlug = (name: string) =>
@@ -129,23 +128,6 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
     }, 0);
     return () => clearTimeout(timer);
   }, []);
-
-  const defaultCategoryOptions = [
-    { label: "Floor Tiles", value: "floor-tiles" },
-    { label: "Wall Tiles", value: "wall-tiles" },
-    { label: "Wooden Flooring", value: "wooden-flooring" },
-    { label: "Bathroom Fittings", value: "bathroom-fittings" },
-    { label: "Granite & Marble", value: "granite-marble" },
-  ];
-
-  const defaultBrandOptions = [
-    { label: "Western", value: "Western" },
-    { label: "Kajaria", value: "Kajaria" },
-    { label: "Somany", value: "Somany" },
-    { label: "Jaquar", value: "Jaquar" },
-    { label: "Greenply", value: "Greenply" },
-    { label: "Hindware", value: "Hindware" },
-  ];
 
   const methods = useForm<ProductFormData>({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

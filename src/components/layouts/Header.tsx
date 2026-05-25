@@ -42,7 +42,7 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
 
   // Fetch active categories and subcategories dynamically from database
-  const { data: categoriesResult, isLoading: catsLoading } = useGetCategoriesQuery({ limit: 100 });
+  const { data: categoriesResult } = useGetCategoriesQuery({ limit: 100 });
   const { data: subCategoriesResult, isLoading: subsLoading } = useGetSubCategoriesQuery({ limit: 100 });
 
   const activeCategories = React.useMemo(() => {
@@ -523,7 +523,7 @@ export default function Header() {
                             Sub Categories
                           </h4>
                           <div className="grid gap-4 pl-4">
-                            {subsForCat.map((sub, idx) => (
+                            {subsForCat.map((sub) => (
                               <Link
                                 key={sub.id}
                                 href={`/products/${currentCatSlug}/${sub.slug || sub.id}`}

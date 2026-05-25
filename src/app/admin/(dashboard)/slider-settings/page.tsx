@@ -7,7 +7,6 @@ import {
   Upload,
   AlertCircle,
   Plus,
-  ImageIcon,
   Edit,
 } from "lucide-react";
 import {

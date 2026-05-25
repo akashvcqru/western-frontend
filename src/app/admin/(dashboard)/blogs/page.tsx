@@ -82,9 +82,9 @@ export default function AdminBlogsPage() {
   useEffect(() => {
     const loadCategories = async () => {
       try {
-        const res = await apiAuthGetPaginated<any>("/api/categories?limit=100");
+        const res = await apiAuthGetPaginated<{ name: string }>("/api/categories?limit=100");
         if (res.data) {
-          const cats = res.data.map((c: any) => c.name);
+          const cats = res.data.map((c) => c.name);
           setAllCategories(cats);
           if (cats.length > 0) {
             setFormCategory(cats[0]);

@@ -28,42 +28,9 @@ import {
 } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import initialProductsData from "@/data/products.json";
 import { apiPost, apiGetPaginated } from "@/lib/api";
 
 // ─── Types ──────────────────────────────────────────────────────────────────
-interface Product {
-  id: string;
-  slug: string;
-  name: string;
-  category: string;
-  subCategory?: string;
-  brand: string;
-  price: string;
-  status: string;
-  stock: number;
-  description: string;
-  images: string[];
-  image?: string;
-  catNo?: string;
-  blueprintImage?: string;
-  material?: string;
-  finish?: string;
-  size?: string;
-  features?: { title: string; desc: string }[];
-  specifications?: { label: string; value: string }[];
-  dimensions?: { name: string; range: string; coord: string }[];
-  resources?: { id: string; title: string; desc: string; format: string; size: string; fileData?: string; fileName?: string }[];
-  variants?: { label: string; options: string[] }[];
-  swatches?: {
-    category: string;
-    options: { name: string; hex: string; desc: string; border?: boolean }[];
-  }[];
-  detailsTitle?: string;
-  detailsText1?: string;
-  detailsText2?: string;
-  quickSpecs?: string[];
-}
 
 interface Category {
   id: string;

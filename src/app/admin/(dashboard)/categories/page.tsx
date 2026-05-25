@@ -242,8 +242,8 @@ export default function AdminCategoriesPage() {
   const currentSetPage = activeTab === "categories" ? setCurrentPage : setCurrentSubPage;
   const currentIsLoading = activeTab === "categories" ? isCatsFetching : isSubsFetching;
   const currentError = activeTab === "categories"
-    ? (catsFetchError ? (catsFetchError as any)?.data?.message || "Failed to load categories" : null)
-    : (subsFetchError ? (subsFetchError as any)?.data?.message || "Failed to load subcategories" : null);
+    ? (catsFetchError ? (catsFetchError as { data?: { message?: string } })?.data?.message || "Failed to load categories" : null)
+    : (subsFetchError ? (subsFetchError as { data?: { message?: string } })?.data?.message || "Failed to load subcategories" : null);
 
   const isSubmitting = isCreatingCat || isUpdatingCat || isCreatingSub || isUpdatingSub;
 

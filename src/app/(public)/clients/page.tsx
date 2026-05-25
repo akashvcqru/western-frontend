@@ -118,7 +118,7 @@ export default function ClientsPage() {
             </div>
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-8">
-              {brands.map((brand, i) => (
+              {brands.map((brand) => (
                 <div
                   key={brand.id}
                   className="relative bg-white rounded-xl border border-neutral-100/70 p-6 flex flex-col items-center justify-between text-center overflow-hidden h-52 shadow-[0_8px_30px_rgba(0,0,0,0.015)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.04)] hover:border-neutral-200 transition-all duration-300"

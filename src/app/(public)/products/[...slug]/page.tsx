@@ -10,7 +10,7 @@ import PageHeader from "@/components/ui/PageHeader";
 import { useGetCategoriesQuery, useGetSubCategoriesQuery } from "@/redux/api/categoriesApi";
 import { useGetProductsQuery } from "@/redux/api/productsApi";
 
-import navigation from "@/data/navigation.json";
+
 import { AppRoutes } from "@/constants/routes";
 import ProductDetailView from "@/components/sections/ProductDetailView";
 import CtaSection from "@/components/sections/home/CtaSection";
@@ -25,15 +25,17 @@ interface Category {
   image?: string;
 }
 
-interface NavItem {
+interface SubCategory {
   id: string;
-  title: string;
-  href: string;
-  columns: Array<{
-    title: string;
-    items: Array<{ name: string; slug: string }>;
-  }>;
+  slug: string;
+  name: string;
+  description: string;
+  image?: string;
+  categoryId: string;
+  status: string;
 }
+
+
 
 interface ProductSpec {
   label: string;
@@ -70,19 +72,25 @@ const parsePrice = (priceStr?: string): number => {
 
 function CategoryHubPage({ 
   category, 
-  navItem, 
-  productsList, 
-  categoriesList 
+  subCategoriesList, 
+  productsList 
 }: { 
   category: Category | undefined; 
-  navItem: NavItem; 
+  subCategoriesList: SubCategory[]; 
   productsList: Product[]; 
-  categoriesList: Category[] 
 }) {
   const [isQuoteOpen, setIsQuoteOpen] = React.useState(false);
-  const allSubcategories = navItem.columns.flatMap((col) => col.items);
+  
+  // Filter active subcategories that belong to this category
+  const categorySubcategories = React.useMemo(() => {
+    if (!category) return [];
+    return subCategoriesList.filter(
+      (sub) => sub.categoryId === category.id && sub.status === "Active"
+    );
+  }, [category, subCategoriesList]);
+
   const heroImage = category?.image || "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop";
-  const categoryName = category?.name || navItem.title;
+  const categoryName = category?.name || "Category";
   const categoryDescription = category?.description || `Professional ${categoryName} solutions engineered for premium workspaces and lasting comfort.`;
 
   return (
@@ -109,20 +117,26 @@ function CategoryHubPage({
 
         {/* Subcategories Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
-          {allSubcategories.map((sub: { name: string; slug: string }, idx: number) => {
-            const subCategoryDetail = categoriesList.find((c: Category) => c.slug === sub.slug);
-            const subImgUrl = subCategoryDetail?.image || "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop";
-            const subTitle = subCategoryDetail?.name || sub.name;
-            const subDescription = subCategoryDetail?.description || "High-end corporate collection featuring premium aesthetics and absolute support.";
-            const count = productsList.filter(p => p.category === sub.slug).length;
+          {categorySubcategories.map((sub: SubCategory) => {
+            const subImgUrl = sub.image || "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop";
+            const subTitle = sub.name;
+            const subDescription = sub.description || "High-end corporate collection featuring premium aesthetics and absolute support.";
+            
+            // Calculate model count correctly using subCategory field
+            const count = productsList.filter(p => 
+              p.subCategory === sub.id || 
+              p.subcategory === sub.id ||
+              p.subCategory?.toLowerCase() === sub.slug?.toLowerCase() ||
+              p.subcategory?.toLowerCase() === sub.slug?.toLowerCase()
+            ).length;
             
             const badgeText = `${count} ${count === 1 ? "Model" : "Models"}`;
             const ctaText = "Explore Series";
-            const cardHref = `${navItem.href}/${sub.slug}`;
+            const cardHref = `/products/${category?.slug || category?.id}/${sub.slug || sub.id}`;
 
             return (
               <Link
-                key={idx}
+                key={sub.id}
                 href={cardHref}
                 className="group relative flex flex-col bg-white rounded-2xl overflow-hidden border border-neutral-100/80 shadow-[0_12px_30px_-10px_rgba(0,0,0,0.03)] hover:shadow-[0_30px_60px_-15px_rgba(237,28,39,0.12)] transition-all duration-[600ms] hover:-translate-y-1.5"
               >
@@ -209,8 +223,7 @@ export default function ProductListingPage({
     return (productsResult?.data?.filter(p => p.status === "Active") || []) as unknown as Product[];
   }, [productsResult]);
 
-  
-  const typedNavigation = navigation as NavItem[];
+
 
   // Dynamically resolve and enrich products with premium specifications at runtime
   const resolvedProducts = React.useMemo(() => {
@@ -360,7 +373,6 @@ export default function ProductListingPage({
 
   const parentCatSlug = decodedSlug.length > 0 ? decodedSlug[0] : "";
   const subCatSlug = decodedSlug.length > 1 ? decodedSlug[1] : "";
-  const categorySlug = parentCatSlug;
   
   const resolvedCategorySlugs = React.useMemo(() => {
     return resolveCategorySlugs(parentCatSlug);
@@ -423,10 +435,9 @@ export default function ProductListingPage({
   // Handle 1-segment routes (e.g. /products/office-furniture) as a Subcategory Hub Page
   if (decodedSlug.length === 1) {
     const parentSlug = decodedSlug[0];
-    const navItem = typedNavigation.find(item => item.id === parentSlug);
-    const currentCategory = categoriesList.find(c => c.slug === parentSlug);
-    if (navItem) {
-      return <CategoryHubPage category={currentCategory} navItem={navItem} productsList={productsList} categoriesList={categoriesList} />;
+    const currentCategory = categoriesList.find(c => c.slug === parentSlug || c.id === parentSlug);
+    if (currentCategory) {
+      return <CategoryHubPage category={currentCategory} subCategoriesList={subCategoriesList} productsList={productsList} />;
     }
   }
   

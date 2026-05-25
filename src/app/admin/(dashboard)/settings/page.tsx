@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   Save,
   Mail,
@@ -85,7 +85,7 @@ export default function AdminSettingsPage() {
     },
   });
 
-  const loadSettings = async () => {
+  const loadSettings = useCallback(async () => {
     setIsLoading(true);
     setError(null);
     try {
@@ -114,11 +114,11 @@ export default function AdminSettingsPage() {
       setIsLoading(false);
       setIsMounted(true);
     }
-  };
+  }, [contactMethods, socialMethods]);
 
   useEffect(() => {
     loadSettings();
-  }, []);
+  }, [loadSettings]);
 
   const onSubmitContact = async (data: ContactSettingsData) => {
     setIsSaving(true);
