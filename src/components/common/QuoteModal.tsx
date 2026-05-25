@@ -20,7 +20,6 @@ const schema = yup.object({
 
 type FormData = yup.InferType<typeof schema>;
 
-const getTimestamp = () => Date.now();
 
 interface QuoteModalProps {
   isOpen: boolean;
@@ -79,39 +78,29 @@ export default function QuoteModal({
     }
   }, [isOpen, product, methods]);
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
-    console.log("Form Data:", data);
 
-    // Save inquiry to sessionStorage for admin simulation
-    if (typeof window !== "undefined") {
-      const stored = sessionStorage.getItem("bdm_inquiries");
-      let currentInquiries = [];
-      if (stored) {
-        try {
-          currentInquiries = JSON.parse(stored);
-        } catch (e) {
-          console.error("Failed to parse existing inquiries in QuoteModal:", e);
-        }
-      }
+    const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5073";
 
-      const newInquiry = {
-        id: getTimestamp(),
-        name: data.fullName,
-        email: data.email,
-        phone: data.phone,
-        subject: product ? `Quote: ${product.name}` : "Product Quote Request",
-        message: data.message || `Interested in inquiring about ${product ? product.name : "materials"}.`,
-        date: new Date().toISOString().split("T")[0],
-        status: "new"
-      };
-
-      sessionStorage.setItem("bdm_inquiries", JSON.stringify([newInquiry, ...currentInquiries]));
-      
-      // Dispatch layout updating event
-      window.dispatchEvent(new Event("bdm-inquiries-updated"));
+    try {
+      // Always save to backend database first
+      await fetch(`${BASE_URL}/api/inquiries`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullName: data.fullName,
+          email: data.email,
+          phone: data.phone,
+          subject: product ? `Quote: ${product.name}` : "Product Quote Request",
+          message: data.message || `Interested in inquiring about ${product ? product.name : "materials"}.`,
+        }),
+      });
+    } catch (err) {
+      console.error("Failed to save inquiry:", err);
     }
 
+    // Also open WhatsApp for product inquiries
     if (product) {
       const whatsappMessage = `*Quote Request from ${data.fullName}*\n\n` +
           `*Product/Blog:* ${product.name}\n` +
@@ -120,28 +109,17 @@ export default function QuoteModal({
           `*Phone:* ${data.phone}\n` +
           `*Message:* ${data.message || ''}`;
 
-      const phone = siteContent.common.contact.phones[0].replace(/[^0-9]/g, ""); // Clean mobile phone
+      const phone = siteContent.common.contact.phones[0].replace(/[^0-9]/g, "");
       window.open(`https://wa.me/${phone}?text=${encodeURIComponent(whatsappMessage)}`, "_blank");
-      
-      setIsSubmitting(false);
-      setIsSuccess(true);
-      methods.reset();
-      setTimeout(() => {
-        setIsSuccess(false);
-        onClose();
-      }, 2000);
-    } else {
-      // Simulate API call
-      setTimeout(() => {
-        setIsSubmitting(false);
-        setIsSuccess(true);
-        methods.reset();
-        setTimeout(() => {
-          setIsSuccess(false);
-          onClose();
-        }, 3000);
-      }, 1500);
     }
+
+    setIsSubmitting(false);
+    setIsSuccess(true);
+    methods.reset();
+    setTimeout(() => {
+      setIsSuccess(false);
+      onClose();
+    }, 2500);
   };
 
   return (

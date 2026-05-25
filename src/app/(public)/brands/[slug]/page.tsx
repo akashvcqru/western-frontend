@@ -2,11 +2,11 @@
 
 import React from "react";
 import { useParams } from "next/navigation";
-import productsData from "@/data/products.json";
-import { ProductCard } from "@/components/ui/ProductCard";
-import { ChevronRight } from "lucide-react";
+import { Loader2, ChevronRight } from "lucide-react";
 import Link from "next/link";
+import { useGetProductsQuery } from "@/redux/api/productsApi";
 
+import { ProductCard } from "@/components/ui/ProductCard";
 import { AppRoutes } from "@/constants/routes";
 import { PageHeader } from "@/components/ui";
 
@@ -28,23 +28,19 @@ export default function BrandPage() {
   const slug = params.slug as string;
   const brandName = slug.split("-").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
 
-  const [productsList, setProductsList] = React.useState<Product[]>(productsData as Product[]);
+  const { data: productsResult, isLoading } = useGetProductsQuery({ brand: brandName, limit: 100 });
 
-  React.useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedProds = sessionStorage.getItem("bdm_products");
-      if (storedProds) {
-        try {
-          const parsed = JSON.parse(storedProds);
-          setTimeout(() => {
-            setProductsList(parsed);
-          }, 0);
-        } catch (e) {
-          console.error(e);
-        }
-      }
-    }
-  }, []);
+  const productsList = React.useMemo(() => {
+    return (productsResult?.data?.filter(p => p.status === "Active") || []) as unknown as Product[];
+  }, [productsResult]);
+
+  if (isLoading) {
+    return (
+      <main className="bg-white flex items-center justify-center min-h-[600px]">
+        <Loader2 className="animate-spin text-primary" size={32} />
+      </main>
+    );
+  }
 
   const filteredProducts = productsList.filter((p: Product) => 
     p.brand?.toLowerCase() === brandName.toLowerCase() || 

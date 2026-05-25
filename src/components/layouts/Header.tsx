@@ -17,42 +17,20 @@ import { cn } from "@/lib/utils";
 import Badge from "@/components/ui/Badge";
 import QuoteModal from "@/components/common/QuoteModal";
 import siteContent from "@/data/site-content.json";
-import navigation from "@/data/navigation.json";
-import categoriesData from "@/data/categories.json";
+import { useGetCategoriesQuery, useGetSubCategoriesQuery } from "@/redux/api/categoriesApi";
 
 interface NavigationLink {
   name: string;
   href: string;
-}
-
-interface ColumnItem {
-  name: string;
-  slug: string;
-}
-
-interface NavigationColumn {
-  title: string;
-  items: ColumnItem[];
-}
-
-interface NavigationItem {
-  id: string;
-  title: string;
-  href: string;
-  columns: NavigationColumn[];
+  isCategory?: boolean;
+  categoryId?: string;
+  slug?: string;
+  description?: string;
 }
 
 interface SearchTag {
   label: string;
   slug: string;
-}
-
-interface CategoryItem {
-  slug: string;
-  name: string;
-  image?: string;
-  id?: string;
-  description?: string;
 }
 
 export default function Header() {
@@ -62,26 +40,37 @@ export default function Header() {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [isScrolled, setIsScrolled] = useState(false);
-  const [categoriesList, setCategoriesList] = useState<CategoryItem[]>(categoriesData as CategoryItem[]);
 
-  React.useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedCats = sessionStorage.getItem("bdm_categories");
-      if (storedCats) {
-        try {
-          const parsed = JSON.parse(storedCats);
-          setTimeout(() => {
-            setCategoriesList(parsed);
-          }, 0);
-        } catch (e) {
-          console.error("Error parsing stored categories in Header:", e);
-        }
-      }
-    }
-  }, []);
+  // Fetch active categories and subcategories dynamically from database
+  const { data: categoriesResult, isLoading: catsLoading } = useGetCategoriesQuery({ limit: 100 });
+  const { data: subCategoriesResult, isLoading: subsLoading } = useGetSubCategoriesQuery({ limit: 100 });
+
+  const activeCategories = React.useMemo(() => {
+    return categoriesResult?.data?.filter((c) => c.status === "Active") ?? [];
+  }, [categoriesResult]);
+
+  const activeSubCategories = React.useMemo(() => {
+    return subCategoriesResult?.data?.filter((s) => s.status === "Active") ?? [];
+  }, [subCategoriesResult]);
 
   const { common, header } = siteContent;
 
+  const navItems = React.useMemo(() => {
+    const items = activeCategories.map((cat) => ({
+      name: cat.name,
+      href: `/products/${cat.slug || cat.id}`,
+      isCategory: true,
+      categoryId: cat.id,
+      slug: cat.slug || cat.id,
+      description: cat.description,
+    }));
+
+    return [
+      ...items,
+      { name: "About Us", href: "/about" },
+      { name: "Blog", href: "/blog" },
+    ];
+  }, [activeCategories]);
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -90,6 +79,8 @@ export default function Header() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const hasMegaMenu = (link: NavigationLink) => !!link.isCategory;
 
   return (
     <>
@@ -175,15 +166,13 @@ export default function Header() {
 
             {/* Desktop Navigation - SaaS Style */}
             <nav className="hidden xl:flex items-center gap-2 h-full">
-              {header.navigation.map((link: NavigationLink) => {
-                const navItem = Array.isArray(navigation)
-                  ? (navigation as NavigationItem[]).find((item) => item.title === link.name)
-                  : null;
+              {navItems.map((link: NavigationLink) => {
+                const hasDropdown = hasMegaMenu(link);
                 return (
                   <div
                     key={link.name}
                     className="px-3.5 h-full relative group flex items-center"
-                    onMouseEnter={() => navItem && setActiveMenu(link.name)}
+                    onMouseEnter={() => hasDropdown && setActiveMenu(link.name)}
                     onMouseLeave={() => setActiveMenu(null)}
                   >
                     <Link
@@ -194,7 +183,7 @@ export default function Header() {
                       )}
                     >
                       {link.name}
-                      {navItem && (
+                      {hasDropdown && (
                         <ChevronDown
                           size={12}
                           className={cn(
@@ -214,7 +203,7 @@ export default function Header() {
                     </Link>
 
                     {/* Mega Menu Dropdown - Premium Glassmorphism */}
-                    {navItem && navItem.columns && (
+                    {hasDropdown && (
                       <div
                         className={cn(
                           "fixed top-full left-0 right-0 bg-white backdrop-blur-2xl border-t border-neutral-100 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.08)] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] z-50 origin-top transform-gpu",
@@ -234,10 +223,13 @@ export default function Header() {
                                 {link.name}
                               </h3>
                               <p className="text-[13px] leading-relaxed text-secondary/60 font-medium">
-                                {link.name === "Office Furniture" && "Elevate your work environment with our ergonomic desking systems, executive series tables, and collaborative storage units."}
-                                {link.name === "Home Furniture" && "Craft a sanctuary of style and comfort. Handcrafted tables, modular kitchens, and elegant storage layouts for modern living."}
-                                {link.name === "Chairs" && "Engineered for absolute posture support and long-term seating comfort. Explore our CEO, executive, and staff collections."}
-                                {link.name === "Interior Design" && "Transform your corporate space. Complete turnkey workspace layouts, partitions, false ceilings, and flooring design solutions."}
+                                {link.description || (
+                                  link.name === "Office Furniture" ? "Elevate your work environment with our ergonomic desking systems, executive series tables, and collaborative storage units." :
+                                  link.name === "Home Furniture" ? "Craft a sanctuary of style and comfort. Handcrafted tables, modular kitchens, and elegant storage layouts for modern living." :
+                                  link.name === "Chairs" ? "Engineered for absolute posture support and long-term seating comfort. Explore our CEO, executive, and staff collections." :
+                                  link.name === "Interior Design" ? "Transform your corporate space. Complete turnkey workspace layouts, partitions, false ceilings, and flooring design solutions." :
+                                  "Discover our premium interior design collections, modular workstation designs, and ergonomic chairs."
+                                )}
                               </p>
                             </div>
 
@@ -254,8 +246,15 @@ export default function Header() {
                           {/* Right Column: Visual Row Grid */}
                           <div className="col-span-9 pl-6">
                             {(() => {
-                              const allItems = navItem.columns.flatMap((col: NavigationColumn) => col.items);
-                              const numItems = allItems.length;
+                              const subsForCategory = activeSubCategories.filter((sc) => sc.categoryId === link.categoryId);
+                              const numItems = subsForCategory.length;
+
+                              if (subsLoading) {
+                                return <div className="py-8 text-xs text-neutral-400 text-center w-full">Loading...</div>;
+                              }
+                              if (numItems === 0) {
+                                return <div className="py-8 text-xs text-neutral-400 text-center font-medium w-full">No sub categories found</div>;
+                              }
 
                               const gridColsClass = 
                                 numItems <= 2
@@ -264,15 +263,14 @@ export default function Header() {
 
                               return (
                                 <div className={cn("grid gap-x-8 gap-y-5", gridColsClass)}>
-                                  {allItems.map((item: ColumnItem, idx: number) => {
-                                    const subCategoryDetail = categoriesList.find((c: CategoryItem) => c.slug === item.slug);
-                                    const previewImage = subCategoryDetail?.image || "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop";
-                                    const previewTitle = subCategoryDetail?.name || item.name;
+                                  {subsForCategory.map((sub, idx) => {
+                                    const previewImage = sub.image || "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop";
+                                    const previewTitle = sub.name;
 
                                     return (
                                       <Link
-                                        key={idx}
-                                        href={`${navItem.href}/${item.slug}`}
+                                        key={sub.id}
+                                        href={`${link.href}/${sub.slug || sub.id}`}
                                         className="group flex items-start gap-4 p-2 rounded-xl hover:bg-neutral-50/80 transition-all duration-300 cursor-pointer animate-in fade-in slide-in-from-bottom-2 duration-300"
                                         style={{ animationDelay: `${idx * 30}ms` }}
                                         onClick={() => setActiveMenu(null)}
@@ -294,9 +292,9 @@ export default function Header() {
                                             {previewTitle}
                                             <ArrowRight size={12} className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-primary shrink-0" />
                                           </h4>
-                                          {subCategoryDetail?.description && (
+                                          {sub.description && (
                                             <p className="text-[11px] leading-normal text-secondary/50 font-medium line-clamp-2">
-                                              {subCategoryDetail.description}
+                                              {sub.description}
                                             </p>
                                           )}
                                         </div>
@@ -382,17 +380,27 @@ export default function Header() {
                     className="absolute right-4 top-1/2 -translate-y-1/2 text-primary"
                   />
                 </div>
+                {/* Dynamic search tags from active categories */}
                 <div className="flex flex-wrap justify-center gap-4">
-                  {header.searchTags.map((tag: SearchTag) => (
+                  {activeCategories.slice(0, 8).map((cat) => (
+                    <Link
+                      key={cat.id}
+                      href={`/products/${cat.slug || cat.id}`}
+                      onClick={() => setIsSearchOpen(false)}
+                    >
+                      <Badge variant="dark" className="px-6 py-2 cursor-pointer">
+                        {cat.name}
+                      </Badge>
+                    </Link>
+                  ))}
+                  {/* Fallback to static tags if no categories yet */}
+                  {activeCategories.length === 0 && header.searchTags.map((tag: SearchTag) => (
                     <Link
                       key={tag.label}
                       href={`/products/${tag.slug}`}
                       onClick={() => setIsSearchOpen(false)}
                     >
-                      <Badge
-                        variant="dark"
-                        className="px-6 py-2 cursor-pointer"
-                      >
+                      <Badge variant="dark" className="px-6 py-2 cursor-pointer">
                         {tag.label}
                       </Badge>
                     </Link>
@@ -440,17 +448,14 @@ export default function Header() {
                         Explore Categories
                       </span>
                       <div className="grid gap-2">
-                        {header.navigation.map((link: NavigationLink) => {
-                          const hasSubMenu =
-                            Array.isArray(navigation) &&
-                            (navigation as NavigationItem[]).find((n) => n.title === link.name)
-                              ?.columns;
+                        {navItems.map((link: NavigationLink) => {
+                          const hasDropdown = hasMegaMenu(link);
                           return (
                             <div
                               key={link.name}
                               className="border-b border-neutral-50 flex justify-between items-center"
                             >
-                              {hasSubMenu ? (
+                              {hasDropdown ? (
                                 <button
                                   onClick={() => setActiveMenu(link.name)}
                                   className="text-2xl font-bold text-secondary tracking-tighter active:text-primary transition-colors flex items-center justify-between w-full group py-5"
@@ -506,35 +511,39 @@ export default function Header() {
                   </div>
                 ) : (
                   <div className="space-y-12">
-                    {Array.isArray(navigation) &&
-                      (navigation as NavigationItem[])
-                        .find((n) => n.title === activeMenu)
-                        ?.columns?.map((col: NavigationColumn, i: number) => (
-                          <div key={i} className="space-y-6">
-                            <h4 className="text-[10px] font-bold tracking-[0.4em] text-primary uppercase border-l-2 border-primary pl-4">
-                              {col.title}
-                            </h4>
-                            <div className="grid gap-4 pl-4">
-                              {col.items.map((item: ColumnItem, idx: number) => (
-                                <Link
-                                  key={idx}
-                                  href={`${(navigation as NavigationItem[]).find((n) => n.title === activeMenu)?.href || ""}/${item.slug}`}
-                                  className="text-lg font-bold text-secondary hover:text-primary transition-colors block active:translate-x-2 duration-300"
-                                  onClick={() => {
-                                    setIsOpen(false);
-                                    setActiveMenu(null);
-                                  }}
-                                >
-                                  {item.name}
-                                </Link>
-                              ))}
-                            </div>
+                    {(() => {
+                      const currentCat = activeCategories.find((c) => c.name === activeMenu);
+                      if (!currentCat) return null;
+                      const subsForCat = activeSubCategories.filter((s) => s.categoryId === currentCat.id);
+                      const currentCatSlug = currentCat.slug || currentCat.id;
+
+                      return (
+                        <div className="space-y-6">
+                          <h4 className="text-[10px] font-bold tracking-[0.4em] text-primary uppercase border-l-2 border-primary pl-4">
+                            Sub Categories
+                          </h4>
+                          <div className="grid gap-4 pl-4">
+                            {subsForCat.map((sub, idx) => (
+                              <Link
+                                key={sub.id}
+                                href={`/products/${currentCatSlug}/${sub.slug || sub.id}`}
+                                className="text-lg font-bold text-secondary hover:text-primary transition-colors block active:translate-x-2 duration-300"
+                                onClick={() => {
+                                  setIsOpen(false);
+                                  setActiveMenu(null);
+                                }}
+                              >
+                                {sub.name}
+                              </Link>
+                            ))}
                           </div>
-                        ))}
+                        </div>
+                      );
+                    })()}
 
                     <button
                       onClick={() => setActiveMenu(null)}
-                      className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-[0.3em] text-neutral-400 pt-8 border-t border-neutral-100"
+                      className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-[0.3em] text-neutral-400 pt-8 border-t border-neutral-100 w-full text-left"
                     >
                       <ArrowRight size={14} className="rotate-180" />
                       Back to Main Menu

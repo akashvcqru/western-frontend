@@ -345,11 +345,13 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
     }
 
     const specsToShow = [...baseSpecs];
-    defaultSpecs.forEach((ds) => {
-      if (!hasSpec(ds.label)) {
-        specsToShow.push(ds);
-      }
-    });
+    if (baseSpecs.length === 0) {
+      defaultSpecs.forEach((ds) => {
+        if (!hasSpec(ds.label)) {
+          specsToShow.push(ds);
+        }
+      });
+    }
 
     return (
       <div className="w-full bg-white rounded-xl border border-neutral-100 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.06)] overflow-hidden">

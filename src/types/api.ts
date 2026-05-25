@@ -50,6 +50,7 @@ export interface Product {
   slug: string;
   name: string;
   category: string;
+  subCategory?: string;
   brand: string;
   price: string;
   status: string;
@@ -71,7 +72,7 @@ export interface Product {
   detailsTitle?: string;
   detailsText1?: string;
   detailsText2?: string;
-  quickSpecs?: string;
+  quickSpecs?: string[];
 }
 
 export interface Category {
@@ -81,6 +82,16 @@ export interface Category {
   description: string;
   count: number;
   image: string;
+  status: string;
+}
+
+export interface SubCategory {
+  id: string;
+  slug?: string;
+  name: string;
+  description: string;
+  image: string;
+  categoryId: string;
   status: string;
 }
 

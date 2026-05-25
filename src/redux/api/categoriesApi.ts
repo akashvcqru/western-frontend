@@ -1,5 +1,5 @@
 import { apiSlice } from "./apiSlice";
-import type { Category, PaginatedApiResponse, ApiResponse } from "@/types/api";
+import type { Category, SubCategory, PaginatedApiResponse, ApiResponse } from "@/types/api";
 
 export const categoriesApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -54,6 +54,57 @@ export const categoriesApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: [{ type: "Category", id: "LIST" }],
     }),
+    getSubCategories: builder.query<
+      PaginatedApiResponse<SubCategory>,
+      { page?: number; limit?: number; search?: string } | void
+    >({
+      query: (params) => {
+        const queryParams = new URLSearchParams();
+        if (params) {
+          if (params.page !== undefined) queryParams.set("page", String(params.page));
+          if (params.limit !== undefined) queryParams.set("limit", String(params.limit));
+          if (params.search) queryParams.set("search", params.search);
+        }
+        const queryStr = queryParams.toString();
+        return `/api/categories/subcategories${queryStr ? `?${queryStr}` : ""}`;
+      },
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.data.map(({ id }) => ({ type: "SubCategory" as const, id })),
+              { type: "SubCategory", id: "LIST" },
+            ]
+          : [{ type: "SubCategory", id: "LIST" }],
+    }),
+    createSubCategory: builder.mutation<ApiResponse<SubCategory>, Partial<SubCategory>>({
+      query: (body) => ({
+        url: "/api/categories/subcategories",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: [{ type: "SubCategory", id: "LIST" }],
+    }),
+    updateSubCategory: builder.mutation<
+      ApiResponse<SubCategory>,
+      { id: string; body: Partial<SubCategory> }
+    >({
+      query: ({ id, body }) => ({
+        url: `/api/categories/subcategories/${id}`,
+        method: "PUT",
+        body,
+      }),
+      invalidatesTags: (result, error, { id }) => [
+        { type: "SubCategory", id },
+        { type: "SubCategory", id: "LIST" },
+      ],
+    }),
+    deleteSubCategory: builder.mutation<ApiResponse<null>, string>({
+      query: (id) => ({
+        url: `/api/categories/subcategories/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: [{ type: "SubCategory", id: "LIST" }],
+    }),
   }),
 });
 
@@ -62,4 +113,8 @@ export const {
   useCreateCategoryMutation,
   useUpdateCategoryMutation,
   useDeleteCategoryMutation,
+  useGetSubCategoriesQuery,
+  useCreateSubCategoryMutation,
+  useUpdateSubCategoryMutation,
+  useDeleteSubCategoryMutation,
 } = categoriesApi;

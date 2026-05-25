@@ -3,56 +3,24 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ChevronRight, ArrowRight } from "lucide-react";
+import { ChevronRight, ArrowRight, Loader2 } from "lucide-react";
 import { AppRoutes } from "@/constants/routes";
-import categoriesData from "@/data/categories.json";
-import productsData from "@/data/products.json";
 import { QuoteModal } from "@/components/common";
 import { PageHeader } from "@/components/ui";
+import { useGetCategoriesQuery } from "@/redux/api/categoriesApi";
 
 export default function CategoriesPage() {
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
-  const [categories, setCategories] = useState<typeof categoriesData>(categoriesData);
-  const [products, setProducts] = useState<typeof productsData>(productsData);
+  const { data: categoriesResult, isLoading } = useGetCategoriesQuery({ limit: 100 });
+  const categories = categoriesResult?.data?.filter(c => c.status === "Active") || [];
 
-  React.useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedCats = sessionStorage.getItem("bdm_categories");
-      if (storedCats) {
-        try {
-          const parsedCats = JSON.parse(storedCats);
-          setTimeout(() => {
-            setCategories(parsedCats);
-          }, 0);
-        } catch (e) {
-          console.error("Error parsing stored categories:", e);
-        }
-      }
-      const storedProds = sessionStorage.getItem("bdm_products");
-      if (storedProds) {
-        try {
-          const parsedProds = JSON.parse(storedProds);
-          setTimeout(() => {
-            setProducts(parsedProds);
-          }, 0);
-        } catch (e) {
-          console.error("Error parsing stored products:", e);
-        }
-      }
-    }
-  }, []);
-
-  const getProductCount = (categoryId: string) => {
-    const cat = categories.find(c => c.id === categoryId || c.slug === categoryId);
-    return products.filter(p => {
-      if (!p.category) return false;
-      return (
-        p.category === categoryId ||
-        (cat?.slug && p.category === cat.slug) ||
-        (cat?.id && p.category === cat.id)
-      );
-    }).length;
-  };
+  if (isLoading) {
+    return (
+      <main className="bg-white flex items-center justify-center min-h-[600px]">
+        <Loader2 className="animate-spin text-primary" size={32} />
+      </main>
+    );
+  }
 
   return (
     <main className="bg-white">
@@ -119,7 +87,7 @@ export default function CategoriesPage() {
               {/* Badge */}
               <div className="absolute top-10 right-10">
                 <div className="bg-white/5 backdrop-blur-xl border border-white/10 text-white text-[9px] font-black uppercase tracking-[0.2em] px-4 py-2 rounded-full">
-                  {getProductCount(cat.id)} Designs
+                  {cat.count} Designs
                 </div>
               </div>
             </Link>

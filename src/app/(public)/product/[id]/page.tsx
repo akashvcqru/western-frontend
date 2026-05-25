@@ -11,7 +11,8 @@ import {
   Droplets,
   ArrowRight,
   ArrowUpRight,
-  Maximize2
+  Maximize2,
+  Loader2
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import ImagePreview from "@/components/ui/ImagePreview";
@@ -20,7 +21,7 @@ import QuoteModal from "@/components/common/QuoteModal";
 
 
 import { useParams, notFound } from "next/navigation";
-import productsData from "@/data/products.json";
+import { useGetProductByIdOrSlugQuery } from "@/redux/api/productsApi";
 
 interface Product {
   id: string;
@@ -45,29 +46,14 @@ export default function ProductDetailPage() {
   const params = useParams();
   const id = params.id as string;
   
-  const [productsList, setProductsList] = useState<Product[]>(productsData as Product[]);
+  const { data: productResult, isLoading: isProdLoading } = useGetProductByIdOrSlugQuery(id);
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => {
-      setIsMounted(true);
-    }, 0);
-    if (typeof window !== "undefined") {
-      const storedProds = sessionStorage.getItem("bdm_products");
-      if (storedProds) {
-        try {
-          const parsed = JSON.parse(storedProds);
-          setTimeout(() => {
-            setProductsList(parsed);
-          }, 0);
-        } catch (e) {
-          console.error(e);
-        }
-      }
-    }
+    setIsMounted(true);
   }, []);
 
-  const rawProduct = productsList.find(p => p.id === id || p.slug === id) as Product | undefined;
+  const rawProduct = productResult?.data as unknown as Product | undefined;
 
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedVariants, setSelectedVariants] = useState<Record<string, string>>(() => {
@@ -176,10 +162,10 @@ export default function ProductDetailPage() {
     };
   }, [rawProduct]);
 
-  if (!isMounted) {
+  if (!isMounted || isProdLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+        <Loader2 className="animate-spin text-primary" size={32} />
       </div>
     );
   }

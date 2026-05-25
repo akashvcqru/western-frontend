@@ -10,9 +10,22 @@ import {
   Layers,
 } from "lucide-react";
 import QuoteModal from "@/components/common/QuoteModal";
-import cataloguesData from "@/data/download-center.json";
+import cataloguesDataRaw from "@/data/download-center.json";
 import { cn } from "@/lib/utils";
 import { PageHeader } from "@/components/ui";
+
+interface CatalogueItem {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  category: string;
+  pages: string;
+  fileSize: string;
+  pdfUrl: string;
+}
+
+const cataloguesData = cataloguesDataRaw as CatalogueItem[];
 
 export default function DownloadCenterPage() {
   const [activeCategory, setActiveCategory] = useState<string>("All");

@@ -34,8 +34,12 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
                             error ? "border-red-500" : "border-gray-100",
                             className
                         )}
-                        {...props}
+                        value={props.value ?? ""}
+                        onChange={props.onChange}
+                        onBlur={props.onBlur}
+                        disabled={props.disabled}
                     >
+                        <option value="" disabled hidden>Choose {label || "Option"}...</option>
                         {options.map((opt) => (
                             <option key={opt.value} value={opt.value}>
                                 {opt.label}

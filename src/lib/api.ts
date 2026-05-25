@@ -45,13 +45,18 @@ async function request<T>(
     body: body !== undefined ? JSON.stringify(body) : undefined,
   });
 
-  const json = await res.json();
-
   if (!res.ok) {
-    const errMsg = json?.message || `Request failed: ${res.status} ${res.statusText}`;
+    let errMsg = `Request failed: ${res.status} ${res.statusText}`;
+    try {
+      const json = await res.json();
+      if (json?.message) errMsg = json.message;
+    } catch {
+      // Response is not JSON (e.g. plain text exception page)
+    }
     throw new Error(errMsg);
   }
 
+  const json = await res.json();
   return json as T;
 }
 

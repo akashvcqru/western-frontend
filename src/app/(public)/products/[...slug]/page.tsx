@@ -3,13 +3,13 @@
 import React from "react";
 import { FilterSidebar } from "@/components/sections/FilterSidebar";
 import { ProductCard } from "@/components/ui/ProductCard";
-import { ArrowRight, Filter } from "lucide-react";
+import { ArrowRight, Filter, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { Pagination } from "@/components/ui/Pagination";
 import PageHeader from "@/components/ui/PageHeader";
+import { useGetCategoriesQuery, useGetSubCategoriesQuery } from "@/redux/api/categoriesApi";
+import { useGetProductsQuery } from "@/redux/api/productsApi";
 
-import productsData from "@/data/products.json";
-import categoriesData from "@/data/categories.json";
 import navigation from "@/data/navigation.json";
 import { AppRoutes } from "@/constants/routes";
 import ProductDetailView from "@/components/sections/ProductDetailView";
@@ -44,6 +44,7 @@ interface Product {
   id: string;
   name: string;
   category: string;
+  subCategory?: string;
   slug: string;
   price: string;
   images: string[];
@@ -192,35 +193,22 @@ export default function ProductListingPage({
   const [isQuoteOpen, setIsQuoteOpen] = React.useState(false);
   const ITEMS_PER_PAGE = 6;
 
-  const [productsList, setProductsList] = React.useState<Product[]>(productsData as Product[]);
-  const [categoriesList, setCategoriesList] = React.useState<Category[]>(categoriesData as Category[]);
+  const { data: categoriesResult, isLoading: isCatsLoading } = useGetCategoriesQuery({ limit: 100 });
+  const { data: subCategoriesResult, isLoading: isSubsLoading } = useGetSubCategoriesQuery({ limit: 100 });
+  const { data: productsResult, isLoading: isProdsLoading } = useGetProductsQuery({ limit: 1000 });
 
-  React.useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedProds = sessionStorage.getItem("bdm_products");
-      if (storedProds) {
-        try {
-          const parsedProds = JSON.parse(storedProds);
-          setTimeout(() => {
-            setProductsList(parsedProds);
-          }, 0);
-        } catch (e) {
-          console.error(e);
-        }
-      }
-      const storedCats = sessionStorage.getItem("bdm_categories");
-      if (storedCats) {
-        try {
-          const parsedCats = JSON.parse(storedCats);
-          setTimeout(() => {
-            setCategoriesList(parsedCats);
-          }, 0);
-        } catch (e) {
-          console.error(e);
-        }
-      }
-    }
-  }, []);
+  const categoriesList = React.useMemo(() => {
+    return (categoriesResult?.data?.filter(c => c.status === "Active") || []) as unknown as Category[];
+  }, [categoriesResult]);
+
+  const subCategoriesList = React.useMemo(() => {
+    return subCategoriesResult?.data?.filter(s => s.status === "Active") || [];
+  }, [subCategoriesResult]);
+
+  const productsList = React.useMemo(() => {
+    return (productsResult?.data?.filter(p => p.status === "Active") || []) as unknown as Product[];
+  }, [productsResult]);
+
   
   const typedNavigation = navigation as NavItem[];
 
@@ -370,15 +358,38 @@ export default function ProductListingPage({
   const lastSlugSegment = decodedSlug.length > 0 ? decodedSlug[decodedSlug.length - 1] : "";
   const product = resolvedProducts.find(p => p.slug === lastSlugSegment);
 
-  const categorySlug = decodedSlug.length > 0 ? (decodedSlug.length >= 2 ? decodedSlug[1] : decodedSlug[0]) : "";
+  const parentCatSlug = decodedSlug.length > 0 ? decodedSlug[0] : "";
+  const subCatSlug = decodedSlug.length > 1 ? decodedSlug[1] : "";
+  const categorySlug = parentCatSlug;
   
   const resolvedCategorySlugs = React.useMemo(() => {
-    return resolveCategorySlugs(categorySlug);
-  }, [categorySlug]);
+    return resolveCategorySlugs(parentCatSlug);
+  }, [parentCatSlug]);
+
+  const activeSubCategory = React.useMemo(() => {
+    if (!subCatSlug) return null;
+    return subCategoriesList.find(s => 
+      s.slug?.toLowerCase() === subCatSlug || 
+      s.id?.toLowerCase() === subCatSlug
+    );
+  }, [subCatSlug, subCategoriesList]);
 
   const categoryProducts = React.useMemo(() => {
-    return resolvedProducts.filter(p => resolvedCategorySlugs.includes(p.category));
-  }, [resolvedProducts, resolvedCategorySlugs]);
+    return resolvedProducts.filter(p => {
+      if (parentCatSlug && !resolvedCategorySlugs.includes(p.category)) return false;
+      if (subCatSlug) {
+        const subCatId = activeSubCategory?.id;
+        const subCatSlugName = activeSubCategory?.slug;
+        const matchesSub = 
+          (subCatId && p.subCategory === subCatId) ||
+          (subCatSlugName && p.subCategory?.toLowerCase() === subCatSlugName.toLowerCase()) ||
+          p.subCategory?.toLowerCase() === subCatSlug ||
+          p.subCategory?.toLowerCase().replace(/-/g, " ") === subCatSlug.replace(/-/g, " ");
+        if (!matchesSub) return false;
+      }
+      return true;
+    });
+  }, [resolvedProducts, parentCatSlug, subCatSlug, resolvedCategorySlugs, activeSubCategory]);
 
   const dynamicMaxPrice = React.useMemo(() => {
     if (categoryProducts.length === 0) return 0;
@@ -394,6 +405,16 @@ export default function ProductListingPage({
       setCurrentPage(1);
     }, 0);
   }, [selectedFilters, maxPrice]);
+
+  const isLoading = isCatsLoading || isSubsLoading || isProdsLoading;
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <Loader2 className="animate-spin text-primary" size={32} />
+      </div>
+    );
+  }
 
   if (product) {
     return <ProductDetailView product={product} />;
@@ -415,11 +436,8 @@ export default function ProductListingPage({
     );
   };
 
-  // Filter products based on category slug, price range AND active faceted filters
-  const filteredProducts = resolvedProducts.filter(p => {
-    if (!categorySlug) return true;
-    if (!resolvedCategorySlugs.includes(p.category)) return false;
-    
+  // Filter products based on active faceted filters
+  const filteredProducts = categoryProducts.filter(p => {
     // Apply Price Slider Filter
     if (activeMaxPrice > 0) {
       const price = parsePrice(p.price);
@@ -483,7 +501,7 @@ export default function ProductListingPage({
     return true;
   });
 
-  const currentCategory = categoriesList.find(c => c.slug === categorySlug) ||
+  const currentCategory = categoriesList.find(c => c.slug === parentCatSlug) ||
                           categoriesList.find(c => resolvedCategorySlugs.includes(c.slug));
   
   const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
@@ -491,9 +509,9 @@ export default function ProductListingPage({
   const paginatedProducts = filteredProducts.slice(startIndex, startIndex + ITEMS_PER_PAGE);
   
   const heroImage = currentCategory?.image || "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop";
-  const categoryName = currentCategory?.name && currentCategory.slug === categorySlug
-    ? currentCategory.name 
-    : lastSlugSegment.replace(/-/g, " ");
+  const categoryName = activeSubCategory
+    ? activeSubCategory.name
+    : (currentCategory?.name || lastSlugSegment.replace(/-/g, " "));
 
   return (
     <div className="bg-white min-h-screen">

@@ -9,17 +9,32 @@ import {
   Wrench,
   Palette,
   Lightbulb,
-  CheckCircle2
+  CheckCircle2,
+  Loader2
 } from "lucide-react";
 import { QuoteModal } from "@/components/common";
+import { useGetBrandsQuery } from "@/redux/api/brandsApi";
 import { useState } from "react";
-import brands from "@/data/brands.json";
+// remove static import
 import siteContent from "@/data/site-content.json";
 import { PageHeader } from "@/components/ui";
 
 export default function OurBrandsPage() {
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
+  const { data: brandsResult, isLoading } = useGetBrandsQuery({ limit: 100 });
   const { ourBrandsPage } = siteContent;
+
+  const brandsList = React.useMemo(() => {
+    return brandsResult?.data || [];
+  }, [brandsResult]);
+
+  if (isLoading) {
+    return (
+      <main className="bg-white flex items-center justify-center min-h-[600px]">
+        <Loader2 className="animate-spin text-primary" size={32} />
+      </main>
+    );
+  }
 
   return (
     <main className="bg-white">
@@ -115,7 +130,7 @@ export default function OurBrandsPage() {
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-8">
-            {brands.map((brand, i) => (
+            {brandsList.map((brand, i) => (
               <Link
                 key={i}
                 href={`/products?brand=${brand.name.toLowerCase().replace(/ /g, "-")}`}

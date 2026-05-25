@@ -11,22 +11,25 @@ import {
   ChevronRight,
   Sparkles,
   Filter,
+  Loader2,
 } from "lucide-react";
 
 import { QuoteModal } from "@/components/common";
 import { PageHeader } from "@/components/ui";
 import { cn } from "@/lib/utils";
 
-import galleryItems from "@/data/gallery.json";
+import galleryItemsRaw from "@/data/gallery.json";
 import siteContent from "@/data/site-content.json";
+import { useGetGalleryQuery } from "@/redux/api/galleryApi";
+import type { GalleryItem } from "@/types/api";
 
-interface GalleryItem {
-  id: string;
+interface RawGalleryItem {
   title: string;
   category: string;
-  date: string;
   image: string;
 }
+
+const fallbackGalleryItems = galleryItemsRaw as RawGalleryItem[];
 
 export default function GalleryPage() {
   const [selectedCategory, setSelectedCategory] = React.useState<string>("All");
@@ -34,49 +37,30 @@ export default function GalleryPage() {
   const [isQuoteOpen, setIsQuoteOpen] = React.useState(false);
   const [quoteTitle, setQuoteTitle] = React.useState<string>("Get a Premium Quote");
   const [quoteSubtitle, setQuoteSubtitle] = React.useState<string>("Tell us about your project and our experts will contact you within 24 hours.");
-  
-  const [gallery, setGallery] = React.useState<GalleryItem[]>([]);
 
+  const { data: galleryResult, isLoading } = useGetGalleryQuery({ limit: 1000 });
   const { galleryPage } = siteContent;
 
-  // Load from sessionStorage or fallback to static json
-  React.useEffect(() => {
-    if (typeof window !== "undefined") {
-      const stored = sessionStorage.getItem("bdm_gallery");
-      if (stored) {
-        try {
-          const parsed = JSON.parse(stored) as GalleryItem[];
-          setTimeout(() => {
-            setGallery(parsed);
-          }, 0);
-        } catch {
-          const fallback = galleryItems.map((item, index) => ({
-            id: `IMG-${String(index + 1).padStart(3, "0")}`,
-            title: item.title,
-            category: item.category || "Interiors",
-            date: `${String(10 - index).padStart(2, "0")} May 2026`,
-            image: item.image,
-          }));
-          setTimeout(() => {
-            setGallery(fallback);
-          }, 0);
-        }
-      } else {
-        // Map the static items to include ID and Date if they don't have them
-        const formatted = galleryItems.map((item, index) => ({
-          id: `IMG-${String(index + 1).padStart(3, "0")}`,
-          title: item.title,
-          category: item.category || "Interiors",
-          date: `${String(10 - index).padStart(2, "0")} May 2026`,
-          image: item.image,
-        }));
-        setTimeout(() => {
-          setGallery(formatted);
-        }, 0);
-        sessionStorage.setItem("bdm_gallery", JSON.stringify(formatted));
-      }
+  const gallery = React.useMemo(() => {
+    if (!galleryResult?.data || galleryResult.data.length === 0) {
+      // Map static fallback items
+      return fallbackGalleryItems.map((item, index) => ({
+        id: index + 1,
+        title: item.title,
+        category: item.category || "Interiors",
+        image: item.image,
+      })) as GalleryItem[];
     }
-  }, []);
+    return galleryResult.data;
+  }, [galleryResult]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <Loader2 className="animate-spin text-primary" size={32} />
+      </div>
+    );
+  }
 
   // Dynamically extract categories
   const categories = React.useMemo(() => {

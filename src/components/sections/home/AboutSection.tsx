@@ -25,7 +25,7 @@ export default function AboutSection() {
       if (isPlaying) {
         videoRef.current.pause();
       } else {
-        videoRef.current.play().catch(err => console.log("Video playback error: ", err));
+        videoRef.current.play().catch(() => {});
       }
       setIsPlaying(!isPlaying);
     }

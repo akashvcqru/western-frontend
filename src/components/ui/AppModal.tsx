@@ -96,7 +96,7 @@ const AppModal: React.FC<AppModalProps> = ({
 
             {/* Modal Content */}
             <div
-                className={`relative bg-white w-full rounded-xl overflow-hidden shadow-2xl transition-all duration-300 transform flex flex-col ${sizeClasses[size]} ${show ? 'scale-100 translate-y-0' : 'scale-95 translate-y-8'}`}
+                className={`relative bg-white w-full rounded-xl overflow-hidden shadow-2xl transition-all duration-300 transform flex flex-col max-h-[calc(100vh-2rem)] md:max-h-[calc(100vh-4rem)] ${sizeClasses[size]} ${show ? 'scale-100 translate-y-0' : 'scale-95 translate-y-8'}`}
             >
                 {/* Header */}
                 {!hideHeader && (

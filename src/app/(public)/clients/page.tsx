@@ -16,11 +16,25 @@ import {
   HeartHandshake,
 } from "lucide-react";
 import { QuoteModal } from "@/components/common";
-import clients from "@/data/clients.json";
 import { PageHeader } from "@/components/ui";
+import { useGetBrandsQuery } from "@/redux/api/brandsApi";
+import { Loader2 } from "lucide-react";
 
 export default function ClientsPage() {
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
+  const { data: brandsResult, isLoading } = useGetBrandsQuery({ limit: 100 });
+  const brands = brandsResult?.data || [];
+
+  const getDomainName = (url: string) => {
+    try {
+      if (!url.startsWith("http://") && !url.startsWith("https://")) {
+        url = "https://" + url;
+      }
+      return new URL(url).hostname.replace("www.", "");
+    } catch {
+      return url;
+    }
+  };
 
   return (
     <main className="bg-white">
@@ -94,38 +108,50 @@ export default function ClientsPage() {
           </div>
 
           {/* Premium Logo Cards Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-8">
-            {clients.map((client, i) => (
-              <div
-                key={i}
-                className="relative bg-white rounded-xl border border-neutral-100/70 p-6 flex flex-col items-center justify-between text-center overflow-hidden h-52 shadow-[0_8px_30px_rgba(0,0,0,0.015)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.04)] hover:border-neutral-200 transition-all duration-300"
-              >
-                {/* Logo Area: Styled Container with pure white background to integrate actual logo seamlessly */}
-                <div className="w-full h-16 flex items-center justify-center bg-white rounded-lg border border-neutral-50 p-2 shadow-sm shrink-0">
-                  <Image
-                    src={client.logo}
-                    alt={client.name}
-                    width={130}
-                    height={52}
-                    className="object-contain hover:scale-105 transition-all duration-300"
-                  />
-                </div>
+          {isLoading ? (
+            <div className="flex items-center justify-center py-16">
+              <Loader2 className="animate-spin text-primary" size={32} />
+            </div>
+          ) : brands.length === 0 ? (
+            <div className="text-center py-16 bg-white rounded-2xl border border-neutral-100 shadow-sm">
+              <p className="text-neutral-400 text-sm font-semibold uppercase tracking-wider">No client brands added yet.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-8">
+              {brands.map((brand, i) => (
+                <div
+                  key={brand.id}
+                  className="relative bg-white rounded-xl border border-neutral-100/70 p-6 flex flex-col items-center justify-between text-center overflow-hidden h-52 shadow-[0_8px_30px_rgba(0,0,0,0.015)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.04)] hover:border-neutral-200 transition-all duration-300"
+                >
+                  {/* Logo Area: Styled Container with pure white background to integrate actual logo seamlessly */}
+                  <div className="w-full h-16 flex items-center justify-center bg-white rounded-lg border border-neutral-50 p-2 shadow-sm shrink-0">
+                    <Image
+                      src={brand.url}
+                      alt={brand.name}
+                      width={130}
+                      height={52}
+                      className="object-contain hover:scale-105 transition-all duration-300"
+                    />
+                  </div>
 
-                {/* Brand Meta Details */}
-                <div className="space-y-1 w-full mt-3 flex-grow flex flex-col justify-center min-w-0">
-                  <h3 className="text-xs font-bold text-neutral-800 tracking-tight leading-snug line-clamp-2 px-1">
-                    {client.name}
-                  </h3>
-                </div>
+                  {/* Brand Meta Details */}
+                  <div className="space-y-1 w-full mt-3 flex-grow flex flex-col justify-center min-w-0">
+                    <h3 className="text-xs font-bold text-neutral-800 tracking-tight leading-snug line-clamp-2 px-1">
+                      {brand.name}
+                    </h3>
+                  </div>
 
-                {/* Globe domain representation with clean spacing (no divider line!) */}
-                <div className="w-full pt-2 flex items-center justify-center gap-1.5 text-neutral-400 text-[10px] font-semibold tracking-wider shrink-0 min-w-0">
-                  <Globe2 size={12} className="text-neutral-300" />
-                  <span className="truncate">{client.domain}</span>
+                  {/* Globe domain representation with clean spacing */}
+                  {brand.link && (
+                    <div className="w-full pt-2 flex items-center justify-center gap-1.5 text-neutral-400 text-[10px] font-semibold tracking-wider shrink-0 min-w-0">
+                      <Globe2 size={12} className="text-neutral-300" />
+                      <span className="truncate">{getDomainName(brand.link)}</span>
+                    </div>
+                  )}
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

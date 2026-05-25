@@ -43,6 +43,11 @@ export default function AdminBlogsPage() {
   const [formContent, setFormContent] = useState("");
   const [formDate, setFormDate] = useState("");
 
+  // Categories helper state
+  const [allCategories, setAllCategories] = useState<string[]>([]);
+  const [isNewCategory, setIsNewCategory] = useState(false);
+  const [newCategoryName, setNewCategoryName] = useState("");
+
   // ── Fetch blogs from API ─────────────────────────────────────────────────────
   const fetchBlogs = useCallback(async (page: number, limit: number, search: string, category: string) => {
     setIsLoading(true);
@@ -73,14 +78,35 @@ export default function AdminBlogsPage() {
     setCurrentPage(1);
   }, [searchTerm, categoryFilter, itemsPerPage]);
 
+  // Load all categories for dynamic selection
+  useEffect(() => {
+    const loadCategories = async () => {
+      try {
+        const res = await apiAuthGetPaginated<any>("/api/categories?limit=100");
+        if (res.data) {
+          const cats = res.data.map((c: any) => c.name);
+          setAllCategories(cats);
+          if (cats.length > 0) {
+            setFormCategory(cats[0]);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to load categories", err);
+      }
+    };
+    loadCategories();
+  }, []);
+
   // ── Modal helpers ────────────────────────────────────────────────────────────
   const handleAddClick = () => {
     const todayStr = new Date().toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" });
     setEditingBlog(null);
     setFormTitle(""); setFormSlug(""); setFormExcerpt("");
-    setFormCategory("Ergonomics"); setFormImage(""); setFormAuthor("Admin");
+    setFormCategory(allCategories[0] || ""); setFormImage(""); setFormAuthor("Admin");
     setFormAuthorRole("Western Interio Admin"); setFormTags("Workspace, Office, Design");
     setFormContent(""); setFormDate(todayStr);
+    setIsNewCategory(false);
+    setNewCategoryName("");
     setIsModalOpen(true);
   };
 
@@ -90,6 +116,8 @@ export default function AdminBlogsPage() {
     setFormCategory(blog.category); setFormImage(blog.image); setFormAuthor(blog.author);
     setFormAuthorRole(blog.authorRole); setFormTags(blog.tags.join(", "));
     setFormContent(blog.content.join("\n\n")); setFormDate(blog.date);
+    setIsNewCategory(false);
+    setNewCategoryName("");
     setIsModalOpen(true);
   };
 
@@ -113,6 +141,12 @@ export default function AdminBlogsPage() {
       return;
     }
 
+    const finalCategory = isNewCategory ? newCategoryName.trim() : formCategory;
+    if (isNewCategory && !newCategoryName.trim()) {
+      addToast({ title: "Validation Error", message: "Please specify the new category name.", variant: "error" });
+      return;
+    }
+
     const contentParagraphs = formContent.split(/\n\s*\n/).map(p => p.trim()).filter(Boolean);
     const tagsArray = formTags.split(",").map(t => t.trim()).filter(Boolean);
     const defaultImage = "https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=2070&auto=format&fit=crop";
@@ -120,7 +154,7 @@ export default function AdminBlogsPage() {
     const payload = {
       title: formTitle,
       excerpt: formExcerpt,
-      category: formCategory,
+      category: finalCategory,
       image: formImage.trim() || defaultImage,
       author: formAuthor,
       authorRole: formAuthorRole,
@@ -139,6 +173,7 @@ export default function AdminBlogsPage() {
         addToast({ title: "Blog Created", message: `"${formTitle}" was successfully published.`, variant: "success" });
       }
       setIsModalOpen(false);
+      setAllCategories(prev => Array.from(new Set([...prev, finalCategory])));
       fetchBlogs(currentPage, itemsPerPage, searchTerm, categoryFilter);
     } catch (err: unknown) {
       addToast({ title: "Error", message: err instanceof Error ? err.message : "Operation failed", variant: "error" });
@@ -146,9 +181,6 @@ export default function AdminBlogsPage() {
       setIsSubmitting(false);
     }
   };
-
-  // ── Unique categories for filter dropdown (derived from current page data) ──
-  const categoriesList = Array.from(new Set(blogs.map(b => b.category))).filter(Boolean);
 
   // ── Render ────────────────────────────────────────────────────────────────────
   return (
@@ -197,7 +229,7 @@ export default function AdminBlogsPage() {
                       className="w-full text-xs font-semibold bg-gray-50 border border-gray-200 rounded-lg p-2 focus:outline-none cursor-pointer"
                     >
                       <option value="">All Categories</option>
-                      {categoriesList.map(cat => <option key={cat} value={cat}>{cat}</option>)}
+                      {allCategories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
                     </select>
                   </div>
                   {categoryFilter && (
@@ -347,7 +379,49 @@ export default function AdminBlogsPage() {
             </div>
             <div className="space-y-1">
               <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Category *</label>
-              <input type="text" required value={formCategory} onChange={e => setFormCategory(e.target.value)} placeholder="e.g. Office Trends" className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium focus:outline-none focus:border-[#ed1c27]/40" />
+              {!isNewCategory ? (
+                <select
+                  value={formCategory}
+                  onChange={(e) => {
+                    if (e.target.value === "__NEW__") {
+                      setIsNewCategory(true);
+                    } else {
+                      setFormCategory(e.target.value);
+                    }
+                  }}
+                  className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-semibold focus:outline-none focus:border-[#ed1c27]/40 cursor-pointer"
+                >
+                  {allCategories.map((cat) => (
+                    <option key={cat} value={cat}>
+                      {cat}
+                    </option>
+                  ))}
+                  <option value="__NEW__" className="text-[#ed1c27] font-bold">
+                    + Add New Category
+                  </option>
+                </select>
+              ) : (
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    required
+                    value={newCategoryName}
+                    onChange={(e) => setNewCategoryName(e.target.value)}
+                    placeholder="e.g. Wellness"
+                    className="flex-1 px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium focus:outline-none focus:border-[#ed1c27]/40"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsNewCategory(false);
+                      setNewCategoryName("");
+                    }}
+                    className="px-3 py-2 border border-gray-200 text-gray-400 hover:text-gray-600 rounded-xl text-[10px] font-bold uppercase tracking-wider bg-gray-50 cursor-pointer"
+                  >
+                    Select Existing
+                  </button>
+                </div>
+              )}
             </div>
           </div>
 

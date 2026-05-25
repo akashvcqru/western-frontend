@@ -29,6 +29,7 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import initialProductsData from "@/data/products.json";
+import { apiPost, apiGetPaginated } from "@/lib/api";
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 interface Product {
@@ -36,6 +37,7 @@ interface Product {
   slug: string;
   name: string;
   category: string;
+  subCategory?: string;
   brand: string;
   price: string;
   status: string;
@@ -69,6 +71,13 @@ interface Category {
   slug?: string;
 }
 
+interface SubCategory {
+  id: string;
+  name: string;
+  categoryId: string;
+  slug?: string;
+}
+
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 const generateSlug = (name: string) =>
   name
@@ -82,6 +91,7 @@ const generateSlug = (name: string) =>
 const productSchema = yup.object().shape({
   name: yup.string().required("Product Name is required").min(3, "Minimum 3 characters"),
   category: yup.string().required("Category is required"),
+  subCategory: yup.string().required("Sub Category is required"),
   brand: yup.string().required("Brand is required"),
   price: yup.string().required("Price is required"),
   stock: yup.number().typeError("Must be a number").required("Required").min(0),
@@ -125,31 +135,14 @@ export default function NewProductPage() {
 
   const [activeTab, setActiveTab] = useState<"general" | "details" | "blueprint" | "specs" | "resources">("general");
   const [categories, setCategories] = useState<Category[]>([]);
+  const [subCategories, setSubCategories] = useState<SubCategory[]>([]);
   const [brands, setBrands] = useState<{ id: string; name: string }[]>([]);
   const [savedSuccess, setSavedSuccess] = useState(false);
-
-  const defaultCategoryOptions = [
-    { label: "Floor Tiles", value: "floor-tiles" },
-    { label: "Wall Tiles", value: "wall-tiles" },
-    { label: "Wooden Flooring", value: "wooden-flooring" },
-    { label: "Bathroom Fittings", value: "bathroom-fittings" },
-    { label: "Granite & Marble", value: "granite-marble" },
-  ];
-
-  const defaultBrandOptions = [
-    { label: "Western", value: "Western" },
-    { label: "Kajaria", value: "Kajaria" },
-    { label: "Somany", value: "Somany" },
-    { label: "Jaquar", value: "Jaquar" },
-    { label: "Greenply", value: "Greenply" },
-    { label: "Hindware", value: "Hindware" },
-  ];
-
   const methods = useForm<ProductFormData>({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resolver: yupResolver(productSchema) as any,
     defaultValues: {
-      name: "", category: "", brand: "Western", price: "", stock: 10,
+      name: "", category: "", subCategory: "", brand: "Western", price: "", stock: 10,
       status: "Active", description: "", catNo: "", blueprintImage: "",
       material: "", finish: "", size: "",
       images: [], features: [], specifications: [], dimensions: [],
@@ -215,64 +208,60 @@ export default function NewProductPage() {
     }
   }, [watchedStatus, setValue, methods]);
 
-  // Load categories and brands from sessionStorage
+  // Load categories, subcategories and brands from backend
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedCats = sessionStorage.getItem("bdm_categories");
-      const storedBrands = sessionStorage.getItem("bdm_brands");
-      const timer = setTimeout(() => {
-        if (storedCats) {
-          try { setCategories(JSON.parse(storedCats)); } catch { setCategories([]); }
-        }
-        if (storedBrands) {
-          try {
-            if (storedBrands) setBrands(JSON.parse(storedBrands));
-          } catch {
-            setBrands([]);
-          }
-        }
-      }, 0);
-      return () => clearTimeout(timer);
-    }
+    const loadData = async () => {
+      try {
+        const catsRes = await apiGetPaginated<Category>("/api/categories?limit=100");
+        setCategories(catsRes.data);
+      } catch (e) {
+        console.error("Error loading categories:", e);
+      }
+      try {
+        const subCatsRes = await apiGetPaginated<SubCategory>("/api/categories/subcategories?limit=100");
+        setSubCategories(subCatsRes.data);
+      } catch (e) {
+        console.error("Error loading subcategories:", e);
+      }
+      try {
+        const brandsRes = await apiGetPaginated<{ id: string; name: string }>("/api/brands?limit=100");
+        setBrands(brandsRes.data);
+      } catch (e) {
+        console.error("Error loading brands:", e);
+      }
+    };
+    loadData();
   }, []);
 
-  const categoryOptions = categories.length > 0
-    ? categories.map((c) => ({ label: c.name, value: c.id || c.slug || "" }))
-    : defaultCategoryOptions;
+  const categoryOptions = categories.map((c) => ({ label: c.name, value: c.id || c.slug || "" }));
+
+  const watchedCategory = useWatch({ control, name: "category" });
+  const filteredSubCategories = React.useMemo(() => {
+    if (!watchedCategory) return [];
+    return subCategories.filter((sc) => sc.categoryId === watchedCategory);
+  }, [subCategories, watchedCategory]);
+
+  const subCategoryOptions = filteredSubCategories.map((sc) => ({ label: sc.name, value: sc.id || sc.slug || "" }));
 
   const brandOptions = (() => {
-    const list = brands.length > 0
-      ? brands.map((b) => ({ label: b.name, value: b.name }))
-      : defaultBrandOptions;
+    const list = brands.map((b) => ({ label: b.name, value: b.name }));
     if (!list.some((opt) => opt.value.toLowerCase() === "western")) {
       return [{ label: "Western", value: "Western" }, ...list];
     }
     return list;
   })();
 
-  const onSubmit = (data: ProductFormData) => {
+  const onSubmit = async (data: ProductFormData) => {
     const defaultImage = "https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=2070&auto=format&fit=crop";
     const imagesList = data.images && data.images.length > 0 ? data.images : [defaultImage];
 
-    const existing: Product[] = (() => {
-      try {
-        const s = sessionStorage.getItem("bdm_products");
-        return s ? JSON.parse(s) : initialProductsData;
-      } catch { return initialProductsData as Product[]; }
-    })();
-
     const slug = generateSlug(data.name);
-    let uniqueId = slug;
-    let counter = 1;
-    while (existing.some((p) => p.id === uniqueId || p.slug === uniqueId)) {
-      uniqueId = `${slug}-${counter++}`;
-    }
 
-    const newProduct: Product = {
-      id: uniqueId,
-      slug: uniqueId,
+    const productPayload = {
       name: data.name,
+      slug: slug,
       category: data.category,
+      subCategory: data.subCategory,
       brand: data.brand,
       price: data.price,
       stock: data.stock,
@@ -304,12 +293,14 @@ export default function NewProductPage() {
       quickSpecs: (data.quickSpecs || []).map((q) => q.value).filter(Boolean),
     };
 
-    const updated = [newProduct, ...existing];
-    sessionStorage.setItem("bdm_products", JSON.stringify(updated));
-
-    addToast({ title: "Product Created", message: `"${data.name}" was added successfully.`, variant: "success" });
-    setSavedSuccess(true);
-    setTimeout(() => router.push(AppRoutes.Admin.Products), 1200);
+    try {
+      await apiPost("/api/products", productPayload);
+      addToast({ title: "Product Created", message: `"${data.name}" was added successfully.`, variant: "success" });
+      setSavedSuccess(true);
+      setTimeout(() => router.push(AppRoutes.Admin.Products), 1200);
+    } catch (err: unknown) {
+      addToast({ title: "Error", message: err instanceof Error ? err.message : "Failed to create product", variant: "error" });
+    }
   };
 
   const TABS = [
@@ -372,8 +363,9 @@ export default function NewProductPage() {
                 <div className={activeTab === "general" ? "space-y-5" : "hidden"}>
                   <RHFControl control="input" name="name" label="Product Name *" placeholder="e.g. WFU 001 Modular Workstation" className="rounded-xl" />
 
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-3 gap-4">
                     <RHFControl control="select" name="category" label="Category *" options={categoryOptions} className="rounded-xl" />
+                    <RHFControl control="select" name="subCategory" label="Sub Category *" options={subCategoryOptions} disabled={!watchedCategory} className="rounded-xl" />
                     <RHFControl control="select" name="brand" label="Brand *" options={brandOptions} className="rounded-xl" />
                   </div>
 

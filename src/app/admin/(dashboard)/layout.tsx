@@ -21,8 +21,9 @@ import {
   Layers,
   ExternalLink,
   CheckCheck,
-  MessageSquare,
   Newspaper,
+  Sliders,
+  MessageSquare,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAppToast } from "@/components/ui/AppToast";
@@ -41,7 +42,8 @@ const navItems = [
   { label: "Brands",    href: "/admin/brands",      icon: Tag,             badge: null },
   { label: "Gallery",   href: "/admin/gallery",     icon: ImageIcon,       badge: null },
   { label: "Blogs",     href: "/admin/blogs",       icon: Newspaper,       badge: null },
-  { label: "Inquiries", href: "/admin/inquiries",   icon: Mail,            badge: "5"  },
+  { label: "Inquiries", href: "/admin/inquiries",   icon: Mail,            badge: null },
+  { label: "Slider Settings", href: "/admin/slider-settings", icon: Sliders, badge: null },
   { label: "Settings",  href: "/admin/settings",    icon: Settings,        badge: null },
 ];
 
@@ -360,7 +362,7 @@ export default function AdminDashboardLayout({
   const [mounted, setMounted] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [notifOpen, setNotifOpen]   = useState(false);
-  const [inquiriesBadge, setInquiriesBadge] = useState<string | null>("5");
+  const [inquiriesBadge, setInquiriesBadge] = useState<string | null>(null);
 
   /* Load admin details on mount to avoid hydration mismatch */
   useEffect(() => {
@@ -377,32 +379,31 @@ export default function AdminDashboardLayout({
     }, 0);
   }, []);
 
-  /* Dynamic Badge Handler */
+  /* Dynamic Badge — fetch real pending inquiry count from API */
   useEffect(() => {
-    const updateBadge = () => {
-      if (typeof window !== "undefined") {
-        const stored = sessionStorage.getItem("bdm_inquiries");
-        if (stored) {
-          try {
-            const inqs = JSON.parse(stored);
-            const activeCount = inqs.filter((i: { status: string }) => i.status === "new").length;
-            setInquiriesBadge(activeCount > 0 ? String(activeCount) : null);
-          } catch {
-            setInquiriesBadge("5");
-          }
+    const fetchBadge = async () => {
+      try {
+        const token = sessionStorage.getItem("auth_token");
+        if (!token) return;
+        const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5073";
+        const res = await fetch(`${BASE_URL}/api/inquiries?status=new&limit=1`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (res.ok) {
+          const json = await res.json();
+          const count = json?.pagination?.totalItems ?? 0;
+          setInquiriesBadge(count > 0 ? String(count) : null);
         } else {
-          setInquiriesBadge("5");
+          setInquiriesBadge(null);
         }
+      } catch {
+        setInquiriesBadge(null);
       }
     };
 
-    updateBadge();
-
-    window.addEventListener("bdm-inquiries-updated", updateBadge);
-    return () => {
-      window.removeEventListener("bdm-inquiries-updated", updateBadge);
-    };
-  }, []);
+    fetchBadge();
+    // Re-fetch whenever the user navigates (pathname changes)
+  }, [pathname]);
 
   const handleLogout = () => {
     sessionStorage.removeItem("bdm_admin");

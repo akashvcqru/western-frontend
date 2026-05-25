@@ -103,43 +103,7 @@
     "title": "Our Trusted Partners"
   },
   "homePage": {
-    "heroSlider": [
-      {
-        "id": 1,
-        "image": "https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=2070&auto=format&fit=crop",
-        "title": "Modular <br /> <span class='text-primary'>Office Furniture</span>",
-        "subtitle": "Manufacturer & Supplier in Gurgaon",
-        "description": "Ergonomic and modern office furniture solutions for high-performance workplaces."
-      },
-      {
-        "id": 2,
-        "image": "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2070&auto=format&fit=crop",
-        "title": "Office Interiors <br /> <span class='text-primary'>Decoration</span>",
-        "subtitle": "End-to-End Solutions",
-        "description": "Workspace planning and furniture manufacturing with modern design aesthetics."
-      },
-      {
-        "id": 3,
-        "image": "https://images.unsplash.com/photo-1595515106969-1ce29566ff1c?q=80&w=2070&auto=format&fit=crop",
-        "title": "Premium Executive <br /> <span class='text-primary'>Tables</span>",
-        "subtitle": "Elegance Meets Functionality",
-        "description": "Exquisite executive tables designed for the modern corporate leader."
-      },
-      {
-        "id": 4,
-        "image": "https://images.unsplash.com/photo-1618219908412-a29a1bb7b86e?q=80&w=2070&auto=format&fit=crop",
-        "title": "Modular Partition <br /> <span class='text-primary'>Systems</span>",
-        "subtitle": "Privacy and Collaboration",
-        "description": "Optimize your office layout with our flexible and stylish partition solutions."
-      },
-      {
-        "id": 5,
-        "image": "https://images.unsplash.com/photo-1580481072645-022f9a6dbf27?q=80&w=2070&auto=format&fit=crop",
-        "title": "Ergonomic Seating <br /> <span class='text-primary'>Collection</span>",
-        "subtitle": "Comfort for Productivity",
-        "description": "Discover our range of CEO, executive, and staff chairs engineered for long-term support."
-      }
-    ],
+    "heroSlider": [],
     "specifications": {
       "title": "Our Specifications",
       "items": [
@@ -187,72 +151,7 @@
       "title": "What Our <span class='text-primary'>Clients</span> Say",
       "subtitle": "Discover why leading businesses trust Western Interio for their workspace needs."
     },
-    "items": [
-      {
-        "quote": "Western Interio transformed our corporate office with their modular workstations. The quality is exceptional and the project was completed on time.",
-        "author": "Rajesh Khanna",
-        "designation": "Operations Head",
-        "company": "Tech Innovations Pvt Ltd",
-        "rating": 5,
-        "category": "workstations"
-      },
-      {
-        "quote": "The ergonomic chairs from Western are a game changer for our staff. Highly recommend their turnkey interior solutions as well.",
-        "author": "Amit Sharma",
-        "designation": "Director",
-        "company": "Global Logistics Hub",
-        "rating": 5,
-        "category": "chairs"
-      },
-      {
-        "quote": "Professional team and excellent workspace planning. They helped us optimize our small office space perfectly.",
-        "author": "Sneha Gupta",
-        "designation": "CEO",
-        "company": "Design Studio 21",
-        "rating": 5,
-        "category": "turnkey"
-      },
-      {
-        "quote": "The quality of the modular partitions is top-notch. It gave our office a modern and premium look while maintaining privacy.",
-        "author": "Vikram Malhotra",
-        "designation": "Facility Manager",
-        "company": "NextGen Systems",
-        "rating": 5,
-        "category": "partitions"
-      },
-      {
-        "quote": "Our new conference room table is the centerpiece of our boardroom. Exceptional craftsmanship and premium finish.",
-        "author": "Arjun Reddy",
-        "designation": "Admin Head",
-        "company": "Venture Capital Partners",
-        "rating": 5,
-        "category": "workstations"
-      },
-      {
-        "quote": "Western's cafeteria furniture helped us create a vibrant breakout zone for our employees. Very durable and stylish.",
-        "author": "Priya Singh",
-        "designation": "HR Manager",
-        "company": "CloudNine Infotech",
-        "rating": 5,
-        "category": "turnkey"
-      },
-      {
-        "quote": "Outstanding ergonomic seating solutions. The team provided expert custom configurations for our 200-seat calling center. Absolute comfort.",
-        "author": "Karan Malhotra",
-        "designation": "Director",
-        "company": "Axis Corporate Services",
-        "rating": 5,
-        "category": "chairs"
-      },
-      {
-        "quote": "The acoustic glass partitions from Western Interio helped us create private phone booths and meeting spaces without blocking natural light. Exceptional execution!",
-        "author": "Meera Nair",
-        "designation": "Founder",
-        "company": "Oasis Co-working Spaces",
-        "rating": 5,
-        "category": "partitions"
-      }
-    ]
+    "items": []
   },
   "aboutPage": {
     "hero": {

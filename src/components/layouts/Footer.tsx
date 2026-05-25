@@ -14,11 +14,16 @@ import siteContent from "@/data/site-content.json";
 import { cn } from "@/lib/utils";
 import QuoteModal from "@/components/common/QuoteModal";
 import { AppRoutes } from "@/constants/routes";
+import { useGetCategoriesQuery } from "@/redux/api/categoriesApi";
 
 export default function Footer() {
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
   const currentYear = new Date().getFullYear();
   const { common, footer } = siteContent;
+  const { data: categoriesResult } = useGetCategoriesQuery({ limit: 100 });
+  const footerCategories = React.useMemo(() => {
+    return categoriesResult?.data?.filter((c) => c.status === "Active").slice(0, 6) ?? [];
+  }, [categoriesResult]);
 
   const [isMounted, setIsMounted] = useState(false);
 
@@ -264,30 +269,51 @@ interface FooterLink {
             </ul>
           </div>
 
-          {/* Column 3: Products Links (lg:col-span-2) */}
+          {/* Column 3: Products / Categories Links (lg:col-span-2) */}
           <div suppressHydrationWarning={true} className="lg:col-span-2">
             <div suppressHydrationWarning={true} className="flex items-center gap-2 mb-6">
               <span className="w-1 h-1 rounded-full bg-primary" />
-              <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-white">Products</h4>
+              <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-white">Categories</h4>
             </div>
             <ul className="space-y-3">
-              {[
-                { name: "Office Chairs", href: "/products/office-chairs" },
-                { name: "Workstations", href: "/products/desking-workstation" },
-                { name: "Office Tables", href: "/products/office-tables" },
-                { name: "Storage Solutions", href: "/products/office-storage" },
-                { name: "Modular Kitchen", href: "/products/modular-kitchen-series" }
-              ].map((link: FooterLink) => (
-                <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    className="text-[12px] font-semibold text-gray-400 hover:text-white transition-all duration-300 flex items-center group gap-2 hover:translate-x-1"
-                  >
-                    <span className="w-1 h-[1px] bg-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
+              {footerCategories.length > 0
+                ? footerCategories.map((cat) => (
+                    <li key={cat.id}>
+                      <Link
+                        href={`/products/${cat.slug || cat.id}`}
+                        className="text-[12px] font-semibold text-gray-400 hover:text-white transition-all duration-300 flex items-center group gap-2 hover:translate-x-1"
+                      >
+                        <span className="w-1 h-[1px] bg-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
+                        {cat.name}
+                      </Link>
+                    </li>
+                  ))
+                : [
+                    { name: "Office Chairs", href: "/products/office-chairs" },
+                    { name: "Workstations", href: "/products/desking-workstation" },
+                    { name: "Office Tables", href: "/products/office-tables" },
+                    { name: "Storage Solutions", href: "/products/office-storage" },
+                    { name: "Modular Kitchen", href: "/products/modular-kitchen-series" },
+                  ].map((link) => (
+                    <li key={link.name}>
+                      <Link
+                        href={link.href}
+                        className="text-[12px] font-semibold text-gray-400 hover:text-white transition-all duration-300 flex items-center group gap-2 hover:translate-x-1"
+                      >
+                        <span className="w-1 h-[1px] bg-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
+                        {link.name}
+                      </Link>
+                    </li>
+                  ))}
+              <li>
+                <Link
+                  href="/categories"
+                  className="text-[12px] font-semibold text-primary hover:text-white transition-all duration-300 flex items-center group gap-2 hover:translate-x-1"
+                >
+                  <span className="w-1 h-[1px] bg-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
+                  View All →
+                </Link>
+              </li>
             </ul>
           </div>
 

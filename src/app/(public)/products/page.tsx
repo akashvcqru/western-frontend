@@ -14,8 +14,8 @@ import {
 import { cn } from "@/lib/utils";
 import QuoteModal from "@/components/common/QuoteModal";
 import CtaSection from "@/components/sections/home/CtaSection";
-import categoriesData from "@/data/categories.json";
-import productsData from "@/data/products.json";
+import { useGetCategoriesQuery } from "@/redux/api/categoriesApi";
+import { Loader2 } from "lucide-react";
 import siteContent from "@/data/site-content.json";
 import { PageHeader } from "@/components/ui";
 
@@ -23,35 +23,20 @@ export default function ProductsPage() {
   const [isQuoteOpen, setIsQuoteOpen] = React.useState(false);
   const [searchQuery, setSearchQuery] = React.useState("");
   const [viewType, setViewType] = React.useState<"grid" | "list">("grid");
-  const [categories, setCategories] = React.useState<typeof categoriesData>(categoriesData);
-  const [products, setProducts] = React.useState<typeof productsData>(productsData);
+  const { data: categoriesResult, isLoading } = useGetCategoriesQuery({ limit: 100 });
+  
+  const categories = React.useMemo(() => {
+    return categoriesResult?.data?.filter(c => c.status === "Active") || [];
+  }, [categoriesResult]);
 
-  React.useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedCats = sessionStorage.getItem("bdm_categories");
-      if (storedCats) {
-        try {
-          const parsedCats = JSON.parse(storedCats);
-          setTimeout(() => {
-            setCategories(parsedCats);
-          }, 0);
-        } catch (e) {
-          console.error("Error parsing stored categories:", e);
-        }
-      }
-      const storedProds = sessionStorage.getItem("bdm_products");
-      if (storedProds) {
-        try {
-          const parsedProds = JSON.parse(storedProds);
-          setTimeout(() => {
-            setProducts(parsedProds);
-          }, 0);
-        } catch (e) {
-          console.error("Error parsing stored products:", e);
-        }
-      }
-    }
-  }, []);
+  if (isLoading) {
+    return (
+      <main className="bg-white flex items-center justify-center min-h-[600px]">
+        <Loader2 className="animate-spin text-primary" size={32} />
+      </main>
+    );
+  }
+
 
   const { productsPage } = siteContent;
   const { hero, filterBar, noResults } = productsPage;
@@ -60,19 +45,6 @@ export default function ProductsPage() {
     cat.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     cat.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
-  const getProductCount = (categoryId: string) => {
-    const cat = categories.find(c => c.id === categoryId || c.slug === categoryId);
-    return products.filter(p => {
-      if (!p.category) return false;
-      return (
-        p.category === categoryId ||
-        (cat?.slug && p.category === cat.slug) ||
-        (cat?.id && p.category === cat.id)
-      );
-    }).length;
-  };
-
 
   return (
     <main className="bg-white">
@@ -122,11 +94,11 @@ export default function ProductsPage() {
                <div className="relative flex-1 lg:w-[400px] group">
                   <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-neutral-400 group-focus-within:text-primary transition-colors" size={18} />
                   <input 
-                    type="text" 
-                    placeholder={filterBar.searchPlaceholder}
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full bg-neutral-50 border border-neutral-100 py-5 pl-14 pr-8 rounded-2xl focus:outline-none focus:border-primary/30 focus:bg-white text-sm font-bold transition-all placeholder:text-neutral-300 shadow-sm"
+                     type="text" 
+                     placeholder={filterBar.searchPlaceholder}
+                     value={searchQuery}
+                     onChange={(e) => setSearchQuery(e.target.value)}
+                     className="w-full bg-neutral-50 border border-neutral-100 py-5 pl-14 pr-8 rounded-2xl focus:outline-none focus:border-primary/30 focus:bg-white text-sm font-bold transition-all placeholder:text-neutral-300 shadow-sm"
                   />
                </div>
             </div>
@@ -140,7 +112,7 @@ export default function ProductsPage() {
                 : "flex flex-col gap-6"
             )}>
               {filteredCategories.map((cat) => {
-                const count = getProductCount(cat.id);
+                const count = cat.count || 0;
                 if (viewType === "grid") {
                   return (
                     <Link 

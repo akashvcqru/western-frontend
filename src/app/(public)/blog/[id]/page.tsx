@@ -1,86 +1,23 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams, notFound } from "next/navigation";
 import { ArrowLeft, Calendar, Clock, MessageSquare, Sparkles, Phone, Mail, ShieldCheck } from "lucide-react";
 import QuoteModal from "@/components/common/QuoteModal";
-import blogsData from "@/data/blogs.json";
 import siteContent from "@/data/site-content.json";
-
-interface BlogPost {
-  id: string;
-  title: string;
-  excerpt: string;
-  category: string;
-  date: string;
-  readTime: string;
-  image: string;
-  author: string;
-  authorRole: string;
-  tags: string[];
-  content: string[];
-}
+import { useGetBlogByIdOrSlugQuery } from "@/redux/api/blogsApi";
 
 export default function BlogDetailPage() {
   const params = useParams();
   const id = params.id as string;
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
-  const [post, setPost] = useState<BlogPost | null>(null);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const stored = localStorage.getItem("bdm_blogs");
-      let currentBlogs = blogsData as BlogPost[];
-      if (stored) {
-        try {
-          currentBlogs = JSON.parse(stored);
-        } catch {}
-      } else {
-        localStorage.setItem("bdm_blogs", JSON.stringify(blogsData));
-      }
-      const foundPost = currentBlogs.find((b) => b.id === id);
-      setTimeout(() => {
-        setPost(foundPost || null);
-        setLoading(false);
-      }, 0);
-    }
-  }, [id]);
+  const { data, isLoading, isError } = useGetBlogByIdOrSlugQuery(id);
+  const post = data?.data ?? null;
 
-  useEffect(() => {
-    const handleUpdate = () => {
-      const stored = localStorage.getItem("bdm_blogs");
-      let currentBlogs = blogsData as BlogPost[];
-      if (stored) {
-        try {
-          currentBlogs = JSON.parse(stored);
-        } catch {}
-      }
-      const foundPost = currentBlogs.find((b) => b.id === id);
-      setPost(foundPost || null);
-    };
-
-    const handleStorageUpdate = (e: StorageEvent) => {
-      if (e.key === "bdm_blogs" && e.newValue) {
-        try {
-          const currentBlogs = JSON.parse(e.newValue) as BlogPost[];
-          const foundPost = currentBlogs.find((b) => b.id === id);
-          setPost(foundPost || null);
-        } catch {}
-      }
-    };
-
-    window.addEventListener("storage", handleStorageUpdate);
-    window.addEventListener("bdm-blogs-updated", handleUpdate);
-    return () => {
-      window.removeEventListener("storage", handleStorageUpdate);
-      window.removeEventListener("bdm-blogs-updated", handleUpdate);
-    };
-  }, [id]);
-
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="w-8 h-8 border-2 border-[#ed1c27]/30 border-t-[#ed1c27] rounded-full animate-spin" />
@@ -88,7 +25,7 @@ export default function BlogDetailPage() {
     );
   }
 
-  if (!post) {
+  if (isError || !post) {
     notFound();
     return null;
   }
@@ -182,19 +119,21 @@ export default function BlogDetailPage() {
             </div>
 
             {/* Custom tags footer list */}
-            <div className="pt-10 border-t border-neutral-100 flex flex-wrap items-center gap-3">
-              <span className="text-[10px] font-semibold uppercase tracking-wider text-neutral-400 flex items-center gap-1.5">
-                <Sparkles size={12} className="text-primary" /> Tags:
-              </span>
-              {post.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="bg-neutral-50 text-neutral-500 border border-neutral-150 text-[9px] font-semibold uppercase tracking-wider px-3.5 py-1.5 rounded-lg hover:bg-neutral-100 hover:text-secondary transition-all"
-                >
-                  #{tag}
+            {post.tags && post.tags.length > 0 && (
+              <div className="pt-10 border-t border-neutral-100 flex flex-wrap items-center gap-3">
+                <span className="text-[10px] font-semibold uppercase tracking-wider text-neutral-400 flex items-center gap-1.5">
+                  <Sparkles size={12} className="text-primary" /> Tags:
                 </span>
-              ))}
-            </div>
+                {post.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="bg-neutral-50 text-neutral-500 border border-neutral-150 text-[9px] font-semibold uppercase tracking-wider px-3.5 py-1.5 rounded-lg hover:bg-neutral-100 hover:text-secondary transition-all"
+                  >
+                    #{tag}
+                  </span>
+                ))}
+              </div>
+            )}
 
           </article>
 

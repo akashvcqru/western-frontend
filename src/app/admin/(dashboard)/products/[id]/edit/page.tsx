@@ -10,6 +10,15 @@ import { useForm, FormProvider, Controller, useWatch, useFieldArray } from "reac
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import initialProductsData from "@/data/products.json";
+import { apiGet, apiPut, apiGetPaginated } from "@/lib/api";
+
+const generateSlug = (name: string) =>
+  name
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, "")
+    .replace(/[\s_-]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 interface Product {
@@ -17,6 +26,7 @@ interface Product {
   slug: string;
   name: string;
   category: string;
+  subCategory?: string;
   brand: string;
   price: string;
   status: string;
@@ -50,10 +60,18 @@ interface Category {
   slug?: string;
 }
 
+interface SubCategory {
+  id: string;
+  name: string;
+  categoryId: string;
+  slug?: string;
+}
+
 // ─── Validation Schema ────────────────────────────────────────────────────────
 const productSchema = yup.object().shape({
   name: yup.string().required("Product Name is required").min(3, "Minimum 3 characters"),
   category: yup.string().required("Category is required"),
+  subCategory: yup.string().required("Sub Category is required"),
   brand: yup.string().required("Brand is required"),
   price: yup.string().required("Price is required"),
   stock: yup.number().typeError("Must be a number").required("Required").min(0),
@@ -98,6 +116,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
 
   const [activeTab, setActiveTab] = useState<"general" | "details" | "blueprint" | "specs" | "resources">("general");
   const [categories, setCategories] = useState<Category[]>([]);
+  const [subCategories, setSubCategories] = useState<SubCategory[]>([]);
   const [brands, setBrands] = useState<{ id: string; name: string }[]>([]);
   const [savedSuccess, setSavedSuccess] = useState(false);
   const [notFound, setNotFound] = useState(false);
@@ -134,6 +153,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
     defaultValues: {
       name: "",
       category: "",
+      subCategory: "",
       brand: "Western",
       price: "",
       stock: 10,
@@ -214,123 +234,146 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
     }
   }, [watchedStatus, setValue, methods]);
 
-  // Load categories, brands + find product by id and prefill the form
+  // Load categories, subcategories, brands + find product by id and prefill the form
   useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const storedCats = sessionStorage.getItem("bdm_categories");
-    const storedBrands = sessionStorage.getItem("bdm_brands");
-    const stored = sessionStorage.getItem("bdm_products");
-
-    const timer = setTimeout(() => {
-      if (storedCats) {
-        try { setCategories(JSON.parse(storedCats)); } catch { setCategories([]); }
+    const loadData = async () => {
+      // 1. Fetch categories
+      try {
+        const catsRes = await apiGetPaginated<Category>("/api/categories?limit=100");
+        setCategories(catsRes.data);
+      } catch (e) {
+        console.error("Error loading categories:", e);
       }
 
-      if (storedBrands) {
-        try { setBrands(JSON.parse(storedBrands)); } catch { setBrands([]); }
+      // 1b. Fetch subcategories
+      try {
+        const subCatsRes = await apiGetPaginated<SubCategory>("/api/categories/subcategories?limit=100");
+        setSubCategories(subCatsRes.data);
+      } catch (e) {
+        console.error("Error loading subcategories:", e);
       }
 
-      const all: Product[] = stored ? JSON.parse(stored) : (initialProductsData as Product[]);
-      const found = all.find((p) => p.id === id || p.slug === id);
+      // 2. Fetch brands
+      try {
+        const brandsRes = await apiGetPaginated<{ id: string; name: string }>("/api/brands?limit=100");
+        setBrands(brandsRes.data);
+      } catch (e) {
+        console.error("Error loading brands:", e);
+      }
 
-      if (!found) {
+      // 3. Fetch product details
+      try {
+        const prodRes = await apiGet<Product>(`/api/products/${id}`);
+        const found = prodRes.data;
+        if (!found) {
+          setNotFound(true);
+          return;
+        }
+        reset({
+          name: found.name || "",
+          category: found.category || "",
+          subCategory: found.subCategory || "",
+          brand: found.brand || "Western",
+          price: found.price || "",
+          stock: found.stock ?? 10,
+          status: found.status || "Active",
+          description: found.description || "",
+          catNo: found.catNo || "",
+          blueprintImage: found.blueprintImage || "",
+          material: found.material || "",
+          finish: found.finish || "",
+          size: found.size || "",
+          images: found.images || [],
+          features: found.features || [],
+          specifications: found.specifications || [],
+          dimensions: found.dimensions || [],
+          resources: found.resources || [],
+          variants: found.variants || [],
+          swatches: found.swatches || [],
+          detailsTitle: found.detailsTitle || "",
+          detailsText1: found.detailsText1 || "",
+          detailsText2: found.detailsText2 || "",
+          quickSpecs: found.quickSpecs?.map(q => ({ value: q })) || [],
+        });
+      } catch (e) {
+        console.error("Error loading product:", e);
         setNotFound(true);
-        return;
       }
-
-      reset({
-        name: found.name || "",
-        category: found.category || "",
-        brand: found.brand || "Western",
-        price: found.price || "",
-        stock: found.stock ?? 10,
-        status: found.status || "Active",
-        description: found.description || "",
-        catNo: found.catNo || "",
-        blueprintImage: found.blueprintImage || "",
-        material: found.material || "",
-        finish: found.finish || "",
-        size: found.size || "",
-        images: found.images || [],
-        features: found.features || [],
-        specifications: found.specifications || [],
-        dimensions: found.dimensions || [],
-        resources: found.resources || [],
-        variants: found.variants || [],
-        swatches: found.swatches || [],
-        detailsTitle: found.detailsTitle || "",
-        detailsText1: found.detailsText1 || "",
-        detailsText2: found.detailsText2 || "",
-        quickSpecs: found.quickSpecs?.map(q => ({ value: q })) || [],
-      });
-    }, 0);
-    return () => clearTimeout(timer);
+    };
+    
+    if (id) {
+      loadData();
+    }
   }, [id, reset]);
 
-  const categoryOptions = categories.length > 0
-    ? categories.map((c) => ({ label: c.name, value: c.id || c.slug || "" }))
-    : defaultCategoryOptions;
+  const categoryOptions = categories.map((c) => ({ label: c.name, value: c.id || c.slug || "" }));
+
+  const watchedCategory = useWatch({ control, name: "category" });
+  const filteredSubCategories = React.useMemo(() => {
+    if (!watchedCategory) return [];
+    return subCategories.filter((sc) => sc.categoryId === watchedCategory);
+  }, [subCategories, watchedCategory]);
+
+  const subCategoryOptions = filteredSubCategories.map((sc) => ({ label: sc.name, value: sc.id || sc.slug || "" }));
 
   const brandOptions = (() => {
-    const list = brands.length > 0
-      ? brands.map((b) => ({ label: b.name, value: b.name }))
-      : defaultBrandOptions;
+    const list = brands.map((b) => ({ label: b.name, value: b.name }));
     if (!list.some((opt) => opt.value.toLowerCase() === "western")) {
       return [{ label: "Western", value: "Western" }, ...list];
     }
     return list;
   })();
 
-  const onSubmit = (data: ProductFormData) => {
+  const onSubmit = async (data: ProductFormData) => {
     const defaultImage = "https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=2070&auto=format&fit=crop";
     const imagesList = data.images && data.images.length > 0 ? data.images : [defaultImage];
 
-    const stored = sessionStorage.getItem("bdm_products");
-    const all: Product[] = stored ? JSON.parse(stored) : (initialProductsData as Product[]);
+    const slug = generateSlug(data.name);
 
-    const updated = all.map((p) => {
-      if (p.id !== id && p.slug !== id) return p;
-      return {
-        ...p,
-        name: data.name,
-        category: data.category,
-        brand: data.brand,
-        price: data.price,
-        stock: data.stock,
-        status: data.status,
-        description: data.description,
-        catNo: data.catNo || "",
-        blueprintImage: data.blueprintImage || "",
-        material: data.material || "",
-        finish: data.finish || "",
-        size: data.size || "",
-        images: imagesList,
-        features: data.features || [],
-        specifications: data.specifications || [],
-        dimensions: data.dimensions || [],
-        resources: (data.resources || []).map((res) => ({
-          id: res.id,
-          title: res.title,
-          desc: res.desc,
-          format: res.format,
-          size: res.size,
-          fileData: res.fileData || undefined,
-          fileName: res.fileName || undefined,
-        })),
-        variants: (data.variants || []).map((v) => ({ label: v.label, options: Array.isArray(v.options) ? v.options.filter(Boolean) as string[] : [] })),
-        swatches: (data.swatches || []).map((sw) => ({ category: sw.category, options: (sw.options || []).map((opt) => ({ name: opt.name, hex: opt.hex, desc: opt.desc, border: opt.border ?? false })) })),
-        detailsTitle: data.detailsTitle || "",
-        detailsText1: data.detailsText1 || "",
-        detailsText2: data.detailsText2 || "",
-        quickSpecs: (data.quickSpecs || []).map((q) => q.value).filter(Boolean),
-      };
-    });
+    const productPayload = {
+      name: data.name,
+      slug: slug,
+      category: data.category,
+      subCategory: data.subCategory,
+      brand: data.brand,
+      price: data.price,
+      stock: data.stock,
+      status: data.status,
+      description: data.description,
+      catNo: data.catNo || "",
+      blueprintImage: data.blueprintImage || "",
+      material: data.material || "",
+      finish: data.finish || "",
+      size: data.size || "",
+      images: imagesList,
+      features: data.features || [],
+      specifications: data.specifications || [],
+      dimensions: data.dimensions || [],
+      resources: (data.resources || []).map((res) => ({
+        id: res.id,
+        title: res.title,
+        desc: res.desc,
+        format: res.format,
+        size: res.size,
+        fileData: res.fileData || undefined,
+        fileName: res.fileName || undefined,
+      })),
+      variants: (data.variants || []).map((v) => ({ label: v.label, options: Array.isArray(v.options) ? v.options.filter(Boolean) as string[] : [] })),
+      swatches: (data.swatches || []).map((sw) => ({ category: sw.category, options: (sw.options || []).map((opt) => ({ name: opt.name, hex: opt.hex, desc: opt.desc, border: opt.border ?? false })) })),
+      detailsTitle: data.detailsTitle || "",
+      detailsText1: data.detailsText1 || "",
+      detailsText2: data.detailsText2 || "",
+      quickSpecs: (data.quickSpecs || []).map((q) => q.value).filter(Boolean),
+    };
 
-    sessionStorage.setItem("bdm_products", JSON.stringify(updated));
-    addToast({ title: "Product Updated", message: `"${data.name}" has been updated successfully.`, variant: "success" });
-    setSavedSuccess(true);
-    setTimeout(() => router.push(AppRoutes.Admin.Products), 1200);
+    try {
+      await apiPut(`/api/products/${id}`, productPayload);
+      addToast({ title: "Product Updated", message: `"${data.name}" has been updated successfully.`, variant: "success" });
+      setSavedSuccess(true);
+      setTimeout(() => router.push(AppRoutes.Admin.Products), 1200);
+    } catch (err: unknown) {
+      addToast({ title: "Error", message: err instanceof Error ? err.message : "Failed to update product", variant: "error" });
+    }
   };
 
   const TABS = [
@@ -404,8 +447,9 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
                 <div className={activeTab === "general" ? "space-y-5" : "hidden"}>
                   <RHFControl control="input" name="name" label="Product Name *" placeholder="e.g. WFU 001 Modular Workstation" className="rounded-xl" />
 
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-3 gap-4">
                     <RHFControl control="select" name="category" label="Category *" options={categoryOptions} className="rounded-xl" />
+                    <RHFControl control="select" name="subCategory" label="Sub Category *" options={subCategoryOptions} disabled={!watchedCategory} className="rounded-xl" />
                     <RHFControl control="select" name="brand" label="Brand *" options={brandOptions} className="rounded-xl" />
                   </div>
 

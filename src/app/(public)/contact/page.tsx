@@ -38,7 +38,6 @@ interface ContactFormData {
   message: string;
 }
 
-const getTimestamp = () => Date.now();
 
 export default function ContactPage() {
   const { common, contactPage } = siteContent;
@@ -56,42 +55,43 @@ export default function ContactPage() {
     },
   });
 
-  const onSubmit = (data: ContactFormData) => {
-    // Persist inquiry details in sessionStorage for dynamic CMS visibility
-    if (typeof window !== "undefined") {
-      const stored = sessionStorage.getItem("bdm_inquiries");
-      let currentInquiries = [];
-      if (stored) {
-        try {
-          currentInquiries = JSON.parse(stored);
-        } catch (e) {
-          console.error("Failed to parse existing inquiries:", e);
-        }
+  const onSubmit = async (data: ContactFormData) => {
+    const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5073";
+
+    try {
+      const res = await fetch(`${BASE_URL}/api/inquiries`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullName: data.fullName,
+          email: data.email,
+          phone: data.phone,
+          subject: "General Contact Inquiry",
+          message: data.message,
+        }),
+      });
+
+      if (res.ok) {
+        addToast({
+          title: "Inquiry Sent",
+          message: "Thank you for contacting us. We will get back to you shortly.",
+          variant: "success",
+        });
+        methods.reset();
+      } else {
+        addToast({
+          title: "Submission Failed",
+          message: "Something went wrong. Please try again or call us directly.",
+          variant: "error",
+        });
       }
-
-      const newInquiry = {
-        id: getTimestamp(),
-        name: data.fullName,
-        email: data.email,
-        phone: data.phone,
-        subject: "General Contact Inquiry",
-        message: data.message,
-        date: new Date().toISOString().split("T")[0],
-        status: "new"
-      };
-
-      sessionStorage.setItem("bdm_inquiries", JSON.stringify([newInquiry, ...currentInquiries]));
-      
-      // Notify layout structure to refresh badges
-      window.dispatchEvent(new Event("bdm-inquiries-updated"));
+    } catch {
+      addToast({
+        title: "Network Error",
+        message: "Could not reach the server. Please check your connection.",
+        variant: "error",
+      });
     }
-
-    addToast({
-      title: "Inquiry Sent",
-      message: "Thank you for contacting us. We will get back to you shortly.",
-      variant: "success",
-    });
-    methods.reset();
   };
 
   const faqs = [
