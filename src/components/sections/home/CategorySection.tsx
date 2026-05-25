@@ -15,6 +15,89 @@ export default function CategorySection() {
     return categoriesResult.data.filter((c) => c.status === "Active");
   }, [categoriesResult]);
 
+  const [activeIndex, setActiveIndex] = React.useState(0);
+  const scrollRef = React.useRef<HTMLDivElement>(null);
+  const isInteracting = React.useRef(false);
+  const autoplayTimer = React.useRef<ReturnType<typeof setInterval> | null>(null);
+
+  // Scroll to a specific slide index
+  const scrollToIndex = React.useCallback((index: number) => {
+    if (!scrollRef.current) return;
+    const container = scrollRef.current;
+    const items = container.querySelectorAll("[data-slide-index]");
+    const targetItem = items[index] as HTMLElement;
+    if (targetItem) {
+      container.scrollTo({
+        left: targetItem.offsetLeft - container.offsetLeft - 16,
+        behavior: "smooth"
+      });
+      setActiveIndex(index);
+    }
+  }, []);
+
+  // Track manual scroll to update active dot index
+  const handleScroll = () => {
+    if (!scrollRef.current) return;
+    const container = scrollRef.current;
+    const items = container.querySelectorAll("[data-slide-index]");
+    if (items.length === 0) return;
+    
+    // Find the item closest to the center of the scroll viewport
+    const containerCenter = container.scrollLeft + container.clientWidth / 2;
+    let closestIndex = 0;
+    let minDistance = Infinity;
+
+    items.forEach((item, index) => {
+      const el = item as HTMLElement;
+      const itemCenter = el.offsetLeft + el.clientWidth / 2;
+      const distance = Math.abs(itemCenter - containerCenter);
+      if (distance < minDistance) {
+        minDistance = distance;
+        closestIndex = index;
+      }
+    });
+
+    setActiveIndex(closestIndex);
+  };
+
+  // Setup autoplay loop
+  React.useEffect(() => {
+    if (categories.length <= 1) return;
+
+    const startAutoplay = () => {
+      if (autoplayTimer.current) clearInterval(autoplayTimer.current);
+      autoplayTimer.current = setInterval(() => {
+        if (isInteracting.current) return;
+        setActiveIndex((prev) => {
+          const nextIndex = (prev + 1) % categories.length;
+          scrollToIndex(nextIndex);
+          return nextIndex;
+        });
+      }, 5000); // Auto slide every 5 seconds
+    };
+
+    const stopAutoplay = () => {
+      if (autoplayTimer.current) {
+        clearInterval(autoplayTimer.current);
+      }
+    };
+
+    startAutoplay();
+
+    return () => stopAutoplay();
+  }, [categories.length, scrollToIndex]);
+
+  const handleTouchStart = () => {
+    isInteracting.current = true;
+  };
+
+  const handleTouchEnd = () => {
+    // Resume autoplay after a short delay
+    setTimeout(() => {
+      isInteracting.current = false;
+    }, 2000);
+  };
+
   return (
     <section className="pt-12 pb-12 lg:pt-16 lg:pb-16 bg-neutral-50">
       <div className="max-w-[1440px] mx-auto px-4 lg:px-8 space-y-16">
@@ -70,9 +153,6 @@ export default function CategorySection() {
                 <div className="absolute inset-0 p-8 flex flex-col justify-end text-white">
                   <div className="space-y-4">
                     <div className="space-y-1">
-                      <span className="text-[10px] font-bold uppercase tracking-widest text-primary/80 mb-1 block">
-                        {cat.count}+ Products
-                      </span>
                       <h3 className="text-xl font-bold tracking-tight">
                         {cat.name}
                       </h3>
@@ -93,9 +173,21 @@ export default function CategorySection() {
         {/* Mobile Snap Slider */}
         {!isLoading && categories.length > 0 && (
           <div className="relative group/slider sm:hidden">
-            <div className="flex overflow-x-auto scrollbar-hide snap-x snap-mandatory gap-6 pb-8 -mx-4 px-4 scroll-smooth">
-              {categories.map((cat) => (
-                <div key={cat.id} className="min-w-[85%] snap-center">
+            <div 
+              ref={scrollRef}
+              onScroll={handleScroll}
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
+              onMouseEnter={() => { isInteracting.current = true; }}
+              onMouseLeave={() => { isInteracting.current = false; }}
+              className="flex overflow-x-auto scrollbar-hide snap-x snap-mandatory gap-6 pb-8 -mx-4 px-4 scroll-smooth"
+            >
+              {categories.map((cat, idx) => (
+                <div 
+                  key={cat.id} 
+                  data-slide-index={idx}
+                  className="min-w-[85%] snap-center"
+                >
                   <Link
                     href={`/products/${cat.slug || cat.id}`}
                     className="group relative overflow-hidden rounded-xl bg-neutral-100 aspect-[4/3] shadow-soft hover:shadow-premium transition-all duration-500 block"
@@ -111,9 +203,6 @@ export default function CategorySection() {
                     <div className="absolute inset-0 p-8 flex flex-col justify-end text-white">
                       <div className="space-y-4">
                         <div className="space-y-1">
-                          <span className="text-[10px] font-bold uppercase tracking-widest text-primary/80 mb-1 block">
-                            {cat.count}+ Products
-                          </span>
                           <h3 className="text-xl font-bold tracking-tight">
                             {cat.name}
                           </h3>
@@ -136,9 +225,10 @@ export default function CategorySection() {
               {categories.map((_, idx) => (
                 <button
                   key={idx}
+                  onClick={() => scrollToIndex(idx)}
                   className={cn(
-                    "h-2 rounded-full transition-all duration-500",
-                    idx === 0 ? "w-8 bg-primary shadow-lg shadow-primary/20" : "w-2 bg-neutral-300 hover:bg-neutral-400"
+                    "h-2 rounded-full transition-all duration-500 cursor-pointer",
+                    activeIndex === idx ? "w-8 bg-primary shadow-lg shadow-primary/20" : "w-2 bg-neutral-300 hover:bg-neutral-400"
                   )}
                 />
               ))}
