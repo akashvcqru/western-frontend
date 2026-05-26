@@ -17,7 +17,7 @@ export default function CtaSection({ onOpenQuote }: CtaSectionProps) {
           src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop"
           alt="Corporate Environment background"
           fill
-          className="object-cover opacity-10 grayscale scale-105"
+          className="object-cover opacity-45 grayscale scale-105"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-neutral-950 via-neutral-950/80 to-transparent" />
       </div>
