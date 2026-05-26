@@ -34,11 +34,7 @@ export default function AdminGalleryPage() {
     isLoading: isFetching,
     error: fetchError,
     refetch,
-  } = useGetGalleryQuery({
-    page: currentPage,
-    limit: itemsPerPage,
-    search: debouncedSearch,
-  });
+  } = useGetGalleryQuery({ limit: 1000 });
 
   const { data: categoriesResult } = useGetCategoriesQuery({ limit: 100 });
   const categories = categoriesResult?.data
@@ -49,12 +45,49 @@ export default function AdminGalleryPage() {
   const [deleteGalleryItem] = useDeleteGalleryItemMutation();
 
   const gallery = galleryData?.data || [];
-  const pagination = galleryData?.pagination || {
-    currentPage: 1,
-    totalPages: 1,
-    totalItems: 0,
+
+  // Group all gallery items by category
+  const groupedGallery = React.useMemo(() => {
+    const groups: { [key: string]: GalleryItem[] } = {};
+    gallery.forEach(item => {
+      const cat = item.category || "Uncategorized";
+      if (!groups[cat]) {
+        groups[cat] = [];
+      }
+      groups[cat].push(item);
+    });
+    return Object.entries(groups).map(([category, items]) => ({
+      category,
+      items,
+    }));
+  }, [gallery]);
+
+  // Client-side search and filtering
+  const filteredGroups = React.useMemo(() => {
+    if (!debouncedSearch.trim()) return groupedGallery;
+    const searchLower = debouncedSearch.toLowerCase();
+    return groupedGallery.filter(
+      group =>
+        group.category.toLowerCase().includes(searchLower) ||
+        group.items.some(item => item.title.toLowerCase().includes(searchLower))
+    );
+  }, [groupedGallery, debouncedSearch]);
+
+  // Client-side pagination
+  const paginatedGroups = React.useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return filteredGroups.slice(startIndex, startIndex + itemsPerPage);
+  }, [filteredGroups, currentPage, itemsPerPage]);
+
+  const totalPages = Math.ceil(filteredGroups.length / itemsPerPage) || 1;
+
+  const pagination = {
+    currentPage,
+    totalPages,
+    totalItems: filteredGroups.length,
     limit: itemsPerPage,
   };
+
   const isLoading = isFetching;
   const error = fetchError
     ? (fetchError as { data?: { message?: string } })?.data?.message || "Failed to load gallery"
@@ -213,57 +246,72 @@ export default function AdminGalleryPage() {
             <table className="w-full text-left border-collapse min-w-[800px]">
               <thead>
                 <tr className="bg-gray-50/50 border-b border-gray-100">
-                  <th className="py-4 px-6 text-[10px] font-bold uppercase tracking-widest text-gray-400 w-24">Image</th>
-                  <th className="py-4 px-6 text-[10px] font-bold uppercase tracking-widest text-gray-400">Showcase Title</th>
-                  <th className="py-4 px-6 text-[10px] font-bold uppercase tracking-widest text-gray-400">Category</th>
-                  <th className="py-4 px-6 text-[10px] font-bold uppercase tracking-widest text-gray-400 text-right">Actions</th>
+                  <th className="py-4 px-6 text-[10px] font-bold uppercase tracking-widest text-gray-400 w-1/4">Category</th>
+                  <th className="py-4 px-6 text-[10px] font-bold uppercase tracking-widest text-gray-400">Showcase Images</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">
                 {isLoading ? (
-                  Array.from({ length: Math.min(itemsPerPage, 6) }).map((_, i) => (
+                  Array.from({ length: Math.min(itemsPerPage, 4) }).map((_, i) => (
                     <tr key={i} className="animate-pulse">
-                      <td className="py-3 px-6"><div className="w-16 h-10 rounded-lg bg-gray-100" /></td>
-                      <td className="py-3 px-6"><div className="h-3 bg-gray-100 rounded w-40 mb-1" /><div className="h-2 bg-gray-100 rounded w-20" /></td>
-                      <td className="py-3 px-6"><div className="h-5 bg-gray-100 rounded-lg w-20" /></td>
-                      <td className="py-3 px-6" />
+                      <td className="py-5 px-6">
+                        <div className="h-4 bg-gray-100 rounded w-32 mb-2" />
+                        <div className="h-3 bg-gray-100 rounded w-16" />
+                      </td>
+                      <td className="py-5 px-6">
+                        <div className="flex gap-2">
+                          <div className="w-16 h-10 rounded-lg bg-gray-100" />
+                          <div className="w-16 h-10 rounded-lg bg-gray-100" />
+                          <div className="w-16 h-10 rounded-lg bg-gray-100" />
+                        </div>
+                      </td>
                     </tr>
                   ))
-                ) : gallery.length === 0 ? (
+                ) : filteredGroups.length === 0 ? (
                   <tr>
-                    <td colSpan={4} className="py-16 text-center">
+                    <td colSpan={2} className="py-16 text-center">
                       <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest">No gallery items found</p>
                       <p className="text-[11px] text-gray-400 mt-1">{searchTerm ? "Try adjusting your search." : "Upload your first showcase image to get started."}</p>
                     </td>
                   </tr>
                 ) : (
-                  gallery.map(item => (
-                    <tr key={item.id} className="hover:bg-gray-50/50 transition-colors group">
-                      <td className="py-3 px-6">
-                        <div
-                          onClick={() => { setSelectedItem(item); setIsPreviewOpen(true); }}
-                          className="w-16 h-10 rounded-lg bg-gray-100 overflow-hidden relative border border-gray-200 cursor-pointer hover:border-[#ed1c27]/40 transition-colors"
-                        >
-                          <Image src={item.image} alt={item.title} fill className="object-cover" />
-                        </div>
-                      </td>
-                      <td className="py-3 px-6">
-                        <p className="text-xs font-semibold text-gray-900">{item.title}</p>
-                        <p className="text-[10px] text-gray-400 font-medium mt-0.5">ID: {item.id}</p>
-                      </td>
-                      <td className="py-3 px-6">
-                        <span className="inline-flex items-center bg-gray-100 text-gray-600 rounded-lg px-2.5 py-1 text-[10px] font-semibold">
-                          {item.category}
+                  paginatedGroups.map((group, groupIdx) => (
+                    <tr key={groupIdx} className="hover:bg-gray-50/50 transition-colors group">
+                      <td className="py-4 px-6 align-top">
+                        <p className="text-xs font-bold text-gray-900">{group.category}</p>
+                        <span className="inline-flex items-center bg-gray-100 text-gray-600 rounded-lg px-2.5 py-1 text-[10px] font-semibold mt-2">
+                          {group.items.length} Design{group.items.length !== 1 ? "s" : ""}
                         </span>
                       </td>
-                      <td className="py-3 px-6 text-right">
-                        <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <button onClick={() => { setSelectedItem(item); setIsPreviewOpen(true); }} className="p-1.5 text-gray-400 hover:text-[#ed1c27] hover:bg-red-50 rounded-lg transition-colors cursor-pointer" title="Preview Image">
-                            <Eye size={14} />
-                          </button>
-                          <button onClick={() => handleDeleteClick(item.id, item.title)} className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer" title="Delete Image">
-                            <Trash2 size={14} />
-                          </button>
+                      <td className="py-4 px-6">
+                        <div className="flex flex-wrap gap-2.5">
+                          {group.items.map((item) => (
+                            <div
+                              key={item.id}
+                              title={item.title}
+                              className="relative w-16 h-10 rounded-lg bg-gray-100 overflow-hidden relative border border-gray-200 group/thumb"
+                            >
+                              <Image src={item.image} alt={item.title} fill className="object-cover" />
+                              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover/thumb:opacity-100 transition-opacity flex items-center justify-center gap-2 z-10">
+                                <button
+                                  type="button"
+                                  onClick={() => { setSelectedItem(item); setIsPreviewOpen(true); }}
+                                  className="p-1 text-white hover:text-[#ed1c27] transition-colors cursor-pointer"
+                                  title={`Preview: ${item.title}`}
+                                >
+                                  <Eye size={12} />
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => handleDeleteClick(item.id, item.title)}
+                                  className="p-1 text-white hover:text-red-500 transition-colors cursor-pointer"
+                                  title={`Delete: ${item.title}`}
+                                >
+                                  <Trash2 size={12} />
+                                </button>
+                              </div>
+                            </div>
+                          ))}
                         </div>
                       </td>
                     </tr>

@@ -34,6 +34,7 @@ const fallbackGalleryItems = galleryItemsRaw as RawGalleryItem[];
 export default function GalleryPage() {
   const [selectedCategory, setSelectedCategory] = React.useState<string>("All");
   const [selectedIndex, setSelectedIndex] = React.useState<number | null>(null);
+  const [lightboxItems, setLightboxItems] = React.useState<GalleryItem[]>([]);
   const [isQuoteOpen, setIsQuoteOpen] = React.useState(false);
   const [quoteTitle, setQuoteTitle] = React.useState<string>("Get a Premium Quote");
   const [quoteSubtitle, setQuoteSubtitle] = React.useState<string>("Tell us about your project and our experts will contact you within 24 hours.");
@@ -59,22 +60,38 @@ export default function GalleryPage() {
     return ["All", ...Array.from(new Set(gallery.map((item) => item.category)))];
   }, [gallery]);
 
-  // Filter items based on selected category
-  const filteredItems = React.useMemo(() => {
+  // Group gallery items by category
+  const groupedGallery = React.useMemo(() => {
+    const groups: { [key: string]: GalleryItem[] } = {};
+    gallery.forEach((item) => {
+      const cat = item.category || "Interiors";
+      if (!groups[cat]) {
+        groups[cat] = [];
+      }
+      groups[cat].push(item);
+    });
+    return Object.entries(groups).map(([category, items]) => ({
+      category,
+      items,
+    }));
+  }, [gallery]);
+
+  // Filter groups based on selected category
+  const filteredGroups = React.useMemo(() => {
     return selectedCategory === "All"
-      ? gallery
-      : gallery.filter((item) => item.category === selectedCategory);
-  }, [selectedCategory, gallery]);
+      ? groupedGallery
+      : groupedGallery.filter((group) => group.category === selectedCategory);
+  }, [selectedCategory, groupedGallery]);
 
   const handleNext = () => {
-    if (selectedIndex === null) return;
-    setSelectedIndex((selectedIndex + 1) % filteredItems.length);
+    if (selectedIndex === null || lightboxItems.length === 0) return;
+    setSelectedIndex((selectedIndex + 1) % lightboxItems.length);
   };
 
   const handlePrev = () => {
-    if (selectedIndex === null) return;
+    if (selectedIndex === null || lightboxItems.length === 0) return;
     setSelectedIndex(
-      (selectedIndex - 1 + filteredItems.length) % filteredItems.length,
+      (selectedIndex - 1 + lightboxItems.length) % lightboxItems.length,
     );
   };
 
@@ -98,7 +115,7 @@ export default function GalleryPage() {
   }
 
   const currentItem =
-    selectedIndex !== null ? filteredItems[selectedIndex] : null;
+    selectedIndex !== null && lightboxItems.length > 0 ? lightboxItems[selectedIndex] : null;
 
   return (
     <main className="bg-white min-h-screen pb-20">
@@ -170,24 +187,27 @@ export default function GalleryPage() {
       {/* Gallery Grid - World Class Showcase */}
       <section className="py-12 lg:py-16 bg-white relative overflow-hidden">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
-          {filteredItems.length === 0 ? (
+          {filteredGroups.length === 0 ? (
             <div className="text-center py-20 bg-neutral-50 rounded-xl border border-dashed border-neutral-200">
               <Camera className="mx-auto text-neutral-300 mb-4 animate-bounce" size={40} />
               <p className="text-neutral-500 font-bold uppercase tracking-wider text-sm">No Projects Found</p>
             </div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
-              {filteredItems.map((item, index) => (
+              {filteredGroups.map((group, index) => (
                 <div
                   key={index}
-                  onClick={() => setSelectedIndex(index)}
+                  onClick={() => {
+                    setLightboxItems(group.items);
+                    setSelectedIndex(0);
+                  }}
                   className="group bg-white rounded-xl border border-neutral-100 p-4 shadow-soft hover:shadow-premium hover:-translate-y-1.5 transition-all duration-500 cursor-pointer flex flex-col"
                 >
                   {/* Image Container with rounded-lg */}
                   <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg bg-neutral-50">
                     <Image
-                      src={item.image}
-                      alt={item.title}
+                      src={group.items[0]?.image || ""}
+                      alt={group.category}
                       fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
@@ -203,7 +223,7 @@ export default function GalleryPage() {
                     {/* Premium Floating Category Tag */}
                     <span className="absolute top-4 left-4 inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-white/90 backdrop-blur-md shadow-sm border border-white/30 text-[9px] font-black uppercase tracking-wider text-secondary">
                       <Sparkles size={8} className="text-primary" />
-                      {item.category}
+                      {group.category}
                     </span>
                   </div>
 
@@ -211,16 +231,16 @@ export default function GalleryPage() {
                   <div className="pt-5 pb-1 flex-grow flex flex-col justify-between">
                     <div className="space-y-1.5">
                       <span className="text-[9px] font-black uppercase tracking-widest text-primary block">
-                        {item.category} Project
+                        {group.items.length} Design{group.items.length !== 1 ? "s" : ""}
                       </span>
                       <h3 className="text-xl font-extrabold text-secondary tracking-tight group-hover:text-primary transition-colors duration-300 leading-snug">
-                        {item.title}
+                        {group.category}
                       </h3>
                     </div>
                     
                     {/* Bottom Interactive Prompt */}
                     <div className="pt-4 border-t border-neutral-50 mt-4 flex items-center justify-between text-neutral-400 group-hover:text-secondary transition-colors duration-300">
-                      <span className="text-[10px] font-bold tracking-widest uppercase">View Details</span>
+                      <span className="text-[10px] font-bold tracking-widest uppercase">View Gallery</span>
                       <ArrowUpRight size={16} className="text-neutral-300 group-hover:text-primary transition-colors group-hover:translate-x-0.5 group-hover:-translate-y-0.5 duration-300" />
                     </div>
                   </div>
@@ -251,7 +271,7 @@ export default function GalleryPage() {
             <div className="flex items-center gap-6 md:gap-10">
               <div className="hidden md:block text-white/30 text-xs font-black uppercase tracking-[0.3em]">
                 <span className="text-white">{(selectedIndex || 0) + 1}</span> /{" "}
-                {filteredItems.length}
+                {lightboxItems.length}
               </div>
               
               {/* Quick Inquiry button inside Lightbox */}
@@ -335,7 +355,7 @@ export default function GalleryPage() {
               <ChevronLeft size={28} />
             </button>
             <span className="flex items-center text-white/50 text-[10px] font-black uppercase tracking-[0.25em]">
-              <span className="text-white">{(selectedIndex || 0) + 1}</span> / {filteredItems.length}
+              <span className="text-white">{(selectedIndex || 0) + 1}</span> / {lightboxItems.length}
             </span>
             <button
               onClick={(e) => {
