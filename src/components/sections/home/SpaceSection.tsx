@@ -3,30 +3,55 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useGetGalleryQuery } from "@/redux/api/galleryApi";
 
 export default function SpaceSection() {
-  const spaces = [
+  const { data: galleryResult } = useGetGalleryQuery({ limit: 1000 });
+
+  const dynamicSpaces = React.useMemo(() => {
+    if (!galleryResult?.data || galleryResult.data.length === 0) {
+      return null;
+    }
+
+    const groups: { [key: string]: string } = {};
+    galleryResult.data.forEach((item) => {
+      const cat = item.category || "Uncategorized";
+      if (!groups[cat] && item.image) {
+        groups[cat] = item.image;
+      }
+    });
+
+    return Object.entries(groups).map(([category, image]) => ({
+      title: category,
+      href: `/gallery?category=${encodeURIComponent(category)}`,
+      image: image,
+    }));
+  }, [galleryResult]);
+
+  const fallbackSpaces = [
     {
       title: "Executive Cabin",
-      slug: "executive-tables",
+      href: "/gallery?category=Executive Cabin",
       image: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=2070&auto=format&fit=crop"
     },
     {
       title: "Conference Room",
-      slug: "conference-meeting",
+      href: "/gallery?category=Conference Room",
       image: "https://images.unsplash.com/photo-1577412647305-991150c7d163?q=80&w=2070&auto=format&fit=crop"
     },
     {
       title: "Open Workspace",
-      slug: "desking-workstation",
+      href: "/gallery?category=Open Workspace",
       image: "https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=2070&auto=format&fit=crop"
     },
     {
       title: "Reception Area",
-      slug: "reception-series",
+      href: "/gallery?category=Reception Area",
       image: "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2070&auto=format&fit=crop"
     }
   ];
+
+  const spaces = dynamicSpaces || fallbackSpaces;
 
   return (
     <section className="pt-12 pb-12 lg:pt-16 lg:pb-16 bg-white overflow-hidden">
@@ -44,7 +69,7 @@ export default function SpaceSection() {
           {spaces.map((space, idx) => (
             <Link 
               key={idx}
-              href={`/products/${space.slug}`}
+              href={space.href}
               className="group relative h-[420px] overflow-hidden rounded-2xl shadow-soft transition-all duration-700 block"
             >
               <Image 

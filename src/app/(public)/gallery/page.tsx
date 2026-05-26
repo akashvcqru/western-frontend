@@ -1,6 +1,7 @@
 "use client";
 
-import React from "react";
+import React, { Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import {
   ArrowUpRight,
@@ -32,7 +33,27 @@ interface RawGalleryItem {
 const fallbackGalleryItems = galleryItemsRaw as RawGalleryItem[];
 
 export default function GalleryPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <Loader2 className="animate-spin text-primary" size={32} />
+      </div>
+    }>
+      <GalleryContent />
+    </Suspense>
+  );
+}
+
+function GalleryContent() {
+  const searchParams = useSearchParams();
+  const categoryParam = searchParams.get("category");
   const [selectedCategory, setSelectedCategory] = React.useState<string>("All");
+
+  React.useEffect(() => {
+    if (categoryParam) {
+      setSelectedCategory(categoryParam);
+    }
+  }, [categoryParam]);
   const [selectedIndex, setSelectedIndex] = React.useState<number | null>(null);
   const [lightboxItems, setLightboxItems] = React.useState<GalleryItem[]>([]);
   const [isQuoteOpen, setIsQuoteOpen] = React.useState(false);
