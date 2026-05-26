@@ -176,7 +176,7 @@ export default function QuoteModal({
                 </div>
                 <div>
                    <p className="text-[10px] font-bold text-primary uppercase tracking-[0.2em]">Expert Help</p>
-                   <p className="text-lg font-bold">{siteContent.common.contact.phones[0] || "+91 99996 59940"}</p>
+                   <p className="text-lg font-bold">{siteContent.common.contact.phones[0] || "+91-9540641111"}</p>
                 </div>
              </div>
           </div>

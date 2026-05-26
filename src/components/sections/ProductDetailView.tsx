@@ -1814,7 +1814,7 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
                 <button
                   className="inline-flex items-center justify-center gap-2 px-4 py-4.5 bg-secondary text-white font-bold uppercase tracking-widest text-[10px] rounded-xl hover:bg-neutral-800 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-secondary/20 shadow-md shadow-secondary/10 cursor-pointer active:scale-[0.98] transition-all duration-300"
                   onClick={() =>
-                    (window.location.href = `tel:${contact.phone}`)
+                    (window.location.href = `tel:${contact.phoneRaw}`)
                   }
                 >
                   <Phone size={13} strokeWidth={2.5} />

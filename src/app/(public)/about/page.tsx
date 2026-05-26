@@ -27,10 +27,17 @@ import { AppRoutes } from "@/constants/routes";
 import React, { useState } from "react";
 import { PageHeader } from "@/components/ui";
 import BrandSlider from "@/components/sections/BrandSlider";
+import { useGetTestimonialsQuery } from "@/redux/api/testimonialsApi";
 
 export default function AboutPage() {
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
   const { aboutPage, testimonialsPage } = siteContent;
+
+  const { data: testimonialsResult } = useGetTestimonialsQuery();
+  const testimonials = React.useMemo(() => {
+    const list = testimonialsResult?.data || [];
+    return list.length > 0 ? list : testimonialsPage.items;
+  }, [testimonialsResult, testimonialsPage.items]);
 
   // Custom mapping of index to highly relevant corporate design icons
   const getServiceIcon = (index: number) => {
@@ -288,7 +295,7 @@ export default function AboutPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            {testimonialsPage.items.slice(0, 6).map((t: { rating: number; quote: string; author: string; designation: string; company: string }, i: number) => (
+            {testimonials.slice(0, 6).map((t: { rating: number; quote: string; author: string; designation: string; company: string }, i: number) => (
               <div 
                 key={i} 
                 className="bg-white p-10 lg:p-12 rounded-xl border border-neutral-100 flex flex-col justify-between space-y-8 relative group hover:shadow-[0_40px_100px_-20px_rgba(237,28,39,0.08)] hover:-translate-y-2 hover:border-primary/20 transition-all duration-700 h-full"

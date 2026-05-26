@@ -2,8 +2,8 @@ import React from "react";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Terms of Service | Bawa Ditta Mal Galleria",
-  description: "Read the terms and conditions for using the services provided by Bawa Ditta Mal Galleria.",
+  title: "Terms of Service | Western Interio",
+  description: "Read the terms and conditions for using the services provided by Western Interio.",
 };
 
 export default function TermsOfServicePage() {
@@ -32,7 +32,7 @@ export default function TermsOfServicePage() {
 
             <h2 className="text-2xl font-medium mb-4 text-foreground">1. Acceptance of Terms</h2>
             <p className="mb-8">
-              By accessing and using the Bawa Ditta Mal Galleria website and services, you agree to be bound by these Terms of Service. 
+              By accessing and using the Western Interio website and services, you agree to be bound by these Terms of Service. 
               If you do not agree to all of these terms, please do not use our website or services. 
               We reserve the right to update these terms at any time without prior notice.
             </p>
@@ -53,8 +53,8 @@ export default function TermsOfServicePage() {
             <h2 className="text-2xl font-medium mb-4 text-foreground">3. Intellectual Property</h2>
             <p className="mb-8">
               All content on this website, including text, graphics, logos, images, and software, is the property of 
-              Bawa Ditta Mal Galleria or its content suppliers and is protected by international copyright laws. 
-              The compilation of all content on this site is the exclusive property of Bawa Ditta Mal Galleria.
+              Western Interio or its content suppliers and is protected by international copyright laws. 
+              The compilation of all content on this site is the exclusive property of Western Interio.
             </p>
 
             <h2 className="text-2xl font-medium mb-4 text-foreground">4. Product Information and Pricing</h2>
@@ -67,7 +67,7 @@ export default function TermsOfServicePage() {
 
             <h2 className="text-2xl font-medium mb-4 text-foreground">5. Limitation of Liability</h2>
             <p className="mb-8">
-              Bawa Ditta Mal Galleria shall not be liable for any direct, indirect, incidental, special, or 
+              Western Interio shall not be liable for any direct, indirect, incidental, special, or 
               consequential damages resulting from the use or inability to use our services or for the cost 
               of procurement of substitute goods and services.
             </p>
@@ -76,7 +76,7 @@ export default function TermsOfServicePage() {
             <p className="mb-8">
               These terms shall be governed by and construed in accordance with the laws of India, 
               without regard to its conflict of law provisions. 
-              Any disputes arising under these terms shall be subject to the exclusive jurisdiction of the courts in Pathankot, Punjab.
+              Any disputes arising under these terms shall be subject to the exclusive jurisdiction of the courts in Gurugram, Haryana.
             </p>
 
             <h2 className="text-2xl font-medium mb-4 text-foreground">7. Termination</h2>
@@ -90,10 +90,10 @@ export default function TermsOfServicePage() {
               If you have any questions about these Terms of Service, please contact us:
             </p>
             <div className="p-6 bg-muted rounded-xl border border-border">
-              <p className="font-semibold text-foreground">Bawa Ditta Mal Galleria</p>
-              <p>Email: legal@bawadittamal.com</p>
-              <p>Phone: +91 (your-number-here)</p>
-              <p>Address: Pathankot, Punjab, India</p>
+              <p className="font-semibold text-foreground">Western Interio</p>
+              <p>Email: info@westerninterio.in</p>
+              <p>Phone: +91-9540641111, +91-9540017776</p>
+              <p>Address: Plot No. 06, Gali No.-06, Kadipur Industrial Area, Gurugram, Haryana – 122505</p>
             </div>
           </div>
         </div>

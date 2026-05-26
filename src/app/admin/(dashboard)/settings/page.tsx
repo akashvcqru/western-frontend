@@ -69,9 +69,9 @@ export default function AdminSettingsPage() {
     mode: "onChange",
     resolver: yupResolver(contactSchema),
     defaultValues: {
-      supportEmail: "info@bawadittamal.com",
-      phoneNumber: "+91 98765 43210",
-      storeAddress: "123, Building Material Market, New Delhi, 110001",
+      supportEmail: "info@westerninterio.in",
+      phoneNumber: "+91 95406 41111",
+      storeAddress: "Plot No. 06, Gali No.-06, Kadipur Industrial Area, Gurugram, Haryana – 122505",
     },
   });
 
@@ -267,7 +267,7 @@ export default function AdminSettingsPage() {
                         label="Support Email"
                         type="email"
                         icon={<Mail size={16} />}
-                        placeholder="info@bawadittamal.com"
+                        placeholder="info@westerninterio.in"
                       />
                       <RHFControl
                         control="input"
@@ -275,7 +275,7 @@ export default function AdminSettingsPage() {
                         label="Phone Number"
                         type="tel"
                         icon={<Phone size={16} />}
-                        placeholder="+91 98765 43210"
+                        placeholder="+91 95406 41111"
                       />
                       <div className="md:col-span-2">
                         <RHFControl
@@ -283,7 +283,7 @@ export default function AdminSettingsPage() {
                           name="storeAddress"
                           label="Store Address"
                           icon={<MapPin size={16} />}
-                          placeholder="123, Building Material Market, New Delhi, 110001"
+                          placeholder="Plot No. 06, Gali No.-06, Kadipur Industrial Area, Gurugram, Haryana – 122505"
                         />
                       </div>
                     </div>

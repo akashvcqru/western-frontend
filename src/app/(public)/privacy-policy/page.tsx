@@ -2,8 +2,8 @@ import React from "react";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | Bawa Ditta Mal Galleria",
-  description: "Learn about how Bawa Ditta Mal Galleria collects, uses, and protects your personal information.",
+  title: "Privacy Policy | Western Interio",
+  description: "Learn about how Western Interio collects, uses, and protects your personal information.",
 };
 
 export default function PrivacyPolicyPage() {
@@ -44,7 +44,7 @@ export default function PrivacyPolicyPage() {
 
             <h2 className="text-2xl font-medium mb-4 text-foreground">2. How We Use Your Information</h2>
             <p className="mb-6">
-              Bawa Ditta Mal Galleria uses the collected information for various purposes, including:
+              Western Interio uses the collected information for various purposes, including:
             </p>
             <ul className="list-disc pl-6 mb-8 space-y-2">
               <li>To provide and maintain our services and products</li>
@@ -88,10 +88,10 @@ export default function PrivacyPolicyPage() {
               If you have any questions about this Privacy Policy, please contact us:
             </p>
             <div className="p-6 bg-muted rounded-xl border border-border">
-              <p className="font-medium text-foreground">Bawa Ditta Mal Galleria</p>
-              <p>Email: privacy@bawadittamal.com</p>
-              <p>Phone: +91 (your-number-here)</p>
-              <p>Address: Pathankot, Punjab, India</p>
+              <p className="font-medium text-foreground">Western Interio</p>
+              <p>Email: info@westerninterio.in</p>
+              <p>Phone: +91-9540641111, +91-9540017776</p>
+              <p>Address: Plot No. 06, Gali No.-06, Kadipur Industrial Area, Gurugram, Haryana – 122505</p>
             </div>
           </div>
         </div>
