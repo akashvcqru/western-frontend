@@ -40,7 +40,7 @@ export default function AdminLoginPage() {
 
     setIsLoading(true);
     try {
-      const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5073";
+      const BASE_URL = process.env.NEXT_PUBLIC_API_URL || (typeof window !== "undefined" ? `http://${window.location.hostname}:5073` : "http://localhost:5073");
       const res = await fetch(`${BASE_URL}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },

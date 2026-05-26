@@ -81,7 +81,7 @@ export default function QuoteModal({
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
 
-    const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5073";
+    const BASE_URL = process.env.NEXT_PUBLIC_API_URL || (typeof window !== "undefined" ? `http://${window.location.hostname}:5073` : "http://localhost:5073");
 
     try {
       // Always save to backend database first

@@ -1,6 +1,6 @@
 import type { ApiResponse, PaginatedApiResponse } from "@/types/api";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5073";
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || (typeof window !== "undefined" ? `http://${window.location.hostname}:5073` : "http://localhost:5073");
 
 // ─── Token helper ─────────────────────────────────────────────────────────────
 

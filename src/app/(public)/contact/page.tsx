@@ -56,7 +56,7 @@ export default function ContactPage() {
   });
 
   const onSubmit = async (data: ContactFormData) => {
-    const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5073";
+    const BASE_URL = process.env.NEXT_PUBLIC_API_URL || (typeof window !== "undefined" ? `http://${window.location.hostname}:5073` : "http://localhost:5073");
 
     try {
       const res = await fetch(`${BASE_URL}/api/inquiries`, {
