@@ -2,7 +2,6 @@
 
 import React from "react";
 import { Quote, Star } from "lucide-react";
-import siteContent from "@/data/site-content.json";
 import { useGetTestimonialsQuery } from "@/redux/api/testimonialsApi";
 
 interface Testimonial {

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Edit, Trash2, AlertCircle, Download, Plus, Upload, X, FileText, Eye } from "lucide-react";
+import { Edit, Trash2, AlertCircle, Plus, Upload, X, FileText } from "lucide-react";
 import Image from "next/image";
 import { useForm, FormProvider, Resolver } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -18,14 +18,6 @@ import {
 import { useGetCategoriesQuery } from "@/redux/api/categoriesApi";
 import type { Catalogue } from "@/types/api";
 
-const standardCategories = [
-  "Workstations",
-  "Desking & Tables",
-  "Seating",
-  "Partitions",
-  "Storage & Cabinets",
-  "Other"
-];
 
 const catalogueValidationSchema = yup.object().shape({
   title: yup.string().required("Title is required").min(3, "Must be at least 3 characters"),
@@ -166,8 +158,9 @@ export default function AdminCataloguesPage() {
     try {
       await deleteCatalogue(id).unwrap();
       addToast({ title: "Catalogue Deleted", message: `"${title}" has been deleted.`, variant: "info" });
-    } catch (err: any) {
-      addToast({ title: "Error", message: err?.data?.message || "Delete failed", variant: "error" });
+    } catch (err) {
+      const errMsg = (err as { data?: { message?: string } })?.data?.message || "Delete failed";
+      addToast({ title: "Error", message: errMsg, variant: "error" });
     }
   };
 
@@ -179,8 +172,9 @@ export default function AdminCataloguesPage() {
         body: { status: nextStatus },
       }).unwrap();
       addToast({ title: "Status Updated", message: `Status is now ${nextStatus}.`, variant: "success" });
-    } catch (err: any) {
-      addToast({ title: "Error", message: err?.data?.message || "Update failed", variant: "error" });
+    } catch (err) {
+      const errMsg = (err as { data?: { message?: string } })?.data?.message || "Update failed";
+      addToast({ title: "Error", message: errMsg, variant: "error" });
     }
   };
 
@@ -284,8 +278,9 @@ export default function AdminCataloguesPage() {
         addToast({ title: "Catalogue Created", message: "Catalogue was created successfully.", variant: "success" });
       }
       setIsModalOpen(false);
-    } catch (err: any) {
-      addToast({ title: "Error", message: err?.data?.message || "Operation failed", variant: "error" });
+    } catch (err) {
+      const errMsg = (err as { data?: { message?: string } })?.data?.message || "Operation failed";
+      addToast({ title: "Error", message: errMsg, variant: "error" });
     }
   };
 

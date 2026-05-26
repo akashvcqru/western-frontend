@@ -5,7 +5,6 @@ import Image from "next/image";
 import {
   Download,
   Eye,
-  FileText,
   ArrowRight,
   Layers,
   Loader2,
@@ -130,7 +129,7 @@ export default function DownloadCenterPage() {
       }
 
       openPdfFromBase64(pdfData, pdfFileName, action);
-    } catch (err) {
+    } catch {
       addToast({
         title: "Action Failed",
         message: "Could not retrieve the PDF file from the server.",

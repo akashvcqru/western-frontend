@@ -40,14 +40,6 @@ type TestimonialFormValues = {
   quote: string;
 };
 
-interface Testimonial {
-  author: string;
-  designation: string;
-  company: string;
-  category: string;
-  quote: string;
-  rating: number;
-}
 
 export default function TestimonialsPage() {
   const { testimonialsPage } = siteContent;

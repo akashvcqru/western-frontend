@@ -44,10 +44,9 @@ export default function AdminGalleryPage() {
   const [createGalleryItem] = useCreateGalleryItemMutation();
   const [deleteGalleryItem] = useDeleteGalleryItemMutation();
 
-  const gallery = galleryData?.data || [];
-
   // Group all gallery items by category
   const groupedGallery = React.useMemo(() => {
+    const gallery = galleryData?.data || [];
     const groups: { [key: string]: GalleryItem[] } = {};
     gallery.forEach(item => {
       const cat = item.category || "Uncategorized";
@@ -60,7 +59,7 @@ export default function AdminGalleryPage() {
       category,
       items,
     }));
-  }, [gallery]);
+  }, [galleryData?.data]);
 
   // Client-side search and filtering
   const filteredGroups = React.useMemo(() => {

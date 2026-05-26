@@ -129,8 +129,9 @@ export default function AdminTestimonialsPage() {
     try {
       await deleteTestimonial(id).unwrap();
       addToast({ title: "Review Deleted", message: `Review by "${author}" has been deleted.`, variant: "info" });
-    } catch (err: any) {
-      addToast({ title: "Error", message: err?.data?.message || "Delete failed", variant: "error" });
+    } catch (err) {
+      const errMsg = (err as { data?: { message?: string } })?.data?.message || "Delete failed";
+      addToast({ title: "Error", message: errMsg, variant: "error" });
     }
   };
 
@@ -142,8 +143,9 @@ export default function AdminTestimonialsPage() {
         body: { status: nextStatus },
       }).unwrap();
       addToast({ title: "Status Updated", message: `Status is now ${nextStatus}.`, variant: "success" });
-    } catch (err: any) {
-      addToast({ title: "Error", message: err?.data?.message || "Update failed", variant: "error" });
+    } catch (err) {
+      const errMsg = (err as { data?: { message?: string } })?.data?.message || "Update failed";
+      addToast({ title: "Error", message: errMsg, variant: "error" });
     }
   };
 
@@ -176,8 +178,9 @@ export default function AdminTestimonialsPage() {
         addToast({ title: "Review Created", message: "Review was created successfully.", variant: "success" });
       }
       setIsModalOpen(false);
-    } catch (err: any) {
-      addToast({ title: "Error", message: err?.data?.message || "Operation failed", variant: "error" });
+    } catch (err) {
+      const errMsg = (err as { data?: { message?: string } })?.data?.message || "Operation failed";
+      addToast({ title: "Error", message: errMsg, variant: "error" });
     }
   };
 
