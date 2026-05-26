@@ -28,7 +28,7 @@ export default function Home() {
       {/* 4. Shop by Category Section */}
       <CategorySection />
 
-      {/* 5. Shop by Space Section */}
+      {/* 5. Our Projects Section */}
       <SpaceSection />
 
       {/* 6. Pan-India Footprint & Manufacturing Excellence */}

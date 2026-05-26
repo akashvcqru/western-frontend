@@ -25,8 +25,8 @@ export default function BrandSlider() {
 
   if (isLoading) {
     return (
-      <section className="w-full bg-[#fcfcfc] py-24 border-y border-gray-100/50 overflow-hidden relative">
-        <div className="flex items-center justify-center min-h-[150px]">
+      <section className="w-full bg-[#fcfcfc] py-12 border-y border-gray-100/50 overflow-hidden relative">
+        <div className="flex items-center justify-center min-h-[120px]">
           <Loader2 className="animate-spin text-primary" size={32} />
         </div>
       </section>
@@ -41,7 +41,7 @@ export default function BrandSlider() {
   const listToRender = [...brands, ...brands];
 
   return (
-    <section className="w-full bg-[#fcfcfc] py-24 border-y border-gray-100/50 overflow-hidden relative">
+    <section className="w-full bg-[#fcfcfc] py-12 border-y border-gray-100/50 overflow-hidden relative">
       {/* Decorative dotted grid background */}
       <div className="absolute inset-0 opacity-[0.02] pointer-events-none">
         <div className="absolute inset-0 bg-[radial-gradient(#ed1c27_1px,transparent_1px)] [background-size:32px_32px]"></div>
@@ -50,7 +50,7 @@ export default function BrandSlider() {
       {/* Luxury Ambient Spotlight Radial Glow */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(237,28,39,0.04),transparent_65%)] pointer-events-none"></div>
 
-      <div className="max-w-[1440px] mx-auto px-4 lg:px-8 space-y-20 relative z-10">
+      <div className="max-w-[1440px] mx-auto px-4 lg:px-8 space-y-10 relative z-10">
         {/* Premium Title Section */}
         <div className="text-center space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/5 border border-primary/10 shadow-sm animate-fade-in">

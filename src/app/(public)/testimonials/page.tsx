@@ -20,6 +20,7 @@ import * as yup from "yup";
 import siteContent from "@/data/site-content.json";
 import { AppModal, Accordion, PageHeader } from "@/components/ui";
 import RHFControl from "@/components/ui/inputs/RHFControl";
+import { useGetCategoriesQuery } from "@/redux/api/categoriesApi";
 
 // Validation schema for testimonials
 const testimonialSchema = yup.object().shape({
@@ -49,6 +50,20 @@ interface Testimonial {
 
 export default function TestimonialsPage() {
   const { testimonialsPage } = siteContent;
+
+  const { data: categoriesResult } = useGetCategoriesQuery({ limit: 100 });
+
+  const categoriesList = React.useMemo(() => {
+    return categoriesResult?.data?.filter(c => c.status === "Active") || [];
+  }, [categoriesResult]);
+
+  const categoryOptions = React.useMemo(() => {
+    const options = [{ label: "Select Category", value: "" }];
+    categoriesList.forEach(cat => {
+      options.push({ label: cat.name, value: cat.slug || cat.id });
+    });
+    return options;
+  }, [categoriesList]);
 
   // React State for managing testimonials and filters
   const [testimonialsList, setTestimonialsList] = useState<Testimonial[]>(
@@ -92,13 +107,13 @@ export default function TestimonialsPage() {
   };
 
   // Filter definitions
-  const categories = [
-    { id: "all", label: "All Projects" },
-    { id: "workstations", label: "Workstations & Desks" },
-    { id: "chairs", label: "Ergonomic Chairs" },
-    { id: "partitions", label: "Partition Systems" },
-    { id: "turnkey", label: "Turnkey Interiors" },
-  ];
+  const categories = React.useMemo(() => {
+    const list = [{ id: "all", label: "All Projects" }];
+    categoriesList.forEach(cat => {
+      list.push({ id: cat.slug || cat.id, label: cat.name });
+    });
+    return list;
+  }, [categoriesList]);
 
   // Dynamic counter
   const getCount = (catId: string) => {
@@ -302,10 +317,12 @@ export default function TestimonialsPage() {
 
                       {/* Tag badges */}
                       <span className="px-3 py-1 bg-neutral-100 text-neutral-600 rounded-full font-bold uppercase tracking-widest text-[9px]">
-                        {t.category === "workstations" && "Desking Series"}
-                        {t.category === "chairs" && "Seating Series"}
-                        {t.category === "partitions" && "Partitions"}
-                        {t.category === "turnkey" && "Turnkey Space"}
+                        {categoriesList.find(c => (c.slug || c.id) === t.category || c.id === t.category)?.name || 
+                         (t.category === "workstations" ? "Desking Series" : 
+                          t.category === "chairs" ? "Seating Series" : 
+                          t.category === "partitions" ? "Partitions" : 
+                          t.category === "turnkey" ? "Turnkey Space" : 
+                          t.category)}
                       </span>
                     </div>
 
@@ -520,13 +537,7 @@ export default function TestimonialsPage() {
                     control="select" 
                     name="category" 
                     label="Project Category Type" 
-                    options={[
-                      { label: "Select Category", value: "" },
-                      { label: "Modular Workstations & Desks", value: "workstations" },
-                      { label: "Ergonomic Seating Collection", value: "chairs" },
-                      { label: "Acoustic Partition Systems", value: "partitions" },
-                      { label: "Turnkey Space & Interiors", value: "turnkey" },
-                    ]}
+                    options={categoryOptions}
                   />
                 </div>
 

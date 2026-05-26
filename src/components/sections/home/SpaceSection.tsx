@@ -36,7 +36,7 @@ export default function SpaceSection() {
             Curated Environments
           </span>
           <h2 className="text-3xl lg:text-5xl font-bold text-secondary tracking-tight leading-tight">
-            Shop by Space.
+            Our Projects.
           </h2>
         </div>
         

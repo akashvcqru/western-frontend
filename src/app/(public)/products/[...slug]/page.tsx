@@ -27,7 +27,7 @@ interface Category {
 
 interface SubCategory {
   id: string;
-  slug: string;
+  slug?: string;
   name: string;
   description: string;
   image?: string;

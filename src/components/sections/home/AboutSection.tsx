@@ -89,7 +89,23 @@ export default function AboutSection() {
                   1000<span className="text-primary font-bold text-2xl ml-0.5">+</span>
                 </span>
                 <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-neutral-400">
-                  Corporate Spaces Executed
+                  Corporate Spaces
+                </p>
+              </div>
+              <div className="space-y-1">
+                <span className="text-4xl lg:text-5xl font-bold tracking-tighter text-secondary flex items-baseline">
+                  30<span className="text-primary font-bold text-2xl ml-0.5">+</span>
+                </span>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-neutral-400">
+                  Cities Pan-India
+                </p>
+              </div>
+              <div className="space-y-1">
+                <span className="text-4xl lg:text-5xl font-bold tracking-tighter text-secondary flex items-baseline">
+                  5000<span className="text-primary font-bold text-2xl ml-0.5">+</span>
+                </span>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-neutral-400">
+                  Workstations Installed
                 </p>
               </div>
             </div>
