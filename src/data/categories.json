@@ -1,1 +1,331 @@
-[]
+[
+  {
+    "id": "modular-workstation",
+    "name": "Modular Workstation",
+    "slug": "modular-workstation",
+    "image": "https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=2070&auto=format&fit=crop",
+    "description": "Bespoke modular office workstations designed for maximum productivity and space efficiency."
+  },
+  {
+    "id": "workstation",
+    "name": "Workstation",
+    "slug": "workstation",
+    "image": "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop",
+    "description": "Sleek and functional team workstations built for collaborative and individual tasks."
+  },
+  {
+    "id": "director-table",
+    "name": "Director Table",
+    "slug": "director-table",
+    "image": "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop",
+    "description": "Premium executive director tables with stately wood finishes and integrated storage."
+  },
+  {
+    "id": "conference-table",
+    "name": "Conference Table",
+    "slug": "conference-table",
+    "image": "https://images.unsplash.com/photo-1577412647305-991150c7d163?q=80&w=2070&auto=format&fit=crop",
+    "description": "Elegant conference and meeting room tables facilitating high-level team collaboration."
+  },
+  {
+    "id": "reception-desk",
+    "name": "Reception Desk",
+    "slug": "reception-desk",
+    "image": "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop",
+    "description": "Stunning reception desks designed to make a commanding first impression."
+  },
+  {
+    "id": "center-table",
+    "name": "Center Table",
+    "slug": "center-table",
+    "image": "https://images.unsplash.com/photo-1581428982868-e410dd047a90?q=80&w=2070&auto=format&fit=crop",
+    "description": "Versatile center and coffee tables for waiting lobbies, lounges, and corporate suites."
+  },
+  {
+    "id": "modern-office-chairs",
+    "name": "Modern Office Chairs",
+    "slug": "modern-office-chairs",
+    "image": "https://images.unsplash.com/photo-1580481072645-022f9a6dbf27?q=80&w=2070&auto=format&fit=crop",
+    "description": "Ergonomic seating engineered for ultimate lumbar support, posture alignment, and all-day comfort."
+  },
+  {
+    "id": "office-sofa",
+    "name": "Office Sofa",
+    "slug": "office-sofa",
+    "image": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=2070&auto=format&fit=crop",
+    "description": "Premium soft seating and lounge sofas crafted for comfortable visitor hosting and breakrooms."
+  },
+  {
+    "id": "storage-solutions",
+    "name": "Storage Solutions",
+    "slug": "storage-solutions",
+    "image": "https://images.unsplash.com/photo-1595844730298-b960ff98fee0?q=80&w=2070&auto=format&fit=crop",
+    "description": "Sleek office filing cabinets, modular sideboards, and optimized organizational storage."
+  },
+  {
+    "id": "office-partition",
+    "name": "Office Partition",
+    "slug": "office-partition",
+    "image": "https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=2070&auto=format&fit=crop",
+    "description": "Acoustic panels and glass partition systems to optimize privacy, acoustics, and space division."
+  },
+  {
+    "id": "console-designs",
+    "name": "Console Designs",
+    "slug": "console-designs",
+    "image": "https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=2069&auto=format&fit=crop",
+    "description": "Elegant accent consoles and entryway table designs to elevate spatial aesthetics."
+  },
+  {
+    "id": "tv-unit-designs",
+    "name": "TV Unit Designs",
+    "slug": "tv-unit-designs",
+    "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop",
+    "description": "Sleek floating entertainment units, custom wall-panel backdrops, and media storage."
+  },
+  {
+    "id": "wardrobe-designs",
+    "name": "Wardrobe Designs",
+    "slug": "wardrobe-designs",
+    "image": "https://images.unsplash.com/photo-1595428774223-ef52624120d2?q=80&w=2070&auto=format&fit=crop",
+    "description": "Spacious walk-in closets, modular sliding wardrobe layouts, and bespoke bedroom storage."
+  },
+  {
+    "id": "dressing-table",
+    "name": "Dressing Table",
+    "slug": "dressing-table",
+    "image": "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?q=80&w=2070&auto=format&fit=crop",
+    "description": "Bespoke dressing tables featuring smart LED backlit mirrors and premium jewelry organizers."
+  },
+  {
+    "id": "bed-designs",
+    "name": "Bed Designs",
+    "slug": "bed-designs",
+    "image": "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=2070&auto=format&fit=crop",
+    "description": "Bespoke modular bed designs, customized luxury headboards, and hydraulic storage beds."
+  },
+  {
+    "id": "study-table-designs",
+    "name": "Study Table Designs",
+    "slug": "study-table-designs",
+    "image": "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?q=80&w=2070&auto=format&fit=crop",
+    "description": "Ergonomic study desks, home office workstations, and integrated bookshelf setups."
+  },
+  {
+    "id": "kitchen-designs",
+    "name": "Kitchen Designs",
+    "slug": "kitchen-designs",
+    "image": "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?q=80&w=2070&auto=format&fit=crop",
+    "description": "Stunning premium modular kitchens with high-end acrylic finishes and smooth motion drawers."
+  },
+  {
+    "id": "dining-table",
+    "name": "Dining Table",
+    "slug": "dining-table",
+    "image": "https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf?q=80&w=2070&auto=format&fit=crop",
+    "description": "Stunning luxury dining tables, solid wood frames, and custom upholstered seating."
+  },
+  {
+    "id": "crockery-unit",
+    "name": "Crockery Unit",
+    "slug": "crockery-unit",
+    "image": "https://images.unsplash.com/photo-1595515106969-1ce29566ff1c?q=80&w=2070&auto=format&fit=crop",
+    "description": "Premium glass-front dining showcases, built-in display racks, and modular buffet sideboards."
+  },
+  {
+    "id": "lounge-area-sofa",
+    "name": "Lounge Area Sofa",
+    "slug": "lounge-area-sofa",
+    "image": "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=2070&auto=format&fit=crop",
+    "description": "Luxurious soft living room sofas, ergonomic chaise lounges, and custom fabric seating."
+  },
+  {
+    "id": "washroom-vanity-designs",
+    "name": "Washroom Vanity Designs",
+    "slug": "washroom-vanity-designs",
+    "image": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=2070&auto=format&fit=crop",
+    "description": "Moisture-resistant bathroom vanity designs, integrated sinks, and quartz stone countertops."
+  },
+  {
+    "id": "shoe-rack-designs",
+    "name": "Shoe Rack Designs",
+    "slug": "shoe-rack-designs",
+    "image": "https://images.unsplash.com/photo-1595428774223-ef52624120d2?q=80&w=2070&auto=format&fit=crop",
+    "description": "Clean, hidden entryway shoe cabinetry and space-saving vertical racks."
+  },
+  {
+    "id": "home-temple-designs",
+    "name": "Home Temple Designs",
+    "slug": "home-temple-designs",
+    "image": "https://images.unsplash.com/photo-1560185127-6a2806647f81?q=80&w=2070&auto=format&fit=crop",
+    "description": "Exquisite wooden pooja mandirs and spiritual spaces designed for tranquil modern homes."
+  },
+  {
+    "id": "home-wall-partition",
+    "name": "Home Wall Partition",
+    "slug": "home-wall-partition",
+    "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053&auto=format&fit=crop",
+    "description": "Aesthetic vertical wooden dividers and laser-cut metal screens to partition spaces."
+  },
+  {
+    "id": "home-wall-panelling",
+    "name": "Home Wall Panelling",
+    "slug": "home-wall-panelling",
+    "image": "https://images.unsplash.com/photo-1618219908412-a29a1bb7b86e?q=80&w=2070&auto=format&fit=crop",
+    "description": "Contemporary fluted panel grids, upholstered fabric walls, and bespoke acoustic cladding."
+  },
+  {
+    "id": "bedroom-sitting-area-designs",
+    "name": "Bedroom Sitting Area Designs",
+    "slug": "bedroom-sitting-area-designs",
+    "image": "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?q=80&w=2070&auto=format&fit=crop",
+    "description": "Cozy bedroom reading corners, modern lounge armchairs, and elegant alcove sitting setups."
+  },
+  {
+    "id": "home-doors-design",
+    "name": "Home Doors Design",
+    "slug": "home-doors-design",
+    "image": "https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=2069&auto=format&fit=crop",
+    "description": "Premium solid wood main entrance doors, interior flush doors, and designer handles."
+  },
+  {
+    "id": "boss-chair",
+    "name": "Boss Chair",
+    "slug": "boss-chair",
+    "image": "/images/products/executive-chair-1.png",
+    "description": "Luxurious, high-back ergonomic leather boss chairs engineered for commanding executive comfort."
+  },
+  {
+    "id": "president-chair",
+    "name": "President Chair",
+    "slug": "president-chair",
+    "image": "/images/products/executive-chair-2.png",
+    "description": "Stately high-back traditional leather president chairs featuring premium tufted details and absolute support."
+  },
+  {
+    "id": "workstation-chair",
+    "name": "Workstation Chair",
+    "slug": "workstation-chair",
+    "image": "/images/products/executive-chair-3.png",
+    "description": "Sleek and highly breathable modern mesh workstation chairs for all-day workspace comfort."
+  },
+  {
+    "id": "teacher-chair",
+    "name": "Teacher Chair",
+    "slug": "teacher-chair",
+    "image": "/images/products/executive-chair-4.png",
+    "description": "Highly supportive seminar and classroom active seating designs optimized for teachers."
+  },
+  {
+    "id": "student-chair",
+    "name": "Student Chair",
+    "slug": "student-chair",
+    "image": "https://images.unsplash.com/photo-1580481072645-022f9a6dbf27?q=80&w=2070&auto=format&fit=crop",
+    "description": "Ergonomic student study seating featuring attached wooden writing tablets and utility storage bottoms."
+  },
+  {
+    "id": "sofa-chair",
+    "name": "Sofa Chair",
+    "slug": "sofa-chair",
+    "image": "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?q=80&w=2070&auto=format&fit=crop",
+    "description": "Premium, plush single-seater lounge armchair sofa chairs designed for comfort hosting."
+  },
+  {
+    "id": "visitor-chair",
+    "name": "Visitor Chair",
+    "slug": "visitor-chair",
+    "image": "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?q=80&w=2070&auto=format&fit=crop",
+    "description": "Elegant reception and executive office guest visitor chairs to impress every invitee."
+  },
+  {
+    "id": "cafeteria-chair",
+    "name": "Cafeteria Chair",
+    "slug": "cafeteria-chair",
+    "image": "https://images.unsplash.com/photo-1581428982868-e410dd047a90?q=80&w=2070&auto=format&fit=crop",
+    "description": "Vibrant, stackable, modern polymer molded cafeteria chairs with sleek architectural wood legs."
+  },
+  {
+    "id": "reception-sofa",
+    "name": "Reception Sofa",
+    "slug": "reception-sofa",
+    "image": "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2070&auto=format&fit=crop",
+    "description": "Stately corporate reception lounge sofas providing modular comfort and high-end visual presence."
+  },
+  {
+    "id": "boss-cabin-sofa",
+    "name": "Boss Cabin Sofa",
+    "slug": "boss-cabin-sofa",
+    "image": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=2070&auto=format&fit=crop",
+    "description": "Exclusive rich wood and black leather sofas tailor-made for leadership cabins and executive suites."
+  },
+  {
+    "id": "lounge-sofa",
+    "name": "Lounge Sofa",
+    "slug": "lounge-sofa",
+    "image": "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=2070&auto=format&fit=crop",
+    "description": "Soft modular lounge sofas crafted for high-performance creative collaborative office layouts."
+  },
+  {
+    "id": "office-chair-manufacturer-in-gurgaon",
+    "name": "Office Chair Manufacturer in Gurgaon",
+    "slug": "office-chair-manufacturer-in-gurgaon",
+    "image": "/images/products/executive-chair-3.png",
+    "description": "Leading manufacturer of ergonomic office chairs."
+  },
+  {
+    "id": "office-interior-designing",
+    "name": "Office Interior Designing",
+    "slug": "office-interior-designing",
+    "image": "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop",
+    "description": "Complete corporate space planning, structural fit-outs, and executive layout design."
+  },
+  {
+    "id": "home-furniture-design",
+    "name": "Home Furniture Design",
+    "slug": "home-furniture-design",
+    "image": "https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=2069&auto=format&fit=crop",
+    "description": "Custom handcrafted designer sofa series, dining tables, modular beds, and aesthetic lounge seating."
+  },
+  {
+    "id": "home-furniture-manufacturer",
+    "name": "Home Furniture Manufacturer",
+    "slug": "home-furniture-manufacturer",
+    "image": "https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?q=80&w=2070&auto=format&fit=crop",
+    "description": "Premium modular setups directly manufactured in-house for absolute durability."
+  },
+  {
+    "id": "home-interior-designing-ideas",
+    "name": "Home Interior Designing Ideas",
+    "slug": "home-interior-designing-ideas",
+    "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop",
+    "description": "Creative layouts, warm material pallets, and visual concepts for dynamic residential interiors."
+  },
+  {
+    "id": "home-interior-designer",
+    "name": "Home Interior Designer",
+    "slug": "home-interior-designer",
+    "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053&auto=format&fit=crop",
+    "description": "Comprehensive design consultation, bespoke styling, and full execution management."
+  },
+  {
+    "id": "office-design-ideas",
+    "name": "Office Design Ideas",
+    "slug": "office-design-ideas",
+    "image": "https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=2070&auto=format&fit=crop",
+    "description": "Ergonomic workstations, partition solutions, breakout rooms, and collaborative setups."
+  },
+  {
+    "id": "boss-cabin-interior",
+    "name": "Boss Cabin Interior",
+    "slug": "boss-cabin-interior",
+    "image": "https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=2070&auto=format&fit=crop",
+    "description": "Stately leadership offices featuring rich wood styling, custom panelling, and executive comfort."
+  },
+  {
+    "id": "false-ceiling-design",
+    "name": "False Ceiling Design",
+    "slug": "false-ceiling-design",
+    "image": "https://images.unsplash.com/photo-1507089947368-19c1da9775ae?q=80&w=2070&auto=format&fit=crop",
+    "description": "Aesthetic grid ceilings, wooden rafters, drop ceiling integrations, and smart ambient lighting."
+  }
+]
