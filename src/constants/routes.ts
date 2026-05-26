@@ -24,6 +24,7 @@ export const AppRoutes = {
     Blogs: "/admin/blogs",
     SliderSettings: "/admin/slider-settings",
     Settings: "/admin/settings",
+    Catalogues: "/admin/catalogues",
   },
 } as const;
 

@@ -8,28 +8,31 @@ import {
   FileText,
   ArrowRight,
   Layers,
+  Loader2,
 } from "lucide-react";
 import QuoteModal from "@/components/common/QuoteModal";
-import cataloguesDataRaw from "@/data/download-center.json";
 import { cn } from "@/lib/utils";
-import { PageHeader } from "@/components/ui";
-
-interface CatalogueItem {
-  id: string;
-  title: string;
-  description: string;
-  image: string;
-  category: string;
-  pages: string;
-  fileSize: string;
-  pdfUrl: string;
-}
-
-const cataloguesData = cataloguesDataRaw as CatalogueItem[];
+import { PageHeader, useAppToast } from "@/components/ui";
+import {
+  useGetCataloguesQuery,
+  useLazyGetCatalogueByIdQuery,
+} from "@/redux/api/cataloguesApi";
 
 export default function DownloadCenterPage() {
+  const { addToast } = useAppToast();
   const [activeCategory, setActiveCategory] = useState<string>("All");
   const [isQuoteOpen, setIsQuoteOpen] = useState<boolean>(false);
+  const [loadingId, setLoadingId] = useState<string | null>(null);
+
+  // RTK Query: Fetch all active catalogues (limit 100)
+  const { data: apiResponse, isLoading } = useGetCataloguesQuery({
+    limit: 100,
+    status: "Active",
+  });
+
+  const [triggerGetCatalogue] = useLazyGetCatalogueByIdQuery();
+
+  const cataloguesData = apiResponse?.data || [];
 
   // Extract unique categories for the filters
   const categories = [
@@ -41,6 +44,102 @@ export default function DownloadCenterPage() {
   const filteredCatalogues = cataloguesData.filter((item) => {
     return activeCategory === "All" || item.category === activeCategory;
   });
+
+  const getStaticFallbackUrl = (title: string): string => {
+    const t = title.toLowerCase();
+    if (t.includes("workstation")) return "/catalogs/workstations-catalog.pdf";
+    if (t.includes("executive desking") || t.includes("desking")) return "/catalogs/executive-desks-catalog.pdf";
+    if (t.includes("seating") || t.includes("chair")) return "/catalogs/chairs-catalog.pdf";
+    if (t.includes("partition") || t.includes("ceiling")) return "/catalogs/modular-partitions-catalog.pdf";
+    return "";
+  };
+
+  const openPdfFromBase64 = (base64Data: string, fileName: string, action: "view" | "download") => {
+    let cleanBase64 = base64Data;
+    let mimeType = "application/pdf";
+
+    if (base64Data.startsWith("data:")) {
+      const parts = base64Data.split(";base64,");
+      if (parts.length === 2) {
+        mimeType = parts[0].substring(5);
+        cleanBase64 = parts[1];
+      }
+    }
+
+    try {
+      const byteCharacters = atob(cleanBase64);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: mimeType });
+      const blobUrl = URL.createObjectURL(blob);
+
+      if (action === "view") {
+        window.open(blobUrl, "_blank");
+      } else {
+        const link = document.createElement("a");
+        link.href = blobUrl;
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+
+      // Revoke after a short delay
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 100);
+    } catch (e) {
+      console.error("Error generating PDF Blob URL", e);
+      addToast({
+        title: "Error",
+        message: "Failed to open or download the PDF document.",
+        variant: "error",
+      });
+    }
+  };
+
+  const handleAction = async (id: string, title: string, action: "view" | "download") => {
+    setLoadingId(id);
+    try {
+      const res = await triggerGetCatalogue(id).unwrap();
+      const pdfData = res.data?.pdfData;
+      const pdfFileName = res.data?.pdfFileName || `${title.replace(/\s+/g, "_")}.pdf`;
+
+      if (!pdfData) {
+        const fallbackUrl = getStaticFallbackUrl(title);
+        if (fallbackUrl) {
+          if (action === "view") {
+            window.open(fallbackUrl, "_blank");
+          } else {
+            const link = document.createElement("a");
+            link.href = fallbackUrl;
+            link.download = pdfFileName;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          }
+          return;
+        }
+        addToast({
+          title: "PDF Not Available",
+          message: "No PDF file is associated with this catalogue.",
+          variant: "warning",
+        });
+        return;
+      }
+
+      openPdfFromBase64(pdfData, pdfFileName, action);
+    } catch (err) {
+      addToast({
+        title: "Action Failed",
+        message: "Could not retrieve the PDF file from the server.",
+        variant: "error",
+      });
+    } finally {
+      setLoadingId(null);
+    }
+  };
 
   return (
     <main className="bg-white overflow-hidden flex flex-col min-h-screen">
@@ -78,7 +177,30 @@ export default function DownloadCenterPage() {
           </div>
 
           {/* Grid Layout of Catalogues */}
-          {filteredCatalogues.length > 0 ? (
+          {isLoading ? (
+            <div className="grid md:grid-cols-2 gap-8 lg:gap-10">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <div
+                  key={i}
+                  className="bg-white rounded-3xl border border-neutral-100 p-6 flex flex-col md:flex-row h-full min-h-[260px] animate-pulse"
+                >
+                  <div className="md:w-2/5 min-h-[200px] md:min-h-full bg-neutral-100 rounded-2xl" />
+                  <div className="md:w-3/5 p-6 flex flex-col justify-between space-y-4">
+                    <div className="space-y-3">
+                      <div className="h-3 bg-neutral-200 rounded w-1/3" />
+                      <div className="h-5 bg-neutral-200 rounded w-3/4" />
+                      <div className="h-3 bg-neutral-200 rounded w-full" />
+                      <div className="h-3 bg-neutral-200 rounded w-5/6" />
+                    </div>
+                    <div className="flex gap-3 pt-4 border-t border-neutral-50">
+                      <div className="h-10 bg-neutral-200 rounded-xl flex-1" />
+                      <div className="h-10 bg-neutral-200 rounded-xl flex-1" />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : filteredCatalogues.length > 0 ? (
             <div className="grid md:grid-cols-2 gap-8 lg:gap-10">
               {filteredCatalogues.map((catalog) => (
                 <div
@@ -90,13 +212,15 @@ export default function DownloadCenterPage() {
 
                   {/* Left Side: Dynamic Image */}
                   <div className="md:w-2/5 relative min-h-[200px] md:min-h-full bg-neutral-100 overflow-hidden">
-                    <Image
-                      src={catalog.image}
-                      alt={catalog.title}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 30vw"
-                      className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
+                    {catalog.image && (
+                      <Image
+                        src={catalog.image}
+                        alt={catalog.title}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 30vw"
+                        className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                    )}
                     {/* Badge Overlay */}
                     <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-md px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest text-primary shadow-sm border border-neutral-100">
                       {catalog.category}
@@ -106,15 +230,7 @@ export default function DownloadCenterPage() {
                   {/* Right Side: Details & Actions */}
                   <div className="md:w-3/5 p-6 lg:p-8 flex flex-col justify-between items-stretch">
                     <div className="space-y-4">
-                      {/* Catalog stats */}
-                      <div className="flex items-center gap-3 text-[10px] text-neutral-400 font-bold uppercase tracking-wider">
-                        <span className="flex items-center gap-1.5">
-                          <FileText size={12} className="text-primary" />
-                          {catalog.pages}
-                        </span>
-                        <span className="h-3 w-[1.5px] bg-neutral-200" />
-                        <span>{catalog.fileSize}</span>
-                      </div>
+
 
                       <h3 className="text-lg lg:text-xl font-bold text-secondary tracking-tight group-hover:text-primary transition-colors duration-300">
                         {catalog.title}
@@ -127,27 +243,34 @@ export default function DownloadCenterPage() {
 
                     {/* Dual Action Buttons */}
                     <div className="flex items-center gap-3 mt-6 pt-4 border-t border-neutral-50">
-                      <a
-                        href={catalog.pdfUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 bg-neutral-100 hover:bg-neutral-200 text-secondary font-bold text-[10px] tracking-wider uppercase rounded-xl transition-all duration-300 active:scale-95"
+                      <button
+                        onClick={() => handleAction(catalog.id, catalog.title, "view")}
+                        disabled={loadingId !== null}
+                        className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 bg-neutral-100 hover:bg-neutral-200 text-secondary font-bold text-[10px] tracking-wider uppercase rounded-xl transition-all duration-300 active:scale-95 disabled:opacity-50 cursor-pointer"
                       >
-                        <Eye size={13} />
+                        {loadingId === catalog.id ? (
+                          <Loader2 size={13} className="animate-spin text-secondary" />
+                        ) : (
+                          <Eye size={13} />
+                        )}
                         <span>View</span>
-                      </a>
+                      </button>
 
-                      <a
-                        href={catalog.pdfUrl}
-                        download
-                        className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 bg-secondary hover:bg-primary text-white font-bold text-[10px] tracking-wider uppercase rounded-xl transition-all duration-500 shadow-md hover:shadow-primary/20 active:scale-95 group/down"
+                      <button
+                        onClick={() => handleAction(catalog.id, catalog.title, "download")}
+                        disabled={loadingId !== null}
+                        className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 bg-secondary hover:bg-primary text-white font-bold text-[10px] tracking-wider uppercase rounded-xl transition-all duration-500 shadow-md hover:shadow-primary/20 active:scale-95 disabled:opacity-50 group/down cursor-pointer"
                       >
-                        <Download
-                          size={13}
-                          className="group-hover/down:translate-y-0.5 transition-transform"
-                        />
+                        {loadingId === catalog.id ? (
+                          <Loader2 size={13} className="animate-spin text-white" />
+                        ) : (
+                          <Download
+                            size={13}
+                            className="group-hover/down:translate-y-0.5 transition-transform"
+                          />
+                        )}
                         <span>Download</span>
-                      </a>
+                      </button>
                     </div>
                   </div>
                 </div>

@@ -75,6 +75,7 @@ const RHFControl: React.FC<RHFControlProps> = ({
                                 error={error?.message}
                                 className={className}
                                 disabled={disabled}
+                                placeholder={placeholder}
                             />
                         );
                     case 'toggle':

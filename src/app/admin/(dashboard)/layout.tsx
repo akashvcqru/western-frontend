@@ -24,6 +24,7 @@ import {
   Newspaper,
   Sliders,
   MessageSquare,
+  Download,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAppToast } from "@/components/ui/AppToast";
@@ -43,9 +44,12 @@ const navItems = [
   { label: "Gallery",   href: "/admin/gallery",     icon: ImageIcon,       badge: null },
   { label: "Blogs",     href: "/admin/blogs",       icon: Newspaper,       badge: null },
   { label: "Inquiries", href: "/admin/inquiries",   icon: Mail,            badge: null },
+  { label: "Testimonials", href: "/admin/testimonials", icon: MessageSquare, badge: null },
+  { label: "Catalogues", href: "/admin/catalogues", icon: Download, badge: null },
   { label: "Slider Settings", href: "/admin/slider-settings", icon: Sliders, badge: null },
   { label: "Settings",  href: "/admin/settings",    icon: Settings,        badge: null },
 ];
+
 
 /* ─── Sidebar (shared between desktop & mobile drawer) ─────────────── */
 function SidebarContent({
@@ -64,7 +68,7 @@ function SidebarContent({
   return (
     <div className="flex flex-col h-full bg-[#0f0f0f]">
       {/* Logo row */}
-      <div className="flex items-center justify-between px-6 py-5 border-b border-white/[0.06]">
+      <div className="flex items-center justify-between px-6 py-4 border-b border-white/[0.06]">
         <Link href="/admin" onClick={onClose} className="flex-shrink-0">
           <Image
             src="/logo-western.png"
@@ -85,7 +89,7 @@ function SidebarContent({
       </div>
 
       {/* Admin badge */}
-      <div className="px-4 py-4 border-b border-white/[0.06]">
+      <div className="px-4 py-3 border-b border-white/[0.06]">
         <div className="flex items-center gap-3 px-3 py-3 rounded-xl bg-[#ed1c27]/10 border border-[#ed1c27]/20">
           <div className="w-8 h-8 rounded-full bg-[#ed1c27] flex items-center justify-center flex-shrink-0">
             <User size={14} className="text-white" />
@@ -102,7 +106,7 @@ function SidebarContent({
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 overflow-y-auto px-4 py-4 space-y-0.5">
+      <nav className="flex-1 overflow-y-auto px-4 py-3 space-y-0.5 no-scrollbar">
         <p className="text-[9px] font-bold uppercase tracking-[0.25em] text-white/25 px-3 mb-3">
           Navigation
         </p>
@@ -121,7 +125,7 @@ function SidebarContent({
               id={`admin-nav-${item.label.toLowerCase()}`}
               onClick={onClose}
               className={cn(
-                "flex items-center gap-3 px-3 py-2.5 rounded-xl font-semibold transition-all duration-200 group",
+                "flex items-center gap-3 px-3 py-2 rounded-xl font-semibold transition-all duration-200 group",
                 isActive
                   ? "bg-[#ed1c27] text-white shadow-lg shadow-[#ed1c27]/20"
                   : "text-white/45 hover:text-white hover:bg-white/[0.06]"
@@ -156,12 +160,12 @@ function SidebarContent({
       </nav>
 
       {/* Footer */}
-      <div className="px-4 py-4 border-t border-white/[0.06] space-y-1">
+      <div className="px-4 py-3 border-t border-white/[0.06] space-y-0.5">
         <Link
           href="/"
           target="_blank"
           id="view-site-link"
-          className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/30 hover:text-white/70 hover:bg-white/[0.04] transition-all"
+          className="flex items-center gap-3 px-3 py-2 rounded-xl text-white/30 hover:text-white/70 hover:bg-white/[0.04] transition-all"
         >
           <ExternalLink size={15} className="flex-shrink-0" />
           <span className="text-[11px] font-bold uppercase tracking-widest">View Store</span>
@@ -169,7 +173,7 @@ function SidebarContent({
         <button
           id="admin-logout-btn"
           onClick={onLogout}
-          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/30 hover:text-red-400 hover:bg-red-400/[0.07] transition-all duration-200 cursor-pointer"
+          className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-white/30 hover:text-red-400 hover:bg-red-400/[0.07] transition-all duration-200 cursor-pointer"
         >
           <LogOut size={15} className="flex-shrink-0" />
           <span className="text-[11px] font-bold uppercase tracking-widest">Sign Out</span>
@@ -446,7 +450,7 @@ export default function AdminDashboardLayout({
     <div className="flex h-screen bg-[#f4f5f7] overflow-hidden">
 
       {/* ── DESKTOP SIDEBAR (always visible ≥ lg) ─────────────────── */}
-      <aside className="hidden lg:flex lg:flex-col w-64 flex-shrink-0 h-full overflow-y-auto">
+      <aside className="hidden lg:flex lg:flex-col w-64 flex-shrink-0 h-full overflow-hidden">
         <SidebarContent
           admin={admin}
           pathname={pathname}

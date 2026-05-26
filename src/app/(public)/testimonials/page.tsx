@@ -21,6 +21,7 @@ import siteContent from "@/data/site-content.json";
 import { AppModal, Accordion, PageHeader } from "@/components/ui";
 import RHFControl from "@/components/ui/inputs/RHFControl";
 import { useGetCategoriesQuery } from "@/redux/api/categoriesApi";
+import { useGetTestimonialsQuery, useCreateTestimonialMutation } from "@/redux/api/testimonialsApi";
 
 // Validation schema for testimonials
 const testimonialSchema = yup.object().shape({
@@ -65,10 +66,12 @@ export default function TestimonialsPage() {
     return options;
   }, [categoriesList]);
 
-  // React State for managing testimonials and filters
-  const [testimonialsList, setTestimonialsList] = useState<Testimonial[]>(
-    testimonialsPage.items as Testimonial[]
-  );
+  const { data: testimonialsResult } = useGetTestimonialsQuery();
+  const [createTestimonial] = useCreateTestimonialMutation();
+
+  const testimonialsList = React.useMemo(() => {
+    return testimonialsResult?.data || [];
+  }, [testimonialsResult]);
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formSuccess, setFormSuccess] = useState(false);
@@ -87,23 +90,29 @@ export default function TestimonialsPage() {
     }
   });
 
-  const onSubmit = (data: TestimonialFormValues) => {
-    const newTestimonial = {
-      ...data,
-      rating: selectedRating,
-    };
-    
-    // Add new testimonial locally at the top
-    setTestimonialsList([newTestimonial, ...testimonialsList]);
-    setFormSuccess(true);
+  const onSubmit = async (data: TestimonialFormValues) => {
+    try {
+      await createTestimonial({
+        author: data.author,
+        designation: data.designation,
+        company: data.company,
+        quote: data.quote,
+        rating: selectedRating,
+        category: data.category,
+      }).unwrap();
 
-    // Reset states after complete animation
-    setTimeout(() => {
-      setIsModalOpen(false);
-      setFormSuccess(false);
-      methods.reset();
-      setSelectedRating(5);
-    }, 2000);
+      setFormSuccess(true);
+
+      // Reset states after complete animation
+      setTimeout(() => {
+        setIsModalOpen(false);
+        setFormSuccess(false);
+        methods.reset();
+        setSelectedRating(5);
+      }, 2000);
+    } catch (err) {
+      console.error("Failed to submit review", err);
+    }
   };
 
   // Filter definitions
@@ -427,7 +436,7 @@ export default function TestimonialsPage() {
       </section>
 
       {/* Floating Action Button (FAB) review submission */}
-      <div className="fixed bottom-8 right-8 z-[80]">
+      <div className="fixed bottom-24 right-6 z-[80]">
         <button 
           onClick={() => setIsModalOpen(true)}
           className="flex items-center gap-2 px-6 py-4.5 bg-primary text-white rounded-full font-black uppercase tracking-widest text-[10px] hover:bg-neutral-900 shadow-2xl hover:shadow-primary/30 active:scale-95 transition-all duration-300 cursor-pointer group"
@@ -465,7 +474,7 @@ export default function TestimonialsPage() {
               <div className="space-y-2">
                 <h4 className="text-2xl font-bold text-neutral-800">Thank You So Much!</h4>
                 <p className="text-neutral-700 text-sm font-normal max-w-sm mx-auto">
-                  Your feedback has been successfully submitted and prepended directly to our testimonials showcase list. We appreciate your partnership!
+                  Your feedback has been successfully submitted and sent to the admin panel for review. Once approved, it will appear on our testimonials showcase list. We appreciate your partnership!
                 </p>
               </div>
             </div>

@@ -3,6 +3,7 @@
 import React from "react";
 import { Quote, Star } from "lucide-react";
 import siteContent from "@/data/site-content.json";
+import { useGetTestimonialsQuery } from "@/redux/api/testimonialsApi";
 
 interface Testimonial {
   author: string;
@@ -10,10 +11,15 @@ interface Testimonial {
   company: string;
   quote: string;
   rating: number;
+  category?: string;
 }
 
 export default function TestimonialsSection() {
-  const testimonials = siteContent.testimonialsPage.items as Testimonial[];
+  const { data: testimonialsResult } = useGetTestimonialsQuery();
+
+  const testimonials = React.useMemo(() => {
+    return testimonialsResult?.data || [];
+  }, [testimonialsResult]);
 
   return (
     <section className="pt-12 pb-12 lg:pt-16 lg:pb-16 bg-neutral-50 relative overflow-hidden">
@@ -40,9 +46,15 @@ export default function TestimonialsSection() {
               
               {/* Rating & Content */}
               <div className="space-y-6 relative z-10">
-                <div className="flex gap-1.5 text-primary">
-                  {[...Array(t.rating)].map((_, idx) => (
-                    <Star key={idx} size={16} fill="currentColor" strokeWidth={0} />
+                <div className="flex gap-1 text-primary">
+                  {[...Array(5)].map((_, idx) => (
+                    <Star 
+                      key={idx} 
+                      size={15} 
+                      fill={idx < t.rating ? "currentColor" : "none"} 
+                      className={idx < t.rating ? "" : "text-neutral-200"}
+                      strokeWidth={idx < t.rating ? 0 : 1.5} 
+                    />
                   ))}
                 </div>
                 <p className="text-base text-secondary/90 font-normal leading-relaxed italic">

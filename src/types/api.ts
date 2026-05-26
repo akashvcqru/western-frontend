@@ -129,3 +129,29 @@ export interface DashboardStats {
   totalInquiries: number;
   pendingInquiries: number;
 }
+
+export interface Testimonial {
+  id: string;
+  author: string;
+  designation: string;
+  company: string;
+  quote: string;
+  rating: number;
+  category: string;
+  status: string;
+  createdAt: string;
+}
+
+export interface Catalogue {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  image: string;
+  pdfData?: string; // Optional since it might be omitted in list view
+  pdfFileName?: string;
+  status: string;
+  createdAt: string;
+  hasPdf?: boolean;
+}
+

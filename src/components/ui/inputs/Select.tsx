@@ -7,10 +7,11 @@ export interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElemen
     error?: string;
     icon?: React.ReactNode;
     options: { label: string; value: string | number }[];
+    placeholder?: string;
 }
 
 const Select = forwardRef<HTMLSelectElement, SelectProps>(
-    ({ label, name, error, icon, options, className, ...props }, ref) => {
+    ({ label, name, error, icon, options, className, placeholder, ...props }, ref) => {
         return (
             <div className="space-y-2 w-full">
                 {label && (
@@ -39,7 +40,7 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
                         onBlur={props.onBlur}
                         disabled={props.disabled}
                     >
-                        <option value="" disabled hidden>Choose {label || "Option"}...</option>
+                        <option value="" disabled hidden>{placeholder || `Choose ${label || "Option"}...`}</option>
                         {options.map((opt) => (
                             <option key={opt.value} value={opt.value}>
                                 {opt.label}
