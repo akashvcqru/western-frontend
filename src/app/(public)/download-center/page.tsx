@@ -105,6 +105,22 @@ export default function DownloadCenterPage() {
       const pdfData = res.data?.pdfData;
       const pdfFileName = res.data?.pdfFileName || `${title.replace(/\s+/g, "_")}.pdf`;
 
+      if (pdfData && pdfData.startsWith("/uploads/")) {
+        const backendUrl = process.env.NEXT_PUBLIC_API_URL || `http://${window.location.hostname}:5073`;
+        const fileUrl = `${backendUrl}${pdfData}`;
+        if (action === "view") {
+          window.open(fileUrl, "_blank");
+        } else {
+          const link = document.createElement("a");
+          link.href = fileUrl;
+          link.download = pdfFileName;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }
+        return;
+      }
+
       if (!pdfData) {
         const fallbackUrl = getStaticFallbackUrl(title);
         if (fallbackUrl) {

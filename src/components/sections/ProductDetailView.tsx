@@ -1417,7 +1417,8 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
       setDownloadingId(null);
       if (res.fileData) {
         const link = document.createElement("a");
-        link.href = res.fileData;
+        const backendUrl = process.env.NEXT_PUBLIC_API_URL || `http://${window.location.hostname}:5073`;
+        link.href = res.fileData.startsWith("/uploads/") ? `${backendUrl}${res.fileData}` : res.fileData;
         link.download = res.fileName || `${res.title.replace(/\s+/g, "_")}.${res.format.toLowerCase()}`;
         document.body.appendChild(link);
         link.click();
