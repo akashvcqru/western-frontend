@@ -1,6 +1,5 @@
-import React from "react";
 import Image from "next/image";
-import { Sparkles, LucideIcon } from "lucide-react";
+import { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface PageHeaderProps {
@@ -60,11 +59,11 @@ export default function PageHeader({
         {badge
           ? badge
           : badgeText && (
-              <div className="inline-flex items-center gap-2.5 px-4.5 py-1.5 bg-white/5 border border-white/10 backdrop-blur-md rounded-full shadow-inner animate-in fade-in duration-700">
+              <div className="inline-flex items-center gap-2 px-5 py-2 bg-neutral-900/40 border border-neutral-800/80 backdrop-blur-md rounded-full shadow-inner animate-in fade-in duration-700">
                 {BadgeIcon ? (
-                  <BadgeIcon size={12} className="text-primary" />
+                  <BadgeIcon size={12} className="text-primary mr-1" />
                 ) : (
-                  <Sparkles size={12} className="text-primary animate-pulse" />
+                  <span className="text-primary font-black mr-1.5">#</span>
                 )}
                 <span className="text-[10px] font-black tracking-[0.35em] text-white uppercase">
                   {badgeText}
@@ -84,18 +83,18 @@ export default function PageHeader({
           )
         ) : (
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight tracking-tight uppercase">
-            {titlePrefix} <br className="sm:hidden" />
+            {titlePrefix}{" "}
             {titleHighlight && (
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-rose-500 font-extrabold relative inline-block">
+              <span className="text-primary font-black relative inline-block md:ml-1 whitespace-nowrap">
                 {titleHighlight}
-                <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-32 h-1 bg-primary/95 rounded-full blur-[0.5px]" />
+                <span className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-28 h-1.5 bg-primary rounded-full" />
               </span>
             )}
           </h1>
         )}
 
         {/* Elegant descriptive sub-headline */}
-        <p className="text-xs sm:text-sm md:text-base text-neutral-400 max-w-2xl mx-auto leading-relaxed font-normal">
+        <p className="text-xs sm:text-sm md:text-base text-neutral-400 max-w-xl mx-auto leading-relaxed font-normal">
           {subtitle}
         </p>
       </div>
