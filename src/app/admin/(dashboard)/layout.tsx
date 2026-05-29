@@ -25,6 +25,7 @@ import {
   Sliders,
   MessageSquare,
   Download,
+  Briefcase,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAppToast } from "@/components/ui/AppToast";
@@ -41,6 +42,7 @@ const navItems = [
   { label: "Products",  href: "/admin/products",   icon: Package,         badge: null },
   { label: "Categories",href: "/admin/categories", icon: Layers,          badge: null },
   { label: "Brands",    href: "/admin/brands",      icon: Tag,             badge: null },
+  { label: "Services",  href: "/admin/services",    icon: Briefcase,       badge: null },
   { label: "Gallery",   href: "/admin/gallery",     icon: ImageIcon,       badge: null },
   { label: "Blogs",     href: "/admin/blogs",       icon: Newspaper,       badge: null },
   { label: "Inquiries", href: "/admin/inquiries",   icon: Mail,            badge: null },

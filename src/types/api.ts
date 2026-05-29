@@ -148,3 +148,15 @@ export interface Catalogue {
   hasPdf?: boolean;
 }
 
+export interface Service {
+  id: string;
+  slug: string;
+  title: string;
+  description?: string;
+  category?: string;
+  icon?: string;
+  image: string;
+  status: string;
+  createdAt: string;
+}
+

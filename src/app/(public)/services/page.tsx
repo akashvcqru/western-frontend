@@ -25,17 +25,43 @@ import {
   TrendingUp,
   FileCheck,
   Phone,
-  Mail
+  Mail,
+  Loader2
 } from "lucide-react";
 import QuoteModal from "@/components/common/QuoteModal";
 import { AppRoutes } from "@/constants/routes";
 import { PageHeader } from "@/components/ui";
 import { cn } from "@/lib/utils";
 import siteContent from "@/data/site-content.json";
+import { useGetServicesQuery } from "@/redux/api/servicesApi";
+
+const iconMap: Record<string, React.ComponentType<any>> = {
+  layers: Layers,
+  columns: Columns,
+  maximize: Maximize,
+  paintbrush: Paintbrush,
+  trees: Trees,
+  shield: Shield,
+  layoutgrid: LayoutGrid,
+  grid: Grid,
+  cloud: Cloud,
+  wind: Wind,
+  zap: Zap,
+  layout: Layout,
+  sparkles: Sparkles
+};
+
+function getIconComponent(iconName?: string) {
+  if (!iconName) return Sparkles;
+  const key = iconName.toLowerCase().replace(/[^a-z]/g, "");
+  return iconMap[key] || Sparkles;
+}
 
 export default function ServicesPage() {
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState("all");
+
+  const { data: servicesResponse, isLoading } = useGetServicesQuery({ limit: 1000 });
 
   const categories = [
     { id: "all", label: "All Services" },
@@ -43,113 +69,6 @@ export default function ServicesPage() {
     { id: "flooring", label: "Flooring & Tiles" },
     { id: "ceiling", label: "Ceiling & Comfort" },
     { id: "infrastructure", label: "Infrastructure" }
-  ];
-
-  const services = [
-    {
-      title: "Modular Partitions",
-      slug: "modular-partition",
-      desc: "Flexible, soundproof, and reconfigurable workspace divider systems optimized for dynamic floor planning.",
-      category: "partitions",
-      icon: Layers,
-      image: "https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=2070&auto=format&fit=crop"
-    },
-    {
-      title: "Glass & Gypsum Partitions",
-      slug: "glass-gypsum-partition",
-      desc: "Seamless double-glazed glass panels and sturdy gypsum structures that balance spatial light and acoustic isolation.",
-      category: "partitions",
-      icon: Columns,
-      image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=2070&auto=format&fit=crop"
-    },
-    {
-      title: "Solid Wall Partitions",
-      slug: "solid-wall-partition",
-      desc: "Sturdy, fully sound-insulated floor-to-ceiling solid partitions designed to secure executive privacy and boardroom focus.",
-      category: "partitions",
-      icon: Maximize,
-      image: "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2070&auto=format&fit=crop"
-    },
-    {
-      title: "Aluminum Partitions",
-      slug: "aluminum-partitions",
-      desc: "Highly durable, sleek-profile aluminum frames customized with composite panel integrations for modern partitions.",
-      category: "partitions",
-      icon: Paintbrush,
-      image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=2069&auto=format&fit=crop"
-    },
-    {
-      title: "Wooden Flooring",
-      slug: "wooden-flooring",
-      desc: "Premium engineered oak, walnut, and teak floor layouts tailored to elevate leadership suites and high-end boardrooms.",
-      category: "flooring",
-      icon: Trees,
-      image: "https://images.unsplash.com/photo-1581850518616-bcb8186c3f30?q=80&w=2070&auto=format&fit=crop"
-    },
-    {
-      title: "Vinyl Flooring",
-      slug: "vinyl-flooring",
-      desc: "Heavy-duty resilient sheets and interlocking plank systems engineered to withstand heavy, high-traffic commercial environments.",
-      category: "flooring",
-      icon: Shield,
-      image: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=2070&auto=format&fit=crop"
-    },
-    {
-      title: "Vitrified Tiles",
-      slug: "vitrified-tiles",
-      desc: "Luxury double-charged vitrified tile grids styled for impressive high-gloss reception lobbies and corporate cafeterias.",
-      category: "flooring",
-      icon: LayoutGrid,
-      image: "https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf?q=80&w=2070&auto=format&fit=crop"
-    },
-    {
-      title: "False Flooring",
-      slug: "false-flooring",
-      desc: "Raised modular access floor paneling designed to route hidden electrical, server cooling, and telecom networking grids.",
-      category: "flooring",
-      icon: Grid,
-      image: "https://images.unsplash.com/photo-1595844730298-b960ff98fee0?q=80&w=2070&auto=format&fit=crop"
-    },
-    {
-      title: "False Ceiling Design",
-      slug: "false-ceiling-design",
-      desc: "Aesthetic suspended ceiling rafters, ambient grid ceilings, and drop light designs integrating smart office utilities.",
-      category: "ceiling",
-      icon: Cloud,
-      image: "https://images.unsplash.com/photo-1507089947368-19c1da9775ae?q=80&w=2070&auto=format&fit=crop"
-    },
-    {
-      title: "AC & Ducting",
-      slug: "ac-ducting",
-      desc: "Precision-designed central HVAC ventilation, VRV systems, and custom duct installations for optimal indoor airflow.",
-      category: "ceiling",
-      icon: Wind,
-      image: "https://images.unsplash.com/photo-1581094288338-2314dddb7ec4?q=80&w=2070&auto=format&fit=crop"
-    },
-    {
-      title: "Electrical & Networking",
-      slug: "electrical-networking",
-      desc: "Certified commercial power cabling, safety distribution boards, and structured server room networking installations.",
-      category: "infrastructure",
-      icon: Zap,
-      image: "https://images.unsplash.com/photo-1517502884422-41eaead166d4?q=80&w=2070&auto=format&fit=crop"
-    },
-    {
-      title: "Office Interiors",
-      slug: "office-interiors",
-      desc: "End-to-end turnkey office layout execution, spatial fitouts, and strategic employee desks architecture.",
-      category: "infrastructure",
-      icon: Layout,
-      image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop"
-    },
-    {
-      title: "Interiors & Decoration",
-      slug: "interiors-decoration",
-      desc: "Tailored brand styling elements, custom wall graphic claddings, ergonomic accents, and premium office artifacts.",
-      category: "infrastructure",
-      icon: Sparkles,
-      image: "https://images.unsplash.com/photo-1618219908412-a29a1bb7b86e?q=80&w=2070&auto=format&fit=crop"
-    }
   ];
 
   const metrics = [
@@ -182,9 +101,19 @@ export default function ServicesPage() {
     }
   ];
 
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <Loader2 className="w-10 h-10 text-primary animate-spin" />
+      </div>
+    );
+  }
+
+  const servicesList = servicesResponse?.data || [];
+
   const filteredServices = activeCategory === "all"
-    ? services
-    : services.filter(service => service.category === activeCategory);
+    ? servicesList
+    : servicesList.filter(service => service.category === activeCategory);
 
   return (
     <main className="bg-white min-h-screen">
@@ -322,60 +251,65 @@ export default function ServicesPage() {
 
           {/* Dynamic Grid of Services */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
-            {filteredServices.map((service, i) => (
-              <Link 
-                key={service.slug}
-                href={`/services/${service.slug}`}
-                className="bg-white border border-neutral-200/70 rounded-xl hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.06)] hover:border-primary/20 transition-all duration-500 group overflow-hidden flex flex-col justify-between shadow-soft animate-in fade-in slide-in-from-bottom-6 duration-700"
-                style={{ animationDelay: `${i * 30}ms` }}
-              >
-                <div>
-                  {/* Thumbnail Image Container */}
-                  <div className="aspect-video relative overflow-hidden bg-neutral-50 border-b border-neutral-100">
-                     <Image 
-                       src={service.image}
-                       alt={service.title}
-                       fill
-                       sizes="(max-w-768px) 100vw, (max-w-1200px) 50vw, 33vw"
-                       className="object-cover transition-transform duration-1000 group-hover:scale-105 grayscale group-hover:grayscale-0"
-                     />
-                     {/* Dynamic Dark Gradient Overlay */}
-                     <div className="absolute inset-0 bg-neutral-950/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                     
-                     {/* Category Mini Badge */}
-                     <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full border border-neutral-200/40 shadow-sm text-[8px] font-bold uppercase tracking-widest text-secondary opacity-90">
-                       {categories.find(c => c.id === service.category)?.label.split(" ")[0]}
-                     </div>
-                  </div>
-
-                  {/* Details Container */}
-                  <div className="p-8 space-y-5">
-                    {/* Icon Container */}
-                    <div className="w-12 h-12 bg-neutral-50 text-secondary group-hover:bg-primary group-hover:text-white flex items-center justify-center rounded-lg transition-all duration-500 border border-neutral-100 group-hover:shadow-md group-hover:shadow-primary/10 group-hover:rotate-3 shrink-0 shadow-inner">
-                      <service.icon size={20} strokeWidth={1.5} />
+            {filteredServices.map((service, i) => {
+              const IconComponent = getIconComponent(service.icon);
+              return (
+                <Link 
+                  key={service.slug}
+                  href={`/services/${service.slug}`}
+                  className="bg-white border border-neutral-200/70 rounded-xl hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.06)] hover:border-primary/20 transition-all duration-500 group overflow-hidden flex flex-col justify-between shadow-soft animate-in fade-in slide-in-from-bottom-6 duration-700"
+                  style={{ animationDelay: `${i * 30}ms` }}
+                >
+                  <div>
+                    {/* Thumbnail Image Container */}
+                    <div className="aspect-video relative overflow-hidden bg-neutral-50 border-b border-neutral-100">
+                       <Image 
+                         src={service.image}
+                         alt={service.title}
+                         fill
+                         sizes="(max-w-768px) 100vw, (max-w-1200px) 50vw, 33vw"
+                         className="object-cover transition-transform duration-1000 group-hover:scale-105 grayscale group-hover:grayscale-0"
+                       />
+                       {/* Dynamic Dark Gradient Overlay */}
+                       <div className="absolute inset-0 bg-neutral-950/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                       
+                       {/* Category Mini Badge */}
+                       <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full border border-neutral-200/40 shadow-sm text-[8px] font-bold uppercase tracking-widest text-secondary opacity-90">
+                         {categories.find(c => c.id === service.category)?.label.split(" ")[0] || "Service"}
+                       </div>
                     </div>
 
-                    <div className="space-y-2">
-                      <h3 className="text-lg md:text-xl font-bold tracking-tight text-secondary group-hover:text-primary transition-colors duration-300 leading-tight">
-                        {service.title}
-                      </h3>
-                      <p className="text-neutral-500 font-normal leading-relaxed text-xs md:text-sm line-clamp-3">
-                        {service.desc}
-                      </p>
+                    {/* Details Container */}
+                    <div className="p-8 space-y-5">
+                      {/* Icon Container */}
+                      <div className="w-12 h-12 bg-neutral-50 text-secondary group-hover:bg-primary group-hover:text-white flex items-center justify-center rounded-lg transition-all duration-500 border border-neutral-100 group-hover:shadow-md group-hover:shadow-primary/10 group-hover:rotate-3 shrink-0 shadow-inner">
+                        <IconComponent size={20} strokeWidth={1.5} />
+                      </div>
+
+                      <div className="space-y-2">
+                        <h3 className="text-lg md:text-xl font-bold tracking-tight text-secondary group-hover:text-primary transition-colors duration-300 leading-tight">
+                          {service.title}
+                        </h3>
+                        {service.description && (
+                          <p className="text-neutral-500 font-normal leading-relaxed text-xs md:text-sm line-clamp-3">
+                            {service.description}
+                          </p>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                {/* Footer Action Tag */}
-                <div className="px-8 pb-8 pt-1">
-                  <div className="w-full h-[1px] bg-neutral-100 group-hover:bg-neutral-200/50 transition-colors mb-5" />
-                  <div className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-widest text-primary transition-all duration-500 group-hover:translate-x-1">
-                    Explore Detailed Solution 
-                    <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
+                  {/* Footer Action Tag */}
+                  <div className="px-8 pb-8 pt-1">
+                    <div className="w-full h-[1px] bg-neutral-100 group-hover:bg-neutral-200/50 transition-colors mb-5" />
+                    <div className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-widest text-primary transition-all duration-500 group-hover:translate-x-1">
+                      Explore Detailed Solution 
+                      <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
+                    </div>
                   </div>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              );
+            })}
           </div>
 
           {/* Empty state if filtered results are 0 */}
