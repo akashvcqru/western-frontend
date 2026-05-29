@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
 import siteContent from "@/data/site-content.json";
 import { useGetBrandsQuery } from "@/redux/api/brandsApi";
 import { Loader2 } from "lucide-react";

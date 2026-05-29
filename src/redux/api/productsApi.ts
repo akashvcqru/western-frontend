@@ -30,7 +30,7 @@ export const productsApi = apiSlice.injectEndpoints({
     }),
     getProductByIdOrSlug: builder.query<ApiResponse<Product>, string>({
       query: (idOrSlug) => `/api/products/${idOrSlug}`,
-      providesTags: (result, error, idOrSlug) => [{ type: "Product", id: idOrSlug }],
+      providesTags: (_, __, idOrSlug) => [{ type: "Product", id: idOrSlug }],
     }),
   }),
 });

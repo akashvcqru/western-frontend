@@ -42,7 +42,7 @@ export const categoriesApi = apiSlice.injectEndpoints({
         method: "PUT",
         body,
       }),
-      invalidatesTags: (result, error, { id }) => [
+      invalidatesTags: (_, __, { id }) => [
         { type: "Category", id },
         { type: "Category", id: "LIST" },
       ],
@@ -93,7 +93,7 @@ export const categoriesApi = apiSlice.injectEndpoints({
         method: "PUT",
         body,
       }),
-      invalidatesTags: (result, error, { id }) => [
+      invalidatesTags: (_, __, { id }) => [
         { type: "SubCategory", id },
         { type: "SubCategory", id: "LIST" },
       ],

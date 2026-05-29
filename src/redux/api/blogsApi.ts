@@ -28,7 +28,7 @@ export const blogsApi = apiSlice.injectEndpoints({
     }),
     getBlogByIdOrSlug: builder.query<ApiResponse<BlogPost>, string>({
       query: (idOrSlug) => `/api/blogs/${idOrSlug}`,
-      providesTags: (result, error, idOrSlug) => [{ type: "BlogPost", id: idOrSlug }],
+      providesTags: (_, __, idOrSlug) => [{ type: "BlogPost", id: idOrSlug }],
     }),
   }),
 });

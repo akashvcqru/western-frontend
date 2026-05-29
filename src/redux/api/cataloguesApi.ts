@@ -29,7 +29,7 @@ export const cataloguesApi = apiSlice.injectEndpoints({
     }),
     getCatalogueById: builder.query<ApiResponse<Catalogue>, string>({
       query: (id) => `/api/catalogues/${id}`,
-      providesTags: (result, error, id) => [{ type: "Catalogue", id }],
+      providesTags: (_, __, id) => [{ type: "Catalogue", id }],
     }),
     createCatalogue: builder.mutation<ApiResponse<Catalogue>, Partial<Catalogue>>({
       query: (body) => ({
@@ -48,7 +48,7 @@ export const cataloguesApi = apiSlice.injectEndpoints({
         method: "PUT",
         body,
       }),
-      invalidatesTags: (result, error, { id }) => [
+      invalidatesTags: (_, __, { id }) => [
         { type: "Catalogue", id },
         { type: "Catalogue", id: "LIST" },
       ],
@@ -65,7 +65,6 @@ export const cataloguesApi = apiSlice.injectEndpoints({
 
 export const {
   useGetCataloguesQuery,
-  useGetCatalogueByIdQuery,
   useLazyGetCatalogueByIdQuery,
   useCreateCatalogueMutation,
   useUpdateCatalogueMutation,

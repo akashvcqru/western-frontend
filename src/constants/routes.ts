@@ -27,5 +27,3 @@ export const AppRoutes = {
     Catalogues: "/admin/catalogues",
   },
 } as const;
-
-export type AppRouteType = typeof AppRoutes;

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Component, type ErrorInfo, type ReactNode } from 'react';
+import { Component, type ErrorInfo, type ReactNode } from "react";
 import { RefreshCw, Home, ChevronDown, ChevronUp } from 'lucide-react';
 
 

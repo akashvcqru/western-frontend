@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { MapPin, Factory, Truck, ShieldCheck, Award } from "lucide-react";
 import siteContent from "@/data/site-content.json";
 

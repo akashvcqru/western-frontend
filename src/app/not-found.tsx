@@ -1,6 +1,5 @@
 "use client";
 
-import React from 'react';
 import { Home, Search, ArrowLeft } from 'lucide-react';
 
 

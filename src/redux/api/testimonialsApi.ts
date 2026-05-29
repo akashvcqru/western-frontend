@@ -73,7 +73,7 @@ export const testimonialsApi = apiSlice.injectEndpoints({
         method: "PUT",
         body,
       }),
-      invalidatesTags: (result, error, { id }) => [
+      invalidatesTags: (_, __, { id }) => [
         { type: "Testimonial", id },
         { type: "Testimonial", id: "LIST" },
       ],
