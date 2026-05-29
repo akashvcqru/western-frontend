@@ -153,12 +153,8 @@ function GalleryContent({ categorySlug }: { categorySlug?: string }) {
         bgImage="/hero-bg.png"
         badgeIcon={Camera}
         badgeText={galleryPage.hero.badge}
-        title={
-          <h1 
-            className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight tracking-tight uppercase"
-            dangerouslySetInnerHTML={{ __html: galleryPage.hero.title }}
-          />
-        }
+        titlePrefix="Project"
+        titleHighlight="Showcase."
         subtitle={galleryPage.hero.subtitle}
       />
 

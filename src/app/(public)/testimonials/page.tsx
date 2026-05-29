@@ -163,12 +163,8 @@ export default function TestimonialsPage() {
       <PageHeader
         bgImage="https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop"
         badgeText={testimonialsPage.hero.badge}
-        title={
-          <h1 
-            className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight tracking-tight uppercase"
-            dangerouslySetInnerHTML={{ __html: testimonialsPage.hero.title }}
-          />
-        }
+        titlePrefix="What Our"
+        titleHighlight="Clients Say."
         subtitle={testimonialsPage.hero.subtitle}
       />
 

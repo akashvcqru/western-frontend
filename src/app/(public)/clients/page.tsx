@@ -124,14 +124,16 @@ export default function ClientsPage() {
                   className="relative bg-white rounded-xl border border-neutral-100/70 p-6 flex flex-col items-center justify-between text-center overflow-hidden h-52 shadow-[0_8px_30px_rgba(0,0,0,0.015)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.04)] hover:border-neutral-200 transition-all duration-300"
                 >
                   {/* Logo Area: Styled Container with pure white background to integrate actual logo seamlessly */}
-                  <div className="w-full h-16 flex items-center justify-center bg-white rounded-lg border border-neutral-50 p-2 shadow-sm shrink-0">
-                    <Image
-                      src={brand.url}
-                      alt={brand.name}
-                      width={130}
-                      height={52}
-                      className="object-contain hover:scale-105 transition-all duration-300"
-                    />
+                  <div className="w-24 h-24 flex items-center justify-center bg-white rounded-lg border border-neutral-50 p-2 shadow-sm shrink-0">
+                    <div className="relative w-full h-full">
+                      <Image
+                        src={brand.url}
+                        alt={brand.name}
+                        fill
+                        sizes="96px"
+                        className="object-contain hover:scale-105 transition-all duration-300"
+                      />
+                    </div>
                   </div>
 
                   {/* Brand Meta Details */}
