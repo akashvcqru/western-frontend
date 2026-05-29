@@ -29,7 +29,15 @@ interface SliderSettings {
 }
 
 export default function HeroSection({ onOpenQuote }: HeroSectionProps) {
-  const [settings, setSettings] = useState<SliderSettings | null>(null);
+  const [settings, setSettings] = useState<SliderSettings | null>({
+    heading: "Welcome to Western Interio",
+    description: "Think to design beyond. Please upload showcase images or configure slide settings in the admin panel to populate this slider.",
+    buttonText: "Start Your Project",
+    buttonLink: "#quote",
+    images: [
+      "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop"
+    ]
+  });
   const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
