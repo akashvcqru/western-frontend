@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useGetGalleryQuery } from "@/redux/api/galleryApi";
+import { slugify } from "@/lib/utils";
 
 export default function SpaceSection() {
   const { data: galleryResult } = useGetGalleryQuery({ limit: 1000 });
@@ -23,7 +24,7 @@ export default function SpaceSection() {
 
     return Object.entries(groups).map(([category, image]) => ({
       title: category,
-      href: `/gallery?category=${encodeURIComponent(category)}`,
+      href: `/gallery/${slugify(category)}`,
       image: image,
     }));
   }, [galleryResult]);
@@ -31,22 +32,22 @@ export default function SpaceSection() {
   const fallbackSpaces = [
     {
       title: "Executive Cabin",
-      href: "/gallery?category=Executive Cabin",
+      href: `/gallery/${slugify("Executive Cabin")}`,
       image: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=2070&auto=format&fit=crop"
     },
     {
       title: "Conference Room",
-      href: "/gallery?category=Conference Room",
+      href: `/gallery/${slugify("Conference Room")}`,
       image: "https://images.unsplash.com/photo-1577412647305-991150c7d163?q=80&w=2070&auto=format&fit=crop"
     },
     {
       title: "Open Workspace",
-      href: "/gallery?category=Open Workspace",
+      href: `/gallery/${slugify("Open Workspace")}`,
       image: "https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=2070&auto=format&fit=crop"
     },
     {
       title: "Reception Area",
-      href: "/gallery?category=Reception Area",
+      href: `/gallery/${slugify("Reception Area")}`,
       image: "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2070&auto=format&fit=crop"
     }
   ];

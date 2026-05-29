@@ -1,7 +1,7 @@
 "use client";
 
 import React, { Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import {
   ArrowUpRight,
@@ -17,7 +17,7 @@ import {
 
 import { QuoteModal } from "@/components/common";
 import { PageHeader } from "@/components/ui";
-import { cn } from "@/lib/utils";
+import { cn, slugify } from "@/lib/utils";
 
 import galleryItemsRaw from "@/data/gallery.json";
 import siteContent from "@/data/site-content.json";
@@ -32,28 +32,29 @@ interface RawGalleryItem {
 
 const fallbackGalleryItems = galleryItemsRaw as RawGalleryItem[];
 
-export default function GalleryPage() {
+interface PageProps {
+  params: Promise<{
+    category?: string[];
+  }>;
+}
+
+export default function GalleryPage({ params }: PageProps) {
+  const unwrappedParams = React.use(params);
+  const categorySlug = unwrappedParams.category?.[0];
+
   return (
     <Suspense fallback={
       <div className="min-h-screen flex items-center justify-center bg-white">
         <Loader2 className="animate-spin text-primary" size={32} />
       </div>
     }>
-      <GalleryContent />
+      <GalleryContent categorySlug={categorySlug} />
     </Suspense>
   );
 }
 
-function GalleryContent() {
-  const searchParams = useSearchParams();
-  const categoryParam = searchParams.get("category");
-  const [selectedCategory, setSelectedCategory] = React.useState<string>("All");
-
-  React.useEffect(() => {
-    if (categoryParam) {
-      setSelectedCategory(categoryParam);
-    }
-  }, [categoryParam]);
+function GalleryContent({ categorySlug }: { categorySlug?: string }) {
+  const router = useRouter();
   const [selectedIndex, setSelectedIndex] = React.useState<number | null>(null);
   const [lightboxItems, setLightboxItems] = React.useState<GalleryItem[]>([]);
   const [isQuoteOpen, setIsQuoteOpen] = React.useState(false);
@@ -80,6 +81,13 @@ function GalleryContent() {
   const categories = React.useMemo(() => {
     return ["All", ...Array.from(new Set(gallery.map((item) => item.category)))];
   }, [gallery]);
+
+  // Find original category name from the URL slug
+  const selectedCategory = React.useMemo(() => {
+    if (!categorySlug) return "All";
+    const found = categories.find((cat) => slugify(cat) === categorySlug);
+    return found || "All";
+  }, [categorySlug, categories]);
 
   // Group gallery items by category
   const groupedGallery = React.useMemo(() => {
@@ -178,8 +186,12 @@ function GalleryContent() {
                   <button
                     key={category}
                     onClick={() => {
-                      setSelectedCategory(category);
                       setSelectedIndex(null); // Close lightbox on filter change
+                      if (category === "All") {
+                        router.push("/gallery");
+                      } else {
+                        router.push(`/gallery/${slugify(category)}`);
+                      }
                     }}
                     className={cn(
                       "px-5 py-2.5 text-xs font-bold tracking-wider uppercase transition-all duration-300 whitespace-nowrap cursor-pointer flex items-center gap-2 border",
