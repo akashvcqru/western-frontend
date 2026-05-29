@@ -1,5 +1,3 @@
-import productsData from "@/data/products.json";
-
 export const CATEGORY_ALIAS_MAP: Record<string, string[]> = {
   "modular-kitchen-series": ["kitchen-designs"],
   "kitchen-designs": ["kitchen-designs"],
@@ -57,22 +55,5 @@ export const CATEGORY_ALIAS_MAP: Record<string, string[]> = {
 export const resolveCategorySlugs = (slug: string): string[] => {
   const normalized = slug.trim().toLowerCase();
   return CATEGORY_ALIAS_MAP[normalized] || [normalized];
-};
-
-// Function to calculate counts for any standard or alias category slug
-export const getProductCountBySlug = (slug: string): number => {
-  const resolved = resolveCategorySlugs(slug);
-  let products = productsData;
-  if (typeof window !== "undefined") {
-    const stored = sessionStorage.getItem("bdm_products");
-    if (stored) {
-      try {
-        products = JSON.parse(stored);
-      } catch {
-        // fallback
-      }
-    }
-  }
-  return products.filter((p: { category: string }) => resolved.includes(p.category)).length;
 };
 

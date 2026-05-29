@@ -42,7 +42,7 @@ export const brandsApi = apiSlice.injectEndpoints({
         method: "PUT",
         body,
       }),
-      invalidatesTags: (result, error, { id }) => [
+      invalidatesTags: (_, __, { id }) => [
         { type: "Brand", id },
         { type: "Brand", id: "LIST" },
       ],

@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import Link from "next/link";
 import { House, ChevronRight } from "lucide-react";
 import { AppRoutes } from "@/constants/routes";

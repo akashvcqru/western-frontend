@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import siteContent from "@/data/site-content.json";
 
 export default function WhatsAppWidget() {

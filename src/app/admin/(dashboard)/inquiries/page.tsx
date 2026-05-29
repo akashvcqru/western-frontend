@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Mail, CheckCircle, Eye, Phone, Calendar, User, MessageSquare, AlertCircle } from "lucide-react";
 import { Card, AppModal, useAppToast, AdminPageHeader, Pagination, SearchInput } from "@/components/ui";
 import { AppRoutes } from "@/constants/routes";

@@ -22,13 +22,6 @@ export interface PaginatedApiResponse<T> {
   pagination: PaginationMeta;
 }
 
-/** Error response */
-export interface ErrorApiResponse {
-  success: false;
-  message: string;
-  errors: string[];
-}
-
 // ─── Domain Model Types (mirror backend) ────────────────────────────────────
 
 export interface BlogPost {
