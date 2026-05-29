@@ -137,16 +137,6 @@ export default function AboutPage() {
                 <div className="absolute inset-0 bg-secondary/5 group-hover:bg-transparent transition-colors duration-1000" />
               </div>
 
-              {/* Overlapping Detail Frame */}
-              <div className="absolute -bottom-10 -left-10 w-[55%] aspect-square rounded-xl overflow-hidden border-8 border-white bg-white shadow-2xl z-20 hidden sm:block group/sub hover:z-30 transition-all duration-500">
-                <Image 
-                  src="https://images.unsplash.com/photo-1524758631624?q=80&w=2070&auto=format&fit=crop"
-                  alt="Workspace Precision Manufacturing Detail"
-                  fill
-                  sizes="20vw"
-                  className="object-cover group-hover/sub:scale-105 transition-transform duration-1000"
-                />
-              </div>
 
               {/* Top-Right Floating Quality Badge (Glassmorphic) */}
               <div className="absolute -top-6 -right-4 z-30 bg-white/90 backdrop-blur-md px-5 py-3 rounded-xl border border-neutral-100 shadow-premium flex items-center gap-3 animate-pulse hover:animate-none duration-1000">
