@@ -132,11 +132,11 @@ export default function NewProductPage() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (file.size > 3.5 * 1024 * 1024) {
+    if (file.size > 10 * 1024) {
       addToast({
         title: "File Too Large",
-        message: "Please choose a file smaller than 3.5 MB so it fits in browser session storage.",
-        variant: "warning"
+        message: "Please choose a file smaller than 10KB.",
+        variant: "error"
       });
       return;
     }

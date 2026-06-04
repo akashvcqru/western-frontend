@@ -225,8 +225,8 @@ export default function AdminCataloguesPage() {
       addToast({ title: "Invalid File Type", message: "Please select a PDF file.", variant: "error" });
       return;
     }
-    if (file.size > 20 * 1024 * 1024) {
-      addToast({ title: "File Too Large", message: "PDF brochure exceeds the 20MB limit.", variant: "error" });
+    if (file.size > 10 * 1024) {
+      addToast({ title: "File Too Large", message: "PDF brochure exceeds the 10KB limit.", variant: "error" });
       return;
     }    const reader = new FileReader();
     reader.onloadend = () => {
@@ -571,7 +571,7 @@ export default function AdminCataloguesPage() {
               >
                 <FileText size={20} className={`mb-1.5 transition-colors ${isPdfDragging ? "text-[#ed1c27]" : "text-gray-400"}`} />
                 <span className="text-[10px] font-bold uppercase tracking-wider text-gray-500 text-center">Drag &amp; Drop PDF brochure or Click to Upload</span>
-                <span className="text-[8px] text-gray-400 mt-0.5 text-center">Only PDF files (Max 20MB)</span>
+                <span className="text-[8px] text-gray-400 mt-0.5 text-center">Only PDF files (Max 10KB)</span>
                 <input id="pdf-file-input" type="file" accept="application/pdf" onChange={handlePdfFileChange} className="hidden" />
               </div>
               {pdfFileName && (
