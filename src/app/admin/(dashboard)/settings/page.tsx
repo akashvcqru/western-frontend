@@ -269,14 +269,19 @@ export default function AdminSettingsPage() {
                         icon={<Mail size={16} />}
                         placeholder="info@westerninterio.in"
                       />
-                      <RHFControl
-                        control="input"
-                        name="phoneNumber"
-                        label="Phone Number"
-                        type="tel"
-                        icon={<Phone size={16} />}
-                        placeholder="+91 95406 41111"
-                      />
+                      <div>
+                        <RHFControl
+                          control="input"
+                          name="phoneNumber"
+                          label="Phone Number"
+                          type="text"
+                          icon={<Phone size={16} />}
+                          placeholder="+91 95406 41111, +91 98765 43210"
+                        />
+                        <p className="text-[10px] text-gray-400 font-medium mt-1.5 leading-normal">
+                          Enter multiple numbers separated by a comma (e.g. +91 95406 41111, +91 98765 43210) to display multiple direct hotlines.
+                        </p>
+                      </div>
                       <div className="md:col-span-2">
                         <RHFControl
                           control="textarea"

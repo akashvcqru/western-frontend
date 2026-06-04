@@ -108,7 +108,7 @@ export default function Header() {
           )}
         >
           <div className="max-w-[1440px] mx-auto flex justify-between items-center text-[10px] font-bold tracking-[0.1em] xl:tracking-[0.2em] uppercase transition-all duration-300">
-            <div className="flex items-center gap-5 xl:gap-10">
+            <div className="flex items-center gap-8 xl:gap-14">
               <a
                 href={`mailto:${common.contact.email}`}
                 className="flex items-center gap-2 lg:gap-2.5 group cursor-pointer transition-all hover:text-white"
