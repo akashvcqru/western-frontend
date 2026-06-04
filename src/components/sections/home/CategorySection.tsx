@@ -12,7 +12,7 @@ export default function CategorySection() {
 
   const categories = React.useMemo(() => {
     if (!categoriesResult?.data) return [];
-    return categoriesResult.data.filter((c) => c.status === "Active");
+    return categoriesResult.data.filter((c) => c.status === "Active" && (!c.location || c.location.toLowerCase() === "header"));
   }, [categoriesResult]);
 
   const [activeIndex, setActiveIndex] = React.useState(0);

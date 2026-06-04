@@ -76,6 +76,7 @@ export interface Category {
   count: number;
   image: string;
   status: string;
+  location?: string;
 }
 
 export interface SubCategory {

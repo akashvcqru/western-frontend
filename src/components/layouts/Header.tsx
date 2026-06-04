@@ -47,7 +47,7 @@ export default function Header() {
   const { data: subCategoriesResult, isLoading: subsLoading } = useGetSubCategoriesQuery({ limit: 100 });
 
   const activeCategories = React.useMemo(() => {
-    return categoriesResult?.data?.filter((c) => c.status === "Active") ?? [];
+    return categoriesResult?.data?.filter((c) => c.status === "Active" && (!c.location || c.location.toLowerCase() === "header")) ?? [];
   }, [categoriesResult]);
 
   const activeSubCategories = React.useMemo(() => {

@@ -12,7 +12,7 @@ import { useGetCategoriesQuery } from "@/redux/api/categoriesApi";
 export default function CategoriesPage() {
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
   const { data: categoriesResult, isLoading } = useGetCategoriesQuery({ limit: 100 });
-  const categories = categoriesResult?.data?.filter(c => c.status === "Active") || [];
+  const categories = categoriesResult?.data?.filter(c => c.status === "Active" && (!c.location || c.location.toLowerCase() === "header")) || [];
 
   if (isLoading) {
     return (

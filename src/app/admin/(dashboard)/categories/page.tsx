@@ -27,10 +27,11 @@ const categorySchema = yup.object().shape({
     .string()
     .required("Category Name is required")
     .min(3, "Category Name must be at least 3 characters")
-    .max(10, "Category Name cannot exceed 10 characters"),
+    .max(25, "Category Name cannot exceed 25 characters"),
   description: yup.string().required("Description is required"),
   image: yup.string().required("Image is required"),
   status: yup.string().required("Status is required"),
+  location: yup.string().required("Location is required"),
 });
 
 const subCategorySchema = yup.object().shape({
@@ -142,7 +143,7 @@ export default function AdminCategoriesPage() {
   // Form setups
   const categoryMethods = useForm<CategoryFormData>({
     resolver: yupResolver(categorySchema) as Resolver<CategoryFormData>,
-    defaultValues: { id: "", name: "", description: "", image: "", status: "Active" },
+    defaultValues: { id: "", name: "", description: "", image: "", status: "Active", location: "Header" },
   });
 
   const subCategoryMethods = useForm<SubCategoryFormData>({
@@ -160,9 +161,10 @@ export default function AdminCategoriesPage() {
             description: editingCategory.description,
             image: editingCategory.image,
             status: editingCategory.status,
+            location: editingCategory.location || "Header",
           });
         } else {
-          categoryMethods.reset({ id: "", name: "", description: "", image: "", status: "Active" });
+          categoryMethods.reset({ id: "", name: "", description: "", image: "", status: "Active", location: "Header" });
         }
       } else {
         if (editingSubCategory) {
@@ -205,7 +207,13 @@ export default function AdminCategoriesPage() {
   // ─── Form Submission ───────────────────────────────────────────────────────
   const onSubmitCategory = async (data: CategoryFormData) => {
     try {
-      const payload = { name: data.name, description: data.description, image: data.image, status: data.status };
+      const payload = {
+        name: data.name,
+        description: data.description,
+        image: data.image,
+        status: data.status,
+        location: data.location,
+      };
       if (editingCategory) {
         await updateCategory({ id: editingCategory.id, body: payload }).unwrap();
         addToast({ title: "Category Updated", message: `"${data.name}" category was updated successfully.`, variant: "success" });
@@ -576,6 +584,16 @@ export default function AdminCategoriesPage() {
                 options={[
                   { label: "Active", value: "Active" },
                   { label: "Inactive", value: "Inactive" },
+                ]}
+                className="rounded-xl"
+              />
+              <RHFControl
+                control="select"
+                name="location"
+                label="Location *"
+                options={[
+                  { label: "Header", value: "Header" },
+                  { label: "Footer", value: "Footer" },
                 ]}
                 className="rounded-xl"
               />

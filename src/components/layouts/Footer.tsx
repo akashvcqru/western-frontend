@@ -48,7 +48,7 @@ export default function Footer() {
 
   const { data: categoriesResult } = useGetCategoriesQuery({ limit: 100 });
   const footerCategories = React.useMemo(() => {
-    return categoriesResult?.data?.filter((c) => c.status === "Active").slice(0, 6) ?? [];
+    return categoriesResult?.data?.filter((c) => c.status === "Active" && c.location?.toLowerCase() === "footer").slice(0, 6) ?? [];
   }, [categoriesResult]);
 
   const [isMounted, setIsMounted] = useState(false);

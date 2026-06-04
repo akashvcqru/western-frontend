@@ -26,7 +26,7 @@ export default function ProductsPage() {
   const { data: categoriesResult, isLoading } = useGetCategoriesQuery({ limit: 100 });
   
   const categories = React.useMemo(() => {
-    return categoriesResult?.data?.filter(c => c.status === "Active") || [];
+    return categoriesResult?.data?.filter(c => c.status === "Active" && (!c.location || c.location.toLowerCase() === "header")) || [];
   }, [categoriesResult]);
 
   if (isLoading) {
