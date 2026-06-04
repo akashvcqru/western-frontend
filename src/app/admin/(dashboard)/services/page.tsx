@@ -74,8 +74,8 @@ export default function AdminServicesPage() {
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    if (file.size > 2 * 1024 * 1024) {
-      addToast({ title: "File Too Large", message: "Please choose an image smaller than 2 MB.", variant: "warning" });
+    if (file.size > 102400) {
+      addToast({ title: "File Too Large", message: "Image size must not exceed 100KB.", variant: "error" });
       return;
     }
     const reader = new FileReader();
@@ -313,7 +313,7 @@ export default function AdminServicesPage() {
               <span className="text-xs text-gray-500 font-bold uppercase tracking-wider">
                 {formImage ? "Image Uploaded — Click to Replace" : "Upload Service Image"}
               </span>
-              <span className="text-[9px] text-gray-400 font-semibold uppercase tracking-widest">PNG, JPG or WEBP (Max 2MB)</span>
+              <span className="text-[9px] text-gray-400 font-semibold uppercase tracking-widest">PNG, JPG or WEBP (Max 100KB)</span>
               <input id="service-image-upload" type="file" accept="image/*" className="absolute inset-0 opacity-0 cursor-pointer" onChange={handleImageUpload} />
             </div>
             {formImage && (

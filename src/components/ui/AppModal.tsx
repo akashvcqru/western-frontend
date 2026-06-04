@@ -39,13 +39,24 @@ const AppModal: React.FC<AppModalProps> = ({
     useEffect(() => {
         if (isOpen) {
             document.body.style.overflow = 'hidden';
+            const mainEl = document.querySelector('main');
+            let mainSelectorCleanUp = false;
+            if (mainEl && (mainEl.classList.contains('overflow-y-auto') || mainEl.classList.contains('overflow-auto') || mainEl.style.overflow === 'auto')) {
+                mainEl.style.overflow = 'hidden';
+                mainSelectorCleanUp = true;
+            }
             const timer = setTimeout(() => {
                 setShow(true);
                 if (bodyRef.current) {
                     bodyRef.current.scrollTop = 0;
                 }
             }, 10);
-            return () => clearTimeout(timer);
+            return () => {
+                clearTimeout(timer);
+                if (mainSelectorCleanUp && mainEl) {
+                    mainEl.style.overflow = '';
+                }
+            };
         } else {
             const showTimer = setTimeout(() => {
                 setShow(false);
@@ -64,6 +75,10 @@ const AppModal: React.FC<AppModalProps> = ({
     useEffect(() => {
         return () => {
             document.body.style.overflow = 'auto';
+            const mainEl = document.querySelector('main');
+            if (mainEl) {
+                mainEl.style.overflow = '';
+            }
         };
     }, []);
 

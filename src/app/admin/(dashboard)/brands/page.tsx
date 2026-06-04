@@ -76,8 +76,8 @@ export default function AdminBrandsPage() {
   const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    if (file.size > 2 * 1024 * 1024) {
-      addToast({ title: "File Too Large", message: "Please choose an image smaller than 2 MB.", variant: "warning" });
+    if (file.size > 102400) {
+      addToast({ title: "File Too Large", message: "Logo image must not exceed 100KB.", variant: "error" });
       return;
     }
     const reader = new FileReader();
@@ -295,7 +295,7 @@ export default function AdminBrandsPage() {
               <span className="text-xs text-gray-500 font-bold uppercase tracking-wider">
                 {formLogo ? "Logo Uploaded — Click to Replace" : "Upload Brand Logo"}
               </span>
-              <span className="text-[9px] text-gray-400 font-semibold uppercase tracking-widest">Click or drag — PNG, JPG or SVG</span>
+              <span className="text-[9px] text-gray-400 font-semibold uppercase tracking-widest">Click or drag — PNG, JPG or SVG (Max 100KB)</span>
               <input id="brand-logo-upload" type="file" accept="image/*" className="absolute inset-0 opacity-0 cursor-pointer" onChange={handleLogoUpload} />
             </div>
             {formLogo && (

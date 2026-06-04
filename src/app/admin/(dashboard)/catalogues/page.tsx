@@ -195,8 +195,8 @@ export default function AdminCataloguesPage() {
       addToast({ title: "Invalid File Type", message: "Please select an image file.", variant: "error" });
       return;
     }
-    if (file.size > 2 * 1024 * 1024) {
-      addToast({ title: "File Too Large", message: "Cover image exceeds the 2MB limit.", variant: "error" });
+    if (file.size > 102400) {
+      addToast({ title: "File Too Large", message: "Cover image exceeds the 100KB limit.", variant: "error" });
       return;
     }
     const reader = new FileReader();
@@ -539,7 +539,7 @@ export default function AdminCataloguesPage() {
               >
                 <Upload size={20} className={`mb-1.5 transition-colors ${isImageDragging ? "text-[#ed1c27]" : "text-gray-400"}`} />
                 <span className="text-[10px] font-bold uppercase tracking-wider text-gray-500 text-center">Drag &amp; Drop cover image or Click to Upload</span>
-                <span className="text-[8px] text-gray-400 mt-0.5 text-center">Supports JPG, PNG, WEBP (Max 2MB)</span>
+                <span className="text-[8px] text-gray-400 mt-0.5 text-center">Supports JPG, PNG, WEBP (Max 100KB)</span>
                 <input id="cover-file-input" type="file" accept="image/*" onChange={handleImageFileChange} className="hidden" />
               </div>
               {coverImage && (

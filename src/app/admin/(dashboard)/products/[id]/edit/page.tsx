@@ -463,6 +463,15 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
                         const handleFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
                           const files = e.target.files;
                           if (!files || files.length === 0) return;
+                          const oversizedFiles = Array.from(files).filter(f => f.size > 102400);
+                          if (oversizedFiles.length > 0) {
+                            addToast({
+                              title: "File Too Large",
+                              message: "All images must be 100KB or smaller. Some files exceed this limit.",
+                              variant: "error",
+                            });
+                            return;
+                          }
                           const promises = Array.from(files).map(
                             (f) => new Promise<string>((res) => {
                               const r = new FileReader();
@@ -482,7 +491,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
                             <div className="border-2 border-dashed border-gray-200 hover:border-[#ed1c27]/50 rounded-xl p-8 flex flex-col items-center justify-center gap-2 bg-gray-50/50 relative group cursor-pointer transition-all duration-300 min-h-[160px]">
                               <Upload className="w-9 h-9 text-gray-300 group-hover:text-[#ed1c27] transition-colors duration-300" />
                               <span className="text-xs text-gray-500 font-bold uppercase tracking-wider">Upload Product Images</span>
-                              <span className="text-[9px] text-gray-400 font-semibold uppercase tracking-widest">Click or drag — multiple files allowed</span>
+                              <span className="text-[9px] text-gray-400 font-semibold uppercase tracking-widest">Click or drag — multiple files allowed (Max 100KB each)</span>
                               <input type="file" multiple accept="image/*" onChange={handleFiles} className="absolute inset-0 opacity-0 cursor-pointer" />
                             </div>
                             {field.value && field.value.length > 0 && (
@@ -587,6 +596,14 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
                         const handleBlueprint = (e: React.ChangeEvent<HTMLInputElement>) => {
                           const f = e.target.files?.[0];
                           if (!f) return;
+                          if (f.size > 102400) {
+                            addToast({
+                              title: "File Too Large",
+                              message: "Blueprint image size must not exceed 100KB.",
+                              variant: "error",
+                            });
+                            return;
+                          }
                           const r = new FileReader();
                           r.onloadend = () => field.onChange(r.result as string);
                           r.readAsDataURL(f);
@@ -604,7 +621,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
                             ) : (
                               <>
                                 <Upload className="w-6 h-6 text-gray-400 group-hover:text-[#ed1c27] transition-colors" />
-                                <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Upload Blueprint Image</span>
+                                <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Upload Blueprint Image (Max 100KB)</span>
                               </>
                             )}
                             <input type="file" accept="image/*" onChange={handleBlueprint} className="absolute inset-0 opacity-0 cursor-pointer" />

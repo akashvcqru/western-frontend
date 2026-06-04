@@ -135,8 +135,8 @@ export default function AdminGalleryPage() {
         addToast({ title: "Invalid File Type", message: `"${file.name}" is not an image.`, variant: "error" });
         return;
       }
-      if (file.size > 2 * 1024 * 1024) {
-        addToast({ title: "File Too Large", message: `"${file.name}" exceeds the 2MB limit.`, variant: "error" });
+      if (file.size > 102400) {
+        addToast({ title: "File Too Large", message: `"${file.name}" exceeds the 100KB limit.`, variant: "error" });
         return;
       }
       const reader = new FileReader();
@@ -359,7 +359,7 @@ export default function AdminGalleryPage() {
             >
               <Upload size={24} className={`mb-2 transition-colors ${isDragging ? "text-[#ed1c27]" : "text-gray-400"}`} />
               <span className="text-[11px] font-bold uppercase tracking-wider text-gray-500 text-center">Drag &amp; Drop files or Click to Upload</span>
-              <span className="text-[9px] text-gray-400 mt-1 text-center">Supports JPG, PNG, WEBP (Max 2MB per file, Max 5 images total)</span>
+              <span className="text-[9px] text-gray-400 mt-1 text-center">Supports JPG, PNG, WEBP (Max 100KB per file, Max 5 images total)</span>
               <input id="gallery-file-input" type="file" multiple accept="image/*" onChange={handleFileChange} className="hidden" />
             </div>
             {formImages.length > 0 && (

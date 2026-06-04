@@ -23,7 +23,11 @@ import type { Category, SubCategory } from "@/types/api";
 // Validation Schemas
 const categorySchema = yup.object().shape({
   id: yup.string(),
-  name: yup.string().required("Category Name is required").min(3, "Category Name must be at least 3 characters"),
+  name: yup
+    .string()
+    .required("Category Name is required")
+    .min(3, "Category Name must be at least 3 characters")
+    .max(10, "Category Name cannot exceed 10 characters"),
   description: yup.string().required("Description is required"),
   image: yup.string().required("Image is required"),
   status: yup.string().required("Status is required"),
@@ -31,7 +35,11 @@ const categorySchema = yup.object().shape({
 
 const subCategorySchema = yup.object().shape({
   id: yup.string(),
-  name: yup.string().required("Sub Category Name is required").min(3, "Sub Category Name must be at least 3 characters"),
+  name: yup
+    .string()
+    .required("Sub Category Name is required")
+    .min(3, "Sub Category Name must be at least 3 characters")
+    .max(12, "Sub Category Name cannot exceed 12 characters"),
   description: yup.string().required("Short Description is required"),
   image: yup.string().required("Image is required"),
   categoryId: yup.string().required("Parent Category is required"),
@@ -628,6 +636,14 @@ export default function AdminCategoriesPage() {
                           onChange={(e) => {
                             const file = e.target.files?.[0];
                             if (file) {
+                              if (file.size > 102400) {
+                                addToast({
+                                  title: "File Too Large",
+                                  message: "Image size must not exceed 100KB",
+                                  variant: "error",
+                                });
+                                return;
+                              }
                               const reader = new FileReader();
                               reader.onloadend = () => field.onChange(reader.result as string);
                               reader.readAsDataURL(file);
@@ -729,6 +745,14 @@ export default function AdminCategoriesPage() {
                           onChange={(e) => {
                             const file = e.target.files?.[0];
                             if (file) {
+                              if (file.size > 102400) {
+                                addToast({
+                                  title: "File Too Large",
+                                  message: "Image size must not exceed 100KB",
+                                  variant: "error",
+                                });
+                                return;
+                              }
                               const reader = new FileReader();
                               reader.onloadend = () => field.onChange(reader.result as string);
                               reader.readAsDataURL(file);

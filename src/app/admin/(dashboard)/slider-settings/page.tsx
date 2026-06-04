@@ -169,6 +169,15 @@ export default function AdminSliderSettingsPage() {
   const handleModalImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    if (file.size > 102400) {
+      addToast({
+        title: "File Too Large",
+        message: "Image size must not exceed 100KB",
+        variant: "error",
+      });
+      if (fileInputRef.current) fileInputRef.current.value = "";
+      return;
+    }
     const reader = new FileReader();
     reader.onloadend = () => {
       if (reader.result) {

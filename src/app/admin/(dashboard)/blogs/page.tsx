@@ -365,7 +365,7 @@ export default function AdminBlogsPage() {
         title={editingBlog ? "Edit Blog Post" : "Add New Blog Post"}
         size="lg"
       >
-        <form onSubmit={handleFormSubmit} className="space-y-4 max-h-[75vh] overflow-y-auto px-1">
+        <form onSubmit={handleFormSubmit} className="space-y-4 px-1">
           <div className="space-y-1">
             <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Blog Title *</label>
             <input type="text" required value={formTitle} onChange={e => setFormTitle(e.target.value)} placeholder="e.g. 5 Trends in Corporate Workspaces" className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium focus:outline-none focus:border-[#ed1c27]/40" />
@@ -466,7 +466,7 @@ export default function AdminBlogsPage() {
                 <>
                   <Upload className="w-8 h-8 text-gray-300 group-hover:text-[#ed1c27] transition-colors duration-300" />
                   <span className="text-xs text-gray-500 font-bold uppercase tracking-wider text-center">Upload Featured Image</span>
-                  <span className="text-[9px] text-gray-400 font-semibold uppercase tracking-widest text-center">Click or drag — PNG, JPG or WEBP (Max 2MB)</span>
+                  <span className="text-[9px] text-gray-400 font-semibold uppercase tracking-widest text-center">Click or drag — PNG, JPG or WEBP (Max 100KB)</span>
                 </>
               )}
               <input
@@ -478,8 +478,8 @@ export default function AdminBlogsPage() {
                 onChange={e => {
                   const file = e.target.files?.[0];
                   if (!file) return;
-                  if (file.size > 2 * 1024 * 1024) {
-                    addToast({ title: "File Too Large", message: "Please choose an image smaller than 2 MB.", variant: "warning" });
+                  if (file.size > 102400) {
+                    addToast({ title: "File Too Large", message: "Image size must not exceed 100KB.", variant: "error" });
                     return;
                   }
                   const reader = new FileReader();
