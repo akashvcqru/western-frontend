@@ -248,7 +248,7 @@ export default function ProductDetailPage() {
 
             {/* Specs - Minimalist Grid */}
             {product.specifications && (
-              <div className="grid grid-cols-2 gap-12">
+              <div className="grid grid-cols-3 gap-12">
                 {product.specifications.map((spec) => (
                   <div key={spec.label} className="space-y-2 group">
                     <p className="text-[10px] font-black text-neutral-300 uppercase tracking-[0.4em] group-hover:text-primary transition-colors">{spec.label}</p>

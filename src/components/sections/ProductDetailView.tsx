@@ -658,7 +658,7 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
 
               {/* Key specification markers display */}
               {product.specifications && product.specifications.length > 0 && (
-                <div className="grid grid-cols-2 gap-y-4 gap-x-8 pt-4 border-t border-neutral-100">
+                <div className="grid grid-cols-3 gap-y-4 gap-x-8 pt-4 border-t border-neutral-100">
                   {product.specifications.map((spec) => (
                     <div key={spec.label} className="space-y-1 group">
                       <span className="text-[9px] font-semibold text-neutral-400 uppercase tracking-widest block">
