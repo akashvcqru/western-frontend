@@ -26,16 +26,16 @@ import { useGetTestimonialsQuery, useCreateTestimonialMutation } from "@/redux/a
 // Validation schema for testimonials
 const testimonialSchema = yup.object().shape({
   author: yup.string().required("Your name is required").min(3, "Name must be at least 3 characters"),
-  designation: yup.string().required("Your job title is required"),
-  company: yup.string().required("Company name is required"),
+  designation: yup.string().optional().default(""),
+  company: yup.string().optional().default(""),
   category: yup.string().required("Please select a project category"),
   quote: yup.string().required("Feedback is required").min(10, "Please write at least 10 characters"),
 });
 
 type TestimonialFormValues = {
   author: string;
-  designation: string;
-  company: string;
+  designation?: string;
+  company?: string;
   category: string;
   quote: string;
 };
@@ -86,8 +86,8 @@ export default function TestimonialsPage() {
     try {
       await createTestimonial({
         author: data.author,
-        designation: data.designation,
-        company: data.company,
+        designation: data.designation || "",
+        company: data.company || "",
         quote: data.quote,
         rating: selectedRating,
         category: data.category,
@@ -339,8 +339,12 @@ export default function TestimonialsPage() {
                         <h4 className="font-extrabold text-neutral-800 uppercase tracking-tight text-sm truncate">{t.author}</h4>
                         <Check size={14} className="text-green-500 shrink-0 bg-green-50 rounded-full p-0.5 border border-green-100" />
                       </div>
-                      <p className="text-[10px] font-black text-primary uppercase tracking-widest leading-none truncate">{t.designation}</p>
-                      <p className="text-[9px] font-bold text-neutral-400 uppercase tracking-widest leading-none truncate">{t.company}</p>
+                      {t.designation && (
+                        <p className="text-[10px] font-black text-primary uppercase tracking-widest leading-none truncate">{t.designation}</p>
+                      )}
+                      {t.company && (
+                        <p className="text-[9px] font-bold text-neutral-400 uppercase tracking-widest leading-none truncate">{t.company}</p>
+                      )}
                     </div>
                   </div>
                 </div>

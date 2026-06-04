@@ -19,18 +19,9 @@ import { QuoteModal } from "@/components/common";
 import { PageHeader } from "@/components/ui";
 import { cn, slugify } from "@/lib/utils";
 
-import galleryItemsRaw from "@/data/gallery.json";
 import siteContent from "@/data/site-content.json";
 import { useGetGalleryQuery } from "@/redux/api/galleryApi";
 import type { GalleryItem } from "@/types/api";
-
-interface RawGalleryItem {
-  title: string;
-  category: string;
-  image: string;
-}
-
-const fallbackGalleryItems = galleryItemsRaw as RawGalleryItem[];
 
 interface PageProps {
   params: Promise<{
@@ -65,16 +56,7 @@ function GalleryContent({ categorySlug }: { categorySlug?: string }) {
   const { galleryPage } = siteContent;
 
   const gallery = React.useMemo(() => {
-    if (!galleryResult?.data || galleryResult.data.length === 0) {
-      // Map static fallback items
-      return fallbackGalleryItems.map((item, index) => ({
-        id: index + 1,
-        title: item.title,
-        category: item.category || "Interiors",
-        image: item.image,
-      })) as GalleryItem[];
-    }
-    return galleryResult.data;
+    return galleryResult?.data || [];
   }, [galleryResult]);
 
   // Dynamically extract categories

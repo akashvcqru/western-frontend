@@ -68,8 +68,12 @@ export default function TestimonialsSection() {
                 </div>
                 <div className="space-y-0.5">
                   <h4 className="font-bold text-secondary uppercase tracking-tight text-sm leading-none">{t.author}</h4>
-                  <p className="text-[10px] font-black text-primary uppercase tracking-[0.1em]">{t.designation}</p>
-                  <p className="text-[9px] font-bold text-neutral-300 uppercase tracking-widest">{t.company}</p>
+                  {t.designation && (
+                    <p className="text-[10px] font-black text-primary uppercase tracking-[0.1em]">{t.designation}</p>
+                  )}
+                  {t.company && (
+                    <p className="text-[9px] font-bold text-neutral-300 uppercase tracking-widest">{t.company}</p>
+                  )}
                 </div>
               </div>
             </div>

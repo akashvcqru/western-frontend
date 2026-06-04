@@ -19,6 +19,8 @@ import * as LucideIcons from "lucide-react";
 import servicesData from "@/data/services.json";
 import QuoteModal from "@/components/common/QuoteModal";
 import siteContent from "@/data/site-content.json";
+import { useSettings } from "@/hooks/useSettings";
+import { useGetServicesQuery } from "@/redux/api/servicesApi";
 import Accordion from "@/components/ui/Accordion";
 
 interface ServiceGridItem {
@@ -71,14 +73,25 @@ interface ServiceDetail {
 export default function DynamicServicePage() {
   const params = useParams();
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
-
   const slug = params?.slug as string;
-  const serviceDetail = (servicesData as ServiceDetail[]).find(
-    (s) => s.slug === slug,
+
+  const { data: servicesResponse, isLoading: isServicesLoading } = useGetServicesQuery({ limit: 1000 });
+  const { contact } = useSettings();
+
+  const service = servicesResponse?.data?.find((s) => s.slug === slug);
+  const staticDetail = (servicesData as ServiceDetail[]).find(
+    (s) => s.slug === slug
   );
 
-  // Fallback to main services directory if the slug is invalid
-  if (!serviceDetail) {
+  if (isServicesLoading) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <LucideIcons.Loader2 className="w-10 h-10 text-primary animate-spin" />
+      </div>
+    );
+  }
+
+  if (!service) {
     return (
       <div className="min-h-screen bg-white flex flex-col items-center justify-center space-y-6">
         <h2 className="text-2xl font-bold text-secondary">Service not found</h2>
@@ -91,6 +104,42 @@ export default function DynamicServicePage() {
       </div>
     );
   }
+
+  // Construct dynamic merged details
+  const serviceDetail = {
+    name: service.title,
+    hero: {
+      title: staticDetail?.hero?.title || service.title,
+      description: staticDetail?.hero?.description || service.description || "Think to design beyond. Professional spatial design and furniture solutions.",
+      image: service.image || staticDetail?.hero?.image || "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop",
+    },
+    philosophy: {
+      title: staticDetail?.philosophy?.title || `Our Philosophy for ${service.title}`,
+      description: staticDetail?.philosophy?.description || service.description || "We deliver tailored environments designed for comfort, productivity, and aesthetic value.",
+      image: staticDetail?.philosophy?.image || service.image || "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop",
+      grid: staticDetail?.philosophy?.grid || [
+        { icon: "Shield", title: "Premium Standards", desc: "Crafted with safety, durability, and standard compliance." },
+        { icon: "Sparkles", title: "Modern Design", desc: "Optimized space planning and visually stunning layout configurations." }
+      ]
+    },
+    workflow: staticDetail?.workflow || [
+      { step: "01", icon: "Layers", title: "Layout Audit", desc: "Comprehensive space study & workflow optimization consult." },
+      { step: "02", icon: "Paintbrush", title: "CAD Blueprinting", desc: "3D architectural styling, material profiles & color grids." },
+      { step: "03", icon: "Factory", title: "Precision Sourcing", desc: "Direct manufacturing of modular components under strict audits." },
+      { step: "04", icon: "Zap", title: "Seamless Installation", desc: "On-site execution, safety integration, and certified handover." }
+    ],
+    chooseUs: staticDetail?.chooseUs || [
+      { title: "Direct Factory", desc: "Direct manufacturing at our Gurugram plant under strict quality audits." },
+      { title: "Premium Sourcing", desc: "Elite materials with long-term wear resistance." },
+      { title: "Certified Design", desc: "Certified structured plans tailored for client workflow." },
+      { title: "Expert Handover", desc: "Zero-defect delivery and continuous support." }
+    ],
+    cta: {
+      title: staticDetail?.cta?.title || `Start Planning Your ${service.title}`,
+      description: staticDetail?.cta?.description || "Book a complimentary spatial consult with our workspace designers."
+    },
+    faqs: staticDetail?.faqs || []
+  };
 
   // Get dynamic Lucide icon
   const getIconComponent = (iconName: string) => {
@@ -402,10 +451,10 @@ export default function DynamicServicePage() {
                         Call Us
                       </p>
                       <a
-                        href={`tel:${siteContent.common.contact.phoneRaw}`}
+                        href={`tel:${contact.phoneRaw}`}
                         className="text-xs font-bold text-white leading-tight hover:text-primary transition-colors truncate"
                       >
-                        {siteContent.common.contact.phone}
+                        {contact.phone}
                       </a>
                     </div>
                   </div>
@@ -419,10 +468,10 @@ export default function DynamicServicePage() {
                         Email Us
                       </p>
                       <a
-                        href={`mailto:${siteContent.common.contact.email}`}
+                        href={`mailto:${contact.email}`}
                         className="text-xs font-bold text-white leading-tight hover:text-primary transition-colors truncate"
                       >
-                        {siteContent.common.contact.email}
+                        {contact.email}
                       </a>
                     </div>
                   </div>

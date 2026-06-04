@@ -174,10 +174,10 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (file.size > 10 * 1024) {
+    if (file.size > 1024 * 1024) {
       addToast({
         title: "File Too Large",
-        message: "Please choose a file smaller than 10KB.",
+        message: "Please choose a file smaller than 1 MB.",
         variant: "error"
       });
       return;
@@ -745,7 +745,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
                                   </div>
                                 )}
                               </div>
-                              <p className="text-[9px] text-gray-400 font-normal font-sans">Supports PDF, ZIP, CAD, and image formats up to 3.5 MB.</p>
+                              <p className="text-[9px] text-gray-400 font-normal font-sans">Supports PDF, ZIP, CAD, and image formats up to 1 MB.</p>
                             </div>
                           </div>
                         ))}

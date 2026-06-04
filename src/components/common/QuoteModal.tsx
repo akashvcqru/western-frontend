@@ -9,6 +9,7 @@ import { useForm, FormProvider, Resolver } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import siteContent from "@/data/site-content.json";
+import { useSettings } from "@/hooks/useSettings";
 import { cn } from "@/lib/utils";
 
 const schema = yup.object({
@@ -45,6 +46,7 @@ export default function QuoteModal({
 }: QuoteModalProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const { contact } = useSettings();
 
   React.useEffect(() => {
     if (isOpen) {
@@ -109,7 +111,7 @@ export default function QuoteModal({
           `*Phone:* ${data.phone}\n` +
           `*Message:* ${data.message || ''}`;
 
-      const phone = siteContent.common.contact.phones[0].replace(/[^0-9]/g, "");
+      const phone = contact.phoneRaw;
       window.open(`https://wa.me/${phone}?text=${encodeURIComponent(whatsappMessage)}`, "_blank");
     }
 
@@ -176,7 +178,7 @@ export default function QuoteModal({
                 </div>
                 <div>
                    <p className="text-[10px] font-bold text-primary uppercase tracking-[0.2em]">Expert Help</p>
-                   <p className="text-lg font-bold">{siteContent.common.contact.phones[0] || "+91-9540641111"}</p>
+                   <p className="text-lg font-bold">{contact.phones[0] || "+91-9540641111"}</p>
                 </div>
              </div>
           </div>

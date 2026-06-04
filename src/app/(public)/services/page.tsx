@@ -33,6 +33,7 @@ import { AppRoutes } from "@/constants/routes";
 import { PageHeader } from "@/components/ui";
 import { cn } from "@/lib/utils";
 import siteContent from "@/data/site-content.json";
+import { useSettings } from "@/hooks/useSettings";
 import { useGetServicesQuery } from "@/redux/api/servicesApi";
 
 const iconMap: Record<string, React.ComponentType<any>> = {
@@ -60,6 +61,7 @@ function getIconComponent(iconName?: string) {
 export default function ServicesPage() {
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState("all");
+  const { contact } = useSettings();
 
   const { data: servicesResponse, isLoading } = useGetServicesQuery({ limit: 1000 });
 
@@ -429,8 +431,8 @@ export default function ServicesPage() {
                     </div>
                     <div className="min-w-0">
                       <p className="text-[9px] font-bold uppercase tracking-wider text-neutral-500 leading-none">Call Us</p>
-                      <a href={`tel:${siteContent.common.contact.phoneRaw}`} className="text-xs font-bold text-white leading-tight hover:text-primary transition-colors truncate">
-                        {siteContent.common.contact.phone}
+                      <a href={`tel:${contact.phoneRaw}`} className="text-xs font-bold text-white leading-tight hover:text-primary transition-colors truncate">
+                        {contact.phone}
                       </a>
                     </div>
                   </div>
@@ -441,8 +443,8 @@ export default function ServicesPage() {
                     </div>
                     <div className="min-w-0">
                       <p className="text-[9px] font-bold uppercase tracking-wider text-neutral-500 leading-none">Email Us</p>
-                      <a href={`mailto:${siteContent.common.contact.email}`} className="text-xs font-bold text-white leading-tight hover:text-primary transition-colors truncate">
-                        {siteContent.common.contact.email}
+                      <a href={`mailto:${contact.email}`} className="text-xs font-bold text-white leading-tight hover:text-primary transition-colors truncate">
+                        {contact.email}
                       </a>
                     </div>
                   </div>

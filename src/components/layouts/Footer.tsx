@@ -11,6 +11,7 @@ import {
   Check,
 } from "lucide-react";
 import siteContent from "@/data/site-content.json";
+import { useSettings } from "@/hooks/useSettings";
 import { cn } from "@/lib/utils";
 import QuoteModal from "@/components/common/QuoteModal";
 import { AppRoutes } from "@/constants/routes";
@@ -19,7 +20,32 @@ import { useGetCategoriesQuery } from "@/redux/api/categoriesApi";
 export default function Footer() {
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
   const currentYear = new Date().getFullYear();
-  const { common, footer } = siteContent;
+  const { footer: staticFooter } = siteContent;
+  const { contact, social } = useSettings();
+  
+  const common = {
+    ...siteContent.common,
+    contact,
+  };
+
+  const footer = React.useMemo(() => {
+    return {
+      ...staticFooter,
+      socialLinks: staticFooter.socialLinks.map((link) => {
+        if (link.platform.toLowerCase() === "facebook") {
+          return { ...link, href: social.facebookUrl };
+        }
+        if (link.platform.toLowerCase() === "instagram") {
+          return { ...link, href: social.instagramUrl };
+        }
+        if (link.platform.toLowerCase() === "twitter") {
+          return { ...link, href: social.twitterUrl };
+        }
+        return link;
+      }),
+    };
+  }, [staticFooter, social]);
+
   const { data: categoriesResult } = useGetCategoriesQuery({ limit: 100 });
   const footerCategories = React.useMemo(() => {
     return categoriesResult?.data?.filter((c) => c.status === "Active").slice(0, 6) ?? [];

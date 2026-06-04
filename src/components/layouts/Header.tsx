@@ -17,6 +17,7 @@ import { cn } from "@/lib/utils";
 import Badge from "@/components/ui/Badge";
 import QuoteModal from "@/components/common/QuoteModal";
 import siteContent from "@/data/site-content.json";
+import { useSettings } from "@/hooks/useSettings";
 import { useGetCategoriesQuery, useGetSubCategoriesQuery } from "@/redux/api/categoriesApi";
 
 interface NavigationLink {
@@ -53,7 +54,12 @@ export default function Header() {
     return subCategoriesResult?.data?.filter((s) => s.status === "Active") ?? [];
   }, [subCategoriesResult]);
 
-  const { common, header } = siteContent;
+  const { header } = siteContent;
+  const { contact } = useSettings();
+  const common = {
+    ...siteContent.common,
+    contact,
+  };
 
   const navItems = React.useMemo(() => {
     const items = activeCategories.map((cat) => ({

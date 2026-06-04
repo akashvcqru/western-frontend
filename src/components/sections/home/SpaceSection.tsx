@@ -29,30 +29,11 @@ export default function SpaceSection() {
     }));
   }, [galleryResult]);
 
-  const fallbackSpaces = [
-    {
-      title: "Executive Cabin",
-      href: `/gallery/${slugify("Executive Cabin")}`,
-      image: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=2070&auto=format&fit=crop"
-    },
-    {
-      title: "Conference Room",
-      href: `/gallery/${slugify("Conference Room")}`,
-      image: "https://images.unsplash.com/photo-1577412647305-991150c7d163?q=80&w=2070&auto=format&fit=crop"
-    },
-    {
-      title: "Open Workspace",
-      href: `/gallery/${slugify("Open Workspace")}`,
-      image: "https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=2070&auto=format&fit=crop"
-    },
-    {
-      title: "Reception Area",
-      href: `/gallery/${slugify("Reception Area")}`,
-      image: "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2070&auto=format&fit=crop"
-    }
-  ];
+  const spaces = dynamicSpaces;
 
-  const spaces = dynamicSpaces || fallbackSpaces;
+  if (!spaces) {
+    return null;
+  }
 
   return (
     <section className="pt-12 pb-12 lg:pt-16 lg:pb-16 bg-white overflow-hidden">

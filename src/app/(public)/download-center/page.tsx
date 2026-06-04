@@ -44,14 +44,7 @@ export default function DownloadCenterPage() {
     return activeCategory === "All" || item.category === activeCategory;
   });
 
-  const getStaticFallbackUrl = (title: string): string => {
-    const t = title.toLowerCase();
-    if (t.includes("workstation")) return "/catalogs/workstations-catalog.pdf";
-    if (t.includes("executive desking") || t.includes("desking")) return "/catalogs/executive-desks-catalog.pdf";
-    if (t.includes("seating") || t.includes("chair")) return "/catalogs/chairs-catalog.pdf";
-    if (t.includes("partition") || t.includes("ceiling")) return "/catalogs/modular-partitions-catalog.pdf";
-    return "";
-  };
+
 
   const openPdfFromBase64 = (base64Data: string, fileName: string, action: "view" | "download") => {
     let cleanBase64 = base64Data;
@@ -122,20 +115,6 @@ export default function DownloadCenterPage() {
       }
 
       if (!pdfData) {
-        const fallbackUrl = getStaticFallbackUrl(title);
-        if (fallbackUrl) {
-          if (action === "view") {
-            window.open(fallbackUrl, "_blank");
-          } else {
-            const link = document.createElement("a");
-            link.href = fallbackUrl;
-            link.download = pdfFileName;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-          }
-          return;
-        }
         addToast({
           title: "PDF Not Available",
           message: "No PDF file is associated with this catalogue.",

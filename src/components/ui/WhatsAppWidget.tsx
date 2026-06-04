@@ -1,11 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import siteContent from "@/data/site-content.json";
+import { useSettings } from "@/hooks/useSettings";
 
 export default function WhatsAppWidget() {
   const [isMounted, setIsMounted] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
+  const { contact } = useSettings();
 
   useEffect(() => {
     const mountTimer = setTimeout(() => {
@@ -29,9 +30,7 @@ export default function WhatsAppWidget() {
 
   if (!isMounted) return null;
 
-  const contact = siteContent.common.contact;
-  const rawPhone = contact.phones[0];
-  const cleanedPhone = rawPhone.replace(/[^0-9]/g, ""); // "919540641111"
+  const cleanedPhone = contact.phoneRaw;
 
   const handleChat = () => {
     const greeting = "Hi Western Interio, I am visiting your website and would like to learn more about your premium workspace interior designs and modular furniture.";

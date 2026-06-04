@@ -18,8 +18,8 @@ import type { Testimonial } from "@/types/api";
 
 const testimonialValidationSchema = yup.object().shape({
   author: yup.string().required("Client name is required").min(3, "Must be at least 3 characters"),
-  designation: yup.string().required("Job title is required"),
-  company: yup.string().required("Company name is required"),
+  designation: yup.string().optional().default(""),
+  company: yup.string().optional().default(""),
   category: yup.string().required("Category is required"),
   quote: yup.string().required("Review text is required").min(10, "Must be at least 10 characters"),
   status: yup.string().required("Status is required"),
@@ -156,8 +156,8 @@ export default function AdminTestimonialsPage() {
           id: editingTestimonial.id,
           body: {
             author: data.author,
-            designation: data.designation,
-            company: data.company,
+            designation: data.designation || "",
+            company: data.company || "",
             quote: data.quote,
             rating: selectedRating,
             category: data.category,
@@ -168,8 +168,8 @@ export default function AdminTestimonialsPage() {
       } else {
         await createAdminTestimonial({
           author: data.author,
-          designation: data.designation,
-          company: data.company,
+          designation: data.designation || "",
+          company: data.company || "",
           quote: data.quote,
           rating: selectedRating,
           category: data.category,
@@ -279,7 +279,15 @@ export default function AdminTestimonialsPage() {
                         <td className="py-4 px-6">
                           <p className="text-xs font-bold text-gray-900">{t.author}</p>
                           <p className="text-[10px] text-gray-400 font-medium mt-0.5">
-                            {t.designation} at <span className="font-bold text-gray-500">{t.company}</span>
+                            {t.designation && t.company ? (
+                              <>{t.designation} at <span className="font-bold text-gray-500">{t.company}</span></>
+                            ) : t.designation ? (
+                              t.designation
+                            ) : t.company ? (
+                              <span className="font-bold text-gray-500">{t.company}</span>
+                            ) : (
+                              "-"
+                            )}
                           </p>
                         </td>
                         <td className="py-4 px-6">
@@ -394,7 +402,7 @@ export default function AdminTestimonialsPage() {
               <RHFControl
                 control="input"
                 name="designation"
-                label="Job Title *"
+                label="Job Title"
                 placeholder="Developer"
                 className="rounded-xl"
               />
@@ -404,7 +412,7 @@ export default function AdminTestimonialsPage() {
               <RHFControl
                 control="input"
                 name="company"
-                label="Company Name *"
+                label="Company Name"
                 placeholder="VCQRU"
                 className="rounded-xl"
               />

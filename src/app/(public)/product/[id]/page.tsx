@@ -17,6 +17,7 @@ import {
 import { cn } from "@/lib/utils";
 import ImagePreview from "@/components/ui/ImagePreview";
 import siteContent from "@/data/site-content.json";
+import { useSettings } from "@/hooks/useSettings";
 import QuoteModal from "@/components/common/QuoteModal";
 
 
@@ -48,6 +49,7 @@ export default function ProductDetailPage() {
   
   const { data: productResult, isLoading: isProdLoading } = useGetProductByIdOrSlugQuery(id);
   const [isMounted, setIsMounted] = useState(false);
+  const { contact } = useSettings();
 
   useEffect(() => {
     setIsMounted(true);
@@ -78,74 +80,17 @@ export default function ProductDetailPage() {
   const product = React.useMemo(() => {
     if (!rawProduct) return undefined;
 
-    // 1. Material
-    let material = rawProduct.material || "";
-    if (!material) {
-      const catLower = rawProduct.category.toLowerCase();
-      if (catLower.includes("chair")) {
-        if (catLower.includes("boss") || catLower.includes("president")) {
-          material = "Premium Leatherette";
-        } else if (catLower.includes("workstation") || catLower.includes("mesh")) {
-          material = "High-Density Mesh";
-        } else {
-          material = "Ergonomic Polymer";
-        }
-      } else if (catLower.includes("table") || catLower.includes("desk") || catLower.includes("workstation")) {
-        if (rawProduct.name.toLowerCase().includes("executive") || catLower.includes("director")) {
-          material = "Premium Veneer Wood";
-        } else {
-          material = "Engineered Wood (Pre-laminated)";
-        }
-      } else if (catLower.includes("sofa")) {
-        material = "Plush Fabric";
-      } else {
-        material = "Engineered Wood";
-      }
-    }
+    const specifications: { label: string; value: string }[] = [];
 
-    // 2. Finish
-    let finish = rawProduct.finish || "";
-    if (!finish) {
-      const catLower = rawProduct.category.toLowerCase();
-      if (catLower.includes("chair")) {
-        finish = "Chrome Base & Mesh";
-      } else if (catLower.includes("table") || catLower.includes("desk") || catLower.includes("workstation")) {
-        if (rawProduct.name.toLowerCase().includes("executive") || catLower.includes("director")) {
-          finish = "High-Gloss Lacquer";
-        } else {
-          finish = "Matte Laminate Finish";
-        }
-      } else if (catLower.includes("sofa")) {
-        finish = "Textured Micro-weave";
-      } else {
-        finish = "Matte Laminate";
-      }
+    if (rawProduct.material) {
+      specifications.push({ label: "Material", value: rawProduct.material });
     }
-
-    // 3. Size
-    let size = rawProduct.size || "";
-    if (!size) {
-      const catLower = rawProduct.category.toLowerCase();
-      if (catLower.includes("table") || catLower.includes("desk") || catLower.includes("workstation")) {
-        if (rawProduct.name.toLowerCase().includes("001") || rawProduct.name.toLowerCase().includes("002")) {
-          size = "Compact (4ft x 2ft)";
-        } else if (rawProduct.name.toLowerCase().includes("executive") || catLower.includes("director")) {
-          size = "Executive (6ft x 3ft)";
-        } else {
-          size = "Standard (5ft x 2.5ft)";
-        }
-      } else if (catLower.includes("chair")) {
-        size = "High-Back Ergonomic";
-      } else {
-        size = "Standard Size";
-      }
+    if (rawProduct.finish) {
+      specifications.push({ label: "Finish", value: rawProduct.finish });
     }
-
-    const specifications: { label: string; value: string }[] = [
-      { label: "Material", value: material },
-      { label: "Finish", value: finish },
-      { label: "Size", value: size }
-    ];
+    if (rawProduct.size) {
+      specifications.push({ label: "Size", value: rawProduct.size });
+    }
 
     if (rawProduct.specifications && Array.isArray(rawProduct.specifications)) {
       rawProduct.specifications.forEach(spec => {
@@ -176,15 +121,13 @@ export default function ProductDetailPage() {
   }
 
   const handleWhatsApp = () => {
-    const contact = siteContent.common.contact;
-    const phone = contact.phones[0].replace(/[^0-9]/g, ""); // Clean mobile phone
+    const phone = contact.phoneRaw;
     const message = `Hi, I am interested in ${product.name} (SKU ID: ${product.id}). Please share customized layouts.`;
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, "_blank");
   };
 
   const handleCall = () => {
-    const contact = siteContent.common.contact;
-    window.location.href = `tel:${contact.phones[0]}`;
+    window.location.href = `tel:${contact.phoneRaw}`;
   };
 
   return (

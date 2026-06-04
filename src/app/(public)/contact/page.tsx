@@ -23,6 +23,7 @@ import { useAppToast } from "@/components/ui/AppToast";
 import { PageHeader } from "@/components/ui";
 
 import siteContent from "@/data/site-content.json";
+import { useSettings } from "@/hooks/useSettings";
 
 const contactSchema = yup.object().shape({
   fullName: yup.string().required("Full name is required").min(3, "Name too short"),
@@ -40,7 +41,15 @@ interface ContactFormData {
 
 
 export default function ContactPage() {
-  const { common, contactPage } = siteContent;
+  const { contactPage } = siteContent;
+  const { contact } = useSettings();
+  const common = {
+    ...siteContent.common,
+    contact: {
+      ...contact,
+      emails: siteContent.common.contact.emails,
+    },
+  };
   const { addToast } = useAppToast();
   
   const [openFaq, setOpenFaq] = React.useState<number | null>(0);

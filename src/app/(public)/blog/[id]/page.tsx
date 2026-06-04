@@ -7,12 +7,14 @@ import { useParams, notFound } from "next/navigation";
 import { ArrowLeft, Calendar, Clock, MessageSquare, Sparkles, Phone, Mail, ShieldCheck } from "lucide-react";
 import QuoteModal from "@/components/common/QuoteModal";
 import siteContent from "@/data/site-content.json";
+import { useSettings } from "@/hooks/useSettings";
 import { useGetBlogByIdOrSlugQuery } from "@/redux/api/blogsApi";
 
 export default function BlogDetailPage() {
   const params = useParams();
   const id = params.id as string;
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
+  const { contact } = useSettings();
 
   const { data, isLoading, isError } = useGetBlogByIdOrSlugQuery(id);
   const post = data?.data ?? null;
@@ -190,11 +192,11 @@ export default function BlogDetailPage() {
                   Book Design Consult
                 </button>
                 <div className="flex flex-col gap-2 pt-2 border-t border-white/10 text-[10px] text-neutral-400 font-bold uppercase tracking-wider">
-                  <a href={`tel:${siteContent.common.contact.phoneRaw}`} className="flex items-center gap-2 hover:text-white transition-colors">
-                    <Phone size={12} className="text-primary" /> {siteContent.common.contact.phone}
+                  <a href={`tel:${contact.phoneRaw}`} className="flex items-center gap-2 hover:text-white transition-colors">
+                    <Phone size={12} className="text-primary" /> {contact.phone}
                   </a>
-                  <a href={`mailto:${siteContent.common.contact.email}`} className="flex items-center gap-2 hover:text-white transition-colors">
-                    <Mail size={12} className="text-primary" /> {siteContent.common.contact.email}
+                  <a href={`mailto:${contact.email}`} className="flex items-center gap-2 hover:text-white transition-colors">
+                    <Mail size={12} className="text-primary" /> {contact.email}
                   </a>
                 </div>
               </div>

@@ -323,8 +323,12 @@ export default function AboutPage() {
                       <h4 className="font-extrabold text-neutral-800 uppercase tracking-tight text-sm truncate">{t.author}</h4>
                       <Check size={14} className="text-green-500 shrink-0 bg-green-50 rounded-full p-0.5 border border-green-100" />
                     </div>
-                    <p className="text-[10px] font-black text-primary uppercase tracking-widest leading-none truncate">{t.designation}</p>
-                    <p className="text-[9px] font-bold text-neutral-400 uppercase tracking-widest leading-none truncate">{t.company}</p>
+                    {t.designation && (
+                      <p className="text-[10px] font-black text-primary uppercase tracking-widest leading-none truncate">{t.designation}</p>
+                    )}
+                    {t.company && (
+                      <p className="text-[9px] font-bold text-neutral-400 uppercase tracking-widest leading-none truncate">{t.company}</p>
+                    )}
                   </div>
                 </div>
               </div>

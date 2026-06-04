@@ -62,6 +62,7 @@ interface Product {
   detailsText1?: string;
   detailsText2?: string;
   quickSpecs?: string[];
+  stock: number;
 }
 
 const parsePrice = (priceStr?: string): number => {
@@ -228,119 +229,41 @@ export default function ProductListingPage({
   // Dynamically resolve and enrich products with premium specifications at runtime
   const resolvedProducts = React.useMemo(() => {
     return productsList.map(p => {
-      // 1. Availability (simulate structured in-stock / out-of-stock derived from ID)
-      const lastDigit = parseInt(p.id.replace(/\D/g, ""), 10) || 0;
-      const isAvailable = lastDigit % 6 !== 0; // ~83% in stock
-      const availability = isAvailable ? "In Stock" : "Out of Stock";
+      // 1. Availability from real Stock
+      const availability = p.stock > 0 ? "In Stock" : "Out of Stock";
 
       // 2. Brand
-      const brand = "Western Interio";
+      const brand = p.brand || "";
 
-      // 3. Dynamic subcategory and type
-      let subcategory = "Executive Collection";
-      let type = "Premium Furniture";
-      
-      const catLower = p.category.toLowerCase();
-      if (catLower.includes("workstation")) {
-        subcategory = "Modular Desking";
-        type = "Workstation";
-      } else if (catLower.includes("director") || catLower.includes("executive")) {
-        subcategory = "Executive Tables";
-        type = "Director Desks";
-      } else if (catLower.includes("conference")) {
-        subcategory = "Meeting Tables";
-        type = "Conference Desking";
-      } else if (catLower.includes("reception")) {
-        subcategory = "Reception Desks";
-        type = "Reception Counters";
-      } else if (catLower.includes("center")) {
-        subcategory = "Coffee Tables";
-        type = "Lounge Furniture";
-      } else if (catLower.includes("chair")) {
-        type = "Office Seating";
-        if (catLower.includes("boss") || catLower.includes("president")) {
-          subcategory = "Executive Seating";
-        } else if (catLower.includes("workstation")) {
-          subcategory = "Task Chairs";
-        } else {
-          subcategory = "Support Seating";
-        }
-      } else if (catLower.includes("sofa")) {
-        subcategory = "Soft Seating";
-        type = "Lounge Sofas";
-      }
+      // 3. Dynamic subcategory from DB lookup
+      const subCatObj = subCategoriesList.find(
+        (s) => s.id === p.subCategory || s.slug === p.subCategory
+      );
+      const subcategory = subCatObj ? subCatObj.name : "";
 
-      // 4. Specifications & ShortSpecs (Material, Finish, Features, Size)
+      // 4. Type from Category DB lookup
+      const catObj = categoriesList.find(
+        (c) => c.id === p.category || c.slug === p.category
+      );
+      const type = catObj ? catObj.name : p.category;
+
+      // 5. Specifications & ShortSpecs (only from DB, no hardcoded fallbacks)
       const specifications: { label: string; value: string }[] = [];
       const shortSpecs: string[] = [];
 
-      // Material Inference / Override
-      let material = p.material || "";
-      if (!material) {
-        if (p.category.includes("chair")) {
-          if (p.category.includes("boss") || p.category.includes("president")) {
-            material = "Premium Leatherette";
-          } else if (p.category.includes("workstation") || p.category.includes("mesh")) {
-            material = "High-Density Mesh";
-          } else {
-            material = "Ergonomic Polymer";
-          }
-        } else if (p.category.includes("table") || p.category.includes("desk") || p.category.includes("workstation")) {
-          if (p.name.toLowerCase().includes("executive") || p.category.includes("director")) {
-            material = "Premium Veneer Wood";
-          } else {
-            material = "Engineered Wood (Pre-laminated)";
-          }
-        } else if (p.category.includes("sofa")) {
-          material = "Plush Fabric";
-        } else {
-          material = "Engineered Wood";
-        }
+      if (p.material) {
+        specifications.push({ label: "Material", value: p.material });
+        shortSpecs.push(p.material);
       }
-      specifications.push({ label: "Material", value: material });
-      shortSpecs.push(material);
-
-      // Finish Inference / Override
-      let finish = p.finish || "";
-      if (!finish) {
-        if (p.category.includes("chair")) {
-          finish = "Chrome Base & Mesh";
-        } else if (p.category.includes("table") || p.category.includes("desk") || p.category.includes("workstation")) {
-          if (p.name.toLowerCase().includes("executive") || p.category.includes("director")) {
-            finish = "High-Gloss Lacquer";
-          } else {
-            finish = "Matte Laminate Finish";
-          }
-        } else if (p.category.includes("sofa")) {
-          finish = "Textured Micro-weave";
-        } else {
-          finish = "Matte Laminate";
-        }
+      if (p.finish) {
+        specifications.push({ label: "Finish", value: p.finish });
+        shortSpecs.push(p.finish);
       }
-      specifications.push({ label: "Finish", value: finish });
-      shortSpecs.push(finish);
-
-      // Size / Fit Inference / Override
-      let size = p.size || "";
-      if (!size) {
-        if (p.category.includes("table") || p.category.includes("desk") || p.category.includes("workstation")) {
-          if (p.name.toLowerCase().includes("001") || p.name.toLowerCase().includes("002")) {
-            size = "Compact (4ft x 2ft)";
-          } else if (p.name.toLowerCase().includes("executive") || p.category.includes("director")) {
-            size = "Executive (6ft x 3ft)";
-          } else {
-            size = "Standard (5ft x 2.5ft)";
-          }
-        } else if (p.category.includes("chair")) {
-          size = "High-Back Ergonomic";
-        } else {
-          size = "Standard Size";
-        }
+      if (p.size) {
+        specifications.push({ label: "Size", value: p.size });
+        shortSpecs.push(p.size);
       }
-      specifications.push({ label: "Size", value: size });
-      shortSpecs.push(size);
 
-      // Merge other custom specifications from p.specifications
       if (p.specifications && Array.isArray(p.specifications)) {
         p.specifications.forEach(spec => {
           const isDuplicate = ["material", "finish", "size"].includes(spec.label.toLowerCase());
@@ -366,7 +289,7 @@ export default function ProductListingPage({
         shortSpecs
       };
     });
-  }, [productsList]);
+  }, [productsList, subCategoriesList, categoriesList]);
 
   const lastSlugSegment = decodedSlug.length > 0 ? decodedSlug[decodedSlug.length - 1] : "";
   const product = resolvedProducts.find(p => p.slug === lastSlugSegment);
