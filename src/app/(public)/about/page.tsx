@@ -127,8 +127,8 @@ export default function AboutPage() {
               {/* Main Backdrop Frame */}
               <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden shadow-2xl shadow-neutral-200 border-8 border-white bg-white group z-10">
                 <Image 
-                  src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop"
-                  alt="Western Interio Corporate Boardroom"
+                  src="/about-workspace.jpg"
+                  alt="Western Interio Corporate Office"
                   fill
                   sizes="(max-width: 1024px) 100vw, 40vw"
                   className="object-cover group-hover:scale-105 transition-transform duration-1000"
