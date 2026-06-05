@@ -18,6 +18,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import RHFControl from "@/components/ui/inputs/RHFControl";
 import { apiGet, apiPut } from "@/lib/api";
+import { useUpdateSettingsMutation } from "@/redux/api/settingsApi";
 
 const contactSchema = yup.object().shape({
   supportEmail: yup
@@ -47,6 +48,24 @@ const socialSchema = yup.object().shape({
     .nullable()
     .url("Invalid URL")
     .defined(),
+  linkedinUrl: yup
+    .string()
+    .transform((value) => (value === "" ? null : value))
+    .nullable()
+    .url("Invalid URL")
+    .defined(),
+  pinterestUrl: yup
+    .string()
+    .transform((value) => (value === "" ? null : value))
+    .nullable()
+    .url("Invalid URL")
+    .defined(),
+  youtubeUrl: yup
+    .string()
+    .transform((value) => (value === "" ? null : value))
+    .nullable()
+    .url("Invalid URL")
+    .defined(),
 });
 
 interface ContactSettingsData {
@@ -64,6 +83,7 @@ export default function AdminSettingsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
+  const [updateSettings] = useUpdateSettingsMutation();
 
   const contactMethods = useForm<ContactSettingsData>({
     mode: "onChange",
@@ -82,6 +102,9 @@ export default function AdminSettingsPage() {
       instagramUrl: "",
       facebookUrl: "",
       twitterUrl: "",
+      linkedinUrl: "",
+      pinterestUrl: "",
+      youtubeUrl: "",
     },
   });
 
@@ -123,7 +146,7 @@ export default function AdminSettingsPage() {
   const onSubmitContact = async (data: ContactSettingsData) => {
     setIsSaving(true);
     try {
-      await apiPut("/api/settings/bdm_settings_contact", data);
+      await updateSettings({ key: "bdm_settings_contact", data }).unwrap();
       addToast({
         title: "Contact Settings Saved",
         message: "Store contact information has been updated successfully.",
@@ -143,7 +166,7 @@ export default function AdminSettingsPage() {
   const onSubmitSocial = async (data: SocialSettingsData) => {
     setIsSaving(true);
     try {
-      await apiPut("/api/settings/bdm_settings_social", data);
+      await updateSettings({ key: "bdm_settings_social", data }).unwrap();
       addToast({
         title: "Social Links Saved",
         message: "Store social media profiles have been updated successfully.",
@@ -351,6 +374,42 @@ export default function AdminSettingsPage() {
                         type="text"
                         icon={<LinkIcon size={16} className="text-sky-500" />}
                         placeholder="https://twitter.com/..."
+                      />
+                      <RHFControl
+                        control="input"
+                        name="linkedinUrl"
+                        label="LinkedIn URL"
+                        type="text"
+                        icon={
+                          <svg className="w-4 h-4 fill-current text-blue-700" viewBox="0 0 24 24">
+                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                          </svg>
+                        }
+                        placeholder="https://linkedin.com/in/..."
+                      />
+                      <RHFControl
+                        control="input"
+                        name="pinterestUrl"
+                        label="Pinterest URL"
+                        type="text"
+                        icon={
+                          <svg className="w-4 h-4 fill-current text-red-650" viewBox="0 0 24 24">
+                            <path d="M12.017 0c-6.627 0-12 5.373-12 12 0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738.098.119.112.224.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.162 0 7.396 2.967 7.396 6.93 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.63-2.743-1.373l-.749 2.853c-.27 1.029-1.001 2.319-1.492 3.116 1.124.347 2.317.534 3.551.534 6.627 0 12-5.373 12-12 0-6.627-5.373-12-12-12z" />
+                          </svg>
+                        }
+                        placeholder="https://pinterest.com/..."
+                      />
+                      <RHFControl
+                        control="input"
+                        name="youtubeUrl"
+                        label="YouTube URL"
+                        type="text"
+                        icon={
+                          <svg className="w-4 h-4 fill-current text-red-650" viewBox="0 0 24 24">
+                            <path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.11C19.517 3.545 12 3.545 12 3.545s-7.517 0-9.388.508a3.003 3.003 0 0 0-2.11 2.11C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 0 0 2.11 2.11c1.871.508 9.388.508 9.388.508s7.517 0 9.388-.508a3.003 3.003 0 0 0 2.11-2.11C24 15.967 24 12 24 12s0-3.967-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                          </svg>
+                        }
+                        placeholder="https://youtube.com/..."
                       />
                     </div>
                   </Card.Body>

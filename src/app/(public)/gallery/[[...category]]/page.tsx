@@ -145,9 +145,12 @@ function GalleryContent({ categorySlug }: { categorySlug?: string }) {
         <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-neutral-100 pb-8">
             <div className="space-y-1">
-              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary flex items-center gap-2">
-                <Filter size={12} /> Gallery Categories
-              </span>
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 shadow-sm animate-fade-in">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shrink-0" />
+                <span className="text-primary font-black tracking-[0.25em] text-[10px] uppercase">
+                  Gallery Categories
+                </span>
+              </div>
               <p className="text-sm text-neutral-400 font-medium">Filter our portfolio by workspace design types</p>
             </div>
             
@@ -391,9 +394,12 @@ function GalleryContent({ categorySlug }: { categorySlug?: string }) {
             
             <div className="max-w-3xl mx-auto space-y-8 relative z-10">
               <div className="space-y-4">
-                <span className="inline-flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[9px] font-black uppercase tracking-[0.3em] text-primary">
-                  <Sparkles size={10} className="animate-pulse" /> Next Steps
-                </span>
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-primary/10 border border-primary/20 rounded-full shadow-sm text-primary">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shrink-0" />
+                  <span className="text-[10px] font-black uppercase tracking-[0.25em] text-primary">
+                    Next Steps
+                  </span>
+                </div>
                 <h2 className="text-3xl lg:text-5xl font-black tracking-tight leading-tight uppercase">
                   {galleryPage.cta.title}
                 </h2>

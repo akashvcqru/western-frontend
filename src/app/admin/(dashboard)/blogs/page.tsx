@@ -42,6 +42,8 @@ export default function AdminBlogsPage() {
   const [formTags, setFormTags] = useState("");
   const [formContent, setFormContent] = useState("");
   const [formDate, setFormDate] = useState("");
+  const [formLinkText, setFormLinkText] = useState("");
+  const [formHyperlink, setFormHyperlink] = useState("");
 
   // Categories helper state
   const [allCategories, setAllCategories] = useState<string[]>([]);
@@ -105,6 +107,7 @@ export default function AdminBlogsPage() {
     setFormCategory(allCategories[0] || ""); setFormImage(""); setFormAuthor("Admin");
     setFormAuthorRole("Western Interio Admin"); setFormTags("Workspace, Office, Design");
     setFormContent(""); setFormDate(todayStr);
+    setFormLinkText(""); setFormHyperlink("");
     setIsNewCategory(false);
     setNewCategoryName("");
     setIsModalOpen(true);
@@ -116,6 +119,7 @@ export default function AdminBlogsPage() {
     setFormCategory(blog.category); setFormImage(blog.image); setFormAuthor(blog.author);
     setFormAuthorRole(blog.authorRole); setFormTags(blog.tags.join(", "));
     setFormContent(blog.content.join("\n\n")); setFormDate(blog.date);
+    setFormLinkText(blog.linkText || ""); setFormHyperlink(blog.hyperlink || "");
     setIsNewCategory(false);
     setNewCategoryName("");
     setIsModalOpen(true);
@@ -161,6 +165,8 @@ export default function AdminBlogsPage() {
       tags: tagsArray,
       content: contentParagraphs,
       date: formDate,
+      linkText: formLinkText.trim() || undefined,
+      hyperlink: formHyperlink.trim() || undefined,
     };
 
     setIsSubmitting(true);
@@ -444,6 +450,17 @@ export default function AdminBlogsPage() {
           <div className="space-y-1">
             <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Excerpt / Short Description *</label>
             <textarea required rows={2} value={formExcerpt} onChange={e => setFormExcerpt(e.target.value)} placeholder="Brief description displaying on the listing page..." className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium focus:outline-none focus:border-[#ed1c27]/40 resize-none" />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-1">
+              <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Hyperlink Text (Optional)</label>
+              <input type="text" value={formLinkText} onChange={e => setFormLinkText(e.target.value)} placeholder="e.g. Read more about Western Office Solutions" className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium focus:outline-none focus:border-[#ed1c27]/40" />
+            </div>
+            <div className="space-y-1">
+              <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Hyperlink URL (Optional)</label>
+              <input type="url" value={formHyperlink} onChange={e => setFormHyperlink(e.target.value)} placeholder="e.g. https://example.com" className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium focus:outline-none focus:border-[#ed1c27]/40" />
+            </div>
           </div>
 
           <div className="space-y-1">

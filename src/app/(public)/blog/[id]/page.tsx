@@ -118,6 +118,26 @@ export default function BlogDetailPage() {
                   {paragraph}
                 </p>
               ))}
+
+              {post.linkText && post.hyperlink && (
+                <div className="mt-12 p-6 rounded-xl bg-primary/5 border border-primary/10 shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                  <div className="space-y-1">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-primary">Featured Link</span>
+                    <p className="text-sm text-neutral-600 font-medium">Click the link below to visit the resource related to this article.</p>
+                  </div>
+                  <a
+                    href={post.hyperlink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-primary hover:bg-[#c5141e] text-white text-xs font-bold uppercase tracking-wider transition-all duration-300 shadow-md shadow-primary/10 hover:shadow-lg hover:shadow-primary/20 cursor-pointer text-center"
+                  >
+                    <span>{post.linkText}</span>
+                    <svg className="w-4 h-4 shrink-0 transition-transform duration-300 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                  </a>
+                </div>
+              )}
             </div>
 
             {/* Custom tags footer list */}

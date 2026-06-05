@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { 
   Quote, 
@@ -12,7 +12,9 @@ import {
   HelpCircle,
   TrendingUp,
   Clock,
-  VolumeX
+  VolumeX,
+  ChevronLeft,
+  ChevronRight
 } from "lucide-react";
 import { useForm, FormProvider, Resolver } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -127,6 +129,102 @@ export default function TestimonialsPage() {
     ? testimonialsList
     : testimonialsList.filter((t) => t.category === selectedCategory);
 
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [visibleSlides, setVisibleSlides] = useState(3);
+  const [isTransitioning, setIsTransitioning] = useState(true);
+
+  const isInfinite = filteredTestimonials.length > visibleSlides;
+
+  // Reset index when filter category changes
+  useEffect(() => {
+    if (isInfinite) {
+      setCurrentIndex(visibleSlides);
+    } else {
+      setCurrentIndex(0);
+    }
+  }, [selectedCategory, isInfinite, visibleSlides]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setVisibleSlides(1);
+      } else if (window.innerWidth < 1024) {
+        setVisibleSlides(2);
+      } else {
+        setVisibleSlides(3);
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const extendedTestimonials = React.useMemo(() => {
+    if (!isInfinite || filteredTestimonials.length === 0) return filteredTestimonials;
+    const before = filteredTestimonials.slice(-visibleSlides);
+    const after = filteredTestimonials.slice(0, visibleSlides);
+    return [...before, ...filteredTestimonials, ...after];
+  }, [filteredTestimonials, isInfinite, visibleSlides]);
+
+  const nextSlide = () => {
+    if (!isInfinite) return;
+    setCurrentIndex((prev) => prev + 1);
+  };
+
+  const prevSlide = () => {
+    if (!isInfinite) return;
+    setCurrentIndex((prev) => prev - 1);
+  };
+
+  useEffect(() => {
+    if (!isInfinite || filteredTestimonials.length === 0) return;
+
+    if (currentIndex >= filteredTestimonials.length + visibleSlides) {
+      const timer = setTimeout(() => {
+        setIsTransitioning(false);
+        setCurrentIndex(visibleSlides);
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+
+    if (currentIndex < visibleSlides) {
+      const timer = setTimeout(() => {
+        setIsTransitioning(false);
+        setCurrentIndex(filteredTestimonials.length + currentIndex);
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [currentIndex, filteredTestimonials.length, visibleSlides, isInfinite]);
+
+  useEffect(() => {
+    if (!isTransitioning) {
+      const timer = setTimeout(() => {
+        setIsTransitioning(true);
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [isTransitioning]);
+
+  useEffect(() => {
+    if (!isInfinite) return;
+    const interval = setInterval(() => {
+      nextSlide();
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [isInfinite, visibleSlides]);
+
+  const activeDotIndex = isInfinite 
+    ? (currentIndex - visibleSlides + filteredTestimonials.length) % filteredTestimonials.length 
+    : currentIndex;
+
+  const handleDotClick = (idx: number) => {
+    if (isInfinite) {
+      setCurrentIndex(idx + visibleSlides);
+    } else {
+      setCurrentIndex(idx);
+    }
+  };
+
   // Initial generator for avatar fallback
   const getInitials = (name: string) => {
     return name
@@ -177,9 +275,9 @@ export default function TestimonialsPage() {
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             {/* Case details */}
             <div className="lg:col-span-7 space-y-8">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-primary/10 border border-primary/20 rounded-full">
-                <Building2 size={13} className="text-primary" />
-                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary">Enterprise Success Story</span>
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 shadow-sm">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shrink-0" />
+                <span className="text-[10px] font-black uppercase tracking-[0.25em] text-primary">Enterprise Success Story</span>
               </div>
               <div className="space-y-4">
                 <h3 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight leading-tight">
@@ -285,71 +383,130 @@ export default function TestimonialsPage() {
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
-              {filteredTestimonials.map((t, i) => (
+            <>
+              {/* Carousel Container */}
+              <div className="relative w-full overflow-hidden">
                 <div 
-                  key={i} 
-                  className="bg-white p-8 md:p-10 rounded-xl border border-neutral-100 flex flex-col justify-between space-y-8 relative group hover:border-primary/20 hover:shadow-[0_30px_70px_-15px_rgba(237,28,39,0.08)] hover:-translate-y-2.5 transition-all duration-500 animate-in fade-in slide-in-from-bottom-6 duration-700 h-full"
+                  className="flex -mx-4"
+                  style={{
+                    transform: `translate3d(-${currentIndex * (100 / visibleSlides)}%, 0, 0)`,
+                    transition: isTransitioning ? "transform 500ms cubic-bezier(0.4, 0, 0.2, 1)" : "none"
+                  }}
                 >
-                  {/* Decorative background quote mark */}
-                  <div className="absolute top-8 right-8 text-primary/5 group-hover:text-primary/10 group-hover:scale-110 group-hover:rotate-6 transition-all duration-700 pointer-events-none">
-                     <Quote size={90} strokeWidth={0.5} />
-                  </div>
+                  {extendedTestimonials.map((t, i) => (
+                    <div 
+                      key={i}
+                      className="w-full md:w-1/2 lg:w-1/3 px-4 flex-shrink-0"
+                    >
+                      <div 
+                        className="bg-white p-8 md:p-10 rounded-xl border border-neutral-200 flex flex-col justify-between space-y-8 relative group hover:border-primary/20 hover:shadow-[0_30px_70px_-15px_rgba(237,28,39,0.08)] hover:-translate-y-2.5 transition-all duration-500 animate-in fade-in slide-in-from-bottom-6 duration-700 h-full min-h-[320px]"
+                      >
+                        {/* Decorative background quote mark */}
+                        <div className="absolute top-8 right-8 text-primary/5 group-hover:text-primary/10 group-hover:scale-110 group-hover:rotate-6 transition-all duration-700 pointer-events-none">
+                           <Quote size={90} strokeWidth={0.5} />
+                        </div>
 
-                  {/* Top rating & tags */}
-                  <div className="space-y-5 relative z-10">
-                    <div className="flex justify-between items-center">
-                      {/* Rating Stars */}
-                      <div className="flex gap-1 text-primary">
-                        {[...Array(5)].map((_, idx) => (
-                          <Star 
-                            key={idx} 
-                            size={15} 
-                            fill={idx < t.rating ? "currentColor" : "none"} 
-                            className={idx < t.rating ? "" : "text-neutral-200"}
-                            strokeWidth={idx < t.rating ? 0 : 1.5} 
-                          />
-                        ))}
+                        {/* Top rating & tags */}
+                        <div className="space-y-5 relative z-10">
+                          <div className="flex justify-between items-center">
+                            {/* Rating Stars */}
+                            <div className="flex gap-1 text-primary">
+                              {[...Array(5)].map((_, idx) => (
+                                <Star 
+                                  key={idx} 
+                                  size={15} 
+                                  fill={idx < t.rating ? "currentColor" : "none"} 
+                                  className={idx < t.rating ? "" : "text-neutral-200"}
+                                  strokeWidth={idx < t.rating ? 0 : 1.5} 
+                                />
+                              ))}
+                            </div>
+
+                            {/* Tag badges */}
+                            <span className="px-3 py-1 bg-neutral-100 text-neutral-600 rounded-full font-bold uppercase tracking-widest text-[9px]">
+                              {categoriesList.find(c => (c.slug || c.id) === t.category || c.id === t.category)?.name || 
+                               (t.category === "workstations" ? "Desking Series" : 
+                                t.category === "chairs" ? "Seating Series" : 
+                                t.category === "partitions" ? "Partitions" : 
+                                t.category === "turnkey" ? "Turnkey Space" : 
+                                t.category)}
+                            </span>
+                          </div>
+
+                          {/* Review text */}
+                          <p className="text-neutral-800 text-base leading-relaxed font-normal tracking-wide italic">
+                            &quot;{t.quote}&quot;
+                          </p>
+                        </div>
+
+                        {/* Author metadata footer */}
+                        <div className="pt-6 border-t border-neutral-200 flex items-center gap-4 relative z-10 shrink-0">
+                          <div className="w-12 h-12 rounded-full overflow-hidden bg-gradient-to-tr from-secondary to-neutral-800 text-white flex items-center justify-center font-extrabold shrink-0 group-hover:from-primary group-hover:to-rose-600 transition-all duration-500 shadow-md group-hover:shadow-primary/20 border border-neutral-200">
+                            {t.image ? (
+                              <img src={t.image} alt={t.author} className="w-full h-full object-cover rounded-full" />
+                            ) : (
+                              getInitials(t.author)
+                            )}
+                          </div>
+                          <div className="space-y-0.5 min-w-0">
+                            <div className="flex items-center gap-1.5">
+                              <h4 className="font-extrabold text-neutral-800 uppercase tracking-tight text-sm truncate">{t.author}</h4>
+                              <Check size={14} className="text-green-500 shrink-0 bg-green-50 rounded-full p-0.5 border border-green-100" />
+                            </div>
+                            {t.designation && (
+                              <p className="text-[10px] font-black text-primary uppercase tracking-widest leading-none truncate">{t.designation}</p>
+                            )}
+                            {t.company && (
+                              <p className="text-[9px] font-bold text-neutral-400 uppercase tracking-widest leading-none truncate">{t.company}</p>
+                            )}
+                          </div>
+                        </div>
                       </div>
-
-                      {/* Tag badges */}
-                      <span className="px-3 py-1 bg-neutral-100 text-neutral-600 rounded-full font-bold uppercase tracking-widest text-[9px]">
-                        {categoriesList.find(c => (c.slug || c.id) === t.category || c.id === t.category)?.name || 
-                         (t.category === "workstations" ? "Desking Series" : 
-                          t.category === "chairs" ? "Seating Series" : 
-                          t.category === "partitions" ? "Partitions" : 
-                          t.category === "turnkey" ? "Turnkey Space" : 
-                          t.category)}
-                      </span>
                     </div>
-
-                    {/* Review text */}
-                    <p className="text-neutral-800 text-base leading-relaxed font-normal tracking-wide italic">
-                      &quot;{t.quote}&quot;
-                    </p>
-                  </div>
-
-                  {/* Author metadata footer */}
-                  <div className="pt-6 border-t border-neutral-50 flex items-center gap-4 relative z-10 shrink-0">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-secondary to-neutral-800 text-white flex items-center justify-center font-extrabold shrink-0 group-hover:from-primary group-hover:to-rose-600 transition-all duration-500 shadow-md group-hover:shadow-primary/20">
-                      {getInitials(t.author)}
-                    </div>
-                    <div className="space-y-0.5 min-w-0">
-                      <div className="flex items-center gap-1.5">
-                        <h4 className="font-extrabold text-neutral-800 uppercase tracking-tight text-sm truncate">{t.author}</h4>
-                        <Check size={14} className="text-green-500 shrink-0 bg-green-50 rounded-full p-0.5 border border-green-100" />
-                      </div>
-                      {t.designation && (
-                        <p className="text-[10px] font-black text-primary uppercase tracking-widest leading-none truncate">{t.designation}</p>
-                      )}
-                      {t.company && (
-                        <p className="text-[9px] font-bold text-neutral-400 uppercase tracking-widest leading-none truncate">{t.company}</p>
-                      )}
-                    </div>
-                  </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              </div>
+
+              {/* Navigation & Progress indicators */}
+              {filteredTestimonials.length > 0 && (
+                <div className="flex justify-center items-center gap-6 mt-12">
+                  {isInfinite && (
+                    <button 
+                      onClick={prevSlide}
+                      className="w-12 h-12 rounded-full border border-neutral-200 bg-white text-secondary flex items-center justify-center hover:bg-primary hover:text-white hover:border-transparent transition-all duration-300 shadow-sm cursor-pointer active:scale-90"
+                      aria-label="Previous slide"
+                    >
+                      <ChevronLeft size={20} />
+                    </button>
+                  )}
+                  
+                  <div className="flex items-center gap-2">
+                    {filteredTestimonials.map((_, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => handleDotClick(idx)}
+                        className={`h-2.5 rounded-full transition-all duration-500 cursor-pointer ${
+                          activeDotIndex === idx 
+                            ? "w-12 bg-primary" 
+                            : "w-4 bg-neutral-350 hover:bg-neutral-400"
+                        }`}
+                        aria-label={`Go to slide ${idx + 1}`}
+                      />
+                    ))}
+                  </div>
+
+                  {isInfinite && (
+                    <button 
+                      onClick={nextSlide}
+                      className="w-12 h-12 rounded-full border border-neutral-200 bg-white text-secondary flex items-center justify-center hover:bg-primary hover:text-white hover:border-transparent transition-all duration-300 shadow-sm cursor-pointer active:scale-90"
+                      aria-label="Next slide"
+                    >
+                      <ChevronRight size={20} />
+                    </button>
+                  )}
+                </div>
+              )}
+            </>
           )}
         </div>
       </section>
@@ -364,7 +521,10 @@ export default function TestimonialsPage() {
               <div className="relative z-10 grid lg:grid-cols-12 gap-16 items-center">
                  <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
                     <div className="space-y-3">
-                      <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">Corporate Trust</span>
+                      <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 shadow-sm">
+                        <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shrink-0" />
+                        <span className="text-[10px] font-black uppercase tracking-[0.25em] text-primary">Corporate Trust</span>
+                      </div>
                       <h2 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
                          Transforming Workspace <br className="hidden md:inline" /> 
                          Aesthetics Across <span className="text-primary">1000+</span> Offices.
@@ -410,9 +570,9 @@ export default function TestimonialsPage() {
       <section className="pt-12 pb-12 lg:pt-16 lg:pb-16 bg-neutral-50/50">
         <div className="max-w-4xl mx-auto px-6">
           <div className="text-center space-y-4 mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-neutral-100 rounded-full text-neutral-600">
-              <HelpCircle size={14} className="text-primary" />
-              <span className="text-[10px] font-black uppercase tracking-[0.2em]">Got Questions?</span>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 shadow-sm">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shrink-0" />
+              <span className="text-[10px] font-black uppercase tracking-[0.25em] text-primary">Got Questions?</span>
             </div>
             <h2 className="text-3xl font-bold text-neutral-800 tracking-tight leading-tight">Testimonials FAQ</h2>
             <p className="text-neutral-700 text-sm font-normal max-w-md mx-auto">Common answers to modular furniture custom orders, lead times, and layouts.</p>

@@ -55,7 +55,12 @@ export default function OurBrandsPage() {
           <div className="grid lg:grid-cols-2 gap-24 lg:gap-32 items-center">
             <div className="space-y-16">
               <div className="space-y-6">
-                <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">{ourBrandsPage.expertise.badge}</span>
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 shadow-sm animate-fade-in">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shrink-0" />
+                  <span className="text-primary font-black tracking-[0.25em] text-[10px] uppercase">
+                    {ourBrandsPage.expertise.badge}
+                  </span>
+                </div>
                 <h2 className="text-3xl lg:text-5xl font-bold text-secondary leading-tight tracking-tight">
                   {ourBrandsPage.expertise.title.split(' ')[0]} <br /> <span className="text-primary mt-4 block">{ourBrandsPage.expertise.title.split(' ')[1]}</span>
                 </h2>
@@ -120,7 +125,12 @@ export default function OurBrandsPage() {
       <section className="py-32 lg:py-48 bg-white">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-12 space-y-24">
           <div className="text-center space-y-6">
-            <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">{ourBrandsPage.grid.badge}</span>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 shadow-sm animate-fade-in">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shrink-0" />
+              <span className="text-primary font-black tracking-[0.25em] text-[10px] uppercase">
+                {ourBrandsPage.grid.badge}
+              </span>
+            </div>
             <h2 className="text-3xl lg:text-5xl font-bold text-secondary tracking-tight">
               {ourBrandsPage.grid.title.split(' ')[0]} <span className="text-primary">{ourBrandsPage.grid.title.split(' ')[1]}</span>
             </h2>
@@ -160,7 +170,12 @@ export default function OurBrandsPage() {
         
         <div className="max-w-4xl mx-auto px-6 relative z-10 space-y-10">
           <div className="space-y-6">
-            <span className="text-[10px] font-black tracking-[0.5em] text-primary uppercase">{ourBrandsPage.cta.badge}</span>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 shadow-sm animate-fade-in">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shrink-0" />
+              <span className="text-primary font-black tracking-[0.25em] text-[10px] uppercase">
+                {ourBrandsPage.cta.badge}
+              </span>
+            </div>
             <h2 className="text-3xl lg:text-5xl font-bold text-white leading-tight tracking-tight">
               {ourBrandsPage.cta.title.split(' a ')[0]} <br /> {ourBrandsPage.cta.title.split(' a ')[1]}
             </h2>

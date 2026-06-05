@@ -39,9 +39,12 @@ export default function SpaceSection() {
     <section className="pt-12 pb-12 lg:pt-16 lg:pb-16 bg-white overflow-hidden">
       <div className="max-w-[1440px] mx-auto px-4 lg:px-8 space-y-16">
         <div className="text-center space-y-4">
-          <span className="text-primary font-extrabold uppercase tracking-[0.2em] text-xs">
-            Curated Environments
-          </span>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 shadow-sm">
+            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shrink-0" />
+            <span className="text-primary font-black tracking-[0.25em] text-[10px] uppercase">
+              Curated Environments
+            </span>
+          </div>
           <h2 className="text-3xl lg:text-5xl font-bold text-secondary tracking-tight leading-tight">
             Our Projects.
           </h2>

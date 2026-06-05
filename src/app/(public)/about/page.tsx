@@ -83,12 +83,11 @@ export default function AboutPage() {
               
               {/* Header / Badging */}
               <div className="space-y-4">
-                <div className="flex items-center gap-3 animate-fade-in">
-                  <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                  <span className="text-primary font-black uppercase tracking-[0.3em] text-[10px]">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 shadow-sm animate-fade-in">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shrink-0" />
+                  <span className="text-primary font-black tracking-[0.25em] text-[10px] uppercase">
                     Established Excellence
                   </span>
-                  <div className="h-[1px] w-12 bg-primary/20" />
                 </div>
                 <h2 className="text-3xl lg:text-5xl font-bold text-secondary tracking-tight leading-[1.15]">
                   {titleParts[0]}. <br />
@@ -149,17 +148,7 @@ export default function AboutPage() {
                 </div>
               </div>
 
-              {/* Bottom-Right Luxury Overlay Card */}
-              <div className="absolute -bottom-6 -right-4 z-30 bg-secondary/95 backdrop-blur-md text-white p-6 rounded-xl border border-neutral-800 shadow-2xl max-w-[220px] hidden md:block">
-                <div className="flex items-center gap-2 text-primary mb-2">
-                  <Sparkles size={12} className="text-primary animate-pulse" />
-                  <span className="text-[9px] font-black uppercase tracking-[0.2em]">Execution</span>
-                </div>
-                <h4 className="text-xs font-black text-white mb-1.5 leading-snug">Turnkey Interiors</h4>
-                <p className="text-[10px] text-neutral-400 leading-normal font-normal">
-                  Bespoke layouts, False ceilings, acoustic glass partition systems, and optimized office workspace seating.
-                </p>
-              </div>
+
 
             </div>
           </div>
@@ -174,7 +163,12 @@ export default function AboutPage() {
 
         <div className="max-w-[1440px] mx-auto px-6 lg:px-12 relative z-10">
           <div className="text-center space-y-4 mb-20 max-w-2xl mx-auto">
-            <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">Our Philosophy</span>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 shadow-sm">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shrink-0" />
+              <span className="text-primary font-black tracking-[0.25em] text-[10px] uppercase">
+                Our Philosophy
+              </span>
+            </div>
             <h2 className="text-4xl lg:text-5xl font-bold tracking-tight leading-tight uppercase">
               COMMITTED TO DESIGN <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-rose-500">EXCELLENCE.</span>
             </h2>
@@ -230,17 +224,22 @@ export default function AboutPage() {
       <section className="py-24 bg-neutral-50 overflow-hidden relative">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-12 relative z-10">
           <div className="flex flex-col items-center text-center space-y-6 mb-24">
-            <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">{aboutPage.services.badge}</span>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 shadow-sm">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shrink-0" />
+              <span className="text-primary font-black tracking-[0.25em] text-[10px] uppercase">
+                {aboutPage.services.badge}
+              </span>
+            </div>
             <h2 className="text-4xl lg:text-5xl font-bold tracking-tight text-secondary">
               {aboutPage.services.title}
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
             {aboutPage.services.list.map((item, i) => {
               const Icon = getServiceIcon(i);
               return (
-                <div key={i} className="bg-white p-10 rounded-xl border border-neutral-100 shadow-[0_20px_40px_-10px_rgba(0,0,0,0.02)] hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.08)] hover:border-primary/20 transition-all duration-700 group h-full flex flex-col justify-between">
+                <div key={i} className="bg-white p-10 rounded-xl border border-neutral-300 shadow-[0_20px_40px_-10px_rgba(0,0,0,0.02)] hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.08)] hover:border-primary/20 transition-all duration-700 group h-full flex flex-col justify-between">
                   <div>
                     <div className="w-14 h-14 bg-neutral-50 text-secondary group-hover:bg-primary group-hover:text-white flex items-center justify-center rounded-xl transition-all duration-500 mb-8 group-hover:-translate-y-1 shadow-md shadow-neutral-100 group-hover:shadow-primary/20">
                       <Icon size={24} />
@@ -264,9 +263,12 @@ export default function AboutPage() {
           
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
             <div className="space-y-4 max-w-xl">
-              <span className="text-primary font-extrabold uppercase tracking-[0.3em] text-[10px] block">
-                Client Appreciations
-              </span>
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 shadow-sm">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shrink-0" />
+                <span className="text-primary font-black tracking-[0.25em] text-[10px] uppercase">
+                  Client Appreciations
+                </span>
+              </div>
               <h2 className="text-3xl lg:text-5xl font-bold text-secondary tracking-tight leading-none uppercase">
                 What Our <span className="text-primary">Clients Say.</span>
               </h2>
@@ -285,7 +287,7 @@ export default function AboutPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            {testimonials.slice(0, 6).map((t: { rating: number; quote: string; author: string; designation: string; company: string }, i: number) => (
+            {testimonials.slice(0, 6).map((t: { rating: number; quote: string; author: string; designation: string; company: string; image?: string }, i: number) => (
               <div 
                 key={i} 
                 className="bg-white p-10 lg:p-12 rounded-xl border border-neutral-100 flex flex-col justify-between space-y-8 relative group hover:shadow-[0_40px_100px_-20px_rgba(237,28,39,0.08)] hover:-translate-y-2 hover:border-primary/20 transition-all duration-700 h-full"
@@ -315,8 +317,12 @@ export default function AboutPage() {
 
                 {/* Author Info */}
                 <div className="pt-6 border-t border-neutral-100 flex items-center gap-4 relative z-10">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-secondary to-neutral-800 text-white flex items-center justify-center font-extrabold shrink-0 group-hover:from-primary group-hover:to-rose-600 transition-all duration-500 shadow-md group-hover:shadow-primary/20">
-                    {getInitials(t.author)}
+                  <div className="w-12 h-12 rounded-full overflow-hidden bg-gradient-to-tr from-secondary to-neutral-800 text-white flex items-center justify-center font-extrabold shrink-0 group-hover:from-primary group-hover:to-rose-600 transition-all duration-500 shadow-md group-hover:shadow-primary/20 border border-neutral-200">
+                    {t.image ? (
+                      <img src={t.image} alt={t.author} className="w-full h-full object-cover rounded-full" />
+                    ) : (
+                      getInitials(t.author)
+                    )}
                   </div>
                   <div className="space-y-0.5 min-w-0">
                     <div className="flex items-center gap-1.5">
@@ -364,9 +370,9 @@ export default function AboutPage() {
               {/* Left Column: Heading and info */}
               <div className="lg:col-span-7 space-y-8 text-left">
                 <div className="space-y-4">
-                  <div className="inline-flex items-center gap-2 px-3.5 py-1 bg-primary/10 border border-primary/20 rounded-full">
-                    <Sparkles size={12} className="text-primary animate-pulse" />
-                    <span className="text-[10px] font-black uppercase tracking-[0.25em] text-primary">
+                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 shadow-sm">
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shrink-0" />
+                    <span className="text-primary font-black tracking-[0.25em] text-[10px] uppercase">
                       {aboutPage.cta.badge || "Corporate Consultation"}
                     </span>
                   </div>

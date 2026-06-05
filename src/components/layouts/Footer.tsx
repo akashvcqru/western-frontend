@@ -8,7 +8,6 @@ import {
   Mail,
   MapPin,
   MessageSquare,
-  Check,
 } from "lucide-react";
 import siteContent from "@/data/site-content.json";
 import { useSettings } from "@/hooks/useSettings";
@@ -31,18 +30,14 @@ export default function Footer() {
   const footer = React.useMemo(() => {
     return {
       ...staticFooter,
-      socialLinks: staticFooter.socialLinks.map((link) => {
-        if (link.platform.toLowerCase() === "facebook") {
-          return { ...link, href: social.facebookUrl };
-        }
-        if (link.platform.toLowerCase() === "instagram") {
-          return { ...link, href: social.instagramUrl };
-        }
-        if (link.platform.toLowerCase() === "twitter") {
-          return { ...link, href: social.twitterUrl };
-        }
-        return link;
-      }),
+      socialLinks: [
+        { platform: "Facebook", href: social.facebookUrl },
+        { platform: "Instagram", href: social.instagramUrl },
+        { platform: "Twitter", href: social.twitterUrl },
+        { platform: "LinkedIn", href: social.linkedinUrl },
+        { platform: "Pinterest", href: social.pinterestUrl },
+        { platform: "YouTube", href: social.youtubeUrl },
+      ].filter(link => link.href && link.href !== "#" && link.href !== ""),
     };
   }, [staticFooter, social]);
 
@@ -61,13 +56,6 @@ export default function Footer() {
 
   // Clipboard copy feedback
   const [copiedField, setCopiedField] = useState<string | null>(null);
-
-  // Newsletter states
-  const [email, setEmail] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [subscribeStatus, setSubscribeStatus] = useState<
-    "idle" | "success" | "error"
-  >("idle");
 
   useEffect(() => {
     const mountTimer = setTimeout(() => {
@@ -130,22 +118,6 @@ interface FooterLink {
     });
   };
 
-  const handleSubscribe = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email || !email.includes("@")) {
-      setSubscribeStatus("error");
-      setTimeout(() => setSubscribeStatus("idle"), 3000);
-      return;
-    }
-
-    setIsSubmitting(true);
-    // Simulate premium API subscription request
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    setIsSubmitting(false);
-    setSubscribeStatus("success");
-    setEmail("");
-  };
-
   return (
     <footer suppressHydrationWarning={true} className="bg-[#070707] text-white pt-16 pb-12 relative overflow-hidden border-t border-white/5">
       {/* Premium subtle grid backdrop */}
@@ -160,9 +132,9 @@ interface FooterLink {
 
       <div suppressHydrationWarning={true} className="max-w-[1440px] mx-auto px-6 lg:px-12 relative z-10">
 
-        <div suppressHydrationWarning={true} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-12 mb-12">
-          {/* Column 1: Brand & Socials (lg:col-span-3) */}
-          <div suppressHydrationWarning={true} className="lg:col-span-3 space-y-6">
+        <div suppressHydrationWarning={true} className="grid grid-cols-1 md:grid-cols-2 lg:flex lg:flex-row lg:justify-between gap-10 md:gap-12 lg:gap-0 mb-12">
+          {/* Column 1: Brand & Socials */}
+          <div suppressHydrationWarning={true} className="space-y-6 lg:max-w-[320px]">
             <div className="space-y-4">
               <Link
                 href={AppRoutes.Public.Home}
@@ -233,6 +205,18 @@ interface FooterLink {
                           <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                         </svg>
                       );
+                    case "pinterest":
+                      return (
+                        <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                          <path d="M12.017 0c-6.627 0-12 5.373-12 12 0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738.098.119.112.224.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.162 0 7.396 2.967 7.396 6.93 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.63-2.743-1.373l-.749 2.853c-.27 1.029-1.001 2.319-1.492 3.116 1.124.347 2.317.534 3.551.534 6.627 0 12-5.373 12-12 0-6.627-5.373-12-12-12z" />
+                        </svg>
+                      );
+                    case "youtube":
+                      return (
+                        <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                          <path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.11C19.517 3.545 12 3.545 12 3.545s-7.517 0-9.388.508a3.003 3.003 0 0 0-2.11 2.11C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 0 0 2.11 2.11c1.871.508 9.388.508 9.388.508s7.517 0 9.388-.508a3.003 3.003 0 0 0 2.11-2.11C24 15.967 24 12 24 12s0-3.967-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                        </svg>
+                      );
                     default:
                       return <MessageSquare size={14} />;
                   }
@@ -248,6 +232,10 @@ interface FooterLink {
                       return "hover:text-[#0077B5] hover:bg-[#0077B5]/10 hover:border-[#0077B5]/30";
                     case "twitter":
                       return "hover:text-white hover:bg-white/10 hover:border-white/30";
+                    case "pinterest":
+                      return "hover:text-[#BD081C] hover:bg-[#BD081C]/10 hover:border-[#BD081C]/30";
+                    case "youtube":
+                      return "hover:text-[#FF0000] hover:bg-[#FF0000]/10 hover:border-[#FF0000]/30";
                     default:
                       return "hover:text-primary hover:bg-primary/10 hover:border-primary/30";
                   }
@@ -274,11 +262,11 @@ interface FooterLink {
             </div>
           </div>
 
-          {/* Column 2: Quick Links (lg:col-span-2) */}
-          <div suppressHydrationWarning={true} className="lg:col-span-2">
+          {/* Column 2: Quick Links */}
+          <div suppressHydrationWarning={true} className="">
             <div suppressHydrationWarning={true} className="flex items-center gap-2 mb-6">
               <span className="w-1 h-1 rounded-full bg-primary" />
-              <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-white">Company</h4>
+              <h4 className="text-[11px] font-bold uppercase tracking-[0.3em] text-white">Company</h4>
             </div>
             <ul className="space-y-3">
               {footer.companyLinks.map((link: FooterLink) => (
@@ -295,11 +283,11 @@ interface FooterLink {
             </ul>
           </div>
 
-          {/* Column 3: Products / Categories Links (lg:col-span-2) */}
-          <div suppressHydrationWarning={true} className="lg:col-span-2">
+          {/* Column 3: Products / Categories Links */}
+          <div suppressHydrationWarning={true} className="">
             <div suppressHydrationWarning={true} className="flex items-center gap-2 mb-6">
               <span className="w-1 h-1 rounded-full bg-primary" />
-              <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-white">Categories</h4>
+              <h4 className="text-[11px] font-bold uppercase tracking-[0.3em] text-white">Categories</h4>
             </div>
             <ul className="space-y-3">
               {footerCategories.length > 0
@@ -343,11 +331,11 @@ interface FooterLink {
             </ul>
           </div>
 
-          {/* Column 4: Contact details (lg:col-span-2) */}
-          <div suppressHydrationWarning={true} className="lg:col-span-2">
+          {/* Column 4: Contact details */}
+          <div suppressHydrationWarning={true} className="">
             <div suppressHydrationWarning={true} className="flex items-center gap-2 mb-6">
               <span className="w-1 h-1 rounded-full bg-primary" />
-              <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-white">Get in Touch</h4>
+              <h4 className="text-[11px] font-bold uppercase tracking-[0.3em] text-white">Get in Touch</h4>
             </div>
             <div suppressHydrationWarning={true} className="space-y-4 text-gray-400 text-xs">
               {/* Address */}
@@ -368,96 +356,39 @@ interface FooterLink {
               </div>
 
               {/* Phones */}
-              <div 
-                suppressHydrationWarning={true}
-                onClick={() => handleCopy(common.contact.phones.join(", "), "phone")}
-                className="relative flex items-start gap-3 hover:text-white cursor-pointer transition-all duration-300 group py-1 rounded hover:bg-white/[0.01]"
-              >
-                <Phone size={14} className="text-primary mt-0.5 shrink-0 group-hover:scale-110 transition-transform" />
-                <div suppressHydrationWarning={true} className="flex flex-col gap-0.5 text-[12px] font-semibold tracking-wider">
-                  {common.contact.phones.map((phone: string, i: number) => (
-                    <span key={i}>{phone}</span>
-                  ))}
-                </div>
-                {copiedField === "phone" && (
-                  <span className="absolute -top-7 left-0 px-2 py-0.5 bg-emerald-500 text-white text-[9px] font-bold rounded shadow-lg">
-                    Copied!
-                  </span>
-                )}
+              <div suppressHydrationWarning={true} className="flex flex-col gap-2">
+                {common.contact.phones.map((phone: string, i: number) => (
+                  <a
+                    key={i}
+                    href={`tel:${phone.replace(/-/g, "").replace(/ /g, "")}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      window.location.href = `tel:${phone.replace(/-/g, "").replace(/ /g, "")}`;
+                    }}
+                    className="relative flex items-center gap-3 hover:text-white transition-all duration-300 group py-1 rounded hover:bg-white/[0.01] w-fit"
+                  >
+                    <Phone size={14} className="text-primary shrink-0 group-hover:scale-110 transition-transform" />
+                    <span className="text-[12px] font-semibold tracking-wider">
+                      {phone}
+                    </span>
+                  </a>
+                ))}
               </div>
 
               {/* Email */}
-              <div 
-                suppressHydrationWarning={true}
-                onClick={() => handleCopy(common.contact.email, "email")}
-                className="relative flex items-center gap-3 hover:text-white cursor-pointer transition-all duration-300 group py-1 rounded hover:bg-white/[0.01]"
+              <a
+                href={`mailto:${common.contact.email}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.location.href = `mailto:${common.contact.email}`;
+                }}
+                className="relative flex items-center gap-3 hover:text-white transition-all duration-300 group py-1 rounded hover:bg-white/[0.01] w-fit"
               >
                 <Mail size={14} className="text-primary shrink-0 group-hover:scale-110 transition-transform" />
                 <span className="text-[12px] font-medium break-all">
                   {common.contact.email}
                 </span>
-                {copiedField === "email" && (
-                  <span className="absolute -top-7 left-0 px-2 py-0.5 bg-emerald-500 text-white text-[9px] font-bold rounded shadow-lg">
-                    Copied!
-                  </span>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* Column 5: Newsletter (lg:col-span-3) */}
-          <div suppressHydrationWarning={true} className="lg:col-span-3 space-y-6">
-            <div suppressHydrationWarning={true} className="space-y-4">
-              <div suppressHydrationWarning={true} className="flex items-center gap-2">
-                <span className="w-1 h-1 rounded-full bg-primary" />
-                <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-white">Newsletter</h4>
-              </div>
-              <p className="text-gray-400 text-xs font-medium leading-relaxed">
-                {footer.newsletter.desc}
-              </p>
-
-              {subscribeStatus === "success" ? (
-                <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-lg p-4 text-center space-y-2">
-                  <div className="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto">
-                    <Check size={12} strokeWidth={3} />
-                  </div>
-                  <p className="text-[10px] font-bold text-white uppercase tracking-widest">Subscribed!</p>
-                </div>
-              ) : (
-                <form onSubmit={handleSubscribe} className="space-y-2">
-                  <div suppressHydrationWarning={true} className="relative flex items-center group">
-                    <Mail size={14} className="absolute left-3.5 text-gray-600 group-focus-within:text-primary transition-colors" />
-                    <input
-                      suppressHydrationWarning={true}
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder={footer.newsletter.placeholder}
-                      className={cn(
-                        "w-full bg-white/[0.02] border rounded-lg py-2.5 pl-9 pr-4 text-xs text-white placeholder:text-gray-600 focus:outline-none focus:bg-white/[0.04] transition-all",
-                        subscribeStatus === "error" ? "border-red-500/40" : "border-white/10 focus:border-primary/50"
-                      )}
-                      aria-label="Email for newsletter"
-                      disabled={isSubmitting}
-                    />
-                  </div>
-                  <button
-                    suppressHydrationWarning={true}
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full py-2.5 bg-white text-black font-bold text-[9px] uppercase tracking-widest rounded-lg hover:bg-primary hover:text-white transition-all cursor-pointer shadow-lg active:scale-95"
-                  >
-                    {isSubmitting ? "Joining..." : "Join Inner Circle"}
-                  </button>
-                </form>
-              )}
-            </div>
-
-            <div suppressHydrationWarning={true} className="pt-2">
-              <div suppressHydrationWarning={true} className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-emerald-500/5 border border-emerald-500/10 text-emerald-400 text-[9px] font-bold tracking-wider uppercase">
-                <span className="w-1 h-1 rounded-full bg-emerald-400" />
-                Accepting Premium Projects
-              </div>
+              </a>
             </div>
           </div>
         </div>

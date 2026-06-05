@@ -36,6 +36,8 @@ export interface BlogPost {
   authorRole: string;
   tags: string[];
   content: string[];
+  linkText?: string;
+  hyperlink?: string;
 }
 
 export interface Product {
@@ -134,6 +136,7 @@ export interface Testimonial {
   category: string;
   status: string;
   createdAt: string;
+  image?: string;
 }
 
 export interface Catalogue {

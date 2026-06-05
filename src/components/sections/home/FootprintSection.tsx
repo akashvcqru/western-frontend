@@ -30,50 +30,51 @@ const hubs: Hub[] = [
     details: "Our fully integrated manufacturing unit in Kadipur Industrial Area houses automatic powder coating lines and precision CNC routing for desking desking fabrication."
   },
   {
-    id: "mumbai",
-    name: "Mumbai Hub",
-    type: "Western Distribution Node",
-    x: 23,
-    y: 61,
-    deliveryTime: "3-4 Days",
-    stats: "Regional Warehouse & Support",
-    projectsCount: "180+ Offices Executed",
-    details: "Direct supply line with regular bulk logistics routes servicing financial hubs, desking solutions, and corporate spaces in Mumbai and Pune."
+    id: "chandigarh",
+    name: "Chandigarh Hub",
+    type: "Northern Distribution Node",
+    x: 42,
+    y: 16,
+    deliveryTime: "1-2 Days",
+    stats: "2,500+ Sq.Ft. Node",
+    projectsCount: "120+ Workspaces Delivered",
+    details: "Rapid distribution of premium modular offices, executive desks, and institutional furniture across Punjab, Haryana, and Himachal Pradesh."
   },
   {
-    id: "bangalore",
-    name: "Bangalore Hub",
-    type: "Southern Tech Node",
-    x: 37,
-    y: 81,
-    deliveryTime: "4 Days",
-    stats: "Direct Logistics & Installation",
-    projectsCount: "120+ Corporate Sites",
-    details: "Optimized logistics and local deployment teams serving high-tech IT parks with ergonomic desking and modular acoustic partition solutions."
+    id: "agra",
+    name: "Agra Hub",
+    type: "Central UP Distribution Node",
+    x: 68,
+    y: 48,
+    deliveryTime: "2 Days",
+    stats: "1,500+ Sq.Ft. Node",
+    projectsCount: "70+ Corporate Projects",
+    details: "Serving educational institutes, hospitality spaces, and commercial offices with heavy-duty workstation setups and ergonomic chairs."
   },
   {
-    id: "kolkata",
-    name: "Kolkata Hub",
-    type: "Eastern Distribution Partner",
-    x: 76,
-    y: 47,
-    deliveryTime: "4-5 Days",
-    stats: "Bulk Logistics & Assembly",
-    projectsCount: "60+ Turnkey Projects",
-    details: "Connecting Eastern corporate centers with modular office furniture, heavy-duty desking desking systems, and storage units."
+    id: "delhi",
+    name: "Delhi Hub",
+    type: "Capital Region Center",
+    x: 58,
+    y: 25,
+    deliveryTime: "Next-Day Delivery",
+    stats: "6,000+ Sq.Ft. Hub",
+    projectsCount: "320+ Executive Spaces",
+    details: "Direct supply line from our Gurgaon plant servicing corporate hubs, coworking spaces, and government offices in the NCR region."
   },
   {
-    id: "hyderabad",
-    name: "Hyderabad Node",
-    type: "Deccan Logistics Node",
-    x: 44,
-    y: 68,
-    deliveryTime: "3-4 Days",
-    stats: "Corporate Assembly & Setup",
-    projectsCount: "90+ Workspaces Delivered",
-    details: "Comprehensive interior and modular desking desking logistics with on-demand local engineering teams for seamless office installations."
+    id: "faridabad",
+    name: "Faridabad Hub",
+    type: "Industrial Corridor Node",
+    x: 32,
+    y: 55,
+    deliveryTime: "1-2 Days",
+    stats: "3,000+ Sq.Ft. Node",
+    projectsCount: "95+ Offices Installed",
+    details: "Supporting industrial offices, factories, and corporate centers with heavy-duty desking, modular acoustics, and partition solutions."
   }
 ];
+
 
 export default function FootprintSection() {
   const { footer } = siteContent;
@@ -106,12 +107,11 @@ export default function FootprintSection() {
         {/* Header Grid */}
         <div className="grid lg:grid-cols-12 gap-8 items-end mb-16 lg:mb-20">
           <div className="lg:col-span-8 space-y-4">
-            <div className="flex items-center gap-3">
-              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-              <span className="text-primary font-black uppercase tracking-[0.3em] text-[10px]">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 shadow-sm animate-fade-in">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shrink-0" />
+              <span className="text-primary font-black tracking-[0.25em] text-[10px] uppercase">
                 05 / Manufacturing & Footprint
               </span>
-              <div className="h-[1px] w-12 bg-primary/30" />
             </div>
             <h2 className="text-3xl lg:text-5xl font-black tracking-tight leading-none">
               State-of-the-Art Production. <br />
@@ -244,10 +244,7 @@ export default function FootprintSection() {
               </span>
             </div>
 
-            <div className="absolute bottom-6 right-6 text-right z-20 pointer-events-none">
-              <span className="text-[9px] font-black tracking-widest uppercase text-neutral-500 block">HQs Coordinates</span>
-              <span className="text-[10px] font-mono text-neutral-400">28.4595° N, 77.0266° E</span>
-            </div>
+
 
             {/* Interactive Network Map (SVG Canvas) */}
             <div className="w-full h-full relative flex items-center justify-center">
@@ -433,10 +430,10 @@ export default function FootprintSection() {
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
               <p className="text-[10px] font-black uppercase tracking-widest text-primary">Direct Delivery Services</p>
-              <h4 className="text-lg font-black text-white tracking-tight">Active Delivery Footprint</h4>
+              <h4 className="text-lg font-black text-white tracking-tight">We Deliver to</h4>
             </div>
             <div className="px-4 py-2 rounded-xl bg-neutral-900 border border-neutral-800 text-[10px] font-black uppercase tracking-wider text-neutral-400">
-              Pan-India Node Coverage: {deliveryCities.length} Metros & Tier-1 Cities
+              Pan Indian Coverage
             </div>
           </div>
 

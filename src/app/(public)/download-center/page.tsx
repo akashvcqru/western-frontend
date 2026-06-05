@@ -307,9 +307,12 @@ export default function DownloadCenterPage() {
 
         <div className="max-w-[1440px] mx-auto px-6 lg:px-12 relative z-10 space-y-8">
           <div className="space-y-4">
-            <span className="text-[10px] font-black tracking-[0.4em] text-primary uppercase bg-white/5 px-4.5 py-1.5 rounded-full inline-block">
-              Custom Proposals
-            </span>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 shadow-sm animate-fade-in">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shrink-0" />
+              <span className="text-primary font-black tracking-[0.25em] text-[10px] uppercase">
+                Custom Proposals
+              </span>
+            </div>
             <h2 className="text-3xl lg:text-5xl font-black tracking-tight leading-tight uppercase">
               Need a Custom Presentation <br className="hidden md:block" />
               Or Physical Catalogue?

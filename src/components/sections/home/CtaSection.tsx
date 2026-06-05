@@ -13,7 +13,7 @@ export default function CtaSection({ onOpenQuote }: CtaSectionProps) {
     <section className="py-24 lg:py-32 bg-neutral-950 text-white relative overflow-hidden">
       <div className="absolute inset-0 z-0">
         <Image 
-          src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop"
+          src="/bg-cta.jpg"
           alt="Corporate Environment background"
           fill
           className="object-cover opacity-45 grayscale scale-105"
@@ -23,7 +23,12 @@ export default function CtaSection({ onOpenQuote }: CtaSectionProps) {
       
       <div className="max-w-[1440px] mx-auto px-6 lg:px-12 relative z-10">
         <div className="max-w-3xl space-y-6">
-          <span className="text-primary font-extrabold uppercase tracking-[0.2em] text-xs">Transform Your Space</span>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 shadow-sm">
+            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shrink-0" />
+            <span className="text-primary font-black tracking-[0.25em] text-[10px] uppercase">
+              Transform Your Space
+            </span>
+          </div>
           <h2 className="text-3xl lg:text-5xl font-bold tracking-tight leading-tight">
             Ready to Craft <br />Your <span className="text-primary">Masterpiece?</span>
           </h2>

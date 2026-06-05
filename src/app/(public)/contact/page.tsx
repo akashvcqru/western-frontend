@@ -222,9 +222,11 @@ export default function ContactPage() {
             {/* Left side: Premium Brand & Hours Info Panel */}
             <div className="lg:col-span-5 space-y-12">
               <div className="space-y-6">
-                <div className="inline-flex items-center gap-2 px-3 py-1 bg-primary/5 text-primary text-[10px] font-black uppercase tracking-[0.2em] rounded-md">
-                  <Sparkles className="w-3 h-3 animate-pulse" />
-                  Premium Manufacturer
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 shadow-sm animate-fade-in">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shrink-0" />
+                  <span className="text-[10px] font-black uppercase tracking-[0.25em] text-primary">
+                    Premium Manufacturer
+                  </span>
                 </div>
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-secondary leading-tight tracking-tight uppercase">
                   Let&apos;s Discuss <br />
@@ -366,9 +368,12 @@ export default function ContactPage() {
       <section className="py-24 relative overflow-hidden bg-white border-t border-neutral-100">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
           <div className="text-center max-w-2xl mx-auto mb-16 space-y-4">
-            <span className="text-[10px] font-black tracking-[0.25em] text-primary uppercase bg-primary/5 px-4 py-1.5 rounded-lg inline-block">
-              COMMON INQUIRIES
-            </span>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 shadow-sm">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shrink-0" />
+              <span className="text-[10px] font-black uppercase tracking-[0.25em] text-primary">
+                COMMON INQUIRIES
+              </span>
+            </div>
             <h2 className="text-3xl md:text-4xl font-black text-secondary uppercase tracking-tight">
               Frequently Asked Questions
             </h2>

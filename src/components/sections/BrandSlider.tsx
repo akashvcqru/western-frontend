@@ -52,9 +52,9 @@ export default function BrandSlider() {
       <div className="max-w-[1440px] mx-auto px-4 lg:px-8 space-y-10 relative z-10">
         {/* Premium Title Section */}
         <div className="text-center space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/5 border border-primary/10 shadow-sm animate-fade-in">
-            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
-            <span className="text-primary font-black tracking-[0.25em] text-[9px] uppercase">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 shadow-sm animate-fade-in">
+            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shrink-0"></span>
+            <span className="text-primary font-black tracking-[0.25em] text-[10px] uppercase">
               {brandSlider.badge}
             </span>
           </div>

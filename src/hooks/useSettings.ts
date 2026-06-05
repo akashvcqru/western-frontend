@@ -14,6 +14,9 @@ export interface ParsedSocial {
   facebookUrl: string;
   instagramUrl: string;
   twitterUrl: string;
+  linkedinUrl: string;
+  pinterestUrl: string;
+  youtubeUrl: string;
 }
 
 export function useSettings() {
@@ -55,6 +58,9 @@ export function useSettings() {
   const facebookUrl = socialData?.facebookUrl || "#";
   const instagramUrl = socialData?.instagramUrl || "#";
   const twitterUrl = socialData?.twitterUrl || "#";
+  const linkedinUrl = socialData?.linkedinUrl || "#";
+  const pinterestUrl = socialData?.pinterestUrl || "#";
+  const youtubeUrl = socialData?.youtubeUrl || "#";
 
   return {
     contact: {
@@ -69,6 +75,9 @@ export function useSettings() {
       facebookUrl,
       instagramUrl,
       twitterUrl,
+      linkedinUrl,
+      pinterestUrl,
+      youtubeUrl,
     } as ParsedSocial,
     isLoading: isContactLoading || isSocialLoading,
   };

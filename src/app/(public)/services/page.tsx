@@ -138,12 +138,11 @@ export default function ServicesPage() {
             {/* Left Content Column */}
             <div className="lg:col-span-7 space-y-8">
               <div className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                  <span className="text-primary font-bold uppercase tracking-[0.3em] text-[10px]">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 shadow-sm animate-fade-in">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shrink-0" />
+                  <span className="text-primary font-black tracking-[0.25em] text-[10px] uppercase">
                     Core Competencies
                   </span>
-                  <div className="h-[1px] w-12 bg-primary/20" />
                 </div>
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-secondary leading-tight tracking-tight uppercase">
                   Complete <br />
@@ -222,9 +221,12 @@ export default function ServicesPage() {
           
           {/* Section Heading */}
           <div className="text-center space-y-4 max-w-3xl mx-auto mb-14">
-            <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-primary bg-primary/5 px-4 py-1.5 rounded-lg inline-block">
-              SPECIALIZED SOLUTIONS
-            </span>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 shadow-sm">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shrink-0" />
+              <span className="text-primary font-black tracking-[0.25em] text-[10px] uppercase">
+                SPECIALIZED SOLUTIONS
+              </span>
+            </div>
             <h2 className="text-3xl md:text-4xl font-bold text-secondary uppercase tracking-tight">
               Our Interior <span className="text-primary">Portfolio.</span>
             </h2>
@@ -334,7 +336,12 @@ export default function ServicesPage() {
           
           {/* Process Header */}
           <div className="text-center max-w-3xl mx-auto space-y-4 mb-20">
-            <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">Sovereign Standard</span>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 shadow-sm">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shrink-0" />
+              <span className="text-primary font-black tracking-[0.25em] text-[10px] uppercase">
+                Sovereign Standard
+              </span>
+            </div>
             <h2 className="text-3xl lg:text-5xl font-bold tracking-tight leading-tight uppercase">
               Our 4-Step <span className="text-primary">Turnkey Flow.</span>
             </h2>
@@ -405,9 +412,9 @@ export default function ServicesPage() {
               {/* Left Column: Heading and info */}
               <div className="lg:col-span-7 space-y-8 text-left">
                 <div className="space-y-4">
-                  <div className="inline-flex items-center gap-2 px-3.5 py-1 bg-primary/10 border border-primary/20 rounded-full">
-                    <Sparkles size={12} className="text-primary animate-pulse" />
-                    <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-primary">
+                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 shadow-sm">
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shrink-0" />
+                    <span className="text-primary font-black tracking-[0.25em] text-[10px] uppercase">
                       Corporate Consultation
                     </span>
                   </div>

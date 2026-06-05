@@ -9,7 +9,6 @@ import {
   Search,
   Phone,
   Mail,
-  MapPin,
   ArrowRight,
   ChevronDown,
 } from "lucide-react";
@@ -55,11 +54,22 @@ export default function Header() {
   }, [subCategoriesResult]);
 
   const { header } = siteContent;
-  const { contact } = useSettings();
+  const { contact, social } = useSettings();
   const common = {
     ...siteContent.common,
     contact,
   };
+
+  const socialLinks = React.useMemo(() => {
+    return [
+      { platform: "Facebook", href: social.facebookUrl },
+      { platform: "Instagram", href: social.instagramUrl },
+      { platform: "Twitter", href: social.twitterUrl },
+      { platform: "LinkedIn", href: social.linkedinUrl },
+      { platform: "Pinterest", href: social.pinterestUrl },
+      { platform: "YouTube", href: social.youtubeUrl },
+    ].filter(link => link.href && link.href !== "#" && link.href !== "");
+  }, [social]);
 
   const navItems = React.useMemo(() => {
     const items = activeCategories.map((cat) => ({
@@ -74,7 +84,7 @@ export default function Header() {
     return [
       ...items,
       { name: "About Us", href: "/about" },
-      { name: "Blog", href: "/blog" },
+      { name: "Contact Us", href: "/contact" },
     ];
   }, [activeCategories]);
 
@@ -111,38 +121,104 @@ export default function Header() {
             <div className="flex items-center gap-8 xl:gap-14">
               <a
                 href={`mailto:${common.contact.email}`}
-                className="flex items-center gap-2 lg:gap-2.5 group cursor-pointer transition-all hover:text-white"
+                className="transition-colors duration-300 hover:text-white cursor-pointer"
               >
-                <Mail
-                  size={12}
-                  className="text-primary group-hover:scale-110 group-hover:rotate-3 transition-transform filter group-hover:drop-shadow-[0_0_4px_rgba(237,28,39,0.5)]"
-                />
-                <span className="transition-colors duration-300">
-                  {common.contact.email}
-                </span>
+                {common.contact.email}
               </a>
               {common.contact.phones.map((p: string, i: number) => (
                 <a
                   key={i}
                   href={`tel:${p.replace(/-/g, "")}`}
-                  className="flex items-center gap-2 lg:gap-2.5 group cursor-pointer transition-all hover:text-white"
+                  className="transition-colors duration-300 hover:text-white cursor-pointer"
                 >
-                  <Phone
-                    size={12}
-                    className="text-primary group-hover:scale-110 group-hover:rotate-12 transition-transform filter group-hover:drop-shadow-[0_0_4px_rgba(237,28,39,0.5)]"
-                  />
-                  <span className="transition-colors duration-300">{p}</span>
+                  {p}
                 </a>
               ))}
             </div>
-            <div className="flex items-center gap-2 lg:gap-2.5 group cursor-pointer transition-all hover:text-white">
-              <MapPin
-                size={12}
-                className="text-primary group-hover:scale-110 group-hover:-translate-y-0.5 transition-all filter group-hover:drop-shadow-[0_0_4px_rgba(237,28,39,0.5)]"
-              />
-              <span className="transition-colors duration-300">
-                {common.contact.locationShort}
-              </span>
+
+            {/* Social Links on the Right */}
+            <div className="flex items-center gap-4.5">
+              {socialLinks.map((social) => {
+                const getIcon = () => {
+                  switch (social.platform.toLowerCase()) {
+                    case "facebook":
+                      return (
+                        <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                          <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z" />
+                        </svg>
+                      );
+                    case "instagram":
+                      return (
+                        <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                        </svg>
+                      );
+                    case "linkedin":
+                      return (
+                        <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                          <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                        </svg>
+                      );
+                    case "twitter":
+                      return (
+                        <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                        </svg>
+                      );
+                    case "pinterest":
+                      return (
+                        <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                          <path d="M12.017 0c-6.627 0-12 5.373-12 12 0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738.098.119.112.224.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.162 0 7.396 2.967 7.396 6.93 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.63-2.743-1.373l-.749 2.853c-.27 1.029-1.001 2.319-1.492 3.116 1.124.347 2.317.534 3.551.534 6.627 0 12-5.373 12-12 0-6.627-5.373-12-12-12z" />
+                        </svg>
+                      );
+                    case "youtube":
+                      return (
+                        <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                          <path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.11C19.517 3.545 12 3.545 12 3.545s-7.517 0-9.388.508a3.003 3.003 0 0 0-2.11 2.11C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 0 0 2.11 2.11c1.871.508 9.388.508 9.388.508s7.517 0 9.388-.508a3.003 3.003 0 0 0 2.11-2.11C24 15.967 24 12 24 12s0-3.967-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                        </svg>
+                      );
+                    default:
+                      return null;
+                  }
+                };
+ 
+                const getHoverColor = () => {
+                  switch (social.platform.toLowerCase()) {
+                    case "facebook":
+                      return "hover:text-[#1877F2]";
+                    case "instagram":
+                      return "hover:text-[#E4405F]";
+                    case "linkedin":
+                      return "hover:text-[#0077B5]";
+                    case "twitter":
+                      return "hover:text-white";
+                    case "pinterest":
+                      return "hover:text-[#BD081C]";
+                    case "youtube":
+                      return "hover:text-[#FF0000]";
+                    default:
+                      return "hover:text-primary";
+                  }
+                };
+
+                return (
+                  <a
+                    key={social.platform}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Follow us on ${social.platform}`}
+                    className={cn(
+                      "text-neutral-400 hover:scale-110 active:scale-95 transition-all duration-300",
+                      getHoverColor()
+                    )}
+                  >
+                    {getIcon()}
+                  </a>
+                );
+              })}
             </div>
           </div>
         </div>

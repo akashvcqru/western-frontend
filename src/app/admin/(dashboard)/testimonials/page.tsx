@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Edit, Trash2, AlertCircle, MessageSquare, Star, Plus } from "lucide-react";
+import { Edit, Trash2, AlertCircle, MessageSquare, Star, Plus, Upload, X } from "lucide-react";
 import { Card, AppModal, useAppToast, AdminPageHeader, Pagination, SearchInput, RHFControl } from "@/components/ui";
 import { AppRoutes } from "@/constants/routes";
 import { useForm, FormProvider, Resolver } from "react-hook-form";
@@ -16,6 +16,47 @@ import {
 import { useGetCategoriesQuery } from "@/redux/api/categoriesApi";
 import type { Testimonial } from "@/types/api";
 
+// Helper function to resize/compress images to 256x256 before upload
+const resizeImage = (file: File): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (event) => {
+      const img = new window.Image();
+      img.src = event.target?.result as string;
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        const MAX_WIDTH = 256;
+        const MAX_HEIGHT = 256;
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > MAX_WIDTH) {
+            height *= MAX_WIDTH / width;
+            width = MAX_WIDTH;
+          }
+        } else {
+          if (height > MAX_HEIGHT) {
+            width *= MAX_HEIGHT / height;
+            height = MAX_HEIGHT;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        ctx?.drawImage(img, 0, 0, width, height);
+
+        const dataUrl = canvas.toDataURL("image/jpeg", 0.85);
+        resolve(dataUrl);
+      };
+      img.onerror = (err) => reject(err);
+    };
+    reader.onerror = (err) => reject(err);
+  });
+};
+
 const testimonialValidationSchema = yup.object().shape({
   author: yup.string().required("Client name is required").min(3, "Must be at least 3 characters"),
   designation: yup.string().optional().default(""),
@@ -23,6 +64,7 @@ const testimonialValidationSchema = yup.object().shape({
   category: yup.string().required("Category is required"),
   quote: yup.string().required("Review text is required").min(10, "Must be at least 10 characters"),
   status: yup.string().required("Status is required"),
+  image: yup.string().optional().default(""),
 });
 
 type TestimonialFormData = yup.InferType<typeof testimonialValidationSchema>;
@@ -88,6 +130,7 @@ export default function AdminTestimonialsPage() {
       category: "",
       quote: "",
       status: "Active",
+      image: "",
     },
   });
 
@@ -104,6 +147,7 @@ export default function AdminTestimonialsPage() {
         category: editingTestimonial.category,
         quote: editingTestimonial.quote,
         status: editingTestimonial.status,
+        image: editingTestimonial.image || "",
       });
       setSelectedRating(editingTestimonial.rating);
     } else {
@@ -114,6 +158,7 @@ export default function AdminTestimonialsPage() {
         category: "",
         quote: "",
         status: "Active",
+        image: "",
       });
       setSelectedRating(5);
     }
@@ -162,6 +207,7 @@ export default function AdminTestimonialsPage() {
             rating: selectedRating,
             category: data.category,
             status: data.status,
+            image: data.image || "",
           },
         }).unwrap();
         addToast({ title: "Review Updated", message: "Review was updated successfully.", variant: "success" });
@@ -174,6 +220,7 @@ export default function AdminTestimonialsPage() {
           rating: selectedRating,
           category: data.category,
           status: data.status,
+          image: data.image || "",
         }).unwrap();
         addToast({ title: "Review Created", message: "Review was created successfully.", variant: "success" });
       }
@@ -274,21 +321,40 @@ export default function AdminTestimonialsPage() {
                   testimonials.map((t) => {
                     const catObj = (categoriesData?.data || []).find((c) => c.slug === t.category || c.id === t.category);
                     const categoryLabel = catObj ? catObj.name : t.category;
+                    const getInitials = (name: string) => {
+                      return name
+                        .split(" ")
+                        .map((n) => n[0])
+                        .join("")
+                        .toUpperCase()
+                        .slice(0, 2);
+                    };
                     return (
                       <tr key={t.id} className="hover:bg-gray-50/50 transition-colors group">
                         <td className="py-4 px-6">
-                          <p className="text-xs font-bold text-gray-900">{t.author}</p>
-                          <p className="text-[10px] text-gray-400 font-medium mt-0.5">
-                            {t.designation && t.company ? (
-                              <>{t.designation} at <span className="font-bold text-gray-500">{t.company}</span></>
-                            ) : t.designation ? (
-                              t.designation
-                            ) : t.company ? (
-                              <span className="font-bold text-gray-500">{t.company}</span>
-                            ) : (
-                              "-"
-                            )}
-                          </p>
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-full overflow-hidden bg-neutral-900 text-white flex items-center justify-center font-extrabold shrink-0 border border-neutral-200 relative">
+                              {t.image ? (
+                                <img src={t.image} alt={t.author} className="w-full h-full object-cover rounded-full" />
+                              ) : (
+                                <span className="text-xs uppercase">{getInitials(t.author)}</span>
+                              )}
+                            </div>
+                            <div>
+                              <p className="text-xs font-bold text-gray-900">{t.author}</p>
+                              <p className="text-[10px] text-gray-400 font-medium mt-0.5">
+                                {t.designation && t.company ? (
+                                  <>{t.designation} at <span className="font-bold text-gray-500">{t.company}</span></>
+                                ) : t.designation ? (
+                                  t.designation
+                                ) : t.company ? (
+                                  <span className="font-bold text-gray-500">{t.company}</span>
+                                ) : (
+                                  "-"
+                                )}
+                              </p>
+                            </div>
+                          </div>
                         </td>
                         <td className="py-4 px-6">
                           <span className="px-2.5 py-0.5 bg-neutral-100 text-neutral-600 rounded-md text-[9px] font-bold uppercase tracking-widest">
@@ -316,13 +382,12 @@ export default function AdminTestimonialsPage() {
                         <td className="py-4 px-6">
                           <button
                             onClick={() => handleStatusToggle(t)}
-                            className={`px-2 py-1 rounded-md text-[9px] font-black uppercase tracking-widest cursor-pointer transition-all duration-300 ${
-                              t.status === "Active"
+                            className={`px-2 py-1 rounded-md text-[9px] font-black uppercase tracking-widest cursor-pointer transition-all duration-300 ${t.status === "Active"
                                 ? "bg-emerald-50 text-emerald-600 border border-emerald-200 hover:bg-emerald-100"
                                 : t.status === "Pending"
-                                ? "bg-amber-50 text-amber-650 border border-amber-200 hover:bg-amber-100"
-                                : "bg-neutral-50 text-neutral-400 border border-neutral-200 hover:bg-neutral-100"
-                            }`}
+                                  ? "bg-amber-50 text-amber-650 border border-amber-200 hover:bg-amber-100"
+                                  : "bg-neutral-50 text-neutral-400 border border-neutral-200 hover:bg-neutral-100"
+                              }`}
                             title="Click to toggle status"
                           >
                             {t.status}
@@ -455,6 +520,48 @@ export default function AdminTestimonialsPage() {
               placeholder="Testimonial text..."
               className="rounded-xl"
             />
+
+            {/* Rectangular Image Upload */}
+            <div className="space-y-2">
+              <label className="text-[10px] font-bold uppercase tracking-widest text-[#8a99ad]">Client Image</label>
+              <div className={`border-2 border-dashed rounded-xl p-8 flex flex-col items-center justify-center gap-2 bg-gray-50/50 relative group cursor-pointer transition-all duration-300 min-h-[140px] ${!methods.watch("image") ? "border-gray-200 hover:border-[#ed1c27]/60" : "border-emerald-200 hover:border-emerald-450"}`}>
+                <Upload className={`w-8 h-8 transition-colors duration-300 ${!methods.watch("image") ? "text-[#8a99ad] group-hover:text-[#ed1c27]" : "text-emerald-400"}`} />
+                <span className="text-xs text-gray-500 font-bold uppercase tracking-wider text-center">
+                  {methods.watch("image") ? "Image Uploaded — Click to Replace" : "Click to Upload Client Image"}
+                </span>
+                <span className="text-[9px] text-[#8a99ad] font-semibold uppercase tracking-widest text-center">
+                  Supports JPG, PNG, WEBP (Max 100KB, Automatic compression)
+                </span>
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                  onChange={async (e) => {
+                    const file = e.target.files?.[0];
+                    if (!file) return;
+                    try {
+                      const base64 = await resizeImage(file);
+                      methods.setValue("image", base64);
+                    } catch (err) {
+                      console.error("Error resizing image:", err);
+                    }
+                  }}
+                />
+              </div>
+              {methods.watch("image") && (
+                <div className="relative h-24 w-40 rounded-lg overflow-hidden border border-gray-100 bg-gray-50 mx-auto group mt-2">
+                  <img src={methods.watch("image")} alt="Client image preview" className="object-cover w-full h-full" />
+                  <button
+                    type="button"
+                    onClick={() => methods.setValue("image", "")}
+                    className="absolute top-1 right-1 bg-red-500 hover:bg-red-650 text-white rounded-full p-1.5 shadow-md transition-all cursor-pointer opacity-0 group-hover:opacity-100 z-20"
+                    title="Remove Image"
+                  >
+                    <X size={10} strokeWidth={3} />
+                  </button>
+                </div>
+              )}
+            </div>
 
             <div className="flex justify-end gap-2 pt-4 border-t border-gray-100">
               <button

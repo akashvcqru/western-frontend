@@ -63,7 +63,7 @@ export default function PageHeader({
                 {BadgeIcon ? (
                   <BadgeIcon size={12} className="text-primary mr-1" />
                 ) : (
-                  <span className="text-primary font-black mr-1.5">#</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shrink-0 mr-1" />
                 )}
                 <span className="text-[10px] font-black tracking-[0.35em] text-white uppercase">
                   {badgeText}

@@ -64,7 +64,7 @@
       { "name": "Gallery", "href": "/gallery" },
       { "name": "Testimonials", "href": "/testimonials" },
       { "name": "Download Center", "href": "/download-center" },
-      { "name": "Contact us", "href": "/contact" }
+      { "name": "Blog", "href": "/blog" }
     ],
     "popularSearchTerms": [
       "Modular Office Furniture Manufacturer",
@@ -161,7 +161,7 @@
     },
     "whatWeAre": {
       "title": "What We Are",
-      "desc": "Western Interio is a leading modular office furniture manufacturer and interior design partner. We specialize in workspace planning and furniture manufacturing of ergonomic and modern office furniture solutions. Our offerings include office seating, desking, office storage, and sofas series.",
+      "desc": "Western Office Solutions is a trusted manufacturer of modular office furniture and workspace interiors, helping businesses create functional, ergonomic, and visually impressive work environments. From intelligent workspace planning to premium furniture manufacturing, we deliver customized solutions designed to enhance productivity, collaboration, and employee comfort. Our expertise spans workstations, executive cabins, office seating, storage systems, tables, sofas, and complete office interior solutions.",
       "list": [
         "Office interior decorating solutions",
         "Wall décor and storage solutions",
@@ -261,23 +261,25 @@
     "legacy": {
       "title": "Workspace Planning. Furniture Manufacturing.",
       "content": [
-        "Western Interio is a premier name for modular office furniture and turnkey interiors. We provide workspace planning and high-quality furniture manufacturing, delivering ergonomic and modern solutions that transform commercial spaces.",
-        "Our range includes high-end office seating, executive desking, optimized office storage, and premium sofas series. We are committed to creating efficient, comfortable, and productive work environments."
+        "Western Office Solutions is among the trusted office furniture manufacturers in Gurgaon, offering ergonomic and durable workspace solutions. We provide high-quality office furniture in Gurgaon, including workstations, chairs, storage, and interior solutions. Searching for office furniture near me? Choose us for smart, modern office setups."
       ],
       "stats": [
-        { "label": "Years Experience", "value": "20+" },
-        { "label": "Happy Clients", "value": "1000+" }
+        { "label": "Years of Industry Expertise", "value": "20+" },
+        { "label": "Corporate Projects Delivered", "value": "1000+" },
+        { "label": "Cities Served Across India", "value": "30+" },
+        { "label": "Workstations Installed", "value": "5000+" }
       ]
     },
     "services": {
       "badge": "Our Services",
       "title": "Interior Solutions.",
       "list": [
-        { "title": "Office Interiors", "desc": "Interior decoration and professional wall solutions." },
-        { "title": "Modular Partitions", "desc": "Glass, Gypsum, Solid Wall, and Aluminum partitions." },
-        { "title": "Ceiling Design", "desc": "Modern office false ceiling installations." },
-        { "title": "Mechanical & Electrical", "desc": "AC/Ducting and electrical networking services." },
-        { "title": "False Flooring", "desc": "Wooden, Vinyl, and Vitrified Tiles solutions." }
+        { "title": "Modular Office Furniture", "desc": "Modular office furniture is very helpful to save space. You can use them in different ways" },
+        { "title": "Office Chairs", "desc": "Modular office furniture is very helpful to save space. You can use them in different ways." },
+        { "title": "Office Interiors", "desc": "Our experience creating inspirational office interior designs. Find cutting edge ideas and high performance options right here." },
+        { "title": "Office Table", "desc": "We are known Office table manufacturers in Delhi NCR, you can contact to buy Office table online at affordable cost." },
+        { "title": "Cafeteria", "desc": "Our collection of café series furniture is second to none; with offering of over 27 designs to choose from, we offer a variety of selections to furnish dining rooms of any capacity." },
+        { "title": "Sofas", "desc": "We offer modular sofas in Gurgaon, Our designs are inspired by world-class sofa designers and uses finest quality materials to create sofas." }
       ]
     },
     "timeline": { "badge": "History", "title": "Our Journey", "desc": "Decades of excellence in office solutions.", "milestones": [] },
