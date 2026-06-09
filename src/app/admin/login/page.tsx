@@ -190,18 +190,6 @@ export default function AdminLoginPage() {
               </button>
             </form>
 
-            {/* Premium styled light mode demo credentials indicator */}
-            <div className="mt-8 p-4 rounded-xl bg-zinc-50 border border-zinc-100">
-              <p className="text-[9px] font-bold uppercase tracking-widest text-zinc-400 mb-2">
-                Demo Credentials
-              </p>
-              <p className="text-[11px] font-medium text-zinc-600">
-                Email: <span className="text-zinc-900 font-semibold">admin@westernofficesolutions.com</span>
-              </p>
-              <p className="text-[11px] font-medium text-zinc-600 mt-1">
-                Password: <span className="text-zinc-900 font-semibold">admin123</span>
-              </p>
-            </div>
           </Card.Body>
         </Card>
       </div>

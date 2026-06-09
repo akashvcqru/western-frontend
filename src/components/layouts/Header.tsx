@@ -42,7 +42,7 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
 
   // Fetch active categories and subcategories dynamically from database
-  const { data: categoriesResult } = useGetCategoriesQuery({ limit: 100 });
+  const { data: categoriesResult, isLoading: categoriesLoading } = useGetCategoriesQuery({ limit: 100 });
   const { data: subCategoriesResult, isLoading: subsLoading } = useGetSubCategoriesQuery({ limit: 100 });
 
   const activeCategories = React.useMemo(() => {
@@ -247,7 +247,10 @@ export default function Header() {
             </Link>
 
             {/* Desktop Navigation - SaaS Style */}
-            <nav className="hidden xl:flex items-center gap-2 h-full">
+            <nav className={cn(
+              "hidden xl:flex items-center gap-2 h-full transition-opacity duration-300",
+              categoriesLoading ? "opacity-0" : "opacity-100"
+            )}>
               {navItems.map((link: NavigationLink) => {
                 const hasDropdown = hasMegaMenu(link);
                 return (
