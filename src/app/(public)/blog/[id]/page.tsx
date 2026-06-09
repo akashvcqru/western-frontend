@@ -114,7 +114,7 @@ export default function BlogDetailPage() {
             {/* Rich Text Body */}
             <div className="prose prose-neutral max-w-none space-y-8 text-neutral-600 text-base sm:text-[17px] leading-relaxed font-normal">
               {post.content.map((paragraph, index) => (
-                <p key={index} className="first-letter:text-3xl first-letter:font-semibold first-letter:text-primary first-letter:mr-1 first-letter:float-left first-letter:leading-none" style={{ contentVisibility: index > 1 ? "auto" : "visible" }}>
+                <p key={index} style={{ contentVisibility: index > 1 ? "auto" : "visible" }}>
                   {paragraph}
                 </p>
               ))}
