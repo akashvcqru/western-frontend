@@ -126,6 +126,15 @@ export interface DashboardStats {
   pendingInquiries: number;
 }
 
+export interface ActivityItem {
+  id: string;
+  action: string;
+  detail: string;
+  type: string;
+  timestamp: string;
+}
+
+
 export interface Testimonial {
   id: string;
   author: string;

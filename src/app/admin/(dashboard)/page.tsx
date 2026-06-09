@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import Link from "next/link";
 import { Card } from "@/components/ui";
 import {
@@ -16,9 +16,10 @@ import {
   Activity,
   Newspaper,
   AlertCircle,
+  Loader2,
 } from "lucide-react";
 import { apiAuthGet } from "@/lib/api";
-import type { DashboardStats } from "@/types/api";
+import type { DashboardStats, ActivityItem } from "@/types/api";
 
 const quickLinks = [
   { label: "Manage Products", href: "/admin/products", icon: Package, desc: "Add, edit or remove products" },
@@ -29,20 +30,34 @@ const quickLinks = [
   { label: "Manage Blogs", href: "/admin/blogs", icon: Newspaper, desc: "Add, edit or delete blog posts" },
 ];
 
-const recentActivity = [
-  { id: 1, action: "New inquiry received", time: "2 min ago", type: "inquiry", detail: "From Ramesh regarding Tiles" },
-  { id: 2, action: "Product updated", time: "1 hr ago", type: "product", detail: "Premium Vitrified Tiles — price changed" },
-  { id: 3, action: "Gallery image added", time: "3 hr ago", type: "gallery", detail: "Showroom interior — Project 2024" },
-  { id: 4, action: "Brand added", time: "Yesterday", type: "brand", detail: "Kajaria Ceramics" },
-  { id: 5, action: "Inquiry resolved", time: "Yesterday", type: "inquiry", detail: "Suresh — Wooden Flooring query closed" },
-];
-
 const typeColors: Record<string, string> = {
   inquiry: "bg-red-100 text-red-600",
   product: "bg-blue-100 text-blue-600",
   gallery: "bg-emerald-100 text-emerald-600",
   brand: "bg-violet-100 text-violet-600",
+  blog: "bg-amber-100 text-amber-600",
+  testimonial: "bg-pink-100 text-pink-600",
+  catalogue: "bg-cyan-100 text-cyan-600",
+  service: "bg-teal-100 text-teal-600",
 };
+
+function formatRelativeTime(timestamp: string): string {
+  const now = new Date();
+  const date = new Date(timestamp);
+  const diffMs = now.getTime() - date.getTime();
+  const diffSec = Math.floor(diffMs / 1000);
+  const diffMin = Math.floor(diffSec / 60);
+  const diffHr = Math.floor(diffMin / 60);
+  const diffDay = Math.floor(diffHr / 24);
+
+  if (diffMin < 1) return "Just now";
+  if (diffMin < 60) return `${diffMin} min ago`;
+  if (diffHr < 24) return `${diffHr} hr ago`;
+  if (diffDay === 1) return "Yesterday";
+  if (diffDay < 7) return `${diffDay} days ago`;
+  if (diffDay < 30) return `${Math.floor(diffDay / 7)} weeks ago`;
+  return date.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
+}
 
 export default function AdminDashboardPage() {
   const [counts, setCounts] = useState({
@@ -54,6 +69,8 @@ export default function AdminDashboardPage() {
   });
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [activities, setActivities] = useState<ActivityItem[]>([]);
+  const [activitiesLoading, setActivitiesLoading] = useState(true);
 
   const fetchStats = async () => {
     setIsLoading(true);
@@ -78,9 +95,24 @@ export default function AdminDashboardPage() {
     }
   };
 
+  const fetchActivities = useCallback(async () => {
+    setActivitiesLoading(true);
+    try {
+      const res = await apiAuthGet<ActivityItem[]>("/api/dashboard/recent-activity?limit=10");
+      if (res.success && res.data) {
+        setActivities(res.data);
+      }
+    } catch {
+      // Silent fail — activities are secondary to stats
+    } finally {
+      setActivitiesLoading(false);
+    }
+  }, []);
+
   useEffect(() => {
     fetchStats();
-  }, []);
+    fetchActivities();
+  }, [fetchActivities]);
 
   const dynamicQuickLinks = useMemo(() => {
     return quickLinks.map((link) => {
@@ -343,34 +375,45 @@ export default function AdminDashboardPage() {
               </button>
             </Card.Header>
             <Card.Body noPadding>
-              <div className="divide-y divide-gray-50">
-                {recentActivity.map((item) => (
-                  <div
-                    key={item.id}
-                    id={`activity-${item.id}`}
-                    className="flex items-start gap-4 px-6 py-4 hover:bg-gray-50/50 transition-colors"
-                  >
-                    <span
-                      className={`inline-flex text-[9px] font-semibold uppercase tracking-widest rounded-lg px-2 py-1 flex-shrink-0 mt-0.5 ${
-                        typeColors[item.type]
-                      }`}
+              {activitiesLoading ? (
+                <div className="flex items-center justify-center py-12">
+                  <Loader2 size={20} className="animate-spin text-gray-300" />
+                </div>
+              ) : activities.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-12 text-center">
+                  <Activity size={24} className="text-gray-200 mb-2" />
+                  <p className="text-[11px] font-bold uppercase tracking-widest text-gray-300">No recent activity</p>
+                </div>
+              ) : (
+                <div className="divide-y divide-gray-50">
+                  {activities.map((item) => (
+                    <div
+                      key={item.id}
+                      id={`activity-${item.id}`}
+                      className="flex items-start gap-4 px-6 py-4 hover:bg-gray-50/50 transition-colors"
                     >
-                      {item.type}
-                    </span>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-[11px] font-bold uppercase tracking-tight text-gray-800">
-                        {item.action}
-                      </p>
-                      <p className="text-[10px] font-medium text-gray-400 mt-0.5 truncate">
-                        {item.detail}
-                      </p>
+                      <span
+                        className={`inline-flex text-[9px] font-semibold uppercase tracking-widest rounded-lg px-2 py-1 flex-shrink-0 mt-0.5 ${
+                          typeColors[item.type] || "bg-gray-100 text-gray-600"
+                        }`}
+                      >
+                        {item.type}
+                      </span>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-[11px] font-bold uppercase tracking-tight text-gray-800">
+                          {item.action}
+                        </p>
+                        <p className="text-[10px] font-medium text-gray-400 mt-0.5 truncate">
+                          {item.detail}
+                        </p>
+                      </div>
+                      <span className="text-[9px] font-bold uppercase tracking-widest text-gray-300 flex-shrink-0 whitespace-nowrap">
+                        {formatRelativeTime(item.timestamp)}
+                      </span>
                     </div>
-                    <span className="text-[9px] font-bold uppercase tracking-widest text-gray-300 flex-shrink-0 whitespace-nowrap">
-                      {item.time}
-                    </span>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
             </Card.Body>
           </Card>
         </div>
