@@ -40,7 +40,7 @@ const subCategorySchema = yup.object().shape({
     .string()
     .required("Sub Category Name is required")
     .min(3, "Sub Category Name must be at least 3 characters")
-    .max(12, "Sub Category Name cannot exceed 12 characters"),
+    .max(25, "Sub Category Name cannot exceed 25 characters"),
   description: yup.string().required("Short Description is required"),
   image: yup.string().required("Image is required"),
   categoryId: yup.string().required("Parent Category is required"),
