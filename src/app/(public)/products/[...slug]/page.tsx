@@ -351,7 +351,7 @@ export default function ProductListingPage({
     );
   }
 
-  if (product) {
+  if (product && !activeSubCategory) {
     return <ProductDetailView product={product} />;
   }
 
