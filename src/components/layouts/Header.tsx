@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import {
   Menu,
   X,
@@ -34,12 +35,21 @@ interface SearchTag {
 }
 
 export default function Header() {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [isScrolled, setIsScrolled] = useState(false);
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      setIsSearchOpen(false);
+      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
 
   // Fetch active categories and subcategories dynamically from database
   const { data: categoriesResult, isLoading: categoriesLoading } = useGetCategoriesQuery({ limit: 100 });
@@ -451,7 +461,7 @@ export default function Header() {
                 <h2 className="text-white/30 text-[10px] font-semibold tracking-[0.4em] uppercase">
                   What are you looking for?
                 </h2>
-                <div className="relative">
+                <form onSubmit={handleSearchSubmit} className="relative">
                   <input
                     type="text"
                     placeholder="Type to search products, brands or categories..."
@@ -460,11 +470,12 @@ export default function Header() {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
-                  <Search
-                    size={40}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-primary"
-                  />
-                </div>
+                  <button type="submit" className="absolute right-4 top-1/2 -translate-y-1/2 text-primary cursor-pointer hover:scale-105 active:scale-95 transition-all bg-transparent border-none">
+                    <Search
+                      size={40}
+                    />
+                  </button>
+                </form>
                 {/* Dynamic search tags from active categories */}
                 <div className="flex flex-wrap justify-center gap-4">
                   {activeCategories.slice(0, 8).map((cat) => (
