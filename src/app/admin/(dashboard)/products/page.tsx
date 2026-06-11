@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { Card, useAppToast, AdminPageHeader, Pagination, SearchInput } from "@/components/ui";
 import { AppRoutes } from "@/constants/routes";
 import { apiAuthGetPaginated, apiDelete, buildQuery } from "@/lib/api";
-import type { Product, Category, PaginationMeta } from "@/types/api";
+import type { Product, Category, PaginationMeta, SubCategory } from "@/types/api";
 
 export default function AdminProductsPage() {
   const { addToast } = useAppToast();
@@ -16,6 +16,7 @@ export default function AdminProductsPage() {
   // Data state
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
+  const [subCategories, setSubCategories] = useState<SubCategory[]>([]);
   const [pagination, setPagination] = useState<PaginationMeta>({ currentPage: 1, totalPages: 1, totalItems: 0, limit: 10 });
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -47,6 +48,10 @@ export default function AdminProductsPage() {
       const res = await apiAuthGetPaginated<Category>("/api/categories?limit=100");
       setCategories(res.data);
     } catch { /* non-critical */ }
+    try {
+      const res = await apiAuthGetPaginated<SubCategory>("/api/categories/subcategories?limit=100");
+      setSubCategories(res.data);
+    } catch { /* non-critical */ }
   }, []);
 
   useEffect(() => {
@@ -76,6 +81,11 @@ export default function AdminProductsPage() {
 
   const getCategoryName = (catId: string) =>
     categories.find(c => c.id === catId || c.slug === catId)?.name || catId;
+
+  const getSubCategoryName = (subCatId?: string) => {
+    if (!subCatId) return "—";
+    return subCategories.find(s => s.id === subCatId || s.slug === subCatId)?.name || subCatId;
+  };
 
   return (
     <div className="space-y-6">
@@ -121,8 +131,8 @@ export default function AdminProductsPage() {
                 <tr className="bg-gray-50/50 border-b border-gray-100">
                   <th className="py-4 px-6 text-[10px] font-bold uppercase tracking-widest text-gray-400 w-16">Image</th>
                   <th className="py-4 px-6 text-[10px] font-bold uppercase tracking-widest text-gray-400">Product</th>
-                  <th className="py-4 px-6 text-[10px] font-bold uppercase tracking-widest text-gray-400">Category &amp; Brand</th>
-                  <th className="py-4 px-6 text-[10px] font-bold uppercase tracking-widest text-gray-400">Price</th>
+                  <th className="py-4 px-6 text-[10px] font-bold uppercase tracking-widest text-gray-400">Category</th>
+                  <th className="py-4 px-6 text-[10px] font-bold uppercase tracking-widest text-gray-400">Sub Category</th>
                   <th className="py-4 px-6 text-[10px] font-bold uppercase tracking-widest text-gray-400">Status</th>
                   <th className="py-4 px-6 text-[10px] font-bold uppercase tracking-widest text-gray-400 text-right">Actions</th>
                 </tr>
@@ -134,7 +144,7 @@ export default function AdminProductsPage() {
                       <td className="py-3 px-6"><div className="w-12 h-12 rounded-lg bg-gray-100" /></td>
                       <td className="py-3 px-6"><div className="h-3 bg-gray-100 rounded w-36 mb-1" /><div className="h-2 bg-gray-100 rounded w-20" /></td>
                       <td className="py-3 px-6"><div className="h-3 bg-gray-100 rounded w-24" /></td>
-                      <td className="py-3 px-6"><div className="h-3 bg-gray-100 rounded w-16" /></td>
+                      <td className="py-3 px-6"><div className="h-3 bg-gray-100 rounded w-24" /></td>
                       <td className="py-3 px-6"><div className="h-5 bg-gray-100 rounded-full w-16" /></td>
                       <td className="py-3 px-6" />
                     </tr>
@@ -163,9 +173,10 @@ export default function AdminProductsPage() {
                       </td>
                       <td className="py-3 px-6">
                         <p className="text-xs font-medium text-gray-700">{getCategoryName(prod.category)}</p>
-                        <p className="text-[10px] text-gray-400 font-medium mt-0.5">{prod.brand}</p>
                       </td>
-                      <td className="py-3 px-6 text-xs font-semibold text-gray-900">{prod.price}</td>
+                      <td className="py-3 px-6">
+                        <p className="text-xs font-medium text-gray-700">{getSubCategoryName(prod.subCategory)}</p>
+                      </td>
                       <td className="py-3 px-6">
                         <span className={`inline-flex items-center px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-widest ${prod.status === "Active" ? "bg-emerald-50 text-emerald-600" : "bg-red-50 text-red-600"}`}>
                           {prod.status} ({prod.stock})

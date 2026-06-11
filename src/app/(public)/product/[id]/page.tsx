@@ -41,6 +41,7 @@ interface Product {
   variants?: Array<{ label: string; options: string[] }>;
   specifications?: Array<{ label: string; value: string }>;
   features?: Array<{ title: string; desc: string }>;
+  trustBadges?: Array<{ title: string; desc: string; icon?: string }>;
 }
 
 export default function ProductDetailPage() {

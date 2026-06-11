@@ -59,6 +59,7 @@ interface Product {
   detailsText1?: string;
   detailsText2?: string;
   quickSpecs?: string[];
+  trustBadges?: { title: string; desc: string; icon?: string }[];
 }
 
 interface ProductDetailViewProps {
@@ -549,23 +550,6 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
                   {product.name}
                 </h1>
 
-                {/* Modern Price Display */}
-                <div className="flex items-baseline gap-4 py-2 border-y border-neutral-100/50">
-                  <span className="text-[9px] font-semibold text-neutral-400 uppercase tracking-[0.2em] self-center">
-                    Est. Investment
-                  </span>
-                  <p className="text-3xl font-extrabold text-primary tracking-tight">
-                    {product.price === "Price on Request" || !product.price
-                      ? "Price on Request"
-                      : `₹${product.price}`}
-                  </p>
-                  {product.price !== "Price on Request" && (
-                    <span className="text-[9px] font-semibold text-neutral-400 uppercase tracking-widest leading-none">
-                      Starting Rate
-                    </span>
-                  )}
-                </div>
-
                 <p className="text-neutral-500 leading-relaxed text-sm font-normal pt-1">
                   {product.description}
                 </p>
@@ -573,47 +557,74 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
 
               {/* Modern Trust bar props cards grid */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 py-4">
-                <div className="flex items-start gap-3 p-3.5 rounded-xl bg-neutral-50/30 border border-neutral-100 hover:bg-neutral-50/60 hover:-translate-y-0.5 transition-all duration-300 group">
-                  <div className="w-8.5 h-8.5 rounded-xl bg-primary/5 text-primary flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-white transition-all duration-300">
-                    <ShieldCheck size={16} />
-                  </div>
-                  <div>
-                    <h5 className="text-[10px] font-semibold text-secondary uppercase tracking-widest">
-                      BIFMA Quality
-                    </h5>
-                    <p className="text-[9px] text-neutral-400 font-normal leading-tight mt-0.5">
-                      Heavy industrial standards
-                    </p>
-                  </div>
-                </div>
+                {(product.trustBadges && product.trustBadges.length > 0
+                  ? product.trustBadges
+                  : [
+                      {
+                        title: "BIFMA Quality",
+                        desc: "Heavy industrial standards",
+                        icon: "ShieldCheck",
+                      },
+                      {
+                        title: "Direct Factory",
+                        desc: "Zero intermediary markups",
+                        icon: "Award",
+                      },
+                      {
+                        title: "5Y Warranty",
+                        desc: "Assured structural coverage",
+                        icon: "Zap",
+                      },
+                    ]
+                ).map((badge, idx) => {
+                  let iconElement = null;
+                  if (badge.icon) {
+                    if (
+                      badge.icon.startsWith("/") ||
+                      badge.icon.startsWith("data:") ||
+                      badge.icon.startsWith("http")
+                    ) {
+                      iconElement = (
+                        <div className="relative w-4.5 h-4.5 shrink-0 flex items-center justify-center">
+                          <img
+                            src={badge.icon}
+                            alt={badge.title}
+                            className="object-contain w-full h-full max-h-full max-w-full"
+                          />
+                        </div>
+                      );
+                    } else {
+                      const LucideIcons: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
+                        ShieldCheck,
+                        Award,
+                        Zap,
+                      };
+                      const IconComp = LucideIcons[badge.icon] || ShieldCheck;
+                      iconElement = <IconComp size={16} />;
+                    }
+                  } else {
+                    iconElement = <ShieldCheck size={16} />;
+                  }
 
-                <div className="flex items-start gap-3 p-3.5 rounded-xl bg-neutral-50/30 border border-neutral-100 hover:bg-neutral-50/60 hover:-translate-y-0.5 transition-all duration-300 group">
-                  <div className="w-8.5 h-8.5 rounded-xl bg-primary/5 text-primary flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-white transition-all duration-300">
-                    <Award size={16} />
-                  </div>
-                  <div>
-                    <h5 className="text-[10px] font-semibold text-secondary uppercase tracking-widest">
-                      Direct Factory
-                    </h5>
-                    <p className="text-[9px] text-neutral-400 font-normal leading-tight mt-0.5">
-                      Zero intermediary markups
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3 p-3.5 rounded-xl bg-neutral-50/30 border border-neutral-100 hover:bg-neutral-50/60 hover:-translate-y-0.5 transition-all duration-300 group">
-                  <div className="w-8.5 h-8.5 rounded-xl bg-primary/5 text-primary flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-white transition-all duration-300">
-                    <Zap size={16} />
-                  </div>
-                  <div>
-                    <h5 className="text-[10px] font-semibold text-secondary uppercase tracking-widest">
-                      5Y Warranty
-                    </h5>
-                    <p className="text-[9px] text-neutral-400 font-normal leading-tight mt-0.5">
-                      Assured structural coverage
-                    </p>
-                  </div>
-                </div>
+                  return (
+                    <div
+                      key={idx}
+                      className="flex items-start gap-3 p-3.5 rounded-xl bg-neutral-50/30 border border-neutral-100 hover:bg-neutral-50/60 hover:-translate-y-0.5 transition-all duration-300 group"
+                    >
+                      <div className="w-8.5 h-8.5 rounded-xl bg-primary/5 text-primary flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-white transition-all duration-300">
+                        {iconElement}
+                      </div>
+                      <div>
+                        <h5 className="text-[10px] font-semibold text-secondary uppercase tracking-widest">
+                          {badge.title}
+                        </h5>
+                        <p className="text-[9px] text-neutral-400 font-normal leading-tight mt-0.5">
+                          {badge.desc}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
 
               {/* Dynamic Interactive Variants customizer options */}

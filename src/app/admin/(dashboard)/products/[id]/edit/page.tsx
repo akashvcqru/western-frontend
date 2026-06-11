@@ -51,6 +51,7 @@ interface Product {
   detailsText1?: string;
   detailsText2?: string;
   quickSpecs?: string[];
+  trustBadges?: { title: string; desc: string; icon?: string }[];
 }
 
 interface Category {
@@ -82,30 +83,56 @@ const productSchema = yup.object().shape({
   finish: yup.string().nullable().optional(),
   size: yup.string().nullable().optional(),
   images: yup.array().of(yup.string().required()).min(1, "At least one image is required").required(),
-  features: yup.array().of(yup.object().shape({ title: yup.string().required(), desc: yup.string().required() })).optional(),
-  specifications: yup.array().of(yup.object().shape({ label: yup.string().required(), value: yup.string().required() })).optional(),
-  dimensions: yup.array().of(yup.object().shape({ name: yup.string().required(), range: yup.string().required(), coord: yup.string().required() })).optional(),
+  features: yup.array().of(yup.object().shape({ title: yup.string().nullable().optional(), desc: yup.string().nullable().optional() })).optional(),
+  specifications: yup.array().of(yup.object().shape({ label: yup.string().nullable().optional(), value: yup.string().nullable().optional() })).optional(),
+  dimensions: yup.array().of(yup.object().shape({ name: yup.string().nullable().optional(), range: yup.string().nullable().optional(), coord: yup.string().nullable().optional() })).optional(),
   resources: yup.array().of(yup.object().shape({
     id: yup.string().required(),
-    title: yup.string().required("Title is required"),
-    desc: yup.string().required("Description is required"),
-    format: yup.string().required("Format is required"),
-    size: yup.string().required("Size is required"),
+    title: yup.string().nullable().optional(),
+    desc: yup.string().nullable().optional(),
+    format: yup.string().nullable().optional(),
+    size: yup.string().nullable().optional(),
     fileData: yup.string().nullable().optional(),
     fileName: yup.string().nullable().optional(),
   })).optional(),
-  variants: yup.array().of(yup.object().shape({ label: yup.string().required(), options: yup.array().of(yup.string().required()).optional() })).optional(),
+  variants: yup.array().of(yup.object().shape({ label: yup.string().nullable().optional(), options: yup.array().of(yup.string().required()).optional() })).optional(),
   swatches: yup.array().of(yup.object().shape({
-    category: yup.string().required(),
-    options: yup.array().of(yup.object().shape({ name: yup.string().required(), hex: yup.string().required(), desc: yup.string().required(), border: yup.boolean().optional() })).optional(),
+    category: yup.string().nullable().optional(),
+    options: yup.array().of(yup.object().shape({ name: yup.string().nullable().optional(), hex: yup.string().nullable().optional(), desc: yup.string().nullable().optional(), border: yup.boolean().optional() })).optional(),
   })).optional(),
   detailsTitle: yup.string().nullable().optional(),
   detailsText1: yup.string().nullable().optional(),
   detailsText2: yup.string().nullable().optional(),
-  quickSpecs: yup.array().of(yup.object().shape({ value: yup.string().required() })).optional(),
+  quickSpecs: yup.array().of(yup.object().shape({ value: yup.string().nullable().optional() })).optional(),
+  trustBadges: yup.array().of(yup.object().shape({
+    title: yup.string().nullable().optional(),
+    desc: yup.string().nullable().optional(),
+    icon: yup.string().nullable().optional()
+  })).optional(),
 });
 
 type ProductFormData = yup.InferType<typeof productSchema>;
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const getErrorMessage = (err: any): string => {
+  if (!err) return "";
+  if (typeof err.message === "string") return err.message;
+  if (Array.isArray(err)) {
+    for (const item of err) {
+      if (item) {
+        const msg = getErrorMessage(item);
+        if (msg) return msg;
+      }
+    }
+  }
+  if (typeof err === "object") {
+    for (const key of Object.keys(err)) {
+      const msg = getErrorMessage(err[key]);
+      if (msg) return msg;
+    }
+  }
+  return "Required";
+};
 
 // ─── Main Page ────────────────────────────────────────────────────────────────
 export default function EditProductPage({ params }: { params: Promise<{ id: string }> }) {
@@ -157,6 +184,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
       detailsText1: "",
       detailsText2: "",
       quickSpecs: [],
+      trustBadges: [],
     },
   });
 
@@ -169,6 +197,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
   const { fields: dimFields, append: appendDim, remove: removeDim } = useFieldArray({ control, name: "dimensions" });
   const { fields: resFields, append: appendRes, remove: removeRes } = useFieldArray({ control, name: "resources" });
   const { fields: quickSpecFields, append: appendQuickSpec, remove: removeQuickSpec } = useFieldArray({ control, name: "quickSpecs" });
+  const { fields: trustBadgeFields, append: appendTrustBadge, remove: removeTrustBadge } = useFieldArray({ control, name: "trustBadges" });
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const file = e.target.files?.[0];
@@ -276,6 +305,13 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
           detailsText1: found.detailsText1 || "",
           detailsText2: found.detailsText2 || "",
           quickSpecs: found.quickSpecs?.map(q => ({ value: q })) || [],
+          trustBadges: (found.trustBadges && found.trustBadges.length > 0)
+            ? found.trustBadges
+            : [
+                { title: "BIFMA Quality", desc: "Heavy industrial standards", icon: "ShieldCheck" },
+                { title: "Direct Factory", desc: "Zero intermediary markups", icon: "Award" },
+                { title: "5Y Warranty", desc: "Assured structural coverage", icon: "Zap" },
+              ],
         });
       } catch (e) {
         console.error("Error loading product:", e);
@@ -328,24 +364,48 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
       finish: data.finish || "",
       size: data.size || "",
       images: imagesList,
-      features: data.features || [],
-      specifications: data.specifications || [],
-      dimensions: data.dimensions || [],
-      resources: (data.resources || []).map((res) => ({
-        id: res.id,
-        title: res.title,
-        desc: res.desc,
-        format: res.format,
-        size: res.size,
-        fileData: res.fileData || undefined,
-        fileName: res.fileName || undefined,
-      })),
-      variants: (data.variants || []).map((v) => ({ label: v.label, options: Array.isArray(v.options) ? v.options.filter(Boolean) as string[] : [] })),
-      swatches: (data.swatches || []).map((sw) => ({ category: sw.category, options: (sw.options || []).map((opt) => ({ name: opt.name, hex: opt.hex, desc: opt.desc, border: opt.border ?? false })) })),
+      features: (data.features || [])
+        .filter((f) => f.title || f.desc)
+        .map((f) => ({ title: f.title || "", desc: f.desc || "" })),
+      specifications: (data.specifications || [])
+        .filter((s) => s.label || s.value)
+        .map((s) => ({ label: s.label || "", value: s.value || "" })),
+      dimensions: (data.dimensions || [])
+        .filter((d) => d.name || d.range || d.coord)
+        .map((d) => ({ name: d.name || "", range: d.range || "", coord: d.coord || "" })),
+      resources: (data.resources || [])
+        .filter((res) => res.title || res.fileName)
+        .map((res) => ({
+          id: res.id,
+          title: res.title || "",
+          desc: res.desc || "",
+          format: res.format || "",
+          size: res.size || "",
+          fileData: res.fileData || undefined,
+          fileName: res.fileName || undefined,
+        })),
+      variants: (data.variants || [])
+        .filter((v) => v.label)
+        .map((v) => ({ label: v.label || "", options: Array.isArray(v.options) ? (v.options.filter(Boolean) as string[]) : [] })),
+      swatches: (data.swatches || [])
+        .filter((sw) => sw.category)
+        .map((sw) => ({
+          category: sw.category || "",
+          options: (sw.options || [])
+            .filter((opt) => opt.name || opt.hex)
+            .map((opt) => ({ name: opt.name || "", hex: opt.hex || "", desc: opt.desc || "", border: opt.border ?? false }))
+        })),
       detailsTitle: data.detailsTitle || "",
       detailsText1: data.detailsText1 || "",
       detailsText2: data.detailsText2 || "",
-      quickSpecs: (data.quickSpecs || []).map((q) => q.value).filter(Boolean),
+      quickSpecs: (data.quickSpecs || []).map((q) => q.value).filter(Boolean) as string[],
+      trustBadges: (data.trustBadges || [])
+        .filter((badge) => badge.title || badge.desc)
+        .map((badge) => ({
+          title: badge.title || "",
+          desc: badge.desc || "",
+          icon: badge.icon || "",
+        })),
     };
 
     try {
@@ -444,6 +504,37 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
                     <RHFControl control="input" name="material" label="Material" placeholder="e.g. Premium PLPB / Engineered Wood" className="rounded-xl" />
                     <RHFControl control="input" name="finish" label="Finish" placeholder="e.g. Melamine Laminate" className="rounded-xl" />
                     <RHFControl control="input" name="size" label="Size" placeholder="e.g. 1200W x 600D x 750H mm" className="rounded-xl" />
+                  </div>
+
+                  {/* Trust Badges */}
+                  <div className="space-y-3 pt-4 border-t border-gray-100">
+                    <div className="flex items-center justify-between pb-2 border-b border-gray-100">
+                      <div>
+                        <h4 className="text-xs font-bold uppercase tracking-wider text-gray-800">Trust Badges</h4>
+                        <p className="text-[10px] text-gray-400 mt-0.5">Customize the trust/quality badges displayed on the product page (e.g. BIFMA Quality, Direct Factory, 5Y Warranty). If left empty, default values will be shown.</p>
+                      </div>
+                      <button type="button" onClick={() => appendTrustBadge({ title: "", desc: "", icon: "ShieldCheck" })}
+                        className="inline-flex items-center gap-1 bg-[#ed1c27]/10 text-[#ed1c27] hover:bg-[#ed1c27]/20 text-[10px] font-bold uppercase tracking-wider rounded-lg px-3 py-1.5 cursor-pointer whitespace-nowrap shrink-0">
+                        <Plus size={10} /> Add Trust Badge
+                      </button>
+                    </div>
+                    {trustBadgeFields.length === 0 ? (
+                      <p className="text-[10px] text-gray-400 py-2">No custom trust badges yet. Default ones (BIFMA Quality, Direct Factory, 5Y Warranty) will be displayed on storefront.</p>
+                    ) : (
+                      <div className="space-y-4">
+                        {trustBadgeFields.map((f, i) => {
+                          return (
+                            <div key={f.id} className="border border-gray-100 rounded-xl p-3 bg-gray-50/50 space-y-3 relative">
+                              <button type="button" onClick={() => removeTrustBadge(i)} className="absolute top-2 right-2 p-1.5 text-red-500 hover:bg-red-50 rounded-lg cursor-pointer"><Trash2 size={12} /></button>
+                              <div className="grid grid-cols-2 gap-3 pr-6">
+                                <RHFControl control="input" name={`trustBadges.${i}.title`} label="Badge Title *" placeholder="e.g. BIFMA Quality" className="rounded-xl" />
+                                <RHFControl control="input" name={`trustBadges.${i}.desc`} label="Badge Description *" placeholder="e.g. Heavy industrial standards" className="rounded-xl" />
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
                   </div>
 
                   <RHFControl control="select" name="status" label="Status *"
@@ -581,7 +672,8 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
                       </div>
                     )}
                   </div>
-                </div>
+
+                  </div>
 
                 {/* ══ DIMENSION BLUEPRINT TAB ══ */}
                 <div className={activeTab === "blueprint" ? "space-y-8" : "hidden"}>
@@ -779,7 +871,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
                   <Card.Body>
                     <p className="text-[10px] font-bold uppercase tracking-widest text-red-500 mb-2">Fix these errors</p>
                     {Object.entries(errors).map(([key, err]) => (
-                      <p key={key} className="text-[10px] text-red-400 font-medium">• <span className="font-bold uppercase">{key}</span>: {(err as { message?: string })?.message || "Required"}</p>
+                      <p key={key} className="text-[10px] text-red-400 font-medium">• <span className="font-bold uppercase">{key}</span>: {getErrorMessage(err)}</p>
                     ))}
                   </Card.Body>
                 </Card>
