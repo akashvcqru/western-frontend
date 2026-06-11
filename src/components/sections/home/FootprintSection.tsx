@@ -19,59 +19,59 @@ interface Hub {
 // Regional hubs data with normalized coordinates for the SVG canvas
 const hubs: Hub[] = [
   {
-    id: "gurgaon",
-    name: "Gurugram (HQ & Plant)",
+    id: "haryana",
+    name: "Haryana (HQ & Plant)",
     type: "Manufacturing Base & Headquarters",
     x: 46,
     y: 28,
     deliveryTime: "1-2 Days (Immediate)",
     stats: "15,000+ Sq.Ft. Facility",
     projectsCount: "650+ Corporate Spaces",
-    details: "Our fully integrated manufacturing unit in Kadipur Industrial Area houses automatic powder coating lines and precision CNC routing for desking desking fabrication."
+    details: "Our fully integrated manufacturing unit in Kadipur Industrial Area, Gurugram houses automatic powder coating lines and precision CNC routing for desking fabrication."
   },
   {
-    id: "chandigarh",
-    name: "Chandigarh Hub",
-    type: "Northern Distribution Node",
-    x: 42,
-    y: 16,
-    deliveryTime: "1-2 Days",
-    stats: "2,500+ Sq.Ft. Node",
-    projectsCount: "120+ Workspaces Delivered",
-    details: "Rapid distribution of premium modular offices, executive desks, and institutional furniture across Punjab, Haryana, and Himachal Pradesh."
+    id: "maharashtra",
+    name: "Maharashtra Hub",
+    type: "Western Distribution Center",
+    x: 30,
+    y: 60,
+    deliveryTime: "3-4 Days",
+    stats: "4,500+ Sq.Ft. Node",
+    projectsCount: "380+ Spaces",
+    details: "Strategically serving Mumbai, Pune, and Nagpur corporate corridors with premium executive desk series, ergonomic chairs, and partition systems."
   },
   {
-    id: "agra",
-    name: "Agra Hub",
-    type: "Central UP Distribution Node",
-    x: 68,
-    y: 48,
-    deliveryTime: "2 Days",
-    stats: "1,500+ Sq.Ft. Node",
-    projectsCount: "70+ Corporate Projects",
-    details: "Serving educational institutes, hospitality spaces, and commercial offices with heavy-duty workstation setups and ergonomic chairs."
+    id: "karnataka",
+    name: "Karnataka Hub",
+    type: "Southern Distribution Node",
+    x: 38,
+    y: 78,
+    deliveryTime: "4-5 Days",
+    stats: "3,500+ Sq.Ft. Node",
+    projectsCount: "290+ Spaces",
+    details: "Supplying tech corridors in Bengaluru and Mysuru with modern collaborative desking configurations, linear workstations, and acoustic solutions."
   },
   {
-    id: "delhi",
-    name: "Delhi Hub",
-    type: "Capital Region Center",
-    x: 58,
-    y: 25,
-    deliveryTime: "Next-Day Delivery",
-    stats: "6,000+ Sq.Ft. Hub",
-    projectsCount: "320+ Executive Spaces",
-    details: "Direct supply line from our Gurgaon plant servicing corporate hubs, coworking spaces, and government offices in the NCR region."
-  },
-  {
-    id: "faridabad",
-    name: "Faridabad Hub",
-    type: "Industrial Corridor Node",
-    x: 32,
-    y: 55,
-    deliveryTime: "1-2 Days",
+    id: "telangana",
+    name: "Telangana Hub",
+    type: "Deccan Distribution Node",
+    x: 46,
+    y: 65,
+    deliveryTime: "4 Days",
     stats: "3,000+ Sq.Ft. Node",
-    projectsCount: "95+ Offices Installed",
-    details: "Supporting industrial offices, factories, and corporate centers with heavy-duty desking, modular acoustics, and partition solutions."
+    projectsCount: "210+ Spaces",
+    details: "Catering to the rapid IT and commercial office expansions in Hyderabad and Warangal, providing turnkey modular furniture layouts."
+  },
+  {
+    id: "tamilnadu",
+    name: "Tamil Nadu Hub",
+    type: "Industrial & IT Logistics Node",
+    x: 48,
+    y: 82,
+    deliveryTime: "5 Days",
+    stats: "2,800+ Sq.Ft. Node",
+    projectsCount: "180+ Spaces",
+    details: "Direct distribution support across Chennai and Coimbatore, powering manufacturing offices, automotive design studios, and IT parks."
   }
 ];
 
@@ -85,6 +85,11 @@ export default function FootprintSection() {
 
   // Auto-cycles highlight every few seconds if user is not interacting
   useEffect(() => {
+    // Reset active hub if the stored activeHub ID is invalid/stale (e.g. from hot-reload cache)
+    if (!hubs.some((h) => h.id === activeHub.id)) {
+      setActiveHub(hubs[0]);
+    }
+
     const interval = setInterval(() => {
       setActiveHub((prev) => {
         const currentIndex = hubs.findIndex((h) => h.id === prev.id);
@@ -93,7 +98,7 @@ export default function FootprintSection() {
       });
     }, 6000);
     return () => clearInterval(interval);
-  }, []);
+  }, [activeHub.id]);
 
   return (
     <section className="py-24 bg-neutral-950 text-white overflow-hidden relative">
@@ -122,16 +127,16 @@ export default function FootprintSection() {
           </div>
           <div className="lg:col-span-4">
             <p className="text-neutral-400 text-sm leading-relaxed font-normal">
-              From our fully integrated production facility in Gurgaon, we engineer high-performance modular desking and executive furniture, shipped directly to tier-1 corporate hubs pan-India.
+              From our fully integrated production facility in Haryana, we engineer high-performance modular desking and executive furniture, shipped directly to tier-1 corporate hubs pan-India.
             </p>
           </div>
         </div>
 
         {/* Main Columns */}
-        <div className="grid lg:grid-cols-12 gap-16 items-center">
+        <div className="grid lg:grid-cols-12 gap-10 xl:gap-16 items-center">
           
           {/* Left Column: Industrial Capability & Realtime Hub Detail */}
-          <div className="lg:col-span-5 space-y-8">
+          <div className="lg:col-span-6 space-y-8">
             
             {/* Plant Spotlight Details Card */}
             <div className="p-8 rounded-xl bg-neutral-900/80 border border-neutral-800 shadow-2xl backdrop-blur-xl relative overflow-hidden group">
@@ -142,16 +147,16 @@ export default function FootprintSection() {
                   <Factory size={22} />
                 </div>
                 <div>
-                  <span className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Gurugram Factory</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Haryana Factory</span>
                   <h3 className="text-lg font-black text-white leading-tight">Kadipur Industrial Facility</h3>
                 </div>
               </div>
 
               <div className="space-y-4 text-xs text-neutral-300 leading-relaxed font-normal">
                 <p>
-                  Equipped with heavy-duty multi-boring machineries, automatic edge-banders, and electrostatic powder coating chambers. We control 100% of the desking desking and seating production workflow to guarantee unmatched durability.
+                  Equipped with heavy-duty multi-boring machineries, automatic edge-banders, and electrostatic powder coating chambers. We control 100% of the desking and seating production workflow to guarantee unmatched durability.
                 </p>
-                <div className="grid grid-cols-2 gap-4 pt-4 border-t border-neutral-850">
+                <div className="grid grid-cols-2 gap-4 pt-4 border-t border-neutral-855">
                   <div className="space-y-1">
                     <span className="text-xs text-neutral-500 block uppercase tracking-wider">Quality Standard</span>
                     <span className="text-white font-bold flex items-center gap-1.5">
@@ -213,12 +218,12 @@ export default function FootprintSection() {
             {/* Interactive Hub Selection Pill Buttons */}
             <div className="space-y-2">
               <p className="text-[10px] font-black uppercase tracking-widest text-neutral-500">Quick Hub Selector</p>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-nowrap overflow-x-auto no-scrollbar gap-1.5 pb-1">
                 {hubs.map((hub) => (
                   <button
                     key={hub.id}
                     onClick={() => setActiveHub(hub)}
-                    className={`px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all duration-300 ${
+                    className={`px-2 py-1.5 sm:px-2.5 sm:py-2 xl:px-3 xl:py-2 rounded-xl font-bold text-[10px] sm:text-[11px] xl:text-xs shrink-0 uppercase tracking-wider transition-all duration-300 ${
                       activeHub.id === hub.id
                         ? "bg-primary text-white shadow-md shadow-primary/20 scale-105"
                         : "bg-neutral-900 text-neutral-400 hover:text-white hover:bg-neutral-850"
@@ -233,7 +238,7 @@ export default function FootprintSection() {
           </div>
 
           {/* Right Column: Architectural SVG India Network Canvas */}
-          <div className="lg:col-span-7 flex items-center justify-center relative w-full aspect-[4/5] sm:aspect-square bg-neutral-900/30 rounded-xl border border-neutral-800/80 p-4 sm:p-8 overflow-hidden">
+          <div className="lg:col-span-6 flex items-center justify-center relative w-full aspect-[4/5] sm:aspect-square bg-neutral-900/30 rounded-xl border border-neutral-800/80 p-4 sm:p-8 overflow-hidden">
             
             {/* Inside Canvas HUD Overlay */}
             <div className="absolute top-6 left-6 text-left z-20 pointer-events-none">
@@ -274,7 +279,7 @@ export default function FootprintSection() {
                         x2={hub.x}
                         y2={hub.y}
                         stroke="#ed1c27"
-                        strokeOpacity={activeHub.id === hub.id || activeHub.id === "gurgaon" ? "0.35" : "0.08"}
+                        strokeOpacity={activeHub.id === hub.id || activeHub.id === "haryana" ? "0.35" : "0.08"}
                         strokeWidth={activeHub.id === hub.id ? "1.5" : "0.75"}
                         className="transition-all duration-550"
                       />
@@ -319,7 +324,7 @@ export default function FootprintSection() {
                 {/* Hub Pulsing Ring & Node Interactions */}
                 {hubs.map((hub) => {
                   const isActive = activeHub.id === hub.id;
-                  const isHQ = hub.id === "gurgaon";
+                  const isHQ = hub.id === "haryana";
 
                   return (
                     <g 
