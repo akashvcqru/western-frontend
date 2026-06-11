@@ -60,6 +60,8 @@ interface Product {
   detailsText2?: string;
   quickSpecs?: string[];
   trustBadges?: { title: string; desc: string; icon?: string }[];
+  metaTitle?: string;
+  metaDescription?: string;
 }
 
 interface ProductDetailViewProps {
@@ -472,6 +474,8 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
 
   return (
     <>
+      {product.metaTitle ? <title>{product.metaTitle}</title> : <title>{`${product.name} | Western Interio`}</title>}
+      {product.metaDescription && <meta name="description" content={product.metaDescription} />}
       <div className="bg-white min-h-screen">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-12 py-10 lg:py-16">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">

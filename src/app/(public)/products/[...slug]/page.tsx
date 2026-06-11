@@ -23,6 +23,8 @@ interface Category {
   slug: string;
   description: string;
   image?: string;
+  metaTitle?: string;
+  metaDescription?: string;
 }
 
 interface SubCategory {
@@ -33,6 +35,8 @@ interface SubCategory {
   image?: string;
   categoryId: string;
   status: string;
+  metaTitle?: string;
+  metaDescription?: string;
 }
 
 
@@ -63,6 +67,8 @@ interface Product {
   detailsText2?: string;
   quickSpecs?: string[];
   stock: number;
+  metaTitle?: string;
+  metaDescription?: string;
 }
 
 const parsePrice = (priceStr?: string): number => {
@@ -94,8 +100,13 @@ function CategoryHubPage({
   const categoryName = category?.name || "Category";
   const categoryDescription = category?.description || `Professional ${categoryName} solutions engineered for premium workspaces and lasting comfort.`;
 
+  const metaTitle = category?.metaTitle || `${categoryName} | Western Interio`;
+  const metaDescription = category?.metaDescription || categoryDescription;
+
   return (
     <div className="bg-white min-h-screen">
+      <title>{metaTitle}</title>
+      <meta name="description" content={metaDescription} />
       <PageHeader 
         bgImage={heroImage}
         badgeText="Product Category"
@@ -447,8 +458,17 @@ export default function ProductListingPage({
     ? activeSubCategory.name
     : (currentCategory?.name || lastSlugSegment.replace(/-/g, " "));
 
+  const metaTitle = activeSubCategory
+    ? (activeSubCategory.metaTitle || `${categoryName} | Western Interio`)
+    : (currentCategory?.metaTitle || `${categoryName} | Western Interio`);
+  const metaDescription = activeSubCategory
+    ? (activeSubCategory.metaDescription || `Professional ${categoryName} solutions engineered for premium workspaces and lasting comfort.`)
+    : (currentCategory?.metaDescription || `Professional ${categoryName} solutions engineered for premium workspaces and lasting comfort.`);
+
   return (
     <div className="bg-white min-h-screen">
+      <title>{metaTitle}</title>
+      <meta name="description" content={metaDescription} />
       {/* Premium Integrated PageHeader */}
       <PageHeader 
         bgImage={heroImage}

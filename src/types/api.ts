@@ -68,6 +68,8 @@ export interface Product {
   detailsText1?: string;
   detailsText2?: string;
   quickSpecs?: string[];
+  metaTitle?: string;
+  metaDescription?: string;
 }
 
 export interface Category {
@@ -80,6 +82,8 @@ export interface Category {
   status: string;
   location?: string;
   position?: number;
+  metaTitle?: string;
+  metaDescription?: string;
 }
 
 export interface SubCategory {
@@ -91,6 +95,8 @@ export interface SubCategory {
   categoryId: string;
   status: string;
   position?: number;
+  metaTitle?: string;
+  metaDescription?: string;
 }
 
 export interface Brand {

@@ -34,6 +34,8 @@ const categorySchema = yup.object().shape({
   image: yup.string().required("Image is required"),
   status: yup.string().required("Status is required"),
   location: yup.string().required("Location is required"),
+  metaTitle: yup.string().nullable().optional(),
+  metaDescription: yup.string().nullable().optional(),
 });
 
 const subCategorySchema = yup.object().shape({
@@ -47,6 +49,8 @@ const subCategorySchema = yup.object().shape({
   image: yup.string().required("Image is required"),
   categoryId: yup.string().required("Parent Category is required"),
   status: yup.string().required("Status is required"),
+  metaTitle: yup.string().nullable().optional(),
+  metaDescription: yup.string().nullable().optional(),
 });
 
 type CategoryFormData = yup.InferType<typeof categorySchema>;
@@ -230,12 +234,12 @@ export default function AdminCategoriesPage() {
   // Form setups
   const categoryMethods = useForm<CategoryFormData>({
     resolver: yupResolver(categorySchema) as Resolver<CategoryFormData>,
-    defaultValues: { id: "", name: "", description: "", image: "", status: "Active", location: "Header" },
+    defaultValues: { id: "", name: "", description: "", image: "", status: "Active", location: "Header", metaTitle: "", metaDescription: "" },
   });
 
   const subCategoryMethods = useForm<SubCategoryFormData>({
     resolver: yupResolver(subCategorySchema) as Resolver<SubCategoryFormData>,
-    defaultValues: { id: "", name: "", description: "", image: "", categoryId: "", status: "Active" },
+    defaultValues: { id: "", name: "", description: "", image: "", categoryId: "", status: "Active", metaTitle: "", metaDescription: "" },
   });
 
   useEffect(() => {
@@ -249,9 +253,11 @@ export default function AdminCategoriesPage() {
             image: editingCategory.image,
             status: editingCategory.status,
             location: editingCategory.location || "Header",
+            metaTitle: editingCategory.metaTitle || "",
+            metaDescription: editingCategory.metaDescription || "",
           });
         } else {
-          categoryMethods.reset({ id: "", name: "", description: "", image: "", status: "Active", location: "Header" });
+          categoryMethods.reset({ id: "", name: "", description: "", image: "", status: "Active", location: "Header", metaTitle: "", metaDescription: "" });
         }
       } else {
         if (editingSubCategory) {
@@ -262,9 +268,11 @@ export default function AdminCategoriesPage() {
             image: editingSubCategory.image,
             categoryId: editingSubCategory.categoryId,
             status: editingSubCategory.status,
+            metaTitle: editingSubCategory.metaTitle || "",
+            metaDescription: editingSubCategory.metaDescription || "",
           });
         } else {
-          subCategoryMethods.reset({ id: "", name: "", description: "", image: "", categoryId: "", status: "Active" });
+          subCategoryMethods.reset({ id: "", name: "", description: "", image: "", categoryId: "", status: "Active", metaTitle: "", metaDescription: "" });
         }
       }
     }
@@ -300,6 +308,8 @@ export default function AdminCategoriesPage() {
         image: data.image,
         status: data.status,
         location: data.location,
+        metaTitle: data.metaTitle || "",
+        metaDescription: data.metaDescription || "",
       };
       if (editingCategory) {
         await updateCategory({ id: editingCategory.id, body: payload }).unwrap();
@@ -322,6 +332,8 @@ export default function AdminCategoriesPage() {
         image: data.image,
         categoryId: data.categoryId,
         status: data.status,
+        metaTitle: data.metaTitle || "",
+        metaDescription: data.metaDescription || "",
       };
       if (editingSubCategory) {
         await updateSubCategory({ id: editingSubCategory.id, body: payload }).unwrap();
@@ -788,6 +800,20 @@ export default function AdminCategoriesPage() {
                 placeholder="Provide a brief summary of what products this category includes..."
                 className="rounded-xl"
               />
+              <RHFControl
+                control="input"
+                name="metaTitle"
+                label="Meta Title"
+                placeholder="SEO Meta Title (optional)"
+                className="rounded-xl"
+              />
+              <RHFControl
+                control="textarea"
+                name="metaDescription"
+                label="Meta Description"
+                placeholder="SEO Meta Description (optional)"
+                className="rounded-xl"
+              />
 
               {/* Image Upload */}
               <div className="space-y-2">
@@ -895,6 +921,20 @@ export default function AdminCategoriesPage() {
                 name="description"
                 label="Short Description *"
                 placeholder="Provide a brief summary of what products this subcategory includes..."
+                className="rounded-xl"
+              />
+              <RHFControl
+                control="input"
+                name="metaTitle"
+                label="Meta Title"
+                placeholder="SEO Meta Title (optional)"
+                className="rounded-xl"
+              />
+              <RHFControl
+                control="textarea"
+                name="metaDescription"
+                label="Meta Description"
+                placeholder="SEO Meta Description (optional)"
                 className="rounded-xl"
               />
 

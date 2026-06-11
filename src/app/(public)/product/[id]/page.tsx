@@ -42,6 +42,8 @@ interface Product {
   specifications?: Array<{ label: string; value: string }>;
   features?: Array<{ title: string; desc: string }>;
   trustBadges?: Array<{ title: string; desc: string; icon?: string }>;
+  metaTitle?: string;
+  metaDescription?: string;
 }
 
 export default function ProductDetailPage() {
@@ -133,6 +135,8 @@ export default function ProductDetailPage() {
 
   return (
     <main className="bg-white min-h-screen pt-12 lg:pt-16 pb-24">
+      {product.metaTitle ? <title>{product.metaTitle}</title> : <title>{`${product.name} | Western Interio`}</title>}
+      {product.metaDescription && <meta name="description" content={product.metaDescription} />}
       <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
         <div className="grid lg:grid-cols-2 gap-20 lg:gap-32 items-start">
           {/* Left: Image Gallery - Premium Presentation */}

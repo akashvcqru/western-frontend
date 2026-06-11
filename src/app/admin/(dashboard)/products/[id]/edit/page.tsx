@@ -52,6 +52,8 @@ interface Product {
   detailsText2?: string;
   quickSpecs?: string[];
   trustBadges?: { title: string; desc: string; icon?: string }[];
+  metaTitle?: string;
+  metaDescription?: string;
 }
 
 interface Category {
@@ -109,6 +111,8 @@ const productSchema = yup.object().shape({
     desc: yup.string().nullable().optional(),
     icon: yup.string().nullable().optional()
   })).optional(),
+  metaTitle: yup.string().nullable().optional(),
+  metaDescription: yup.string().nullable().optional(),
 });
 
 type ProductFormData = yup.InferType<typeof productSchema>;
@@ -140,7 +144,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
   const router = useRouter();
   const { addToast } = useAppToast();
 
-  const [activeTab, setActiveTab] = useState<"general" | "details" | "blueprint" | "specs" | "resources">("general");
+  const [activeTab, setActiveTab] = useState<"general" | "details" | "blueprint" | "specs" | "resources" | "seo">("general");
   const [categories, setCategories] = useState<Category[]>([]);
   const [subCategories, setSubCategories] = useState<SubCategory[]>([]);
   const [brands, setBrands] = useState<{ id: string; name: string }[]>([]);
@@ -185,6 +189,8 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
       detailsText2: "",
       quickSpecs: [],
       trustBadges: [],
+      metaTitle: "",
+      metaDescription: "",
     },
   });
 
@@ -312,6 +318,8 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
                 { title: "Direct Factory", desc: "Zero intermediary markups", icon: "Award" },
                 { title: "5Y Warranty", desc: "Assured structural coverage", icon: "Zap" },
               ],
+          metaTitle: found.metaTitle || "",
+          metaDescription: found.metaDescription || "",
         });
       } catch (e) {
         console.error("Error loading product:", e);
@@ -406,6 +414,8 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
           desc: badge.desc || "",
           icon: badge.icon || "",
         })),
+      metaTitle: data.metaTitle || "",
+      metaDescription: data.metaDescription || "",
     };
 
     try {
@@ -424,6 +434,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
     { key: "blueprint", label: "Dimension Blueprint" },
     { key: "specs", label: "Specifications" },
     { key: "resources", label: "Downloads & Resources" },
+    { key: "seo", label: "SEO Settings" },
   ] as const;
 
   if (!isMounted) return null;
@@ -843,6 +854,20 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
                         ))}
                       </div>
                     )}
+                  </div>
+                </div>
+
+                {/* ══ SEO TAB ══ */}
+                <div className={activeTab === "seo" ? "space-y-5" : "hidden"}>
+                  <div className="space-y-4">
+                    <div>
+                      <h4 className="text-xs font-bold uppercase tracking-wider text-gray-800">SEO Metadata</h4>
+                      <p className="text-[10px] text-gray-400 mt-0.5">Define search engine optimization settings for this product to improve its search ranking.</p>
+                    </div>
+                    <div className="grid grid-cols-1 gap-4">
+                      <RHFControl control="input" name="metaTitle" label="Meta Title" placeholder="SEO Page Title (optional)" className="rounded-xl" />
+                      <RHFControl control="textarea" name="metaDescription" label="Meta Description" placeholder="SEO Page Description (optional)" className="rounded-xl" />
+                    </div>
                   </div>
                 </div>
 
