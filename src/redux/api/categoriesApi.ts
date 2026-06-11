@@ -105,6 +105,22 @@ export const categoriesApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: [{ type: "SubCategory", id: "LIST" }],
     }),
+    reorderCategories: builder.mutation<ApiResponse<null>, { id: string; position: number }[]>({
+      query: (body) => ({
+        url: "/api/categories/reorder",
+        method: "PUT",
+        body,
+      }),
+      invalidatesTags: [{ type: "Category", id: "LIST" }],
+    }),
+    reorderSubCategories: builder.mutation<ApiResponse<null>, { id: string; position: number }[]>({
+      query: (body) => ({
+        url: "/api/categories/subcategories/reorder",
+        method: "PUT",
+        body,
+      }),
+      invalidatesTags: [{ type: "SubCategory", id: "LIST" }],
+    }),
   }),
 });
 
@@ -117,4 +133,6 @@ export const {
   useCreateSubCategoryMutation,
   useUpdateSubCategoryMutation,
   useDeleteSubCategoryMutation,
+  useReorderCategoriesMutation,
+  useReorderSubCategoriesMutation,
 } = categoriesApi;

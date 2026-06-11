@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, Edit, Trash2, Folder, Upload, AlertCircle } from "lucide-react";
+import { Plus, Edit, Trash2, Folder, Upload, AlertCircle, GripVertical } from "lucide-react";
 import Image from "next/image";
 import { Card, AppModal, useAppToast, AdminPageHeader, Pagination, RHFControl, SearchInput } from "@/components/ui";
 import { AppRoutes } from "@/constants/routes";
@@ -17,6 +17,8 @@ import {
   useCreateSubCategoryMutation,
   useUpdateSubCategoryMutation,
   useDeleteSubCategoryMutation,
+  useReorderCategoriesMutation,
+  useReorderSubCategoriesMutation,
 } from "@/redux/api/categoriesApi";
 import type { Category, SubCategory } from "@/types/api";
 
@@ -58,6 +60,24 @@ export default function AdminCategoriesPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
   const [editingSubCategory, setEditingSubCategory] = useState<SubCategory | null>(null);
+
+  // Reorder state
+  const [isReorderMode, setIsReorderMode] = useState(false);
+  const [localCategories, setLocalCategories] = useState<Category[]>([]);
+  const [localSubCategories, setLocalSubCategories] = useState<SubCategory[]>([]);
+  const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
+
+  const [reorderCategories, { isLoading: isReorderingCats }] = useReorderCategoriesMutation();
+  const [reorderSubCategories, { isLoading: isReorderingSubs }] = useReorderSubCategoriesMutation();
+
+  const { data: reorderCategoriesData, isLoading: isReorderCatsLoading } = useGetCategoriesQuery(
+    { limit: 100 },
+    { skip: !isReorderMode }
+  );
+  const { data: reorderSubCategoriesData, isLoading: isReorderSubsLoading } = useGetSubCategoriesQuery(
+    { limit: 1000 },
+    { skip: !isReorderMode }
+  );
 
   // ─── Categories Queries & Mutations ──────────────────────────────────────────
   const [searchTerm, setSearchTerm] = useState("");
@@ -139,6 +159,73 @@ export default function AdminCategoriesPage() {
   useEffect(() => {
     setCurrentSubPage(1);
   }, [debouncedSubSearch, subItemsPerPage]);
+
+  useEffect(() => {
+    if (isReorderMode) {
+      if (activeTab === "categories" && reorderCategoriesData?.data) {
+        setLocalCategories(reorderCategoriesData.data);
+      } else if (activeTab === "subcategories" && reorderSubCategoriesData?.data) {
+        setLocalSubCategories(reorderSubCategoriesData.data);
+      }
+    }
+  }, [isReorderMode, activeTab, reorderCategoriesData, reorderSubCategoriesData]);
+
+  // Drag and drop handlers
+  const handleDragStart = (e: React.DragEvent, index: number) => {
+    setDraggedIndex(index);
+    e.dataTransfer.effectAllowed = "move";
+  };
+
+  const handleDragOver = (e: React.DragEvent, index: number) => {
+    e.preventDefault();
+  };
+
+  const handleDrop = (e: React.DragEvent, targetIndex: number) => {
+    e.preventDefault();
+    if (draggedIndex === null || draggedIndex === targetIndex) return;
+
+    if (activeTab === "categories") {
+      const items = [...localCategories];
+      const draggedItem = items[draggedIndex];
+      items.splice(draggedIndex, 1);
+      items.splice(targetIndex, 0, draggedItem);
+      setLocalCategories(items);
+    } else {
+      const items = [...localSubCategories];
+      const draggedItem = items[draggedIndex];
+      items.splice(draggedIndex, 1);
+      items.splice(targetIndex, 0, draggedItem);
+      setLocalSubCategories(items);
+    }
+    setDraggedIndex(null);
+  };
+
+  const handleDragEnd = () => {
+    setDraggedIndex(null);
+  };
+
+  const handleSaveOrder = async () => {
+    try {
+      if (activeTab === "categories") {
+        const payload = localCategories.map((cat, index) => ({
+          id: cat.id,
+          position: index + 1,
+        }));
+        await reorderCategories(payload).unwrap();
+        addToast({ title: "Order Saved", message: "Category positions updated successfully.", variant: "success" });
+      } else {
+        const payload = localSubCategories.map((sub, index) => ({
+          id: sub.id,
+          position: index + 1,
+        }));
+        await reorderSubCategories(payload).unwrap();
+        addToast({ title: "Order Saved", message: "Sub Category positions updated successfully.", variant: "success" });
+      }
+      setIsReorderMode(false);
+    } catch (err: any) {
+      addToast({ title: "Error", message: err?.data?.message || "Failed to update order", variant: "error" });
+    }
+  };
 
   // Form setups
   const categoryMethods = useForm<CategoryFormData>({
@@ -256,7 +343,8 @@ export default function AdminCategoriesPage() {
   const currentSearch = activeTab === "categories" ? searchTerm : subSearchTerm;
   const currentSetSearch = activeTab === "categories" ? setSearchTerm : setSubSearchTerm;
   const currentSetPage = activeTab === "categories" ? setCurrentPage : setCurrentSubPage;
-  const currentIsLoading = activeTab === "categories" ? isCatsFetching : isSubsFetching;
+  const isReorderLoading = activeTab === "categories" ? isReorderCatsLoading : isReorderSubsLoading;
+  const currentIsLoading = isReorderMode ? isReorderLoading : (activeTab === "categories" ? isCatsFetching : isSubsFetching);
   const currentError = activeTab === "categories"
     ? (catsFetchError ? (catsFetchError as { data?: { message?: string } })?.data?.message || "Failed to load categories" : null)
     : (subsFetchError ? (subsFetchError as { data?: { message?: string } })?.data?.message || "Failed to load subcategories" : null);
@@ -301,30 +389,65 @@ export default function AdminCategoriesPage() {
         </div>
 
         <Card.Header>
-          <SearchInput
-            placeholder={activeTab === "categories" ? "Search categories by name or ID..." : "Search sub categories..."}
-            value={currentSearch}
-            onChange={(e) => {
-              currentSetSearch(e.target.value);
-              currentSetPage(1);
-            }}
-            wrapperClassName="max-w-sm"
-          />
-          <div className="flex items-center gap-3">
-            <button
-              id="add-category-btn"
-              onClick={() => {
-                if (activeTab === "categories") {
-                  setEditingCategory(null);
-                } else {
-                  setEditingSubCategory(null);
-                }
-                setIsModalOpen(true);
+          {!isReorderMode ? (
+            <SearchInput
+              placeholder={activeTab === "categories" ? "Search categories by name or ID..." : "Search sub categories..."}
+              value={currentSearch}
+              onChange={(e) => {
+                currentSetSearch(e.target.value);
+                currentSetPage(1);
               }}
-              className="inline-flex items-center justify-center gap-2 bg-[#ed1c27] hover:bg-[#c5141e] text-white font-bold uppercase tracking-[0.12em] text-[10px] rounded-xl px-5 py-2 transition-all duration-300 cursor-pointer hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#ed1c27]/25"
-            >
-              <Plus size={14} /> Add {activeTab === "categories" ? "Category" : "Sub Category"}
-            </button>
+              wrapperClassName="max-w-sm"
+            />
+          ) : (
+            <div className="flex items-center gap-2 text-xs font-semibold text-[#ed1c27] bg-[#ed1c27]/5 border border-[#ed1c27]/10 px-4 py-2 rounded-xl">
+              <GripVertical size={14} className="animate-pulse" /> Drag and drop items to reorder, then click Save Order.
+            </div>
+          )}
+          <div className="flex items-center gap-3">
+            {isReorderMode ? (
+              <>
+                <button
+                  type="button"
+                  onClick={() => setIsReorderMode(false)}
+                  className="inline-flex items-center justify-center gap-2 border border-gray-200 hover:bg-gray-50 text-gray-500 font-bold uppercase tracking-[0.12em] text-[10px] rounded-xl px-5 py-2 transition-all duration-300 cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={handleSaveOrder}
+                  disabled={isReorderingCats || isReorderingSubs}
+                  className="inline-flex items-center justify-center gap-2 bg-[#ed1c27] hover:bg-[#c5141e] text-white font-bold uppercase tracking-[0.12em] text-[10px] rounded-xl px-5 py-2 transition-all duration-300 cursor-pointer disabled:opacity-60 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#ed1c27]/25"
+                >
+                  {isReorderingCats || isReorderingSubs ? "Saving..." : "Save Order"}
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  type="button"
+                  onClick={() => setIsReorderMode(true)}
+                  className="inline-flex items-center justify-center gap-2 border border-[#ed1c27] text-[#ed1c27] hover:bg-[#ed1c27]/5 font-bold uppercase tracking-[0.12em] text-[10px] rounded-xl px-5 py-2 transition-all duration-300 cursor-pointer"
+                >
+                  <GripVertical size={14} /> Reorder
+                </button>
+                <button
+                  id="add-category-btn"
+                  onClick={() => {
+                    if (activeTab === "categories") {
+                      setEditingCategory(null);
+                    } else {
+                      setEditingSubCategory(null);
+                    }
+                    setIsModalOpen(true);
+                  }}
+                  className="inline-flex items-center justify-center gap-2 bg-[#ed1c27] hover:bg-[#c5141e] text-white font-bold uppercase tracking-[0.12em] text-[10px] rounded-xl px-5 py-2 transition-all duration-300 cursor-pointer hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#ed1c27]/25"
+                >
+                  <Plus size={14} /> Add {activeTab === "categories" ? "Category" : "Sub Category"}
+                </button>
+              </>
+            )}
           </div>
         </Card.Header>
 
@@ -355,6 +478,58 @@ export default function AdminCategoriesPage() {
                 </div>
               ))}
             </div>
+          ) : isReorderMode ? (
+            /* REORDER LIST */
+            (activeTab === "categories" ? localCategories : localSubCategories).length === 0 ? (
+              <div className="py-16 text-center">
+                <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest">No items to reorder</p>
+              </div>
+            ) : (
+              <div className="space-y-3 max-w-2xl mx-auto">
+                {(activeTab === "categories" ? localCategories : localSubCategories).map((item, idx) => {
+                  const parentName = activeTab === "subcategories" 
+                    ? allCategories.find((c) => c.id === (item as SubCategory).categoryId)?.name || "Unknown Category"
+                    : null;
+
+                  return (
+                    <div
+                      key={item.id}
+                      draggable
+                      onDragStart={(e) => handleDragStart(e, idx)}
+                      onDragOver={(e) => handleDragOver(e, idx)}
+                      onDrop={(e) => handleDrop(e, idx)}
+                      onDragEnd={handleDragEnd}
+                      className={`flex items-center gap-4 bg-white p-4 rounded-2xl border transition-all duration-200 select-none ${
+                        draggedIndex === idx
+                          ? "opacity-45 border-dashed border-[#ed1c27] bg-[#ed1c27]/5 scale-[0.98]"
+                          : "border-gray-100 hover:border-gray-300 shadow-sm cursor-grab active:cursor-grabbing"
+                      }`}
+                    >
+                      <div className="text-gray-400 shrink-0">
+                        <GripVertical size={18} />
+                      </div>
+                      {item.image && (
+                        <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-gray-100 shrink-0 border border-gray-100">
+                          <Image src={item.image} alt={item.name} fill className="object-cover" />
+                        </div>
+                      )}
+                      <div className="flex-1 min-w-0">
+                        <h4 className="text-xs font-bold text-gray-900 truncate">{item.name}</h4>
+                        <p className="text-[10px] text-gray-400 truncate mt-0.5">{item.id}</p>
+                        {parentName && (
+                          <span className="inline-block mt-1.5 px-2.5 py-0.5 bg-neutral-100 text-neutral-600 rounded-md text-[9px] font-bold uppercase tracking-widest">
+                            Category: {parentName}
+                          </span>
+                        )}
+                      </div>
+                      <div className="shrink-0 text-[10px] font-bold text-gray-400 uppercase tracking-widest bg-gray-50 px-3 py-1.5 rounded-xl border border-gray-100">
+                        Pos {idx + 1}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )
           ) : activeTab === "categories" ? (
             /* CATEGORIES GRID */
             categories.length === 0 ? (
@@ -501,32 +676,34 @@ export default function AdminCategoriesPage() {
         </Card.Body>
 
         <Card.Footer>
-          {activeTab === "categories" ? (
-            <Pagination
-              currentPage={catPagination.currentPage}
-              totalPages={catPagination.totalPages}
-              onPageChange={setCurrentPage}
-              pageSize={itemsPerPage}
-              onPageSizeChange={(size) => {
-                setItemsPerPage(size);
-                setCurrentPage(1);
-              }}
-              totalItems={catPagination.totalItems}
-              pageSizeOptions={[4, 8, 12, 24, 48]}
-            />
-          ) : (
-            <Pagination
-              currentPage={subPagination.currentPage}
-              totalPages={subPagination.totalPages}
-              onPageChange={setCurrentSubPage}
-              pageSize={subItemsPerPage}
-              onPageSizeChange={(size) => {
-                setSubItemsPerPage(size);
-                setCurrentSubPage(1);
-              }}
-              totalItems={subPagination.totalItems}
-              pageSizeOptions={[4, 8, 12, 24, 48]}
-            />
+          {!isReorderMode && (
+            activeTab === "categories" ? (
+              <Pagination
+                currentPage={catPagination.currentPage}
+                totalPages={catPagination.totalPages}
+                onPageChange={setCurrentPage}
+                pageSize={itemsPerPage}
+                onPageSizeChange={(size) => {
+                  setItemsPerPage(size);
+                  setCurrentPage(1);
+                }}
+                totalItems={catPagination.totalItems}
+                pageSizeOptions={[4, 8, 12, 24, 48]}
+              />
+            ) : (
+              <Pagination
+                currentPage={subPagination.currentPage}
+                totalPages={subPagination.totalPages}
+                onPageChange={setCurrentSubPage}
+                pageSize={subItemsPerPage}
+                onPageSizeChange={(size) => {
+                  setSubItemsPerPage(size);
+                  setCurrentSubPage(1);
+                }}
+                totalItems={subPagination.totalItems}
+                pageSizeOptions={[4, 8, 12, 24, 48]}
+              />
+            )
           )}
         </Card.Footer>
       </Card>

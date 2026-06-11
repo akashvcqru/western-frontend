@@ -79,6 +79,7 @@ export interface Category {
   image: string;
   status: string;
   location?: string;
+  position?: number;
 }
 
 export interface SubCategory {
@@ -89,6 +90,7 @@ export interface SubCategory {
   image: string;
   categoryId: string;
   status: string;
+  position?: number;
 }
 
 export interface Brand {
