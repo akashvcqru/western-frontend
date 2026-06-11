@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useEffect } from "react";
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useGetGalleryQuery } from "@/redux/api/galleryApi";
@@ -8,8 +8,6 @@ import { slugify } from "@/lib/utils";
 
 export default function SpaceSection() {
   const { data: galleryResult } = useGetGalleryQuery({ limit: 1000 });
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const isInteracting = useRef(false);
 
   const dynamicSpaces = React.useMemo(() => {
     if (!galleryResult?.data || galleryResult.data.length === 0) {
@@ -33,84 +31,22 @@ export default function SpaceSection() {
 
   const spaces = dynamicSpaces;
 
-  // Triple the items for infinite scrolling
-  const extendedSpaces = React.useMemo(() => {
-    if (!spaces) return [];
-    return [...spaces, ...spaces, ...spaces];
+  // Guarantee at least 8 items in the single set to prevent blank spaces on wide screens
+  const singleSet = React.useMemo(() => {
+    if (!spaces || spaces.length === 0) return [];
+    let list = [...spaces];
+    while (list.length < 8) {
+      list = [...list, ...spaces];
+    }
+    return list;
   }, [spaces]);
 
-  // Infinite Scroll Boundary Reset (for manual swipe/drag)
-  useEffect(() => {
-    const container = scrollRef.current;
-    if (!container || !spaces || spaces.length <= 1) return;
+  // Duplicate the set once for continuous marquee loop
+  const listToRender = React.useMemo(() => {
+    return [...singleSet, ...singleSet];
+  }, [singleSet]);
 
-    const handleScroll = () => {
-      const { scrollLeft, scrollWidth, clientWidth } = container;
-      const firstCard = container.firstElementChild as HTMLElement;
-      if (!firstCard) return;
-      const cardWidth = firstCard.offsetWidth + 16; // card width + gap-4
-      const singleSetWidth = spaces.length * cardWidth;
-
-      // If we scroll too close to the end, jump back to the middle set
-      if (scrollLeft + clientWidth >= scrollWidth - cardWidth) {
-        container.scrollTo({ left: scrollLeft - singleSetWidth, behavior: "auto" });
-      }
-      // If we scroll too close to the beginning, jump forward to the middle set
-      else if (scrollLeft <= cardWidth) {
-        container.scrollTo({ left: scrollLeft + singleSetWidth, behavior: "auto" });
-      }
-    };
-
-    container.addEventListener("scroll", handleScroll, { passive: true });
-
-    // Initial position: center the scroll on the second set of cards
-    const initScroll = () => {
-      const firstCard = container.firstElementChild as HTMLElement;
-      if (firstCard) {
-        const cardWidth = firstCard.offsetWidth + 16;
-        container.scrollTo({ left: spaces.length * cardWidth, behavior: "auto" });
-      }
-    };
-
-    initScroll();
-    const timer = setTimeout(initScroll, 150);
-
-    return () => {
-      container.removeEventListener("scroll", handleScroll);
-      clearTimeout(timer);
-    };
-  }, [spaces]);
-
-  // Auto-scroll loop
-  useEffect(() => {
-    if (!spaces || spaces.length <= 1) return;
-
-    const interval = setInterval(() => {
-      if (isInteracting.current) return;
-
-      if (scrollRef.current) {
-        const container = scrollRef.current;
-        const firstCard = container.firstElementChild as HTMLElement;
-        if (!firstCard) return;
-
-        const cardWidth = firstCard.offsetWidth + 16;
-        const singleSetWidth = spaces.length * cardWidth;
-        const { scrollLeft, scrollWidth, clientWidth } = container;
-
-        // If we are about to scroll past the second set, jump back to the second set first
-        if (scrollLeft >= singleSetWidth * 2 - clientWidth) {
-          container.scrollTo({ left: scrollLeft - singleSetWidth, behavior: "auto" });
-        }
-
-        // Smoothly scroll by one card width
-        container.scrollBy({ left: cardWidth, behavior: "smooth" });
-      }
-    }, 4000); // Autoplay slide interval
-
-    return () => clearInterval(interval);
-  }, [spaces]);
-
-  if (!spaces) {
+  if (!spaces || spaces.length === 0) {
     return null;
   }
 
@@ -132,26 +68,17 @@ export default function SpaceSection() {
         </div>
         
         {/* Carousel Container Wrapper */}
-        <div className="relative w-full">
+        <div className="relative w-full project-slider-container mask-fade overflow-hidden">
           
           {/* Horizontal Carousel Container */}
           <div 
-            ref={scrollRef}
-            onMouseEnter={() => { isInteracting.current = true; }}
-            onMouseLeave={() => { isInteracting.current = false; }}
-            onTouchStart={() => { isInteracting.current = true; }}
-            onTouchEnd={() => {
-              setTimeout(() => {
-                isInteracting.current = false;
-              }, 2000);
-            }}
-            className="w-full flex overflow-x-auto no-scrollbar gap-4 pb-6 -mx-4 px-4 md:mx-0 md:px-0 scroll-smooth snap-x snap-mandatory"
+            className="animate-marquee-projects flex items-center gap-4 py-4 whitespace-nowrap project-marquee-row"
           >
-            {extendedSpaces.map((space, idx) => (
+            {listToRender.map((space, idx) => (
               <Link 
                 key={idx}
                 href={space.href}
-                className="group relative h-[420px] w-[280px] sm:w-[calc((100%-16px)/2)] md:w-[calc((100%-32px)/3)] lg:w-[calc((100%-48px)/4)] flex-shrink-0 overflow-hidden rounded-2xl shadow-soft transition-all duration-700 block snap-start"
+                className="group relative h-[420px] w-[280px] md:w-[320px] flex-shrink-0 overflow-hidden rounded-2xl shadow-soft transition-all duration-700 block"
               >
                 <Image 
                   alt={space.title} 
@@ -161,8 +88,8 @@ export default function SpaceSection() {
                   className="object-cover transition-transform duration-1000 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-black/20 group-hover:bg-black/60 transition-all duration-500" />
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-8">
-                  <h3 className="text-2xl font-bold text-white tracking-tight translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-8 whitespace-normal">
+                  <h3 className="text-2xl font-bold text-white tracking-tight translate-y-4 group-hover:translate-y-0 transition-transform duration-500 leading-tight">
                     {space.title}
                   </h3>
                   <div className="w-0 h-[2px] bg-primary mt-4 group-hover:w-24 transition-all duration-700" />
@@ -178,5 +105,3 @@ export default function SpaceSection() {
     </section>
   );
 }
-
-

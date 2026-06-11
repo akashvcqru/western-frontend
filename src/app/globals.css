@@ -66,14 +66,20 @@
     animation: marquee-left 45s linear infinite;
   }
 
+  .animate-marquee-projects {
+    animation: marquee-left 18s linear infinite;
+  }
+
   .animate-marquee-right {
     animation: marquee-right 45s linear infinite;
   }
 
   .brand-slider-container:hover .marquee-content,
-  .brand-slider-container:hover .marquee-content-row {
+  .brand-slider-container:hover .marquee-content-row,
+  .project-slider-container:hover .project-marquee-row {
     animation-play-state: paused;
   }
+
 
   .mask-fade {
     mask-image: linear-gradient(
