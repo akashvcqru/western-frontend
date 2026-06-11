@@ -3,13 +3,14 @@
 import { useState, useEffect } from "react";
 import { MapPin, Factory, Truck, ShieldCheck, Award } from "lucide-react";
 import siteContent from "@/data/site-content.json";
+import { indiaStatePaths } from "@/data/india-map-paths";
 
 interface Hub {
   id: string;
   name: string;
   type: string;
-  x: number; // percentage coordinate
-  y: number; // percentage coordinate
+  x: number; // absolute coordinate in 612x696 space
+  y: number; // absolute coordinate in 612x696 space
   deliveryTime: string;
   stats: string;
   projectsCount: string;
@@ -22,8 +23,8 @@ const hubs: Hub[] = [
     id: "haryana",
     name: "Haryana (HQ & Plant)",
     type: "Manufacturing Base & Headquarters",
-    x: 46,
-    y: 28,
+    x: 167.62,
+    y: 195.78,
     deliveryTime: "1-2 Days (Immediate)",
     stats: "15,000+ Sq.Ft. Facility",
     projectsCount: "650+ Corporate Spaces",
@@ -33,8 +34,8 @@ const hubs: Hub[] = [
     id: "maharashtra",
     name: "Maharashtra Hub",
     type: "Western Distribution Center",
-    x: 30,
-    y: 60,
+    x: 173.85,
+    y: 431.23,
     deliveryTime: "3-4 Days",
     stats: "4,500+ Sq.Ft. Node",
     projectsCount: "380+ Spaces",
@@ -44,8 +45,8 @@ const hubs: Hub[] = [
     id: "karnataka",
     name: "Karnataka Hub",
     type: "Southern Distribution Node",
-    x: 38,
-    y: 78,
+    x: 172.58,
+    y: 517.77,
     deliveryTime: "4-5 Days",
     stats: "3,500+ Sq.Ft. Node",
     projectsCount: "290+ Spaces",
@@ -55,8 +56,8 @@ const hubs: Hub[] = [
     id: "telangana",
     name: "Telangana Hub",
     type: "Deccan Distribution Node",
-    x: 46,
-    y: 65,
+    x: 231.55,
+    y: 457.51,
     deliveryTime: "4 Days",
     stats: "3,000+ Sq.Ft. Node",
     projectsCount: "210+ Spaces",
@@ -66,8 +67,8 @@ const hubs: Hub[] = [
     id: "tamilnadu",
     name: "Tamil Nadu Hub",
     type: "Industrial & IT Logistics Node",
-    x: 48,
-    y: 82,
+    x: 211.00,
+    y: 604.77,
     deliveryTime: "5 Days",
     stats: "2,800+ Sq.Ft. Node",
     projectsCount: "180+ Spaces",
@@ -240,14 +241,7 @@ export default function FootprintSection() {
           {/* Right Column: Architectural SVG India Network Canvas */}
           <div className="lg:col-span-6 flex items-center justify-center relative w-full aspect-[4/5] sm:aspect-square bg-neutral-900/30 rounded-xl border border-neutral-800/80 p-4 sm:p-8 overflow-hidden">
             
-            {/* Inside Canvas HUD Overlay */}
-            <div className="absolute top-6 left-6 text-left z-20 pointer-events-none">
-              <span className="text-[9px] font-black tracking-widest uppercase text-neutral-500 block">System Mapping</span>
-              <span className="text-xs font-black text-white flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-ping" />
-                Live Logistics Lanes
-              </span>
-            </div>
+
 
 
 
@@ -255,70 +249,48 @@ export default function FootprintSection() {
             <div className="w-full h-full relative flex items-center justify-center">
               
               <svg 
-                viewBox="0 0 100 100" 
+                viewBox="0 0 612 696" 
                 className="w-full h-full text-neutral-800 select-none relative z-10"
                 fill="none" 
                 stroke="currentColor" 
-                strokeWidth="0.5"
               >
                 {/* SVG Decorative Blueprint Grid Lines */}
-                <circle cx="50" cy="50" r="45" stroke="#ffffff" strokeOpacity="0.02" strokeDasharray="2,2" />
-                <circle cx="50" cy="50" r="30" stroke="#ffffff" strokeOpacity="0.02" strokeDasharray="2,2" />
-                <line x1="50" y1="5" x2="50" y2="95" stroke="#ffffff" strokeOpacity="0.02" strokeDasharray="2,2" />
-                <line x1="5" y1="50" x2="95" y2="50" stroke="#ffffff" strokeOpacity="0.02" strokeDasharray="2,2" />
+                <circle cx="306" cy="348" r="280" stroke="#ffffff" strokeOpacity="0.015" strokeDasharray="4,4" strokeWidth="1" />
+                <circle cx="306" cy="348" r="180" stroke="#ffffff" strokeOpacity="0.015" strokeDasharray="4,4" strokeWidth="1" />
+                <line x1="306" y1="30" x2="306" y2="666" stroke="#ffffff" strokeOpacity="0.015" strokeDasharray="4,4" strokeWidth="1" />
+                <line x1="30" y1="348" x2="582" y2="348" stroke="#ffffff" strokeOpacity="0.015" strokeDasharray="4,4" strokeWidth="1" />
 
-                {/* Stylized Network Connective Beams from HQ (Gurgaon) to Hubs */}
-                {hubs.slice(1).map((hub) => {
-                  const hq = hubs[0];
-                  return (
-                    <g key={`beam-${hub.id}`}>
-                      {/* Interactive Line Shadow Glow */}
-                      <line
-                        x1={hq.x}
-                        y1={hq.y}
-                        x2={hub.x}
-                        y2={hub.y}
-                        stroke="#ed1c27"
-                        strokeOpacity={activeHub.id === hub.id || activeHub.id === "haryana" ? "0.35" : "0.08"}
-                        strokeWidth={activeHub.id === hub.id ? "1.5" : "0.75"}
-                        className="transition-all duration-550"
+                {/* Perfect India Map Paths */}
+                <g className="transition-all duration-500">
+                  {indiaStatePaths.map((statePath) => {
+                    const idMap: Record<string, string> = {
+                      hr: 'haryana',
+                      mh: 'maharashtra',
+                      ka: 'karnataka',
+                      tg: 'telangana',
+                      tn: 'tamilnadu'
+                    };
+                    const hubId = idMap[statePath.id];
+                    const isSelectedHub = hubId !== undefined;
+                    const isActive = activeHub.id === hubId;
+
+                    return (
+                      <path
+                        key={statePath.id}
+                        d={statePath.d}
+                        fill={isActive ? "rgba(237, 28, 39, 0.25)" : "rgba(255, 255, 255, 0.015)"}
+                        stroke={isActive ? "#ed1c27" : "rgba(255, 255, 255, 0.2)"}
+                        strokeWidth={isActive ? "1.5" : "0.5"}
+                        className={`transition-all duration-300 ${isSelectedHub ? "cursor-pointer hover:fill-primary/10" : ""}`}
+                        onClick={() => {
+                          if (isSelectedHub) {
+                            const foundHub = hubs.find((h) => h.id === hubId);
+                            if (foundHub) setActiveHub(foundHub);
+                          }
+                        }}
                       />
-                      
-                      {/* Animated Pulse Beam traveling along the line */}
-                      {animateBeams && (
-                        <line
-                          x1={hq.x}
-                          y1={hq.y}
-                          x2={hub.x}
-                          y2={hub.y}
-                          stroke="url(#beamGradient)"
-                          strokeWidth={activeHub.id === hub.id ? "2" : "1"}
-                          strokeDasharray="10 80"
-                          strokeDashoffset="100"
-                          className="animate-pulse"
-                          style={{
-                            animation: "marquee 4s linear infinite",
-                            animationDelay: `${(hub.id.charCodeAt(0) % 5) * 0.5}s`
-                          }}
-                        />
-                      )}
-                    </g>
-                  );
-                })}
-
-                {/* Gradients definitions */}
-                <defs>
-                  <linearGradient id="beamGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#ed1c27" stopOpacity="0" />
-                    <stop offset="50%" stopColor="#ed1c27" stopOpacity="1" />
-                    <stop offset="100%" stopColor="#orange" stopOpacity="0" />
-                  </linearGradient>
-                </defs>
-
-                {/* Highly Simplified Stylized Map of India Constellation Lines (Connecting major border anchors) */}
-                <g stroke="#ffffff" strokeOpacity="0.08" strokeWidth="0.4" fill="none">
-                  {/* Outer boundaries in modern abstract geometric form */}
-                  <polygon points="46,12 52,14 55,20 60,25 72,25 78,35 83,43 78,48 76,55 70,52 64,55 58,62 55,67 47,82 45,90 38,82 35,74 25,65 20,58 22,50 25,45 35,42 38,36 34,26 40,24 46,12" />
+                    );
+                  })}
                 </g>
 
                 {/* Hub Pulsing Ring & Node Interactions */}
@@ -336,7 +308,7 @@ export default function FootprintSection() {
                       <circle 
                         cx={hub.x} 
                         cy={hub.y} 
-                        r="6" 
+                        r="30" 
                         fill="transparent" 
                         className="pointer-events-auto"
                       />
@@ -345,10 +317,10 @@ export default function FootprintSection() {
                       <circle
                         cx={hub.x}
                         cy={hub.y}
-                        r={isActive ? "4" : isHQ ? "2.5" : "2"}
+                        r={isActive ? "20" : isHQ ? "12" : "10"}
                         fill="none"
-                        stroke={isHQ ? "#ed1c27" : "#ffffff"}
-                        strokeWidth="0.5"
+                        stroke={isActive ? "#ed1c27" : "#ffffff"}
+                        strokeWidth="2"
                         className={isActive ? "animate-ping origin-center" : "group-hover/node:scale-125 transition-transform duration-300"}
                         style={{
                           transformOrigin: `${hub.x}px ${hub.y}px`,
@@ -360,18 +332,18 @@ export default function FootprintSection() {
                       <circle
                         cx={hub.x}
                         cy={hub.y}
-                        r={isHQ ? "1.8" : "1.2"}
-                        fill={isHQ || isActive ? "#ed1c27" : "#ffffff"}
+                        r={isHQ ? "8" : "6"}
+                        fill={isActive ? "#ed1c27" : "#ffffff"}
                         className="transition-colors duration-300"
                       />
 
                       {/* Node Label Tooltip on Map */}
                       {isActive && (
                         <foreignObject
-                          x={hub.x - 15}
-                          y={hub.y - 10}
-                          width="30"
-                          height="8"
+                          x={hub.x - 90}
+                          y={hub.y - 60}
+                          width="180"
+                          height="48"
                           className="overflow-visible"
                         >
                           <div 
@@ -381,11 +353,11 @@ export default function FootprintSection() {
                             <div 
                               className="bg-neutral-950 text-white font-bold flex items-center justify-center relative select-none"
                               style={{ 
-                                fontSize: "2.4px",
-                                border: "0.3px solid #ed1c27",
-                                padding: "1px 2px",
-                                borderRadius: "0.8px",
-                                boxShadow: "0 1px 2px rgba(0,0,0,0.5)",
+                                fontSize: "12px",
+                                border: "1.5px solid #ed1c27",
+                                padding: "6px 12px",
+                                borderRadius: "4px",
+                                boxShadow: "0 2px 4px rgba(0,0,0,0.5)",
                                 letterSpacing: "0.02em",
                                 whiteSpace: "nowrap"
                               }}
@@ -396,14 +368,14 @@ export default function FootprintSection() {
                               <div 
                                 style={{
                                   position: "absolute",
-                                  bottom: "-0.5px",
+                                  bottom: "-4px",
                                   left: "50%",
                                   transform: "translateX(-50%) rotate(45deg)",
-                                  width: "0.8px",
-                                  height: "0.8px",
+                                  width: "8px",
+                                  height: "8px",
                                   backgroundColor: "#0a0a0a",
-                                  borderRight: "0.3px solid #ed1c27",
-                                  borderBottom: "0.3px solid #ed1c27"
+                                  borderRight: "1.5px solid #ed1c27",
+                                  borderBottom: "1.5px solid #ed1c27"
                                 }}
                               />
                             </div>
@@ -419,8 +391,8 @@ export default function FootprintSection() {
               <div 
                 className="absolute w-24 h-24 bg-primary/20 rounded-full blur-2xl pointer-events-none transition-all duration-700"
                 style={{
-                  left: `${hubs[0].x}%`,
-                  top: `${hubs[0].y}%`,
+                  left: `${(hubs[0].x / 612) * 100}%`,
+                  top: `${(hubs[0].y / 696) * 100}%`,
                   transform: "translate(-50%, -50%)"
                 }}
               />
