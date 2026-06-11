@@ -44,6 +44,7 @@ export default function AdminBlogsPage() {
   const [formDate, setFormDate] = useState("");
   const [formLinkText, setFormLinkText] = useState("");
   const [formHyperlink, setFormHyperlink] = useState("");
+  const [formLinks, setFormLinks] = useState<{ text: string; url: string }[]>([]);
 
   // Categories helper state
   const [allCategories, setAllCategories] = useState<string[]>([]);
@@ -108,6 +109,7 @@ export default function AdminBlogsPage() {
     setFormAuthorRole("Western Interio Admin"); setFormTags("Workspace, Office, Design");
     setFormContent(""); setFormDate(todayStr);
     setFormLinkText(""); setFormHyperlink("");
+    setFormLinks([{ text: "", url: "" }]);
     setIsNewCategory(false);
     setNewCategoryName("");
     setIsModalOpen(true);
@@ -120,6 +122,24 @@ export default function AdminBlogsPage() {
     setFormAuthorRole(blog.authorRole); setFormTags(blog.tags.join(", "));
     setFormContent(blog.content.join("\n\n")); setFormDate(blog.date);
     setFormLinkText(blog.linkText || ""); setFormHyperlink(blog.hyperlink || "");
+    
+    // Parse links list
+    let parsedLinks = [{ text: "", url: "" }];
+    if (blog.linkText && blog.hyperlink) {
+      try {
+        if (blog.linkText.startsWith('[') && blog.hyperlink.startsWith('[')) {
+          const texts = JSON.parse(blog.linkText) as string[];
+          const urls = JSON.parse(blog.hyperlink) as string[];
+          parsedLinks = texts.map((t, i) => ({ text: t, url: urls[i] || "" }));
+        } else {
+          parsedLinks = [{ text: blog.linkText, url: blog.hyperlink }];
+        }
+      } catch (e) {
+        parsedLinks = [{ text: blog.linkText, url: blog.hyperlink }];
+      }
+    }
+    setFormLinks(parsedLinks);
+
     setIsNewCategory(false);
     setNewCategoryName("");
     setIsModalOpen(true);
@@ -165,8 +185,18 @@ export default function AdminBlogsPage() {
       tags: tagsArray,
       content: contentParagraphs,
       date: formDate,
-      linkText: formLinkText.trim() || undefined,
-      hyperlink: formHyperlink.trim() || undefined,
+      linkText: (() => {
+        const valid = formLinks.filter(l => l.text.trim() && l.url.trim());
+        if (valid.length === 1) return valid[0].text.trim();
+        if (valid.length > 1) return JSON.stringify(valid.map(l => l.text.trim()));
+        return undefined;
+      })(),
+      hyperlink: (() => {
+        const valid = formLinks.filter(l => l.text.trim() && l.url.trim());
+        if (valid.length === 1) return valid[0].url.trim();
+        if (valid.length > 1) return JSON.stringify(valid.map(l => l.url.trim()));
+        return undefined;
+      })(),
     };
 
     setIsSubmitting(true);
@@ -452,14 +482,59 @@ export default function AdminBlogsPage() {
             <textarea required rows={2} value={formExcerpt} onChange={e => setFormExcerpt(e.target.value)} placeholder="Brief description displaying on the listing page..." className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium focus:outline-none focus:border-[#ed1c27]/40 resize-none" />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-1">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Hyperlink Text (Optional)</label>
-              <input type="text" value={formLinkText} onChange={e => setFormLinkText(e.target.value)} placeholder="e.g. Read more about Western Office Solutions" className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium focus:outline-none focus:border-[#ed1c27]/40" />
+          <div className="space-y-2">
+            <div className="flex justify-between items-center">
+              <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Hyperlinks (Optional)</label>
+              <button
+                type="button"
+                onClick={() => setFormLinks(prev => [...prev, { text: "", url: "" }])}
+                className="text-[9px] font-bold text-[#ed1c27] uppercase tracking-widest hover:underline cursor-pointer"
+              >
+                + Add Hyperlink
+              </button>
             </div>
-            <div className="space-y-1">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Hyperlink URL (Optional)</label>
-              <input type="url" value={formHyperlink} onChange={e => setFormHyperlink(e.target.value)} placeholder="e.g. https://example.com" className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium focus:outline-none focus:border-[#ed1c27]/40" />
+            <div className="space-y-3">
+              {formLinks.map((link, idx) => (
+                <div key={idx} className="flex gap-3 items-end">
+                  <div className="flex-1 space-y-1">
+                    {idx === 0 && <label className="text-[8px] font-bold uppercase text-gray-400">Hyperlink Text</label>}
+                    <input
+                      type="text"
+                      value={link.text}
+                      onChange={e => {
+                        const newLinks = [...formLinks];
+                        newLinks[idx].text = e.target.value;
+                        setFormLinks(newLinks);
+                      }}
+                      placeholder="e.g. Modern office furniture"
+                      className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium focus:outline-none focus:border-[#ed1c27]/40"
+                    />
+                  </div>
+                  <div className="flex-1 space-y-1">
+                    {idx === 0 && <label className="text-[8px] font-bold uppercase text-gray-400">Hyperlink URL</label>}
+                    <input
+                      type="url"
+                      value={link.url}
+                      onChange={e => {
+                        const newLinks = [...formLinks];
+                        newLinks[idx].url = e.target.value;
+                        setFormLinks(newLinks);
+                      }}
+                      placeholder="e.g. https://example.com"
+                      className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium focus:outline-none focus:border-[#ed1c27]/40"
+                    />
+                  </div>
+                  {formLinks.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => setFormLinks(prev => prev.filter((_, i) => i !== idx))}
+                      className="p-2.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors cursor-pointer border border-transparent hover:border-red-100"
+                    >
+                      <Trash2 size={14} />
+                    </button>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
 

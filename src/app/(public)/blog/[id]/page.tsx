@@ -10,6 +10,108 @@ import siteContent from "@/data/site-content.json";
 import { useSettings } from "@/hooks/useSettings";
 import { useGetBlogByIdOrSlugQuery } from "@/redux/api/blogsApi";
 
+const renderTextWithLinks = (text: string, linkText?: string, hyperlink?: string) => {
+  if (!text) return "";
+
+  const escapeRegExp = (str: string) => str.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+
+  const parts: React.ReactNode[] = [];
+  let currentIndex = 0;
+
+  // Pattern matching:
+  // Group 1 & 2 & 3: [Anchor](URL)
+  // Group 4: Raw HTTP/HTTPS URL
+  // Group 5: Custom link text
+  let regexStr = '(\\[([^\\]]+)\\]\\((https?:\\/\\/[^\\s)]+)\\))|((?:https?:\\/\\/|www\\.)[^\\s\\(\\)\\[\\]\\{\\}<>]+)';
+  if (linkText && hyperlink) {
+    regexStr += `|(${escapeRegExp(linkText)})`;
+  }
+
+  const regex = new RegExp(regexStr, 'gi');
+  let match;
+
+  while ((match = regex.exec(text)) !== null) {
+    const matchIndex = match.index;
+
+    // Add leading plain text
+    if (matchIndex > currentIndex) {
+      parts.push(text.substring(currentIndex, matchIndex));
+    }
+
+    if (match[1]) {
+      // Markdown link: [Anchor](URL)
+      const anchorText = match[2];
+      const url = match[3];
+      parts.push(
+        <a
+          key={matchIndex}
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-primary font-semibold underline hover:text-[#c5141e] transition-colors"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {anchorText}
+        </a>
+      );
+    } else if (match[4]) {
+      // Raw URL
+      let url = match[4];
+      const href = url.startsWith('www.') ? `https://${url}` : url;
+      
+      let displayUrl = url;
+      let finalHref = href;
+      const trailingPunctuation = /[.,;:?!]$/;
+      const trailingMatch = displayUrl.match(trailingPunctuation);
+      let trailingPart = "";
+      if (trailingMatch) {
+        displayUrl = displayUrl.slice(0, -1);
+        finalHref = finalHref.slice(0, -1);
+        trailingPart = trailingMatch[0];
+      }
+
+      parts.push(
+        <a
+          key={matchIndex}
+          href={finalHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-primary font-semibold underline hover:text-[#c5141e] transition-colors"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {displayUrl}
+        </a>
+      );
+      if (trailingPart) {
+        parts.push(trailingPart);
+      }
+    } else if (match[5]) {
+      // Custom link text
+      const matchedText = match[5];
+      parts.push(
+        <a
+          key={matchIndex}
+          href={hyperlink!}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-primary font-semibold underline hover:text-[#c5141e] transition-colors"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {matchedText}
+        </a>
+      );
+    }
+
+    currentIndex = regex.lastIndex;
+  }
+
+  if (currentIndex < text.length) {
+    parts.push(text.substring(currentIndex));
+  }
+
+  return parts.length > 0 ? parts : text;
+};
+
 export default function BlogDetailPage() {
   const params = useParams();
   const id = params.id as string;
@@ -18,6 +120,35 @@ export default function BlogDetailPage() {
 
   const { data, isLoading, isError } = useGetBlogByIdOrSlugQuery(id);
   const post = data?.data ?? null;
+
+  // Parse links list
+  const parsedLinksList: { text: string; url: string }[] = [];
+  if (post?.linkText && post?.hyperlink) {
+    try {
+      if (post.linkText.startsWith('[') && post.hyperlink.startsWith('[')) {
+        const texts = JSON.parse(post.linkText) as string[];
+        const urls = JSON.parse(post.hyperlink) as string[];
+        texts.forEach((t, i) => {
+          if (t.trim() && urls[i]?.trim()) {
+            parsedLinksList.push({ text: t.trim(), url: urls[i].trim() });
+          }
+        });
+      } else {
+        parsedLinksList.push({ text: post.linkText, url: post.hyperlink });
+      }
+    } catch (e) {
+      parsedLinksList.push({ text: post.linkText, url: post.hyperlink });
+    }
+  }
+
+  const hasInlineLink = !!(
+    parsedLinksList.length > 0 &&
+    post?.content?.some((paragraph) =>
+      parsedLinksList.some((link) =>
+        paragraph.toLowerCase().includes(link.text.toLowerCase())
+      )
+    )
+  );
 
   if (isLoading) {
     return (
@@ -115,27 +246,32 @@ export default function BlogDetailPage() {
             <div className="prose prose-neutral max-w-none space-y-8 text-neutral-600 text-base sm:text-[17px] leading-relaxed font-normal">
               {post.content.map((paragraph, index) => (
                 <p key={index} style={{ contentVisibility: index > 1 ? "auto" : "visible" }}>
-                  {paragraph}
+                  {renderTextWithLinks(paragraph, post.linkText, post.hyperlink)}
                 </p>
               ))}
 
-              {post.linkText && post.hyperlink && (
+              {parsedLinksList.length > 0 && !hasInlineLink && (
                 <div className="mt-12 p-6 rounded-xl bg-primary/5 border border-primary/10 shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                   <div className="space-y-1">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-primary">Featured Link</span>
-                    <p className="text-sm text-neutral-600 font-medium">Click the link below to visit the resource related to this article.</p>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-primary">Featured Links</span>
+                    <p className="text-sm text-neutral-600 font-medium">Click the links below to visit resources related to this article.</p>
                   </div>
-                  <a
-                    href={post.hyperlink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-primary hover:bg-[#c5141e] text-white text-xs font-bold uppercase tracking-wider transition-all duration-300 shadow-md shadow-primary/10 hover:shadow-lg hover:shadow-primary/20 cursor-pointer text-center"
-                  >
-                    <span>{post.linkText}</span>
-                    <svg className="w-4 h-4 shrink-0 transition-transform duration-300 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                    </svg>
-                  </a>
+                  <div className="flex flex-wrap gap-3">
+                    {parsedLinksList.map((link, i) => (
+                      <a
+                        key={i}
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-primary hover:bg-[#c5141e] text-white text-xs font-bold uppercase tracking-wider transition-all duration-300 shadow-md shadow-primary/10 hover:shadow-lg hover:shadow-primary/20 cursor-pointer text-center"
+                      >
+                        <span>{link.text}</span>
+                        <svg className="w-4 h-4 shrink-0 transition-transform duration-300 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                      </a>
+                    ))}
+                  </div>
                 </div>
               )}
             </div>
