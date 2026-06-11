@@ -30,7 +30,7 @@ export default function PageHeader({
   return (
     <section
       className={cn(
-        "relative min-h-[50vh] flex items-center justify-center overflow-hidden bg-neutral-950 pt-28 pb-32",
+        "relative flex items-center justify-center overflow-hidden bg-neutral-950 py-16",
         className,
       )}
     >
@@ -54,7 +54,7 @@ export default function PageHeader({
       <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/80 to-transparent" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] max-w-[500px] bg-[radial-gradient(circle,rgba(237,28,39,0.12)_0%,transparent_70%)] rounded-full blur-3xl pointer-events-none" />
 
-      <div className="relative z-10 text-center space-y-6 max-w-4xl px-6 mt-6">
+      <div className="relative z-10 text-center space-y-4 max-w-4xl px-6 mt-0">
         {/* Glowing Animated Badge */}
         {badge
           ? badge
@@ -83,7 +83,6 @@ export default function PageHeader({
           )
         ) : (
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight tracking-tight uppercase">
-            {titlePrefix}{" "}
             {titleHighlight && (
               <span className="text-primary font-black relative inline-block md:ml-1 whitespace-nowrap">
                 {titleHighlight}

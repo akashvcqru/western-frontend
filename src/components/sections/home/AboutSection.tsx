@@ -28,7 +28,7 @@ export default function AboutSection() {
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 shadow-sm animate-fade-in">
                 <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shrink-0" />
                 <span className="text-primary font-black tracking-[0.25em] text-[10px] uppercase">
-                  01 / About the Brand
+                  About the Brand
                 </span>
               </div>
               <h2 className="text-3xl lg:text-5xl font-extrabold text-secondary tracking-tight leading-[1.15]">
@@ -57,7 +57,7 @@ export default function AboutSection() {
               </div>
               <div className="space-y-1">
                 <span className="text-4xl lg:text-5xl font-bold tracking-tighter text-secondary flex items-baseline">
-                  1000<span className="text-primary font-bold text-2xl ml-0.5">+</span>
+                  10,000<span className="text-primary font-bold text-2xl ml-0.5">+</span>
                 </span>
                 <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-neutral-400">
                   Corporate Projects Delivered
@@ -73,10 +73,10 @@ export default function AboutSection() {
               </div>
               <div className="space-y-1">
                 <span className="text-4xl lg:text-5xl font-bold tracking-tighter text-secondary flex items-baseline">
-                  5000<span className="text-primary font-bold text-2xl ml-0.5">+</span>
+                  50,000<span className="text-primary font-bold text-2xl ml-0.5">+</span>
                 </span>
                 <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-neutral-400">
-                  Workstations Installed
+                  Satisfied Customers
                 </p>
               </div>
             </div>

@@ -81,7 +81,7 @@ export default function BrandSlider() {
                   <div className="absolute inset-0 bg-gradient-to-br from-primary/0 to-primary/[0.02] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
                   {/* Logo Container Wrapper (guarantees perfect elegant proportions) */}
-                  <div className="relative w-full h-full flex items-center justify-center grayscale opacity-55 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700">
+                  <div className="relative w-full h-full flex items-center justify-center transition-all duration-700">
                     <div className="relative w-[60%] h-[60%] group-hover:scale-90 transition-all duration-700">
                       <Image
                         src={brand.url}

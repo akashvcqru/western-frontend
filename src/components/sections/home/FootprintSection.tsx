@@ -110,7 +110,7 @@ export default function FootprintSection() {
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 shadow-sm animate-fade-in">
               <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shrink-0" />
               <span className="text-primary font-black tracking-[0.25em] text-[10px] uppercase">
-                05 / Manufacturing & Footprint
+                Manufacturing & Footprint
               </span>
             </div>
             <h2 className="text-3xl lg:text-5xl font-black tracking-tight leading-none">
