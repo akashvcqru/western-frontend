@@ -19,8 +19,8 @@ export const metadata: Metadata = {
   },
   description: "Western Interio - Think to design beyond. Modular office furniture manufacturer and interior design firm specializing in ergonomic workspace solutions.",
   icons: {
-    icon: "/uploads/favicon.ico",
-    shortcut: "/uploads/favicon.ico",
+    icon: "/uploads/favicon/favicon.ico",
+    shortcut: "/uploads/favicon/favicon.ico",
   },
 };
 

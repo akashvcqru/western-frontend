@@ -255,27 +255,8 @@ export default function BlogLandingPage() {
 
                           {/* Excerpt */}
                           <p className="text-neutral-500 text-sm leading-relaxed font-medium">
-                            {renderTextWithLinks(post.excerpt, post.linkText, post.hyperlink)}
+                            {post.excerpt}
                           </p>
-
-                          {/* Highlighted Hyperlink */}
-                          {parsedLinksList.length > 0 && !hasInlineLink && (
-                            <div className="pt-2 flex flex-wrap gap-2">
-                              {parsedLinksList.map((link, i) => (
-                                <a
-                                  key={i}
-                                  href={link.url}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary/10 border border-primary/20 text-primary text-[11px] font-bold tracking-wide hover:bg-primary hover:text-white hover:border-primary transition-all duration-300 cursor-pointer"
-                                  onClick={(e) => e.stopPropagation()}
-                                >
-                                  <span>{link.text}</span>
-                                  <ArrowRight size={12} />
-                                </a>
-                              ))}
-                            </div>
-                          )}
                         </div>
 
                         {/* Footing/Author Block */}
