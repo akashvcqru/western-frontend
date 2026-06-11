@@ -690,7 +690,7 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
                   onClick={handleGetQuote}
                 >
                   <FileText size={14} strokeWidth={2.5} />
-                  Get A Quote
+                  Quick Enquiry
                 </button>
 
                 <button

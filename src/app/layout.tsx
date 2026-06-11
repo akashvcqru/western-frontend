@@ -5,6 +5,7 @@ import { AppToastProvider } from "@/components/ui/AppToast";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
 import OfflineStatus from "@/components/ui/OfflineStatus";
 import { ReduxProvider } from "@/redux/provider";
+import { CanonicalHeader } from "@/components/common";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -27,6 +28,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={poppins.variable} suppressHydrationWarning data-scroll-behavior="smooth">
+      <head>
+        <CanonicalHeader />
+      </head>
       <body className="font-sans antialiased">
         <ReduxProvider>
           <AppToastProvider>
