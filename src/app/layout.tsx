@@ -18,6 +18,10 @@ export const metadata: Metadata = {
     template: "%s | Western Interio",
   },
   description: "Western Interio - Think to design beyond. Modular office furniture manufacturer and interior design firm specializing in ergonomic workspace solutions.",
+  icons: {
+    icon: "/uploads/favicon.ico",
+    shortcut: "/uploads/favicon.ico",
+  },
 };
 
 export default function RootLayout({
