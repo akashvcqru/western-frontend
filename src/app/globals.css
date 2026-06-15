@@ -67,7 +67,7 @@
   }
 
   .animate-marquee-projects {
-    animation: marquee-left 18s linear infinite;
+    animation: marquee-left 22s linear infinite;
   }
 
   .animate-marquee-right {
@@ -85,8 +85,8 @@
     mask-image: linear-gradient(
       to right,
       transparent,
-      black 15%,
-      black 85%,
+      black 5%,
+      black 95%,
       transparent
     );
   }

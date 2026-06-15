@@ -65,7 +65,7 @@ export default function BrandSlider() {
 
         {/* Unified Sliding Marquee Container */}
         <div className="relative brand-slider-container mask-fade">
-          <div className="animate-marquee-left flex items-center gap-6 lg:gap-8 py-2 whitespace-nowrap marquee-content-row">
+          <div className="animate-marquee-left flex items-center gap-6 lg:gap-8 py-2 whitespace-nowrap marquee-content-row w-max">
             {listToRender.map((brand, index) => (
               <div
                 key={`${brand.id}-${index}`}
