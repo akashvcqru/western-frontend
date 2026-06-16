@@ -7,6 +7,13 @@ import { Card, AppModal, useAppToast, AdminPageHeader, Pagination, SearchInput }
 import { AppRoutes } from "@/constants/routes";
 import { apiAuthGetPaginated, apiPost, apiPut, apiDelete, buildQuery } from "@/lib/api";
 import type { BlogPost, PaginationMeta } from "@/types/api";
+import dynamic from "next/dynamic";
+
+const RichTextEditor = dynamic(() => import("@/components/ui/RichTextEditor"), {
+  ssr: false,
+  loading: () => <div className="h-[250px] w-full border border-gray-200 rounded-xl bg-gray-50 flex items-center justify-center text-xs font-semibold text-gray-400">Loading editor...</div>
+});
+
 
 export default function AdminBlogsPage() {
   const { addToast } = useAppToast();
@@ -120,7 +127,16 @@ export default function AdminBlogsPage() {
     setFormTitle(blog.title); setFormSlug(blog.id); setFormExcerpt(blog.excerpt);
     setFormCategory(blog.category); setFormImage(blog.image); setFormAuthor(blog.author);
     setFormAuthorRole(blog.authorRole); setFormTags(blog.tags.join(", "));
-    setFormContent(blog.content.join("\n\n")); setFormDate(blog.date);
+    const htmlContent = blog.content.map(block => {
+      const trimmed = block.trim();
+      if (!trimmed) return "";
+      if (!/^\s*<(p|h1|h2|h3|ul|ol|blockquote|div)\b/i.test(trimmed)) {
+        return `<p>${trimmed}</p>`;
+      }
+      return trimmed;
+    }).join("");
+    setFormContent(htmlContent);
+    setFormDate(blog.date);
     setFormLinkText(blog.linkText || ""); setFormHyperlink(blog.hyperlink || "");
     
     // Parse links list
@@ -160,7 +176,8 @@ export default function AdminBlogsPage() {
   // ── Form submit ──────────────────────────────────────────────────────────────
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formTitle || !formExcerpt || !formContent) {
+    const isContentEmpty = !formContent || formContent === "<p><br></p>" || formContent === "<p></p>";
+    if (!formTitle || !formExcerpt || isContentEmpty) {
       addToast({ title: "Validation Error", message: "Please fill in all required fields (Title, Excerpt, Content).", variant: "error" });
       return;
     }
@@ -171,7 +188,19 @@ export default function AdminBlogsPage() {
       return;
     }
 
-    const contentParagraphs = formContent.split(/\n\s*\n/).map(p => p.trim()).filter(Boolean);
+    let contentParagraphs: string[] = [];
+    if (typeof window !== "undefined") {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(formContent, "text/html");
+      const bodyChildren = Array.from(doc.body.children);
+      if (bodyChildren.length > 0) {
+        contentParagraphs = bodyChildren.map(el => el.outerHTML).filter(Boolean);
+      } else {
+        contentParagraphs = [formContent];
+      }
+    } else {
+      contentParagraphs = [formContent];
+    }
     const tagsArray = formTags.split(",").map(t => t.trim()).filter(Boolean);
     const defaultImage = "https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=2070&auto=format&fit=crop";
 
@@ -482,65 +511,10 @@ export default function AdminBlogsPage() {
             <textarea required rows={2} value={formExcerpt} onChange={e => setFormExcerpt(e.target.value)} placeholder="Brief description displaying on the listing page..." className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium focus:outline-none focus:border-[#ed1c27]/40 resize-none" />
           </div>
 
-          <div className="space-y-2">
-            <div className="flex justify-between items-center">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Hyperlinks (Optional)</label>
-              <button
-                type="button"
-                onClick={() => setFormLinks(prev => [...prev, { text: "", url: "" }])}
-                className="text-[9px] font-bold text-[#ed1c27] uppercase tracking-widest hover:underline cursor-pointer"
-              >
-                + Add Hyperlink
-              </button>
-            </div>
-            <div className="space-y-3">
-              {formLinks.map((link, idx) => (
-                <div key={idx} className="flex gap-3 items-end">
-                  <div className="flex-1 space-y-1">
-                    {idx === 0 && <label className="text-[8px] font-bold uppercase text-gray-400">Hyperlink Text</label>}
-                    <input
-                      type="text"
-                      value={link.text}
-                      onChange={e => {
-                        const newLinks = [...formLinks];
-                        newLinks[idx].text = e.target.value;
-                        setFormLinks(newLinks);
-                      }}
-                      placeholder="e.g. Modern office furniture"
-                      className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium focus:outline-none focus:border-[#ed1c27]/40"
-                    />
-                  </div>
-                  <div className="flex-1 space-y-1">
-                    {idx === 0 && <label className="text-[8px] font-bold uppercase text-gray-400">Hyperlink URL</label>}
-                    <input
-                      type="url"
-                      value={link.url}
-                      onChange={e => {
-                        const newLinks = [...formLinks];
-                        newLinks[idx].url = e.target.value;
-                        setFormLinks(newLinks);
-                      }}
-                      placeholder="e.g. https://example.com"
-                      className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium focus:outline-none focus:border-[#ed1c27]/40"
-                    />
-                  </div>
-                  {formLinks.length > 1 && (
-                    <button
-                      type="button"
-                      onClick={() => setFormLinks(prev => prev.filter((_, i) => i !== idx))}
-                      className="p-2.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors cursor-pointer border border-transparent hover:border-red-100"
-                    >
-                      <Trash2 size={14} />
-                    </button>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
 
           <div className="space-y-1">
             <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Article Content *</label>
-            <textarea required rows={8} value={formContent} onChange={e => setFormContent(e.target.value)} placeholder="Write the article content. Separate paragraphs with double newlines." className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium focus:outline-none focus:border-[#ed1c27]/40 resize-y" />
+            <RichTextEditor key={editingBlog?.id || "new"} value={formContent} onChange={setFormContent} />
           </div>
 
           {/* Featured Image Upload */}

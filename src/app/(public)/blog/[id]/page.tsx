@@ -243,12 +243,24 @@ export default function BlogDetailPage() {
             </div>
 
             {/* Rich Text Body */}
-            <div className="prose prose-neutral max-w-none space-y-8 text-neutral-600 text-base sm:text-[17px] leading-relaxed font-normal">
-              {post.content.map((paragraph, index) => (
-                <p key={index} style={{ contentVisibility: index > 1 ? "auto" : "visible" }}>
-                  {renderTextWithLinks(paragraph, post.linkText, post.hyperlink)}
-                </p>
-              ))}
+            <div className="prose prose-neutral max-w-none space-y-8 text-neutral-600 text-base sm:text-[17px] leading-relaxed font-normal [&_a]:text-primary [&_a]:font-semibold [&_a]:underline hover:[&_a]:text-[#c5141e] [&_a]:transition-colors">
+              {post.content.map((paragraph, index) => {
+                const isHtml = /^\s*<[a-zA-Z]/i.test(paragraph);
+                if (isHtml) {
+                  return (
+                    <div
+                      key={index}
+                      style={{ contentVisibility: index > 1 ? "auto" : "visible" }}
+                      dangerouslySetInnerHTML={{ __html: paragraph }}
+                    />
+                  );
+                }
+                return (
+                  <p key={index} style={{ contentVisibility: index > 1 ? "auto" : "visible" }}>
+                    {renderTextWithLinks(paragraph, post.linkText, post.hyperlink)}
+                  </p>
+                );
+              })}
 
               {parsedLinksList.length > 0 && !hasInlineLink && (
                 <div className="mt-12 p-6 rounded-xl bg-primary/5 border border-primary/10 shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
