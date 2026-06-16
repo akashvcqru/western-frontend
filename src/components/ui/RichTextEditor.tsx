@@ -47,17 +47,18 @@ interface InitialStateProps {
 
 function InitialStatePlugin({ initialHtml }: InitialStateProps) {
   const [editor] = useLexicalComposerContext();
+  const isInitializedRef = React.useRef(false);
 
   useEffect(() => {
-    if (!initialHtml) return;
+    if (!initialHtml || isInitializedRef.current) return;
+    isInitializedRef.current = true;
     editor.update(() => {
       const root = $getRoot();
-      if (root.isEmpty()) {
-        const parser = new DOMParser();
-        const dom = parser.parseFromString(initialHtml, "text/html");
-        const nodes = $generateNodesFromDOM(editor, dom);
-        root.append(...nodes);
-      }
+      root.clear();
+      const parser = new DOMParser();
+      const dom = parser.parseFromString(initialHtml, "text/html");
+      const nodes = $generateNodesFromDOM(editor, dom);
+      root.append(...nodes);
     });
   }, [editor, initialHtml]);
 
@@ -76,7 +77,7 @@ function MyOnChangePlugin({ onChange }: MyOnChangePluginProps) {
         editorState.read(() => {
           const html = $generateHtmlFromNodes(editor, null);
           onChange(html);
-        });
+        }, { editor });
       }}
     />
   );
