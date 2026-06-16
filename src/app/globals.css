@@ -63,15 +63,15 @@
   }
 
   .animate-marquee-left {
-    animation: marquee-left 45s linear infinite;
+    animation: marquee-left 90s linear infinite;
   }
 
   .animate-marquee-projects {
-    animation: marquee-left 22s linear infinite;
+    animation: marquee-left 90s linear infinite;
   }
 
   .animate-marquee-right {
-    animation: marquee-right 45s linear infinite;
+    animation: marquee-right 90s linear infinite;
   }
 
   .brand-slider-container:hover .marquee-content,
