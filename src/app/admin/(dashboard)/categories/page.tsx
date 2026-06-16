@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Plus, Edit, Trash2, Folder, Upload, AlertCircle, GripVertical } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { Plus, Edit, Trash2, Folder, Upload, AlertCircle, GripVertical, ChevronDown, Layers } from "lucide-react";
 import Image from "next/image";
 import { Card, AppModal, useAppToast, AdminPageHeader, Pagination, RHFControl, SearchInput } from "@/components/ui";
 import { AppRoutes } from "@/constants/routes";
@@ -59,6 +59,21 @@ type SubCategoryFormData = yup.InferType<typeof subCategorySchema>;
 export default function AdminCategoriesPage() {
   const { addToast } = useAppToast();
   const [activeTab, setActiveTab] = useState<"categories" | "subcategories">("categories");
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string>("");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   // Modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -79,7 +94,7 @@ export default function AdminCategoriesPage() {
     { skip: !isReorderMode }
   );
   const { data: reorderSubCategoriesData, isLoading: isReorderSubsLoading } = useGetSubCategoriesQuery(
-    { limit: 1000 },
+    { limit: 1000, categoryId: selectedCategoryId || undefined },
     { skip: !isReorderMode }
   );
 
@@ -141,6 +156,7 @@ export default function AdminCategoriesPage() {
     page: currentSubPage,
     limit: subItemsPerPage,
     search: debouncedSubSearch,
+    categoryId: selectedCategoryId || undefined,
   });
 
   const [createSubCategory, { isLoading: isCreatingSub }] = useCreateSubCategoryMutation();
@@ -162,7 +178,7 @@ export default function AdminCategoriesPage() {
 
   useEffect(() => {
     setCurrentSubPage(1);
-  }, [debouncedSubSearch, subItemsPerPage]);
+  }, [debouncedSubSearch, subItemsPerPage, selectedCategoryId]);
 
   useEffect(() => {
     if (isReorderMode) {
@@ -402,18 +418,88 @@ export default function AdminCategoriesPage() {
 
         <Card.Header>
           {!isReorderMode ? (
-            <SearchInput
-              placeholder={activeTab === "categories" ? "Search categories by name or ID..." : "Search sub categories..."}
-              value={currentSearch}
-              onChange={(e) => {
-                currentSetSearch(e.target.value);
-                currentSetPage(1);
-              }}
-              wrapperClassName="max-w-sm"
-            />
+            <div className="flex items-center gap-3 w-full max-w-2xl">
+              <SearchInput
+                placeholder={activeTab === "categories" ? "Search categories by name or ID..." : "Search sub categories..."}
+                value={currentSearch}
+                onChange={(e) => {
+                  currentSetSearch(e.target.value);
+                  currentSetPage(1);
+                }}
+                wrapperClassName="max-w-sm"
+              />
+              {activeTab === "subcategories" && (
+                <div ref={dropdownRef} className="relative z-20">
+                  <button
+                    type="button"
+                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                    className="inline-flex items-center justify-between gap-2 bg-white dark:bg-card border border-gray-200 dark:border-white/10 rounded-xl px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-gray-700 hover:bg-gray-50 transition-colors w-52 shrink-0 cursor-pointer"
+                  >
+                    <span className="truncate">
+                      {selectedCategoryId
+                        ? allCategories.find((c) => c.id === selectedCategoryId)?.name || "Selected Category"
+                        : "All Categories"}
+                    </span>
+                    <ChevronDown size={14} className={`text-gray-400 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                  </button>
+
+                  {isDropdownOpen && (
+                    <div className="absolute left-0 mt-2 w-64 bg-white dark:bg-card border border-gray-100 dark:border-white/10 rounded-2xl shadow-xl py-2 z-50 animate-in fade-in slide-in-from-top-1 duration-200">
+                      <div className="max-h-60 overflow-y-auto scrollbar-none">
+                        {/* Option: All Categories */}
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setSelectedCategoryId("");
+                            setIsDropdownOpen(false);
+                          }}
+                          className={`w-full text-left px-4 py-2 text-xs font-bold uppercase tracking-wider transition-colors ${
+                            selectedCategoryId === ""
+                              ? "bg-[#ed1c27]/5 text-[#ed1c27]"
+                              : "text-gray-700 hover:bg-gray-50"
+                          }`}
+                        >
+                          All Categories
+                        </button>
+
+                        {/* List of active categories */}
+                        {allCategories.map((c) => (
+                          <button
+                            key={c.id}
+                            type="button"
+                            onClick={() => {
+                              setSelectedCategoryId(c.id);
+                              setIsDropdownOpen(false);
+                            }}
+                            className={`w-full text-left px-4 py-2 text-xs font-bold uppercase tracking-wider transition-colors ${
+                              selectedCategoryId === c.id
+                                ? "bg-[#ed1c27]/5 text-[#ed1c27]"
+                                : "text-gray-700 hover:bg-gray-50"
+                            }`}
+                          >
+                            <span className="truncate">{c.name}</span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
           ) : (
             <div className="flex items-center gap-2 text-xs font-semibold text-[#ed1c27] bg-[#ed1c27]/5 border border-[#ed1c27]/10 px-4 py-2 rounded-xl">
-              <GripVertical size={14} className="animate-pulse" /> Drag and drop items to reorder, then click Save Order.
+              <GripVertical size={14} className="animate-pulse" />
+              {activeTab === "subcategories" && selectedCategoryId ? (
+                <>
+                  Drag and drop items to reorder sub categories under{" "}
+                  <span className="font-extrabold underline">
+                    {allCategories.find((c) => c.id === selectedCategoryId)?.name || "selected category"}
+                  </span>
+                  , then click Save Order.
+                </>
+              ) : (
+                "Drag and drop items to reorder, then click Save Order."
+              )}
             </div>
           )}
           <div className="flex items-center gap-3">

@@ -56,7 +56,7 @@ export const categoriesApi = apiSlice.injectEndpoints({
     }),
     getSubCategories: builder.query<
       PaginatedApiResponse<SubCategory>,
-      { page?: number; limit?: number; search?: string } | void
+      { page?: number; limit?: number; search?: string; categoryId?: string } | void
     >({
       query: (params) => {
         const queryParams = new URLSearchParams();
@@ -64,6 +64,7 @@ export const categoriesApi = apiSlice.injectEndpoints({
           if (params.page !== undefined) queryParams.set("page", String(params.page));
           if (params.limit !== undefined) queryParams.set("limit", String(params.limit));
           if (params.search) queryParams.set("search", params.search);
+          if (params.categoryId) queryParams.set("categoryId", params.categoryId);
         }
         const queryStr = queryParams.toString();
         return `/api/categories/subcategories${queryStr ? `?${queryStr}` : ""}`;
