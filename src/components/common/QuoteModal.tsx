@@ -40,7 +40,7 @@ interface QuoteModalProps {
 export default function QuoteModal({ 
   isOpen, 
   onClose, 
-  title = "Get a Premium Quote",
+  title = "Enquire With Us",
   subtitle = "Tell us about your project and our experts will contact you within 24 hours.",
   product
 }: QuoteModalProps) {

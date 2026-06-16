@@ -49,7 +49,7 @@ function GalleryContent({ categorySlug }: { categorySlug?: string }) {
   const [selectedIndex, setSelectedIndex] = React.useState<number | null>(null);
   const [lightboxItems, setLightboxItems] = React.useState<GalleryItem[]>([]);
   const [isQuoteOpen, setIsQuoteOpen] = React.useState(false);
-  const [quoteTitle, setQuoteTitle] = React.useState<string>("Get a Premium Quote");
+  const [quoteTitle, setQuoteTitle] = React.useState<string>("Enquire With Us");
   const [quoteSubtitle, setQuoteSubtitle] = React.useState<string>("Tell us about your project and our experts will contact you within 24 hours.");
 
   const { data: galleryResult, isLoading } = useGetGalleryQuery({ limit: 1000 });

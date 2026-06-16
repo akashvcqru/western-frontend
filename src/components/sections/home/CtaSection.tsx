@@ -40,7 +40,7 @@ export default function CtaSection({ onOpenQuote }: CtaSectionProps) {
               onClick={onOpenQuote}
               className="w-full sm:w-auto px-10 py-4 bg-primary text-white font-bold tracking-[0.2em] text-[11px] uppercase rounded-lg hover:bg-white hover:text-black transition-all duration-500 shadow-xl shadow-primary/10 active:scale-95 flex items-center justify-center gap-3 group cursor-pointer"
             >
-              Get A Premium Quote
+              Enquire With Us
               <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </button>
             <Link 
