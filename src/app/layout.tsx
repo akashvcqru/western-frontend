@@ -6,6 +6,8 @@ import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
 import OfflineStatus from "@/components/ui/OfflineStatus";
 import { ReduxProvider } from "@/redux/provider";
 import { CanonicalHeader } from "@/components/common";
+import Script from "next/script";
+
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -30,6 +32,20 @@ export default function RootLayout({
     <html lang="en" className={poppins.variable} suppressHydrationWarning data-scroll-behavior="smooth">
       <head>
         <CanonicalHeader />
+        {/* Google Analytics (gtag.js) */}
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-0F1QTR29BP"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-0F1QTR29BP');
+          `}
+        </Script>
       </head>
       <body className="font-sans antialiased">
         <ReduxProvider>
