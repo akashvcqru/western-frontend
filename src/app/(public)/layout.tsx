@@ -15,7 +15,10 @@ export default async function PublicLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const backendUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5073";
+  const rawBackendUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5073";
+  // Node's fetch resolves localhost to IPv6 (::1) which can fail if backend binds only to IPv4.
+  // We use 127.0.0.1 for server-side fetches to ensure reliable connections.
+  const backendUrl = rawBackendUrl.replace("localhost", "127.0.0.1");
   let initialCategories = [];
   let initialSubCategories = [];
   let initialHeaderLogo = "/logo-v3.png";
