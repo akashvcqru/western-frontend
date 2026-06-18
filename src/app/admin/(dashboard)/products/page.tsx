@@ -160,10 +160,10 @@ export default function AdminProductsPage() {
                   products.map(prod => (
                     <tr key={prod.id} className="hover:bg-gray-50/50 transition-colors group">
                       <td className="py-3 px-6">
-                        <div className="w-12 h-12 rounded-lg bg-gray-100 overflow-hidden relative border border-gray-100">
+                        <div className="w-12 h-12 rounded-lg bg-white overflow-hidden relative border border-gray-100 p-1 flex items-center justify-center">
                           <Image
                             src={prod.images?.[0] || prod.image || "https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=2070&auto=format&fit=crop"}
-                            alt={prod.name} fill className="object-cover"
+                            alt={prod.name} fill className="object-contain p-1"
                           />
                         </div>
                       </td>

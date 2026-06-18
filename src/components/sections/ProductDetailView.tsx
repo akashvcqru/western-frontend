@@ -481,12 +481,12 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
             {/* Left: Product Media Gallery */}
             <div className="space-y-4">
-              <div className="relative aspect-[4/3] bg-neutral-50/50 rounded-xl overflow-hidden border border-neutral-100 shadow-[0_15px_45px_-20px_rgba(0,0,0,0.08)] group">
+              <div className="relative aspect-[4/3] bg-white rounded-xl overflow-hidden border border-neutral-100 shadow-[0_15px_45px_-20px_rgba(0,0,0,0.08)] group">
                 <Image
                   src={product.images[selectedImage]}
                   alt={product.name}
                   fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                  className="object-contain group-hover:scale-105 transition-transform duration-500 ease-out p-6"
                   priority
                 />
 
@@ -513,14 +513,14 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
                         "relative aspect-square rounded-xl overflow-hidden border-2 hover:scale-[1.03] active:scale-95 transition-all duration-300",
                         selectedImage === i
                           ? "border-primary shadow-lg shadow-primary/5"
-                          : "border-transparent bg-neutral-50/70 hover:border-neutral-200",
+                          : "border-transparent bg-white hover:border-neutral-200",
                       )}
                     >
                       <Image
                         src={img}
                         alt={`${product.name} thumbnail ${i}`}
                         fill
-                        className="object-cover hover:scale-105 transition-transform duration-300"
+                        className="object-contain hover:scale-105 transition-transform duration-300 p-2"
                       />
                     </button>
                   ))}

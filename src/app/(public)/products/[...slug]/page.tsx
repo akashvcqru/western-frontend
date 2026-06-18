@@ -153,12 +153,12 @@ function CategoryHubPage({
                 className="group relative flex flex-col bg-white rounded-2xl overflow-hidden border border-neutral-100/80 shadow-[0_12px_30px_-10px_rgba(0,0,0,0.03)] hover:shadow-[0_30px_60px_-15px_rgba(237,28,39,0.12)] transition-all duration-[600ms] hover:-translate-y-1.5"
               >
                 {/* Image Container with aspect ratio */}
-                <div className="relative aspect-[4/3] overflow-hidden bg-neutral-100">
+                <div className="relative aspect-[4/3] overflow-hidden bg-white p-4 flex items-center justify-center">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={subImgUrl}
                     alt={subTitle}
-                    className="object-cover w-full h-full transform group-hover:scale-105 transition-transform duration-[1.2s] ease-out animate-in fade-in"
+                    className="object-contain w-full h-full transform group-hover:scale-105 transition-transform duration-[1.2s] ease-out animate-in fade-in"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   

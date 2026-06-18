@@ -35,7 +35,17 @@ interface SearchTag {
   slug: string;
 }
 
-export default function Header() {
+interface HeaderProps {
+  initialCategories?: Category[];
+  initialSubCategories?: SubCategory[];
+  initialHeaderLogo?: string;
+}
+
+export default function Header({
+  initialCategories = [],
+  initialSubCategories = [],
+  initialHeaderLogo = "/logo-v3.png",
+}: HeaderProps) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -57,7 +67,8 @@ export default function Header() {
   const { data: subCategoriesResult, isLoading: subsLoading } = useGetSubCategoriesQuery({ limit: 100 });
 
   const activeCategories = React.useMemo(() => {
-    if (!categoriesResult?.data || categoriesResult.data.length === 0) {
+    const dataList = categoriesResult?.data || initialCategories;
+    if (dataList.length === 0) {
       return [
         {
           id: "office-furniture",
@@ -101,11 +112,12 @@ export default function Header() {
         }
       ] as Category[];
     }
-    return categoriesResult.data.filter((c) => c.status === "Active" && (!c.location || c.location.toLowerCase() === "header"));
-  }, [categoriesResult]);
+    return dataList.filter((c) => c.status === "Active" && (!c.location || c.location.toLowerCase() === "header"));
+  }, [categoriesResult, initialCategories]);
 
   const activeSubCategories = React.useMemo(() => {
-    if (!subCategoriesResult?.data || subCategoriesResult.data.length === 0) {
+    const dataList = subCategoriesResult?.data || initialSubCategories;
+    if (dataList.length === 0) {
       return [
         // Office Furniture Subcategories
         { id: "desking", slug: "desking", name: "Desking", categoryId: "office-furniture", description: "Modern office desks and ergonomic workstations designed for maximum productivity.", status: "Active", image: "" },
@@ -133,11 +145,12 @@ export default function Header() {
         { id: "mod-kitchen", slug: "mod-kitchen", name: "Mod Kitchen", categoryId: "home-furniture", description: "State-of-the-art modular kitchen setups with sleek drawers, pull-out fittings, and cupboards.", status: "Active", image: "" }
       ] as SubCategory[];
     }
-    return subCategoriesResult.data.filter((s) => s.status === "Active");
-  }, [subCategoriesResult]);
+    return dataList.filter((s) => s.status === "Active");
+  }, [subCategoriesResult, initialSubCategories]);
 
   const { header } = siteContent;
-  const { contact, social } = useSettings();
+  const { contact, social, logo } = useSettings();
+  const logoSrc = logo?.headerLogo || initialHeaderLogo || "/logo-v3.png";
   const common = {
     ...siteContent.common,
     contact,
@@ -204,7 +217,7 @@ export default function Header() {
             <div className="flex items-center gap-8 xl:gap-14">
               <a
                 href={`mailto:${common.contact.email}`}
-                className="transition-colors duration-300 hover:text-white cursor-pointer"
+                className="transition-colors duration-300 hover:text-white cursor-pointer lowercase"
               >
                 {common.contact.email}
               </a>
@@ -317,12 +330,12 @@ export default function Header() {
             {/* Logo */}
             <Link href={header.homeHref} className="flex items-center gap-4 group">
               <Image
-                src="/logo-v3.png"
+                src={logoSrc}
                 alt="Western Interio"
-                width={200}
-                height={56}
+                width={220}
+                height={60}
                 className={cn(
-                  "w-auto transition-all duration-500 brightness-110",
+                  "object-contain w-auto transition-all duration-500 brightness-110 max-w-[220px]",
                   isScrolled ? "h-10 lg:h-10" : "h-12 lg:h-12",
                 )}
                 priority
@@ -441,13 +454,13 @@ export default function Header() {
                                         onClick={() => setActiveMenu(null)}
                                       >
                                         {/* Square Thumbnail Image */}
-                                        <div className="relative aspect-square w-16 rounded-xl overflow-hidden shadow-sm bg-neutral-100 border border-neutral-200/40 shrink-0 group-hover:border-primary/20 transition-all duration-300">
+                                        <div className="relative aspect-square w-16 rounded-xl overflow-hidden shadow-sm bg-white border border-neutral-200/40 shrink-0 group-hover:border-primary/20 transition-all duration-300 p-1.5 flex items-center justify-center">
                                           <Image
                                             src={previewImage}
                                             alt={previewTitle}
                                             width={64}
                                             height={64}
-                                            className="object-cover w-full h-full transform group-hover:scale-105 transition-transform duration-700 ease-out"
+                                            className="object-contain w-full h-full transform group-hover:scale-105 transition-transform duration-700 ease-out"
                                           />
                                         </div>
 

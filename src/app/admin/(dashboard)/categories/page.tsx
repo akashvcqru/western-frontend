@@ -607,8 +607,8 @@ export default function AdminCategoriesPage() {
                         <GripVertical size={18} />
                       </div>
                       {item.image && (
-                        <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-gray-100 shrink-0 border border-gray-100">
-                          <Image src={item.image} alt={item.name} fill className="object-cover" />
+                        <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-white shrink-0 border border-gray-100 p-1 flex items-center justify-center">
+                          <Image src={item.image} alt={item.name} fill className="object-contain p-1" />
                         </div>
                       )}
                       <div className="flex-1 min-w-0">
@@ -642,12 +642,12 @@ export default function AdminCategoriesPage() {
                     className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden group hover:border-[#ed1c27]/30 transition-colors flex flex-col justify-between"
                   >
                     <div>
-                      <div className="h-40 relative bg-gray-100 overflow-hidden">
+                      <div className="h-40 relative bg-white border-b border-gray-100 p-4 overflow-hidden flex items-center justify-center">
                         <Image
                           src={cat.image || "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=400&auto=format&fit=crop"}
                           alt={cat.name}
                           fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-500"
+                          className="object-contain group-hover:scale-105 transition-transform duration-500 p-2"
                         />
                         <div className="absolute top-3 right-3">
                           <span
@@ -716,12 +716,12 @@ export default function AdminCategoriesPage() {
                       className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden group hover:border-[#ed1c27]/30 transition-colors flex flex-col justify-between"
                     >
                       <div>
-                        <div className="h-40 relative bg-gray-100 overflow-hidden">
+                        <div className="h-40 relative bg-white border-b border-gray-100 p-4 overflow-hidden flex items-center justify-center">
                           <Image
                             src={sub.image || "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=400&auto=format&fit=crop"}
                             alt={sub.name}
                             fill
-                            className="object-cover group-hover:scale-105 transition-transform duration-500"
+                            className="object-contain group-hover:scale-105 transition-transform duration-500 p-2"
                           />
                           <div className="absolute top-3 right-3">
                             <span
@@ -913,8 +913,8 @@ export default function AdminCategoriesPage() {
                     <div className="space-y-2">
                       <div className="border-2 border-dashed border-gray-200 hover:border-[#ed1c27]/50 rounded-xl p-4 transition-all duration-300 cursor-pointer flex flex-col items-center justify-center gap-2 bg-gray-50/50 relative group min-h-[140px]">
                         {field.value ? (
-                          <div className="relative w-full h-32 rounded-lg overflow-hidden border border-gray-100">
-                            <Image src={field.value} alt="Category preview" fill className="object-cover" />
+                          <div className="relative w-full h-32 rounded-lg overflow-hidden border border-gray-100 bg-white p-2 flex items-center justify-center">
+                            <Image src={field.value} alt="Category preview" fill className="object-contain p-2" />
                             <button
                               type="button"
                               onClick={(e) => {
@@ -1036,8 +1036,8 @@ export default function AdminCategoriesPage() {
                     <div className="space-y-2">
                       <div className="border-2 border-dashed border-gray-200 hover:border-[#ed1c27]/50 rounded-xl p-4 transition-all duration-300 cursor-pointer flex flex-col items-center justify-center gap-2 bg-gray-50/50 relative group min-h-[140px]">
                         {field.value ? (
-                          <div className="relative w-full h-32 rounded-lg overflow-hidden border border-gray-100">
-                            <Image src={field.value} alt="Sub category preview" fill className="object-cover" />
+                          <div className="relative w-full h-32 rounded-lg overflow-hidden border border-gray-100 bg-white p-2 flex items-center justify-center">
+                            <Image src={field.value} alt="Sub category preview" fill className="object-contain p-2" />
                             <button
                               type="button"
                               onClick={(e) => {

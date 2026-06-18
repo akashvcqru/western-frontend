@@ -16,11 +16,18 @@ import QuoteModal from "@/components/common/QuoteModal";
 import { AppRoutes } from "@/constants/routes";
 import { useGetCategoriesQuery } from "@/redux/api/categoriesApi";
 
-export default function Footer() {
+interface FooterProps {
+  initialFooterLogo?: string;
+}
+
+export default function Footer({
+  initialFooterLogo = "/logo-v3.png",
+}: FooterProps) {
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
   const currentYear = new Date().getFullYear();
   const { footer: staticFooter } = siteContent;
-  const { contact, social } = useSettings();
+  const { contact, social, logo } = useSettings();
+  const logoSrc = logo?.footerLogo || initialFooterLogo || "/logo-v3.png";
   
   const common = {
     ...siteContent.common,
@@ -141,11 +148,11 @@ interface FooterLink {
                 className="inline-block transition-transform hover:scale-[1.02] active:scale-95 group"
               >
                 <Image
-                  src="/logo-v3.png"
+                  src={logoSrc}
                   alt="Western Interio"
                   width={200}
                   height={56}
-                  className="w-auto h-12 brightness-110 transition-all duration-500"
+                  className="w-auto h-12 brightness-110 transition-all duration-500 object-contain max-w-[200px]"
                 />
               </Link>
 

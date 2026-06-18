@@ -9,11 +9,12 @@ import {
   Link as LinkIcon,
   Globe,
   AlertCircle,
+  Upload,
 } from "lucide-react";
 import { Card } from "@/components/ui";
 import { useAppToast } from "@/components/ui/AppToast";
 
-import { useForm, FormProvider } from "react-hook-form";
+import { useForm, FormProvider, Controller } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import RHFControl from "@/components/ui/inputs/RHFControl";
@@ -27,6 +28,11 @@ const contactSchema = yup.object().shape({
     .required("Support email is required"),
   phoneNumber: yup.string().required("Phone number is required"),
   storeAddress: yup.string().required("Store address is required"),
+});
+
+const logoSchema = yup.object().shape({
+  headerLogo: yup.string().required("Header logo is required"),
+  footerLogo: yup.string().required("Footer logo is required"),
 });
 
 const socialSchema = yup.object().shape({
@@ -74,6 +80,11 @@ interface ContactSettingsData {
   storeAddress: string;
 }
 
+interface LogoSettingsData {
+  headerLogo: string;
+  footerLogo: string;
+}
+
 type SocialSettingsData = yup.InferType<typeof socialSchema>;
 
 export default function AdminSettingsPage() {
@@ -108,6 +119,15 @@ export default function AdminSettingsPage() {
     },
   });
 
+  const logoMethods = useForm<LogoSettingsData>({
+    mode: "onChange",
+    resolver: yupResolver(logoSchema),
+    defaultValues: {
+      headerLogo: "/logo-v3.png",
+      footerLogo: "/logo-v3.png",
+    },
+  });
+
   const loadSettings = useCallback(async () => {
     setIsLoading(true);
     setError(null);
@@ -130,6 +150,16 @@ export default function AdminSettingsPage() {
         }
       } catch (e) {
         console.warn("Failed to load social settings from API, using defaults:", e);
+      }
+
+      // Fetch logo details
+      try {
+        const logoRes = await apiGet<LogoSettingsData>("/api/settings/bdm_settings_logo");
+        if (logoRes.success && logoRes.data) {
+          logoMethods.reset(logoRes.data);
+        }
+      } catch (e) {
+        console.warn("Failed to load logo settings from API, using defaults:", e);
       }
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "An error occurred while loading settings");
@@ -176,6 +206,26 @@ export default function AdminSettingsPage() {
       addToast({
         title: "Error Saving Settings",
         message: err instanceof Error ? err.message : "Failed to save social links",
+        variant: "error",
+      });
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const onSubmitLogo = async (data: LogoSettingsData) => {
+    setIsSaving(true);
+    try {
+      await updateSettings({ key: "bdm_settings_logo", data }).unwrap();
+      addToast({
+        title: "Logo Settings Saved",
+        message: "Header and Footer logos have been updated successfully.",
+        variant: "success",
+      });
+    } catch (err: unknown) {
+      addToast({
+        title: "Error Saving Logos",
+        message: err instanceof Error ? err.message : "Failed to save logo settings",
         variant: "error",
       });
     } finally {
@@ -254,6 +304,18 @@ export default function AdminSettingsPage() {
                   }`}
                 >
                   Social Links
+                </button>
+                <button
+                  type="button"
+                  id="tab-btn-logo"
+                  onClick={() => setActiveTab("logo")}
+                  className={`w-full text-left px-4 py-3 rounded-xl text-[11px] font-bold uppercase tracking-widest transition-colors cursor-pointer ${
+                    activeTab === "logo"
+                      ? "bg-[#ed1c27]/10 text-[#ed1c27]"
+                      : "text-gray-500 hover:bg-gray-50"
+                  }`}
+                >
+                  Logo Settings
                 </button>
               </div>
             </Card.Body>
@@ -421,6 +483,168 @@ export default function AdminSettingsPage() {
                       className="inline-flex items-center justify-center gap-2 bg-[#ed1c27] hover:bg-[#c5141e] text-white font-bold uppercase tracking-[0.12em] text-[10px] rounded-xl px-6 py-3.5 transition-all duration-300 cursor-pointer hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#ed1c27]/25 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       <Save size={14} /> {isSaving ? "Saving..." : "Save Social Links"}
+                    </button>
+                  </Card.Footer>
+                </form>
+              </FormProvider>
+            )}
+
+            {/* Logo Settings */}
+            {activeTab === "logo" && (
+              <FormProvider {...logoMethods}>
+                <form onSubmit={logoMethods.handleSubmit(onSubmitLogo)} noValidate>
+                  <Card.Header>
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center">
+                        <Globe size={18} className="text-blue-500" />
+                      </div>
+                      <div>
+                        <h2 className="text-sm font-semibold text-gray-900 uppercase tracking-tight">
+                          Logo Settings
+                        </h2>
+                        <p className="text-[10px] text-gray-400 font-medium mt-0.5">
+                          Upload custom logos for header and footer (Max 100KB)
+                        </p>
+                      </div>
+                    </div>
+                  </Card.Header>
+                  <Card.Body>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                      {/* Header Logo */}
+                      <div className="space-y-3">
+                        <label className="text-[10px] font-semibold uppercase tracking-widest text-secondary/60 block">
+                          Header Logo (Light Theme) *
+                        </label>
+                        <Controller
+                          name="headerLogo"
+                          control={logoMethods.control}
+                          render={({ field, fieldState: { error } }) => (
+                            <div className="space-y-3">
+                              <div className="border-2 border-dashed border-gray-200 hover:border-[#ed1c27]/50 rounded-xl p-6 transition-all duration-300 cursor-pointer flex flex-col items-center justify-center gap-3 bg-gray-50/50 relative group min-h-[160px]">
+                                {field.value ? (
+                                  <div className="relative w-full h-24 rounded-lg overflow-hidden border border-gray-100 bg-white p-2 flex items-center justify-center">
+                                    <img src={field.value} alt="Header logo preview" className="object-contain max-h-full max-w-full" />
+                                    <button
+                                      type="button"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        field.onChange("/logo-v3.png");
+                                      }}
+                                      className="absolute top-2 right-2 p-1.5 bg-red-500 hover:bg-red-600 text-white rounded-lg shadow-md transition-colors cursor-pointer z-10"
+                                      title="Reset to default logo"
+                                    >
+                                      Reset
+                                    </button>
+                                  </div>
+                                ) : (
+                                  <div className="flex flex-col items-center justify-center gap-2">
+                                    <span className="text-xs text-gray-500 font-bold uppercase tracking-wider">Upload Header Logo</span>
+                                  </div>
+                                )}
+                                <input
+                                  type="file"
+                                  accept="image/*"
+                                  onChange={(e) => {
+                                    const file = e.target.files?.[0];
+                                    if (file) {
+                                      if (file.size > 102400) {
+                                        addToast({
+                                          title: "File Too Large",
+                                          message: "Header logo size must not exceed 100KB",
+                                          variant: "error",
+                                        });
+                                        return;
+                                      }
+                                      const reader = new FileReader();
+                                      reader.onloadend = () => field.onChange(reader.result as string);
+                                      reader.readAsDataURL(file);
+                                    }
+                                  }}
+                                  className="absolute inset-0 opacity-0 cursor-pointer"
+                                />
+                              </div>
+                              {error?.message && (
+                                <p className="text-[10px] font-semibold text-red-500 uppercase tracking-tight">
+                                  {error.message}
+                                </p>
+                              )}
+                            </div>
+                          )}
+                        />
+                      </div>
+
+                      {/* Footer Logo */}
+                      <div className="space-y-3">
+                        <label className="text-[10px] font-semibold uppercase tracking-widest text-secondary/60 block">
+                          Footer Logo (Dark Theme) *
+                        </label>
+                        <Controller
+                          name="footerLogo"
+                          control={logoMethods.control}
+                          render={({ field, fieldState: { error } }) => (
+                            <div className="space-y-3">
+                              <div className="border-2 border-dashed border-gray-200 hover:border-[#ed1c27]/50 rounded-xl p-6 transition-all duration-300 cursor-pointer flex flex-col items-center justify-center gap-3 bg-gray-50/50 relative group min-h-[160px]">
+                                {field.value ? (
+                                  <div className="relative w-full h-24 rounded-lg overflow-hidden border border-gray-150 bg-neutral-900 p-2 flex items-center justify-center">
+                                    <img src={field.value} alt="Footer logo preview" className="object-contain max-h-full max-w-full brightness-110" />
+                                    <button
+                                      type="button"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        field.onChange("/logo-v3.png");
+                                      }}
+                                      className="absolute top-2 right-2 p-1.5 bg-red-500 hover:bg-red-600 text-white rounded-lg shadow-md transition-colors cursor-pointer z-10"
+                                      title="Reset to default logo"
+                                    >
+                                      Reset
+                                    </button>
+                                  </div>
+                                ) : (
+                                  <div className="flex flex-col items-center justify-center gap-2">
+                                    <span className="text-xs text-gray-500 font-bold uppercase tracking-wider">Upload Footer Logo</span>
+                                  </div>
+                                )}
+                                <input
+                                  type="file"
+                                  accept="image/*"
+                                  onChange={(e) => {
+                                    const file = e.target.files?.[0];
+                                    if (file) {
+                                      if (file.size > 102400) {
+                                        addToast({
+                                          title: "File Too Large",
+                                          message: "Footer logo size must not exceed 100KB",
+                                          variant: "error",
+                                        });
+                                        return;
+                                      }
+                                      const reader = new FileReader();
+                                      reader.onloadend = () => field.onChange(reader.result as string);
+                                      reader.readAsDataURL(file);
+                                    }
+                                  }}
+                                  className="absolute inset-0 opacity-0 cursor-pointer"
+                                />
+                              </div>
+                              {error?.message && (
+                                <p className="text-[10px] font-semibold text-red-500 uppercase tracking-tight">
+                                  {error.message}
+                                </p>
+                              )}
+                            </div>
+                          )}
+                        />
+                      </div>
+                    </div>
+                  </Card.Body>
+                  <Card.Footer className="justify-end">
+                    <button
+                      id="save-logo-btn"
+                      type="submit"
+                      disabled={isSaving}
+                      className="inline-flex items-center justify-center gap-2 bg-[#ed1c27] hover:bg-[#c5141e] text-white font-bold uppercase tracking-[0.12em] text-[10px] rounded-xl px-6 py-3.5 transition-all duration-300 cursor-pointer hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#ed1c27]/25 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      <Save size={14} /> {isSaving ? "Saving..." : "Save Logo Details"}
                     </button>
                   </Card.Footer>
                 </form>

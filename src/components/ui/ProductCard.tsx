@@ -34,14 +34,14 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   return (
     <Link href={productUrl} className="group block space-y-3.5">
       {/* Premium Framed Image Container with Hover Action */}
-      <div className="relative aspect-[4/3] w-full rounded-xl overflow-hidden bg-neutral-50 border border-neutral-100">
+      <div className="relative aspect-[4/3] w-full rounded-xl overflow-hidden bg-white border border-neutral-100">
         <Image
           src={image}
           alt={name}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-          className="transition-transform duration-700 group-hover:scale-105"
-          style={{ objectFit: "cover" }}
+          className="transition-transform duration-700 group-hover:scale-105 p-3"
+          style={{ objectFit: "contain" }}
         />
         {/* Subtle Hover Action Button Reveal */}
         <div className="absolute inset-0 bg-neutral-900/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">

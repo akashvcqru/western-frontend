@@ -492,8 +492,8 @@ export default function NewProductPage() {
                             {field.value && field.value.length > 0 && (
                               <div className="grid grid-cols-3 gap-4">
                                 {field.value.map((url: string, i: number) => (
-                                  <div key={i} className="relative aspect-video rounded-xl overflow-hidden border border-gray-100 group/img">
-                                    <Image src={url} alt={`Preview ${i + 1}`} fill className="object-cover" />
+                                  <div key={i} className="relative aspect-video rounded-xl overflow-hidden border border-gray-100 bg-white p-2 flex items-center justify-center group/img">
+                                    <Image src={url} alt={`Preview ${i + 1}`} fill className="object-contain p-2" />
                                     <button type="button" onClick={() => removeAt(i)}
                                       className="absolute top-2 right-2 p-1 bg-red-500 hover:bg-red-600 text-white rounded-lg shadow transition-colors cursor-pointer opacity-0 group-hover/img:opacity-100 z-10">
                                       <Trash2 size={12} />

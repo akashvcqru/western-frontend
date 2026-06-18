@@ -19,12 +19,19 @@ export interface ParsedSocial {
   youtubeUrl: string;
 }
 
+export interface ParsedLogo {
+  headerLogo: string;
+  footerLogo: string;
+}
+
 export function useSettings() {
   const { data: contactRes, isLoading: isContactLoading } = useGetSettingsByKeyQuery("bdm_settings_contact");
   const { data: socialRes, isLoading: isSocialLoading } = useGetSettingsByKeyQuery("bdm_settings_social");
+  const { data: logoRes, isLoading: isLogoLoading } = useGetSettingsByKeyQuery("bdm_settings_logo");
 
   const contactData = contactRes?.data;
   const socialData = socialRes?.data;
+  const logoData = logoRes?.data;
 
   // Contact details parsing & fallbacks
   const email = contactData?.supportEmail || siteContent.common.contact.email;
@@ -62,6 +69,10 @@ export function useSettings() {
   const pinterestUrl = socialData?.pinterestUrl || "#";
   const youtubeUrl = socialData?.youtubeUrl || "#";
 
+  // Logo settings mapping & fallbacks
+  const headerLogo = logoData?.headerLogo || "/logo-v3.png";
+  const footerLogo = logoData?.footerLogo || "/logo-v3.png";
+
   return {
     contact: {
       email,
@@ -79,6 +90,10 @@ export function useSettings() {
       pinterestUrl,
       youtubeUrl,
     } as ParsedSocial,
-    isLoading: isContactLoading || isSocialLoading,
+    logo: {
+      headerLogo,
+      footerLogo,
+    } as ParsedLogo,
+    isLoading: isContactLoading || isSocialLoading || isLogoLoading,
   };
 }
