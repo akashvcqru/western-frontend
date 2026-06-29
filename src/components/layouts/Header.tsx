@@ -68,83 +68,11 @@ export default function Header({
 
   const activeCategories = React.useMemo(() => {
     const dataList = categoriesResult?.data || initialCategories;
-    if (dataList.length === 0) {
-      return [
-        {
-          id: "office-furniture",
-          slug: "office-furniture",
-          name: "Office Furniture",
-          description: "Elevate your work environment with our ergonomic desking systems, executive series tables, and collaborative storage units.",
-          status: "Active",
-          location: "Header",
-          image: "",
-          count: 0
-        },
-        {
-          id: "home-furniture",
-          slug: "home-furniture",
-          name: "Home Furniture",
-          description: "Craft a sanctuary of style and comfort. Handcrafted tables, modular kitchens, and elegant storage layouts for modern living.",
-          status: "Active",
-          location: "Header",
-          image: "",
-          count: 0
-        },
-        {
-          id: "chairs",
-          slug: "chairs",
-          name: "Chairs",
-          description: "Engineered for absolute posture support and long-term seating comfort. Explore our CEO, executive, and staff collections.",
-          status: "Active",
-          location: "Header",
-          image: "",
-          count: 0
-        },
-        {
-          id: "interior-design",
-          slug: "interior-design",
-          name: "Interior Design",
-          description: "Transform your corporate space. Complete turnkey workspace layouts, partitions, false ceilings, and flooring design solutions.",
-          status: "Active",
-          location: "Header",
-          image: "",
-          count: 0
-        }
-      ] as Category[];
-    }
     return dataList.filter((c) => c.status === "Active" && (!c.location || c.location.toLowerCase() === "header"));
   }, [categoriesResult, initialCategories]);
 
   const activeSubCategories = React.useMemo(() => {
     const dataList = subCategoriesResult?.data || initialSubCategories;
-    if (dataList.length === 0) {
-      return [
-        // Office Furniture Subcategories
-        { id: "desking", slug: "desking", name: "Desking", categoryId: "office-furniture", description: "Modern office desks and ergonomic workstations designed for maximum productivity.", status: "Active", image: "" },
-        { id: "exec-tables", slug: "exec-tables", name: "Exec Tables", categoryId: "office-furniture", description: "Premium wood and veneer executive desks for directors, leaders, and manager offices.", status: "Active", image: "" },
-        { id: "reception", slug: "reception", name: "Reception", categoryId: "office-furniture", description: "Welcoming, elegant, and modern reception counters to make a lasting first impression.", status: "Active", image: "" },
-        { id: "computer", slug: "computer", name: "Computer", categoryId: "office-furniture", description: "Ergonomic computer desks optimized for hardware cabling and comfortable daily operation.", status: "Active", image: "" },
-        { id: "centre", slug: "centre", name: "Centre", categoryId: "office-furniture", description: "Stylish and versatile centre coffee tables for lobbies, waiting areas, and executive offices.", status: "Active", image: "" },
-        { id: "conference", slug: "conference", name: "Conference", categoryId: "office-furniture", description: "Professional conference tables designed to foster collaboration and teamwork in boardrooms.", status: "Active", image: "" },
-        { id: "storage", slug: "storage", name: "Storage", categoryId: "office-furniture", description: "Smart cabinet, drawer, and document shelf storage solutions to keep workspaces organized.", status: "Active", image: "" },
-        { id: "office-table", slug: "office-table", name: "Office Table", categoryId: "office-furniture", description: "General desk collection suitable for co-working areas and project workstations.", status: "Active", image: "" },
-
-        // Chairs Subcategories
-        { id: "ceo-chairs", slug: "ceo-chairs", name: "CEO Chairs", categoryId: "chairs", description: "Ultra-premium leather chairs combining high-back orthopedic support and luxury styling.", status: "Active", image: "" },
-        { id: "exec-chairs", slug: "exec-chairs", name: "Exec Chairs", categoryId: "chairs", description: "High-performance seating solutions with tilt control, height adjustment, and headrests.", status: "Active", image: "" },
-        { id: "work-chairs", slug: "work-chairs", name: "Work Chairs", categoryId: "chairs", description: "Flexible mesh-back desk chairs designed for employees' comfort over long working hours.", status: "Active", image: "" },
-        { id: "visitor", slug: "visitor", name: "Visitor", categoryId: "chairs", description: "Sleek, lightweight, and stackable training chairs with study pads and visitor armchairs.", status: "Active", image: "" },
-        { id: "waiting-area", slug: "waiting-area", name: "Waiting Area", categoryId: "chairs", description: "Durable public lounge and lobby bench seating options for guests and waiting areas.", status: "Active", image: "" },
-        { id: "cafeteria", slug: "cafeteria", name: "Cafeteria", categoryId: "chairs", description: "Vibrant, high-bar stools and lightweight cafe chairs optimized for dining spaces.", status: "Active", image: "" },
-        { id: "sofa-series", slug: "sofa-series", name: "Sofa Series", categoryId: "chairs", description: "Luxurious contemporary office lobby sofas upholstered in fabric or premium leatherette.", status: "Active", image: "" },
-        { id: "chair-online", slug: "chair-online", name: "Chair Online", categoryId: "chairs", description: "General collection of office chairs available for purchase online with customizations.", status: "Active", image: "" },
-        { id: "chairs-main", slug: "chairs-main", name: "Chairs Main", categoryId: "chairs", description: "Core manufactured chairs line representing the highest engineering comfort.", status: "Active", image: "" },
-
-        // Home Furniture Subcategories
-        { id: "home-series", slug: "home-series", name: "Home Series", categoryId: "home-furniture", description: "Contemporary home furniture items including study desks, wardrobes, and living room styling.", status: "Active", image: "" },
-        { id: "mod-kitchen", slug: "mod-kitchen", name: "Mod Kitchen", categoryId: "home-furniture", description: "State-of-the-art modular kitchen setups with sleek drawers, pull-out fittings, and cupboards.", status: "Active", image: "" }
-      ] as SubCategory[];
-    }
     return dataList.filter((s) => s.status === "Active");
   }, [subCategoriesResult, initialSubCategories]);
 
