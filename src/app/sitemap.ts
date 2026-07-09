@@ -123,7 +123,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       });
     }
 
-    return [...staticPages, ...dynamicEntries];
+    const allPages = [...staticPages, ...dynamicEntries];
+    const seenUrls = new Set<string>();
+    return allPages.filter(page => {
+      if (seenUrls.has(page.url)) {
+        return false;
+      }
+      seenUrls.add(page.url);
+      return true;
+    });
   } catch (error) {
     console.error('Error generating dynamic sitemap, returning static fallback:', error);
     return staticPages;
