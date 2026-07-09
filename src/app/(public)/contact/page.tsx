@@ -138,13 +138,13 @@ export default function ContactPage() {
             </span>
           </div>
         }
-        titlePrefix="Let's Design"
-        titleHighlight="Beyond."
+        titleHighlight="Connect With Us."
         subtitle={`Transforming your workspace starts with a professional consultation. ${contactPage.hero.subtitle || ""}`}
+        className="pb-32 lg:pb-44"
       />
 
       {/* Modern High-End Floating Cards Panel */}
-      <section className="relative -mt-16 lg:-mt-24 z-20 px-4 md:px-8">
+      <section className="relative -mt-10 lg:-mt-16 z-20 px-4 md:px-8">
         <div className="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
           {[
             {
@@ -177,7 +177,7 @@ export default function ContactPage() {
           ].map((card, i) => (
             <div
               key={i}
-              className="relative group bg-white rounded-xl p-8 lg:p-10 border border-neutral-100 shadow-[0_15px_50px_-15px_rgba(0,0,0,0.05)] hover:shadow-[0_30px_70px_-15px_rgba(0,0,0,0.12)] transition-all duration-500 hover:-translate-y-2 flex flex-col justify-between min-h-[290px] overflow-hidden"
+              className="relative group bg-white rounded-xl p-8 lg:p-10 border border-neutral-300 group-hover:border-neutral-400 shadow-[0_15px_50px_-15px_rgba(0,0,0,0.05)] hover:shadow-[0_30px_70px_-15px_rgba(0,0,0,0.12)] transition-all duration-500 hover:-translate-y-2 flex flex-col justify-between min-h-[290px] overflow-hidden"
             >
               {/* Subtle hover color fade background */}
               <div className="absolute inset-0 bg-gradient-to-b from-primary/[0.015] to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -199,7 +199,7 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              <div className="pt-6 border-t border-neutral-100 relative z-10 flex items-center justify-between">
+              <div className="pt-6 relative z-10 flex items-center justify-between">
                 <span className="text-[10px] text-neutral-400 font-medium uppercase tracking-wider">{card.sub}</span>
                 <a
                   href={card.action}
@@ -230,7 +230,7 @@ export default function ContactPage() {
                 </div>
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-secondary leading-tight tracking-tight uppercase">
                   Let&apos;s Discuss <br />
-                  <span className="text-neutral-500">Your Workspace.</span>
+                  <span className="text-primary">Your Workspace.</span>
                 </h2>
                 <p className="text-neutral-500 text-base md:text-lg font-normal leading-relaxed max-w-lg">
                   Whether planning a fresh office layout, expanding your seating capacities, or designing custom modular partitions, our commercial workspace consultants provide complete end-to-end guidance.
