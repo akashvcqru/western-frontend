@@ -21,6 +21,9 @@ export const metadata: Metadata = {
     template: "%s | Western Interio",
   },
   description: "Western Interio - Think to design beyond. Modular office furniture manufacturer and interior design firm specializing in ergonomic workspace solutions.",
+  verification: {
+    google: "gCKQkUsXp_Bkj7EYc6tTyYolZOHBVntdOw8GpD-SXz8",
+  },
 };
 
 export default function RootLayout({
@@ -32,6 +35,7 @@ export default function RootLayout({
     <html lang="en" className={poppins.variable} suppressHydrationWarning data-scroll-behavior="smooth">
       <head>
         <CanonicalHeader />
+        <meta name="google-site-verification" content="gCKQkUsXp_Bkj7EYc6tTyYolZOHBVntdOw8GpD-SXz8" />
         {/* Google Analytics (gtag.js) */}
         <Script
           async
