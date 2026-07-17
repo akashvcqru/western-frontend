@@ -112,9 +112,9 @@ const renderTextWithLinks = (text: string, linkText?: string, hyperlink?: string
   return parts.length > 0 ? parts : text;
 };
 
-export default function BlogDetailPage() {
+export default function BlogDetailPage({ id: propId }: { id?: string }) {
   const params = useParams();
-  const id = params.id as string;
+  const id = propId || (params?.id as string);
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
   const { contact } = useSettings();
 

@@ -7,6 +7,7 @@ import { ArrowRight, Calendar, Clock, ShieldCheck } from "lucide-react";
 import { PageHeader } from "@/components/ui";
 import { useGetBlogsQuery } from "@/redux/api/blogsApi";
 import type { BlogPost } from "@/types/api";
+import { getOldUrl } from "@/utils/urlHelper";
 
 const renderTextWithLinks = (text: string, linkText?: string, hyperlink?: string) => {
   if (!text) return "";
@@ -248,7 +249,7 @@ export default function BlogLandingPage() {
 
                           {/* Headline */}
                           <h3 className="text-xl lg:text-2xl font-semibold text-secondary leading-snug group-hover:text-primary transition-colors tracking-tight">
-                            <Link href={`/blog/${post.id}`}>
+                            <Link href={getOldUrl(`/blog/${post.id}`)}>
                               {post.title}
                             </Link>
                           </h3>
@@ -278,7 +279,7 @@ export default function BlogLandingPage() {
 
                           {/* Styled Link */}
                           <Link
-                            href={`/blog/${post.id}`}
+                            href={getOldUrl(`/blog/${post.id}`)}
                             className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-neutral-50 text-secondary border border-neutral-100 hover:bg-primary hover:text-white hover:border-primary transition-all duration-300 group/btn"
                             aria-label={`Read ${post.title}`}
                           >

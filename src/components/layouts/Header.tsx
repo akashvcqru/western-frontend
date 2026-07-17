@@ -18,6 +18,7 @@ import Badge from "@/components/ui/Badge";
 import QuoteModal from "@/components/common/QuoteModal";
 import siteContent from "@/data/site-content.json";
 import { useSettings } from "@/hooks/useSettings";
+import { getOldUrl } from "@/utils/urlHelper";
 import { useGetCategoriesQuery, useGetSubCategoriesQuery } from "@/redux/api/categoriesApi";
 import type { Category, SubCategory } from "@/types/api";
 
@@ -282,7 +283,7 @@ export default function Header({
                     onMouseLeave={() => setActiveMenu(null)}
                   >
                     <Link
-                      href={link.href}
+                      href={getOldUrl(link.href)}
                       className={cn(
                         "text-[11px] font-bold text-secondary/70 hover:text-secondary transition-all duration-300 tracking-[0.15em] uppercase relative inline-flex items-center",
                         activeMenu === link.name && "text-secondary",
@@ -340,7 +341,7 @@ export default function Header({
                             </div>
 
                             <Link
-                              href={link.href}
+                              href={getOldUrl(link.href)}
                               className="inline-flex items-center gap-2 text-[10px] font-semibold tracking-widest uppercase text-secondary hover:text-primary transition-colors group/btn mt-8"
                               onClick={() => setActiveMenu(null)}
                             >
@@ -376,7 +377,7 @@ export default function Header({
                                     return (
                                       <Link
                                         key={sub.id}
-                                        href={`${link.href}/${sub.slug || sub.id}`}
+                                        href={getOldUrl(`${link.href}/${sub.slug || sub.id}`)}
                                         className="group flex items-start gap-4 p-2 rounded-xl hover:bg-neutral-50/80 transition-all duration-300 cursor-pointer animate-in fade-in slide-in-from-bottom-2 duration-300"
                                         style={{ animationDelay: `${idx * 30}ms` }}
                                         onClick={() => setActiveMenu(null)}
@@ -492,7 +493,7 @@ export default function Header({
                   {activeCategories.slice(0, 8).map((cat) => (
                     <Link
                       key={cat.id}
-                      href={`/products/${cat.slug || cat.id}`}
+                      href={getOldUrl(`/products/${cat.slug || cat.id}`)}
                       onClick={() => setIsSearchOpen(false)}
                     >
                       <Badge variant="dark" className="px-6 py-2 cursor-pointer">
@@ -504,7 +505,7 @@ export default function Header({
                   {activeCategories.length === 0 && header.searchTags.map((tag: SearchTag) => (
                     <Link
                       key={tag.label}
-                      href={`/products/${tag.slug}`}
+                      href={getOldUrl(`/products/${tag.slug}`)}
                       onClick={() => setIsSearchOpen(false)}
                     >
                       <Badge variant="dark" className="px-6 py-2 cursor-pointer">
@@ -575,7 +576,7 @@ export default function Header({
                                 </button>
                               ) : (
                                 <Link
-                                  href={link.href}
+                                  href={getOldUrl(link.href)}
                                   className="text-2xl font-bold text-secondary tracking-tighter active:text-primary transition-colors flex items-center justify-between w-full group py-5"
                                   onClick={() => setIsOpen(false)}
                                 >
@@ -633,7 +634,7 @@ export default function Header({
                             {subsForCat.map((sub) => (
                               <Link
                                 key={sub.id}
-                                href={`/products/${currentCatSlug}/${sub.slug || sub.id}`}
+                                href={getOldUrl(`/products/${currentCatSlug}/${sub.slug || sub.id}`)}
                                 className="text-lg font-bold text-secondary hover:text-primary transition-colors block active:translate-x-2 duration-300"
                                 onClick={() => {
                                   setIsOpen(false);

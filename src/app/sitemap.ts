@@ -1,4 +1,5 @@
 import { MetadataRoute } from 'next';
+import { getOldUrl } from '@/utils/urlHelper';
 
 export const revalidate = 3600; // Cache the sitemap for 1 hour
 
@@ -71,7 +72,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       if (cat.status === 'Active') {
         const catSlug = cat.slug || cat.id;
         dynamicEntries.push({
-          url: `${baseUrl}/products/${catSlug}`,
+          url: getOldUrl(`${baseUrl}/products/${catSlug}`, baseUrl),
           lastModified: new Date(),
           changeFrequency: 'weekly',
           priority: 0.8,
@@ -86,7 +87,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         const subSlug = sub.slug || sub.id;
         if (catSlug && subSlug) {
           dynamicEntries.push({
-            url: `${baseUrl}/products/${catSlug}/${subSlug}`,
+            url: getOldUrl(`${baseUrl}/products/${catSlug}/${subSlug}`, baseUrl),
             lastModified: new Date(),
             changeFrequency: 'weekly',
             priority: 0.7,
@@ -103,7 +104,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         const prodSlug = prod.slug || prod.id;
         if (catSlug && prodSlug) {
           dynamicEntries.push({
-            url: `${baseUrl}/products/${catSlug}/${prodSlug}`,
+            url: getOldUrl(`${baseUrl}/products/${catSlug}/${prodSlug}`, baseUrl),
             lastModified: new Date(),
             changeFrequency: 'weekly',
             priority: 0.6,
@@ -116,7 +117,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     for (const blog of blogs) {
       const blogId = blog.id;
       dynamicEntries.push({
-        url: `${baseUrl}/blog/${blogId}`,
+        url: getOldUrl(`${baseUrl}/blog/${blogId}`, baseUrl),
         lastModified: blog.publishedAt ? new Date(blog.publishedAt) : new Date(),
         changeFrequency: 'monthly',
         priority: 0.6,

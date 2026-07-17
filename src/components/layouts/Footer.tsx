@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 import QuoteModal from "@/components/common/QuoteModal";
 import { AppRoutes } from "@/constants/routes";
 import { useGetCategoriesQuery } from "@/redux/api/categoriesApi";
+import { getOldUrl } from "@/utils/urlHelper";
 
 interface FooterProps {
   initialFooterLogo?: string;
@@ -301,7 +302,7 @@ interface FooterLink {
                 ? footerCategories.map((cat) => (
                     <li key={cat.id}>
                       <Link
-                        href={`/products/${cat.slug || cat.id}`}
+                        href={getOldUrl(`/products/${cat.slug || cat.id}`)}
                         className="text-[12px] font-semibold text-gray-400 hover:text-white transition-all duration-300 flex items-center group gap-2 hover:translate-x-1"
                       >
                         <span className="w-1 h-[1px] bg-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
@@ -318,7 +319,7 @@ interface FooterLink {
                   ].map((link) => (
                     <li key={link.name}>
                       <Link
-                        href={link.href}
+                        href={getOldUrl(link.href)}
                         className="text-[12px] font-semibold text-gray-400 hover:text-white transition-all duration-300 flex items-center group gap-2 hover:translate-x-1"
                       >
                         <span className="w-1 h-[1px] bg-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />

@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
+import { getOldUrl } from "@/utils/urlHelper";
 
 interface ProductCardProps {
   id: string;
@@ -29,7 +30,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       .replace(/^-+|-+$/g, "");
 
   const catSlug = slugify(category);
-  const productUrl = `/products/${catSlug}/${slug}`;
+  const productUrl = getOldUrl(`/products/${catSlug}/${slug}`);
 
   return (
     <Link href={productUrl} className="group block space-y-3.5">

@@ -46,9 +46,9 @@ interface Product {
   metaDescription?: string;
 }
 
-export default function ProductDetailPage() {
+export default function ProductDetailPage({ id: propId }: { id?: string }) {
   const params = useParams();
-  const id = params.id as string;
+  const id = propId || (params?.id as string);
   
   const { data: productResult, isLoading: isProdLoading } = useGetProductByIdOrSlugQuery(id);
   const [isMounted, setIsMounted] = useState(false);
