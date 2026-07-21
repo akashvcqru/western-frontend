@@ -231,19 +231,16 @@ export default function BlogDetailPage({ id: propId }: { id?: string }) {
             </div>
 
             {/* Hero Cover Image Frame */}
-            <div className="relative aspect-[16/9] w-full rounded-xl overflow-hidden shadow-2xl border border-neutral-100/50 bg-neutral-50 group">
-              <Image
+            <div className="relative aspect-[16/9] w-full rounded-xl overflow-hidden shadow-2xl border border-neutral-100/50 group">
+              <img
                 src={post.image}
                 alt={post.title}
-                fill
-                priority
-                sizes="(max-width: 1024px) 100vw, 60vw"
-                className="object-cover group-hover:scale-[1.01] transition-transform duration-1000"
+                className="w-full h-full object-fill rounded-xl block group-hover:scale-[1.005] transition-transform duration-500"
               />
             </div>
 
             {/* Rich Text Body */}
-            <div className="prose prose-neutral max-w-none space-y-8 text-neutral-600 text-base sm:text-[17px] leading-relaxed font-normal [&_a]:text-primary [&_a]:font-semibold [&_a]:underline hover:[&_a]:text-[#c5141e] [&_a]:transition-colors">
+            <div className="prose prose-neutral max-w-none space-y-8 text-neutral-600 text-base sm:text-[17px] leading-relaxed font-normal [&_a]:text-primary [&_a]:font-semibold [&_a]:underline hover:[&_a]:text-[#c5141e] [&_a]:transition-colors [&_img]:max-w-full [&_img]:h-auto [&_img]:rounded-xl [&_img]:mx-auto [&_img]:object-contain [&_img]:shadow-lg">
               {post.content.map((paragraph, index) => {
                 const isHtml = /^\s*<[a-zA-Z]/i.test(paragraph);
                 if (isHtml) {
@@ -308,19 +305,19 @@ export default function BlogDetailPage({ id: propId }: { id?: string }) {
           </article>
 
           {/* Right Column: Dynamic Context Sidebar (lg:col-span-4) */}
-          <aside className="lg:col-span-4 space-y-12 sticky top-48">
+          <aside className="lg:col-span-4 space-y-6 sticky top-[max(6rem,calc(50vh-270px))]">
             
             {/* Author details card */}
-            <div className="bg-neutral-50 rounded-xl p-8 border border-neutral-100 space-y-6">
-              <h3 className="text-xs font-semibold uppercase tracking-[0.25em] text-secondary border-b border-neutral-200 pb-3 flex items-center gap-2">
+            <div className="bg-neutral-50 rounded-xl p-5 border border-neutral-100 space-y-4">
+              <h3 className="text-xs font-semibold uppercase tracking-[0.25em] text-secondary border-b border-neutral-200 pb-2.5 flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-primary" /> About The Author
               </h3>
-              <div className="flex items-center gap-4">
-                <div className="w-14 h-14 rounded-lg bg-primary/10 text-primary flex items-center justify-center font-semibold text-lg shadow-lg shadow-primary/5 shrink-0">
-                  <ShieldCheck size={28} className="text-primary" />
+              <div className="flex items-center gap-3.5">
+                <div className="w-11 h-11 rounded-lg bg-primary/10 text-primary flex items-center justify-center font-semibold text-lg shadow-md shadow-primary/5 shrink-0">
+                  <ShieldCheck size={22} className="text-primary" />
                 </div>
                 <div className="leading-none min-w-0">
-                  <h4 className="font-semibold text-sm text-secondary uppercase truncate">
+                  <h4 className="font-semibold text-xs text-secondary uppercase truncate">
                     {post.author}
                   </h4>
                   <p className="text-[10px] text-neutral-400 font-semibold uppercase tracking-wider mt-1 truncate">
@@ -329,42 +326,42 @@ export default function BlogDetailPage({ id: propId }: { id?: string }) {
                 </div>
               </div>
               <p className="text-xs text-neutral-500 leading-relaxed font-normal">
-                This article has been researched, verified, and published directly by the Western Interio Corporate Administration. All architecture metrics represent official standards.
+                Researched, verified, and published directly by Western Interio Corporate Administration.
               </p>
             </div>
 
             {/* Smart High-Conversion Consulting CTA card */}
-            <div className="bg-secondary text-white rounded-xl p-8 border border-neutral-800 space-y-6 shadow-2xl relative overflow-hidden group">
+            <div className="bg-secondary text-white rounded-xl p-6 border border-neutral-800 space-y-4 shadow-2xl relative overflow-hidden group">
               {/* Decorative glows */}
               <div className="absolute inset-0 bg-gradient-to-br from-primary/0 to-primary/[0.05] pointer-events-none" />
               <div className="absolute -bottom-12 -right-12 w-28 h-28 bg-primary/10 rounded-full blur-2xl group-hover:scale-125 transition-transform duration-1000" />
               
-              <div className="space-y-3 relative z-10">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-primary/20 border border-primary/30 rounded-lg text-primary text-[9px] font-semibold uppercase tracking-[0.2em]">
-                  <Sparkles size={11} className="text-primary animate-pulse" /> Consulting
+              <div className="space-y-2.5 relative z-10">
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-primary/20 border border-primary/30 rounded-md text-primary text-[9px] font-semibold uppercase tracking-[0.2em]">
+                  <Sparkles size={10} className="text-primary animate-pulse" /> Consulting
                 </div>
-                <h3 className="text-xl font-bold tracking-tight text-white leading-snug">
+                <h3 className="text-lg font-bold tracking-tight text-white leading-snug">
                   Need a Customized Workspace Layout?
                 </h3>
                 <p className="text-xs text-neutral-400 leading-relaxed font-normal">
-                  Receive a complimentary turnkey design consult for your office space. Share your design concepts with our Gurgaon architects.
+                  Get a free turnkey workspace design consult with our Gurgaon architects.
                 </p>
               </div>
 
-              <div className="space-y-4 pt-2 relative z-10">
+              <div className="space-y-3.5 pt-1 relative z-10">
                 <button
                   onClick={() => setIsQuoteOpen(true)}
-                  className="w-full px-6 py-4 bg-primary text-white font-semibold rounded-lg hover:bg-white hover:text-black transition-all duration-500 shadow-xl shadow-primary/20 tracking-[0.2em] text-[9px] uppercase flex items-center justify-center gap-2.5 cursor-pointer active:scale-98"
+                  className="w-full px-5 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-white hover:text-black transition-all duration-500 shadow-xl shadow-primary/20 tracking-[0.2em] text-[10px] uppercase flex items-center justify-center gap-2 cursor-pointer active:scale-98"
                 >
                   <MessageSquare size={13} />
                   Book Design Consult
                 </button>
-                <div className="flex flex-col gap-2 pt-2 border-t border-white/10 text-[10px] text-neutral-400 font-bold uppercase tracking-wider">
+                <div className="flex flex-col gap-1.5 pt-2 border-t border-white/10 text-[10px] text-neutral-400 font-bold uppercase tracking-wider">
                   <a href={`tel:${contact.phoneRaw}`} className="flex items-center gap-2 hover:text-white transition-colors">
-                    <Phone size={12} className="text-primary" /> {contact.phone}
+                    <Phone size={11} className="text-primary" /> {contact.phone}
                   </a>
                   <a href={`mailto:${contact.email}`} className="flex items-center gap-2 hover:text-white transition-colors">
-                    <Mail size={12} className="text-primary" /> {contact.email}
+                    <Mail size={11} className="text-primary" /> {contact.email}
                   </a>
                 </div>
               </div>
