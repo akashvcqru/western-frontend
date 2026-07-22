@@ -1,7 +1,7 @@
 "use client";
 
 import React, { Suspense } from "react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import {
   ArrowUpRight,
@@ -24,14 +24,15 @@ import { useGetGalleryQuery } from "@/redux/api/galleryApi";
 import type { GalleryItem } from "@/types/api";
 
 interface PageProps {
-  params: Promise<{
+  params?: Promise<{
     category?: string[];
   }>;
 }
 
 export default function GalleryPage({ params }: PageProps) {
-  const unwrappedParams = React.use(params);
-  const categorySlug = unwrappedParams.category?.[0];
+  const routeParams = useParams();
+  const categoryParam = routeParams?.category;
+  const categorySlug = Array.isArray(categoryParam) ? categoryParam[0] : categoryParam;
 
   return (
     <Suspense fallback={

@@ -5,6 +5,7 @@ import { FilterSidebar } from "@/components/sections/FilterSidebar";
 import { ProductCard } from "@/components/ui/ProductCard";
 import { ArrowRight, Filter, Loader2 } from "lucide-react";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import { Pagination } from "@/components/ui/Pagination";
 import PageHeader from "@/components/ui/PageHeader";
 import { useGetCategoriesQuery, useGetSubCategoriesQuery } from "@/redux/api/categoriesApi";
@@ -202,10 +203,13 @@ function CategoryHubPage({
 export default function ProductListingPage({ 
   params,
 }: { 
-  params: Promise<{ slug: string[] }>
+  params?: Promise<{ slug: string[] }>
 }) {
-  const resolvedParams = React.use(params);
-  const slug = resolvedParams.slug;
+  const routeParams = useParams();
+  const rawSlug = routeParams?.slug;
+  const slug = React.useMemo(() => {
+    return Array.isArray(rawSlug) ? rawSlug : rawSlug ? [rawSlug] : [];
+  }, [rawSlug]);
 
   const decodedSlug = React.useMemo(() => {
     return slug 
@@ -321,21 +325,49 @@ export default function ProductListingPage({
   }, [subCatSlug, subCategoriesList]);
 
   const categoryProducts = React.useMemo(() => {
+    const validCategoryIds = new Set<string>();
+    if (parentCatSlug) {
+      validCategoryIds.add(parentCatSlug.toLowerCase());
+      
+      // Look up matched category by slug or id in categoriesList
+      const matchedCat = categoriesList.find(
+        c => c.slug?.toLowerCase() === parentCatSlug.toLowerCase() || c.id?.toLowerCase() === parentCatSlug.toLowerCase()
+      );
+      if (matchedCat) {
+        if (matchedCat.id) validCategoryIds.add(matchedCat.id.toLowerCase());
+        if (matchedCat.slug) validCategoryIds.add(matchedCat.slug.toLowerCase());
+      }
+      
+      // Also add resolved alias slugs and their category IDs
+      resolveCategorySlugs(parentCatSlug).forEach(slug => {
+        validCategoryIds.add(slug.toLowerCase());
+        const cat = categoriesList.find(c => c.slug?.toLowerCase() === slug.toLowerCase() || c.id?.toLowerCase() === slug.toLowerCase());
+        if (cat) {
+          if (cat.id) validCategoryIds.add(cat.id.toLowerCase());
+          if (cat.slug) validCategoryIds.add(cat.slug.toLowerCase());
+        }
+      });
+    }
+
     return resolvedProducts.filter(p => {
-      if (parentCatSlug && !resolvedCategorySlugs.includes(p.category)) return false;
+      if (parentCatSlug) {
+        const catLower = p.category?.toLowerCase();
+        if (!validCategoryIds.has(catLower)) return false;
+      }
       if (subCatSlug) {
         const subCatId = activeSubCategory?.id;
         const subCatSlugName = activeSubCategory?.slug;
+        const pSubCat = p.subCategory || p.subcategory;
         const matchesSub = 
-          (subCatId && p.subCategory === subCatId) ||
-          (subCatSlugName && p.subCategory?.toLowerCase() === subCatSlugName.toLowerCase()) ||
-          p.subCategory?.toLowerCase() === subCatSlug ||
-          p.subCategory?.toLowerCase().replace(/-/g, " ") === subCatSlug.replace(/-/g, " ");
+          (subCatId && pSubCat === subCatId) ||
+          (subCatSlugName && pSubCat?.toLowerCase() === subCatSlugName.toLowerCase()) ||
+          pSubCat?.toLowerCase() === subCatSlug ||
+          pSubCat?.toLowerCase().replace(/-/g, " ") === subCatSlug.replace(/-/g, " ");
         if (!matchesSub) return false;
       }
       return true;
     });
-  }, [resolvedProducts, parentCatSlug, subCatSlug, resolvedCategorySlugs, activeSubCategory]);
+  }, [resolvedProducts, parentCatSlug, subCatSlug, activeSubCategory, categoriesList]);
 
   const dynamicMaxPrice = React.useMemo(() => {
     if (categoryProducts.length === 0) return 0;

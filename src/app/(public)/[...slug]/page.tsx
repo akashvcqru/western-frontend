@@ -76,9 +76,7 @@ export default function CatchAllRouterPage() {
   );
 
   if (matchedCategory || matchedSubCategory) {
-    // Pass slug array wrapped in resolved promise to match ProductListingPage expectation
-    const resolvedParams = Promise.resolve({ slug: decodedSlug });
-    return <ProductListingPage params={resolvedParams} />;
+    return <ProductListingPage />;
   }
 
   // If nothing matches, trigger notFound
