@@ -11,7 +11,7 @@ export function middleware(request: NextRequest) {
   if (map[pathname]) {
     const url = request.nextUrl.clone();
     url.pathname = map[pathname];
-    return NextResponse.rewrite(url);
+    return NextResponse.redirect(url, 301);
   }
 
   // 2. Normalized match (strip trailing slash)
@@ -19,7 +19,7 @@ export function middleware(request: NextRequest) {
   if (map[strippedPath]) {
     const url = request.nextUrl.clone();
     url.pathname = map[strippedPath];
-    return NextResponse.rewrite(url);
+    return NextResponse.redirect(url, 301);
   }
 
   // 3. Lowercase match
@@ -27,7 +27,7 @@ export function middleware(request: NextRequest) {
   if (map[lowerPath]) {
     const url = request.nextUrl.clone();
     url.pathname = map[lowerPath];
-    return NextResponse.rewrite(url);
+    return NextResponse.redirect(url, 301);
   }
 
   return NextResponse.next();
