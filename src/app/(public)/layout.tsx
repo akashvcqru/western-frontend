@@ -8,6 +8,7 @@ import siteContent from "@/data/site-content.json";
 export const metadata: Metadata = {
   title: siteContent.metaData.title,
   description: siteContent.metaData.description,
+  keywords: siteContent.metaData.keywords,
 };
 
 export default async function PublicLayout({
