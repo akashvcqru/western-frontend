@@ -56,7 +56,7 @@ export default function CategoriesPage() {
               {/* Image Background */}
               <div className="absolute inset-0">
                 <Image 
-                  src={cat.image}
+                  src={cat.image || "https://images.unsplash.com/photo-1580582932707-520aed937b7b?q=80&w=2070&auto=format&fit=crop"}
                   alt={cat.name}
                   fill
                   className="object-cover transition-transform duration-1000 group-hover:scale-110 grayscale group-hover:grayscale-0"

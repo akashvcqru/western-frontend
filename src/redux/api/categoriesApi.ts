@@ -17,6 +17,17 @@ export const categoriesApi = apiSlice.injectEndpoints({
         const queryStr = queryParams.toString();
         return `/api/categories${queryStr ? `?${queryStr}` : ""}`;
       },
+      transformResponse: (response: PaginatedApiResponse<Category>) => {
+        if (response?.data) {
+          response.data = response.data.map((cat) => ({
+            ...cat,
+            image: cat.image?.startsWith("/uploads/")
+              ? `https://westernofficesolutions.com${cat.image}`
+              : cat.image,
+          }));
+        }
+        return response;
+      },
       providesTags: (result) =>
         result
           ? [
