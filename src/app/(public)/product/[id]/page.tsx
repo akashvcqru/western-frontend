@@ -133,10 +133,13 @@ export default function ProductDetailPage({ id: propId }: { id?: string }) {
     window.location.href = `tel:${contact.phoneRaw}`;
   };
 
+  React.useEffect(() => {
+    const title = product?.metaTitle || (product?.name ? `${product.name} | Western Interio` : "Product Details | Western Interio");
+    if (title) document.title = title;
+  }, [product]);
+
   return (
     <main className="bg-white min-h-screen pt-12 lg:pt-16 pb-24">
-      {product.metaTitle ? <title>{product.metaTitle}</title> : <title>{`${product.name} | Western Interio`}</title>}
-      {product.metaDescription && <meta name="description" content={product.metaDescription} />}
       <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
         <div className="grid lg:grid-cols-2 gap-20 lg:gap-32 items-start">
           {/* Left: Image Gallery - Premium Presentation */}

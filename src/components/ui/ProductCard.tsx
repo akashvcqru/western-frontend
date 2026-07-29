@@ -33,15 +33,18 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   const productUrl = getOldUrl(`/products/${catSlug}/${slug}`);
 
   return (
-    <Link href={productUrl} className="group block space-y-3.5">
+    <Link 
+      href={productUrl} 
+      className="group flex flex-col bg-white rounded-2xl border border-neutral-300/80 hover:border-primary shadow-[0_2px_10px_-4px_rgba(0,0,0,0.06)] hover:shadow-lg transition-all duration-300 overflow-hidden p-3.5"
+    >
       {/* Premium Framed Image Container with Hover Action */}
-      <div className="relative aspect-[4/3] w-full rounded-xl overflow-hidden bg-white border border-neutral-100">
+      <div className="relative aspect-[4/3] w-full rounded-xl overflow-hidden bg-white">
         <Image
           src={image}
           alt={name}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-          className="transition-transform duration-700 group-hover:scale-105 p-3"
+          className="transition-transform duration-700 group-hover:scale-105 p-2"
           style={{ objectFit: "contain" }}
         />
         {/* Subtle Hover Action Button Reveal */}
@@ -53,7 +56,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       </div>
 
       {/* Details Container underneath the image */}
-      <div className="space-y-1 px-1">
+      <div className="pt-3 px-1 pb-0.5 flex-1 flex flex-col justify-between space-y-1.5">
         <p className="text-[9px] font-black text-neutral-400 uppercase tracking-[0.25em]">
           {category?.replace(/-/g, " ")}
         </p>

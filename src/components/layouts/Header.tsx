@@ -296,7 +296,7 @@ export default function Header({
                           className={cn(
                             "ml-2 opacity-40 transition-transform duration-300",
                             activeMenu === link.name &&
-                              "rotate-180 opacity-100",
+                            "rotate-180 opacity-100",
                           )}
                         />
                       )}
@@ -332,10 +332,10 @@ export default function Header({
                               <p className="text-[13px] leading-relaxed text-secondary/60 font-medium">
                                 {link.description || (
                                   link.name === "Office Furniture" ? "Elevate your work environment with our ergonomic desking systems, executive series tables, and collaborative storage units." :
-                                  link.name === "Home Furniture" ? "Craft a sanctuary of style and comfort. Handcrafted tables, modular kitchens, and elegant storage layouts for modern living." :
-                                  link.name === "Chairs" ? "Engineered for absolute posture support and long-term seating comfort. Explore our CEO, executive, and staff collections." :
-                                  link.name === "Interior Design" ? "Transform your corporate space. Complete turnkey workspace layouts, partitions, false ceilings, and flooring design solutions." :
-                                  "Discover our premium interior design collections, modular workstation designs, and ergonomic chairs."
+                                    link.name === "Home Furniture" ? "Craft a sanctuary of style and comfort. Handcrafted tables, modular kitchens, and elegant storage layouts for modern living." :
+                                      link.name === "Chairs" ? "Engineered for absolute posture support and long-term seating comfort. Explore our CEO, executive, and staff collections." :
+                                        link.name === "Interior Design" ? "Transform your corporate space. Complete turnkey workspace layouts, partitions, false ceilings, and flooring design solutions." :
+                                          "Discover our premium interior design collections, modular workstation designs, and ergonomic chairs."
                                 )}
                               </p>
                             </div>
@@ -363,7 +363,7 @@ export default function Header({
                                 return <div className="py-8 text-xs text-neutral-400 text-center font-medium w-full">No sub categories found</div>;
                               }
 
-                              const gridColsClass = 
+                              const gridColsClass =
                                 numItems <= 2
                                   ? "grid-cols-2 max-w-xl"
                                   : "grid-cols-3";
@@ -442,7 +442,12 @@ export default function Header({
 
               <button
                 className="xl:hidden p-2 text-secondary cursor-pointer hover:bg-neutral-50 rounded-xl transition-all"
-                onClick={() => setIsOpen(!isOpen)}
+                onClick={() => {
+                  setIsOpen((prev) => {
+                    if (!prev) setActiveMenu(null);
+                    return !prev;
+                  });
+                }}
               >
                 {isOpen ? <X size={28} /> : <Menu size={28} />}
               </button>
@@ -593,27 +598,31 @@ export default function Header({
                       </div>
                     </div>
 
-                    <div className="pt-8 space-y-6">
-                      <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-primary">
+                    <div className="pt-4 space-y-3">
+                      <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-primary block">
                         Direct Contact
                       </span>
-                      <div className="grid gap-4">
-                        <a
-                          href={`tel:${common.contact.phoneRaw}`}
-                          className="flex items-center gap-4 p-5 bg-neutral-50 rounded-2xl border border-neutral-100"
-                        >
-                          <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white shadow-lg shadow-primary/20">
-                            <Phone size={18} />
-                          </div>
-                          <div>
-                            <p className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest">
-                              Call Us
-                            </p>
-                            <p className="font-bold text-secondary">
-                              {common.contact.phone}
-                            </p>
-                          </div>
-                        </a>
+                      <div className="space-y-3 pt-1">
+                        {(common.contact.phones && common.contact.phones.length > 0
+                          ? common.contact.phones
+                          : (common.contact.phone || "").split(",").map((s: string) => s.trim())
+                        ).map((phoneNum: string, i: number) => {
+                          const rawNum = phoneNum.replace(/[^0-9+]/g, "");
+                          return (
+                            <a
+                              key={i}
+                              href={`tel:${rawNum}`}
+                              className="flex items-center gap-3 text-secondary hover:text-primary transition-colors group cursor-pointer"
+                            >
+                              <div className="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all shrink-0">
+                                <Phone size={14} />
+                              </div>
+                              <span className="font-bold text-sm tracking-tight whitespace-nowrap">
+                                {phoneNum}
+                              </span>
+                            </a>
+                          );
+                        })}
                       </div>
                     </div>
                   </div>

@@ -23,6 +23,8 @@ export default function SearchPage({
   
   const { data: categoriesResult, isLoading: isCatsLoading } = useGetCategoriesQuery({ limit: 100 });
 
+  const isLoading = isProdsLoading || isCatsLoading;
+
   const productsList = React.useMemo(() => {
     return (productsResult?.data?.filter((p) => p.status === "Active") || []) as any[];
   }, [productsResult]);
@@ -45,12 +47,13 @@ export default function SearchPage({
     });
   }, [productsList, categoriesList]);
 
-  const isLoading = isProdsLoading || isCatsLoading;
+  React.useEffect(() => {
+    const title = q ? `Search Results for "${q}" | Western Interio` : "Search | Western Interio";
+    document.title = title;
+  }, [q]);
 
   return (
     <div className="bg-white min-h-screen">
-      <title>{q ? `Search Results for "${q}" | Western Interio` : "Search | Western Interio"}</title>
-      
       <PageHeader 
         bgImage="https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop"
         badgeText="Product Search"

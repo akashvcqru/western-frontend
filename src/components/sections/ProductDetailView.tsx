@@ -472,10 +472,13 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
     );
   };
 
+  useEffect(() => {
+    const title = product.metaTitle || `${product.name} | Western Interio`;
+    if (title) document.title = title;
+  }, [product.metaTitle, product.name]);
+
   return (
     <>
-      {product.metaTitle ? <title>{product.metaTitle}</title> : <title>{`${product.name} | Western Interio`}</title>}
-      {product.metaDescription && <meta name="description" content={product.metaDescription} />}
       <div className="bg-white min-h-screen">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-12 py-10 lg:py-16">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">

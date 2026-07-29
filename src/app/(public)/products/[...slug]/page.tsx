@@ -1,16 +1,14 @@
 "use client";
 
 import React from "react";
-import { FilterSidebar } from "@/components/sections/FilterSidebar";
 import { ProductCard } from "@/components/ui/ProductCard";
-import { ArrowRight, Filter, Loader2 } from "lucide-react";
+import { ArrowRight, Loader2, PackageX } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { Pagination } from "@/components/ui/Pagination";
 import PageHeader from "@/components/ui/PageHeader";
 import { useGetCategoriesQuery, useGetSubCategoriesQuery } from "@/redux/api/categoriesApi";
 import { useGetProductsQuery } from "@/redux/api/productsApi";
-
 
 import { AppRoutes } from "@/constants/routes";
 import ProductDetailView from "@/components/sections/ProductDetailView";
@@ -39,8 +37,6 @@ interface SubCategory {
   metaTitle?: string;
   metaDescription?: string;
 }
-
-
 
 interface ProductSpec {
   label: string;
@@ -72,12 +68,6 @@ interface Product {
   metaDescription?: string;
 }
 
-const parsePrice = (priceStr?: string): number => {
-  if (!priceStr) return 0;
-  const cleaned = priceStr.replace(/[^0-9]/g, "");
-  return cleaned ? parseInt(cleaned, 10) : 0;
-};
-
 function CategoryHubPage({ 
   category, 
   subCategoriesList, 
@@ -104,10 +94,12 @@ function CategoryHubPage({
   const metaTitle = category?.metaTitle || `${categoryName} | Western Interio`;
   const metaDescription = category?.metaDescription || categoryDescription;
 
+  React.useEffect(() => {
+    if (metaTitle) document.title = metaTitle;
+  }, [metaTitle]);
+
   return (
     <div className="bg-white min-h-screen">
-      <title>{metaTitle}</title>
-      <meta name="description" content={metaDescription} />
       <PageHeader 
         bgImage={heroImage}
         badgeText="Product Category"
@@ -154,7 +146,7 @@ function CategoryHubPage({
                 className="group relative flex flex-col bg-white rounded-2xl overflow-hidden border border-neutral-100/80 shadow-[0_12px_30px_-10px_rgba(0,0,0,0.03)] hover:shadow-[0_30px_60px_-15px_rgba(237,28,39,0.12)] transition-all duration-[600ms] hover:-translate-y-1.5"
               >
                 {/* Image Container with aspect ratio */}
-                <div className="relative aspect-[4/3] overflow-hidden bg-white p-4 flex items-center justify-center">
+                <div className="relative aspect-[4/3] overflow-hidden bg-white p-2 flex items-center justify-center">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={subImgUrl}
@@ -217,11 +209,9 @@ export default function ProductListingPage({
       : [];
   }, [slug]);
 
-  const [selectedFilters, setSelectedFilters] = React.useState<string[]>([]);
-  const [showMobileFilters, setShowMobileFilters] = React.useState(false);
   const [currentPage, setCurrentPage] = React.useState(1);
   const [isQuoteOpen, setIsQuoteOpen] = React.useState(false);
-  const ITEMS_PER_PAGE = 6;
+  const ITEMS_PER_PAGE = 8;
 
   const { data: categoriesResult, isLoading: isCatsLoading } = useGetCategoriesQuery({ limit: 100 });
   const { data: subCategoriesResult, isLoading: isSubsLoading } = useGetSubCategoriesQuery({ limit: 100 });
@@ -239,30 +229,22 @@ export default function ProductListingPage({
     return (productsResult?.data?.filter(p => p.status === "Active") || []) as unknown as Product[];
   }, [productsResult]);
 
-
-
   // Dynamically resolve and enrich products with premium specifications at runtime
   const resolvedProducts = React.useMemo(() => {
     return productsList.map(p => {
-      // 1. Availability from real Stock
       const availability = p.stock > 0 ? "In Stock" : "Out of Stock";
-
-      // 2. Brand
       const brand = p.brand || "";
 
-      // 3. Dynamic subcategory from DB lookup
       const subCatObj = subCategoriesList.find(
         (s) => s.id === p.subCategory || s.slug === p.subCategory
       );
       const subcategory = subCatObj ? subCatObj.name : "";
 
-      // 4. Type from Category DB lookup
       const catObj = categoriesList.find(
         (c) => c.id === p.category || c.slug === p.category
       );
       const type = catObj ? catObj.name : p.category;
 
-      // 5. Specifications & ShortSpecs (only from DB, no hardcoded fallbacks)
       const specifications: { label: string; value: string }[] = [];
       const shortSpecs: string[] = [];
 
@@ -291,7 +273,6 @@ export default function ProductListingPage({
         });
       }
 
-      // Add availability to shortSpecs to support the "Availability" group
       shortSpecs.push(availability);
 
       return {
@@ -329,7 +310,6 @@ export default function ProductListingPage({
     if (parentCatSlug) {
       validCategoryIds.add(parentCatSlug.toLowerCase());
       
-      // Look up matched category by slug or id in categoriesList
       const matchedCat = categoriesList.find(
         c => c.slug?.toLowerCase() === parentCatSlug.toLowerCase() || c.id?.toLowerCase() === parentCatSlug.toLowerCase()
       );
@@ -338,7 +318,6 @@ export default function ProductListingPage({
         if (matchedCat.slug) validCategoryIds.add(matchedCat.slug.toLowerCase());
       }
       
-      // Also add resolved alias slugs and their category IDs
       resolveCategorySlugs(parentCatSlug).forEach(slug => {
         validCategoryIds.add(slug.toLowerCase());
         const cat = categoriesList.find(c => c.slug?.toLowerCase() === slug.toLowerCase() || c.id?.toLowerCase() === slug.toLowerCase());
@@ -369,21 +348,6 @@ export default function ProductListingPage({
     });
   }, [resolvedProducts, parentCatSlug, subCatSlug, activeSubCategory, categoriesList]);
 
-  const dynamicMaxPrice = React.useMemo(() => {
-    if (categoryProducts.length === 0) return 0;
-    const prices = categoryProducts.map(p => parsePrice(p.price)).filter(p => p > 0);
-    return prices.length > 0 ? Math.max(...prices) : 0;
-  }, [categoryProducts]);
-
-  const [maxPrice, setMaxPrice] = React.useState<number>(0);
-  const activeMaxPrice = maxPrice || dynamicMaxPrice;
-
-  React.useEffect(() => {
-    setTimeout(() => {
-      setCurrentPage(1);
-    }, 0);
-  }, [selectedFilters, maxPrice]);
-
   const isLoading = isCatsLoading || isSubsLoading || isProdsLoading;
 
   if (isLoading) {
@@ -406,84 +370,13 @@ export default function ProductListingPage({
       return <CategoryHubPage category={currentCategory} subCategoriesList={subCategoriesList} productsList={productsList} />;
     }
   }
-  
-  const toggleFilter = (option: string) => {
-    setSelectedFilters(prev => 
-      prev.includes(option) ? prev.filter(f => f !== option) : [...prev, option]
-    );
-  };
-
-  // Filter products based on active faceted filters
-  const filteredProducts = categoryProducts.filter(p => {
-    // Apply Price Slider Filter
-    if (activeMaxPrice > 0) {
-      const price = parsePrice(p.price);
-      if (price > 0 && price > activeMaxPrice) return false;
-    }
-
-    // Apply Faceted Filter Sidebar logic
-    if (selectedFilters.length > 0) {
-      // Group active filters by facet type for precise e-commerce matching
-      const activeSubcategories = selectedFilters.filter(f => 
-        categoriesList.some(c => c.name.toLowerCase() === f.toLowerCase()) || 
-        categoryProducts.some(p => p.subcategory?.toLowerCase() === f.toLowerCase())
-      );
-      
-      const activeBrands = selectedFilters.filter(f => 
-        categoryProducts.some(p => p.brand?.toLowerCase() === f.toLowerCase())
-      );
-
-      const activeTypes = selectedFilters.filter(f => 
-        categoryProducts.some(p => p.type?.toLowerCase() === f.toLowerCase())
-      );
-
-      const activeSpecs = selectedFilters.filter(f => 
-        !activeSubcategories.includes(f) && !activeBrands.includes(f) && !activeTypes.includes(f)
-      );
-
-      // Check subcategory match (if any active)
-      if (activeSubcategories.length > 0) {
-        const matchesSub = activeSubcategories.some(sub => 
-          p.subcategory?.toLowerCase().replace(/-/g, " ") === sub.toLowerCase().replace(/-/g, " ")
-        );
-        if (!matchesSub) return false;
-      }
-
-      // Check brand match (if any active)
-      if (activeBrands.length > 0) {
-        const matchesBrand = activeBrands.some(brand => p.brand?.toLowerCase() === brand.toLowerCase());
-        if (!matchesBrand) return false;
-      }
-
-      // Check type match (if any active)
-      if (activeTypes.length > 0) {
-        const matchesType = activeTypes.some(type => p.type?.toLowerCase() === type.toLowerCase());
-        if (!matchesType) return false;
-      }
-
-      // Check specifications match (if any active)
-      if (activeSpecs.length > 0) {
-        const matchesSpec = activeSpecs.some(spec => {
-          if (spec === "In Stock") return true;
-          const specMatch = p.specifications?.some((s) => s.value === spec);
-          if (specMatch) return true;
-          const shortSpecMatch = p.shortSpecs?.some((ss: string) => ss === spec);
-          if (shortSpecMatch) return true;
-          return false;
-        });
-        if (!matchesSpec) return false;
-      }
-    }
-
-    return true;
-  });
 
   const currentCategory = categoriesList.find(c => c.slug === parentCatSlug) ||
                           categoriesList.find(c => resolvedCategorySlugs.includes(c.slug));
   
-  const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(categoryProducts.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const paginatedProducts = filteredProducts.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  const paginatedProducts = categoryProducts.slice(startIndex, startIndex + ITEMS_PER_PAGE);
   
   const heroImage = currentCategory?.image || "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop";
   const categoryName = activeSubCategory
@@ -497,10 +390,12 @@ export default function ProductListingPage({
     ? (activeSubCategory.metaDescription || `Professional ${categoryName} solutions engineered for premium workspaces and lasting comfort.`)
     : (currentCategory?.metaDescription || `Professional ${categoryName} solutions engineered for premium workspaces and lasting comfort.`);
 
+  React.useEffect(() => {
+    if (metaTitle) document.title = metaTitle;
+  }, [metaTitle]);
+
   return (
     <div className="bg-white min-h-screen">
-      <title>{metaTitle}</title>
-      <meta name="description" content={metaDescription} />
       {/* Premium Integrated PageHeader */}
       <PageHeader 
         bgImage={heroImage}
@@ -517,115 +412,65 @@ export default function ProductListingPage({
             <div className="space-y-1">
               <p className="text-[9px] font-black uppercase tracking-[0.3em] text-primary">Browse Collection</p>
               <p className="text-xs text-neutral-500 font-bold">
-                Showing <span className="text-secondary font-black">{filteredProducts.length}</span> premium models
+                Showing <span className="text-secondary font-black">{categoryProducts.length}</span> premium models
               </p>
             </div>
             
             <div className="flex items-center gap-4">
-              <button 
-                onClick={() => setShowMobileFilters(!showMobileFilters)}
-                className="lg:hidden inline-flex items-center gap-2 px-4 py-2 border border-neutral-200 rounded-lg text-[10px] font-bold uppercase tracking-wider text-secondary hover:border-primary hover:text-primary transition-colors cursor-pointer"
-              >
-                <Filter size={14} />
-                {showMobileFilters ? "Hide Filters" : "Filters"}
-                {(selectedFilters.length > 0 || maxPrice < dynamicMaxPrice) && (
-                  <span className="w-4 h-4 bg-primary text-white text-[8px] flex items-center justify-center rounded-full font-bold">
-                    {selectedFilters.length + (maxPrice < dynamicMaxPrice ? 1 : 0)}
-                  </span>
-                )}
-              </button>
               <div className="h-px w-12 bg-neutral-100 hidden md:block" />
               <span className="text-[9px] font-black uppercase tracking-[0.2em] text-neutral-300">Western Interio</span>
             </div>
           </div>
 
-          {/* Mobile Filter Collapsible */}
-          {showMobileFilters && (
-            <div className="lg:hidden bg-neutral-50 p-6 rounded-xl border border-neutral-100 animate-in slide-in-from-top duration-300 mb-6">
-              <FilterSidebar 
-                products={categoryProducts}
-                selectedFilters={selectedFilters}
-                onFilterChange={toggleFilter}
-                onClearAll={() => setSelectedFilters([])}
-                maxPrice={maxPrice}
-                onPriceChange={setMaxPrice}
-              />
-            </div>
-          )}
-
-          {/* Two Column Layout: Clean Sidebar + Minimalist Product Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
-            {/* Desktop Filter Sidebar - Clean & Borderless on background */}
-            <div className="hidden lg:block lg:col-span-1">
-              <FilterSidebar 
-                products={categoryProducts}
-                selectedFilters={selectedFilters}
-                onFilterChange={toggleFilter}
-                onClearAll={() => setSelectedFilters([])}
-                maxPrice={maxPrice}
-                onPriceChange={setMaxPrice}
-              />
-            </div>
-
-            {/* Products Listing Grid Column */}
-            <div className="lg:col-span-3 space-y-10">
-              {filteredProducts.length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 lg:gap-8">
-                  {paginatedProducts.map((product) => (
-                      <ProductCard 
-                        key={product.id} 
-                        id={product.id}
-                        name={product.name}
-                        category={product.category}
-                        image={product.images[0]}
-                        slug={product.slug}
-                        price={product.price}
-                      />
-                  ))}
+          {/* Full Width Product Listing Grid */}
+          <div className="space-y-10">
+            {categoryProducts.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-8">
+                {paginatedProducts.map((product) => (
+                    <ProductCard 
+                      key={product.id} 
+                      id={product.id}
+                      name={product.name}
+                      category={product.category}
+                      image={product.images[0]}
+                      slug={product.slug}
+                      price={product.price}
+                    />
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-24 px-8 space-y-8 bg-neutral-50/40 rounded-xl border border-dashed border-neutral-200/80 shadow-sm animate-in fade-in duration-500">
+                <div className="w-16 h-16 bg-white border border-neutral-100 rounded-xl flex items-center justify-center mx-auto text-neutral-400 shadow-sm">
+                  <PackageX size={24} className="text-neutral-400" />
                 </div>
-              ) : (
-                <div className="text-center py-24 px-8 space-y-8 bg-neutral-50/40 rounded-xl border border-dashed border-neutral-200/80 shadow-sm animate-in fade-in duration-500">
-                  <div className="w-16 h-16 bg-white border border-neutral-100 rounded-xl flex items-center justify-center mx-auto text-neutral-400 shadow-sm">
-                    <Filter size={24} className="text-neutral-400 animate-pulse" />
-                  </div>
-                  <div className="space-y-3">
-                    <p className="text-xl font-bold text-secondary tracking-tight">No Matching Models</p>
-                    <p className="text-neutral-400 text-xs font-medium leading-relaxed">
-                      We couldn&apos;t find any products in <span className="text-primary font-bold">{categoryName}</span> matching your current filter selections. Try adjusting your checkboxes or price range slider.
-                    </p>
-                  </div>
-                  <div className="flex flex-col sm:flex-row justify-center gap-4">
-                    <button 
-                      onClick={() => {
-                        setSelectedFilters([]);
-                        setMaxPrice(0);
-                      }} 
-                      className="px-6 py-3.5 bg-secondary text-white font-black uppercase tracking-widest text-[9px] rounded-xl hover:bg-primary transition-all duration-300 shadow-md active:scale-95 cursor-pointer"
-                    >
-                      Clear All Filters
-                    </button>
-                    <Link 
-                      href={AppRoutes.Public.Products} 
-                      className="px-6 py-3.5 bg-white text-secondary border border-neutral-200 font-black uppercase tracking-widest text-[9px] rounded-xl hover:border-primary hover:text-primary transition-all duration-300 shadow-sm active:scale-95 inline-flex items-center justify-center gap-2"
-                    >
-                      <ArrowRight size={12} />
-                      All Collections
-                    </Link>
-                  </div>
+                <div className="space-y-3">
+                  <p className="text-xl font-bold text-secondary tracking-tight">No Models Found</p>
+                  <p className="text-neutral-400 text-xs font-medium leading-relaxed">
+                    We couldn&apos;t find any products in <span className="text-primary font-bold">{categoryName}</span> at this time.
+                  </p>
                 </div>
-              )}
+                <div className="flex flex-col sm:flex-row justify-center gap-4">
+                  <Link 
+                    href={AppRoutes.Public.Products} 
+                    className="px-6 py-3.5 bg-white text-secondary border border-neutral-200 font-black uppercase tracking-widest text-[9px] rounded-xl hover:border-primary hover:text-primary transition-all duration-300 shadow-sm active:scale-95 inline-flex items-center justify-center gap-2"
+                  >
+                    <ArrowRight size={12} />
+                    All Collections
+                  </Link>
+                </div>
+              </div>
+            )}
 
-              {filteredProducts.length > 0 && (
-                <Pagination 
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  onPageChange={(page) => {
-                    setCurrentPage(page);
-                    window.scrollTo({ top: 320, behavior: "smooth" });
-                  }}
-                />
-              )}
-            </div>
+            {categoryProducts.length > 0 && (
+              <Pagination 
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={(page) => {
+                  setCurrentPage(page);
+                  window.scrollTo({ top: 320, behavior: "smooth" });
+                }}
+              />
+            )}
           </div>
         </main>
       </div>
