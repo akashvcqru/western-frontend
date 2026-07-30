@@ -246,6 +246,16 @@ export default function NewProductPage() {
 
   const subCategoryOptions = filteredSubCategories.map((sc) => ({ label: sc.name, value: sc.id || sc.slug || "" }));
 
+  useEffect(() => {
+    if (watchedCategory && subCategoryOptions.length > 0) {
+      const currentSub = methods.getValues("subCategory");
+      const isValidOption = subCategoryOptions.some((opt) => opt.value === currentSub);
+      if (!isValidOption && subCategoryOptions[0]?.value) {
+        setValue("subCategory", String(subCategoryOptions[0].value));
+      }
+    }
+  }, [watchedCategory, subCategoryOptions, setValue, methods]);
+
   const brandOptions = (() => {
     const list = brands.map((b) => ({ label: b.name, value: b.name }));
     if (!list.some((opt) => opt.value.toLowerCase() === "western")) {
