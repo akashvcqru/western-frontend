@@ -51,7 +51,13 @@ export default function CatchAllRouterPage() {
 
   // A. Check Blog match (matches if last segment is a blog ID or matches slug)
   const matchedBlog = blogsList.find(
-    (b) => b.id.toLowerCase() === lastSegment || b.title?.toLowerCase().replace(/[^\w\s-]/g, "").replace(/[\s_-]+/g, "-") === lastSegment
+    (b) =>
+      (b.id && b.id.toLowerCase() === lastSegment) ||
+      (b.title &&
+        b.title
+          .toLowerCase()
+          .replace(/[^\w\s-]/g, "")
+          .replace(/[\s_-]+/g, "-") === lastSegment)
   );
   if (matchedBlog) {
     return <BlogDetailPage id={matchedBlog.id} />;
@@ -59,7 +65,9 @@ export default function CatchAllRouterPage() {
 
   // B. Check Product match
   const matchedProduct = productsList.find(
-    (p) => p.slug?.toLowerCase() === lastSegment || p.id.toLowerCase() === lastSegment
+    (p) =>
+      (p.slug && p.slug.toLowerCase() === lastSegment) ||
+      (p.id && p.id.toLowerCase() === lastSegment)
   );
   if (matchedProduct) {
     return <ProductDetailPage id={matchedProduct.id} />;
@@ -67,12 +75,16 @@ export default function CatchAllRouterPage() {
 
   // C. Check Category match
   const matchedCategory = categoriesList.find(
-    (c) => c.slug?.toLowerCase() === lastSegment || c.id.toLowerCase() === lastSegment
+    (c) =>
+      (c.slug && c.slug.toLowerCase() === lastSegment) ||
+      (c.id && c.id.toLowerCase() === lastSegment)
   );
 
   // D. Check SubCategory match
   const matchedSubCategory = subcategoriesList.find(
-    (s) => s.slug?.toLowerCase() === lastSegment || s.id?.toLowerCase() === lastSegment
+    (s) =>
+      (s.slug && s.slug.toLowerCase() === lastSegment) ||
+      (s.id && s.id.toLowerCase() === lastSegment)
   );
 
   if (matchedCategory || matchedSubCategory) {

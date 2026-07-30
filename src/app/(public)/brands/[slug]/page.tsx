@@ -42,10 +42,13 @@ export default function BrandPage() {
     );
   }
 
-  const filteredProducts = productsList.filter((p: Product) => 
-    p.brand?.toLowerCase() === brandName.toLowerCase() || 
-    p.brand?.toLowerCase().replace(/ /g, "-") === slug.toLowerCase()
-  );
+  const filteredProducts = productsList.filter((p: Product) => {
+    const brand = (p.brand || "").toLowerCase();
+    return (
+      brand === brandName.toLowerCase() || 
+      brand.replace(/ /g, "-") === slug.toLowerCase()
+    );
+  });
 
   return (
     <main className="bg-white">
@@ -90,7 +93,7 @@ export default function BrandPage() {
                 id={product.id}
                 name={product.name}
                 category={product.category}
-                image={product.images[0]}
+                image={product.images && Array.isArray(product.images) && product.images.length > 0 && product.images[0] ? product.images[0] : "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop"}
                 slug={product.slug}
                 price={product.price}
               />

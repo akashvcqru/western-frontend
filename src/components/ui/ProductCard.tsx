@@ -32,6 +32,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   const catSlug = slugify(category);
   const productUrl = getOldUrl(`/products/${catSlug}/${slug}`);
 
+  const displayImage = image || "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop";
+
   return (
     <Link 
       href={productUrl} 
@@ -40,8 +42,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       {/* Premium Framed Image Container with Hover Action */}
       <div className="relative aspect-[4/3] w-full rounded-xl overflow-hidden bg-white">
         <Image
-          src={image}
-          alt={name}
+          src={displayImage}
+          alt={name || "Product"}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
           className="transition-transform duration-700 group-hover:scale-105 p-2"

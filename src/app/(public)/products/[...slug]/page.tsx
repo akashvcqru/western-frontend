@@ -297,56 +297,146 @@ export default function ProductListingPage({
     return resolveCategorySlugs(parentCatSlug);
   }, [parentCatSlug]);
 
+  const resolvedSubCatSlugs = React.useMemo(() => {
+    return resolveCategorySlugs(subCatSlug);
+  }, [subCatSlug]);
+
   const activeSubCategory = React.useMemo(() => {
     if (!subCatSlug) return null;
-    return subCategoriesList.find(s => 
-      s.slug?.toLowerCase() === subCatSlug || 
-      s.id?.toLowerCase() === subCatSlug
-    );
-  }, [subCatSlug, subCategoriesList]);
+    const targetSlugs = new Set([
+      subCatSlug.toLowerCase(),
+      ...resolvedSubCatSlugs.map(s => s.toLowerCase()),
+      subCatSlug.toLowerCase().replace(/s$/, ""),
+      subCatSlug.toLowerCase().replace(/-/g, " ")
+    ]);
+
+    return subCategoriesList.find(s => {
+      const sSlug = s.slug?.toLowerCase();
+      const sId = s.id?.toLowerCase();
+      const sNameSlug = s.name?.toLowerCase().replace(/[^\w\s-]/g, "").replace(/[\s_-]+/g, "-");
+      return (
+        (sSlug && targetSlugs.has(sSlug)) ||
+        (sId && targetSlugs.has(sId)) ||
+        (sNameSlug && targetSlugs.has(sNameSlug))
+      );
+    });
+  }, [subCatSlug, resolvedSubCatSlugs, subCategoriesList]);
 
   const categoryProducts = React.useMemo(() => {
     const validCategoryIds = new Set<string>();
     if (parentCatSlug) {
-      validCategoryIds.add(parentCatSlug.toLowerCase());
-      
-      const matchedCat = categoriesList.find(
-        c => c.slug?.toLowerCase() === parentCatSlug.toLowerCase() || c.id?.toLowerCase() === parentCatSlug.toLowerCase()
-      );
-      if (matchedCat) {
-        if (matchedCat.id) validCategoryIds.add(matchedCat.id.toLowerCase());
-        if (matchedCat.slug) validCategoryIds.add(matchedCat.slug.toLowerCase());
-      }
-      
-      resolveCategorySlugs(parentCatSlug).forEach(slug => {
-        validCategoryIds.add(slug.toLowerCase());
-        const cat = categoriesList.find(c => c.slug?.toLowerCase() === slug.toLowerCase() || c.id?.toLowerCase() === slug.toLowerCase());
-        if (cat) {
-          if (cat.id) validCategoryIds.add(cat.id.toLowerCase());
-          if (cat.slug) validCategoryIds.add(cat.slug.toLowerCase());
-        }
+      const allParentSlugs = [
+        parentCatSlug.toLowerCase(),
+        ...resolvedCategorySlugs.map(s => s.toLowerCase()),
+        parentCatSlug.toLowerCase().replace(/s$/, "")
+      ];
+
+      allParentSlugs.forEach(slug => {
+        validCategoryIds.add(slug);
+        categoriesList.forEach(c => {
+          const cSlug = c.slug?.toLowerCase();
+          const cId = c.id?.toLowerCase();
+          const cNameSlug = c.name?.toLowerCase().replace(/[^\w\s-]/g, "").replace(/[\s_-]+/g, "-");
+          if (cSlug === slug || cId === slug || cNameSlug === slug) {
+            if (c.id) validCategoryIds.add(c.id.toLowerCase());
+            if (c.slug) validCategoryIds.add(c.slug.toLowerCase());
+            if (c.name) validCategoryIds.add(c.name.toLowerCase());
+          }
+        });
       });
     }
 
-    return resolvedProducts.filter(p => {
-      if (parentCatSlug) {
+    const validSubCategoryIds = new Set<string>();
+    if (subCatSlug) {
+      validSubCategoryIds.add(subCatSlug.toLowerCase());
+      if (activeSubCategory) {
+        if (activeSubCategory.id) validSubCategoryIds.add(activeSubCategory.id.toLowerCase());
+        if (activeSubCategory.slug) validSubCategoryIds.add(activeSubCategory.slug.toLowerCase());
+        if (activeSubCategory.name) validSubCategoryIds.add(activeSubCategory.name.toLowerCase());
+      }
+      resolvedSubCatSlugs.forEach(slug => {
+        validSubCategoryIds.add(slug.toLowerCase());
+        subCategoriesList.forEach(s => {
+          const sSlug = s.slug?.toLowerCase();
+          const sId = s.id?.toLowerCase();
+          const sNameSlug = s.name?.toLowerCase().replace(/[^\w\s-]/g, "").replace(/[\s_-]+/g, "-");
+          if (sSlug === slug || sId === slug || sNameSlug === slug) {
+            if (s.id) validSubCategoryIds.add(s.id.toLowerCase());
+            if (s.slug) validSubCategoryIds.add(s.slug.toLowerCase());
+            if (s.name) validSubCategoryIds.add(s.name.toLowerCase());
+          }
+        });
+      });
+    }
+
+    // Step A: If subCatSlug is present, filter and return ONLY products specifically matching the subcategory or product ID/slug
+    if (subCatSlug) {
+      return resolvedProducts.filter(p => {
+        const pSubCatRaw = (p.subCategory || p.subcategory || "").toString().toLowerCase();
+        const pSlug = (p.slug || "").toLowerCase();
+        const pId = (p.id || "").toLowerCase();
+
+        const pSubCatClean = pSubCatRaw.replace(/[\s_-]+/g, "-");
+        const pSubCatNoHyphen = pSubCatRaw.replace(/[\s_-]+/g, "");
+
+        const pSubObj = subCategoriesList.find(s => s.id === pSubCatRaw || s.slug?.toLowerCase() === pSubCatRaw);
+        const subNameLower = pSubObj?.name?.toLowerCase();
+        const subSlugLower = pSubObj?.slug?.toLowerCase();
+
+        const matches = 
+          pSlug === subCatSlug.toLowerCase() ||
+          pId === subCatSlug.toLowerCase() ||
+          (pSubCatRaw && validSubCategoryIds.has(pSubCatRaw)) ||
+          (pSubCatClean && validSubCategoryIds.has(pSubCatClean)) ||
+          (pSubCatNoHyphen && validSubCategoryIds.has(pSubCatNoHyphen)) ||
+          (pSlug && validSubCategoryIds.has(pSlug)) ||
+          (pId && validSubCategoryIds.has(pId)) ||
+          (subNameLower && validSubCategoryIds.has(subNameLower)) ||
+          (subSlugLower && validSubCategoryIds.has(subSlugLower)) ||
+          (pSubCatRaw && pSubCatRaw.replace(/-/g, " ") === subCatSlug.replace(/-/g, " "));
+
+        return matches;
+      });
+    }
+
+    // Step B: If no subcategory slug is in the URL, filter strictly by parent category!
+    if (parentCatSlug && validCategoryIds.size > 0) {
+      return resolvedProducts.filter(p => {
         const catLower = p.category?.toLowerCase();
-        if (!validCategoryIds.has(catLower)) return false;
-      }
-      if (subCatSlug) {
-        const subCatId = activeSubCategory?.id;
-        const subCatSlugName = activeSubCategory?.slug;
-        const pSubCat = p.subCategory || p.subcategory;
-        const matchesSub = 
-          (subCatId && pSubCat === subCatId) ||
-          (subCatSlugName && pSubCat?.toLowerCase() === subCatSlugName.toLowerCase()) ||
-          pSubCat?.toLowerCase() === subCatSlug ||
-          pSubCat?.toLowerCase().replace(/-/g, " ") === subCatSlug.replace(/-/g, " ");
-        if (!matchesSub) return false;
-      }
-      return true;
-    });
-  }, [resolvedProducts, parentCatSlug, subCatSlug, activeSubCategory, categoriesList]);
+        const pCatObj = categoriesList.find(c => c.id === p.category || c.slug === p.category);
+        const catNameLower = pCatObj?.name?.toLowerCase();
+        const catSlugLower = pCatObj?.slug?.toLowerCase();
+
+        return (
+          (catLower && validCategoryIds.has(catLower)) ||
+          (catNameLower && validCategoryIds.has(catNameLower)) ||
+          (catSlugLower && validCategoryIds.has(catSlugLower))
+        );
+      });
+    }
+
+    return resolvedProducts;
+  }, [resolvedProducts, parentCatSlug, subCatSlug, activeSubCategory, categoriesList, subCategoriesList, resolvedCategorySlugs, resolvedSubCatSlugs]);
+
+  const currentCategory = React.useMemo(() => {
+    return categoriesList.find(c => c.slug === parentCatSlug) ||
+           categoriesList.find(c => resolvedCategorySlugs.includes(c.slug));
+  }, [categoriesList, parentCatSlug, resolvedCategorySlugs]);
+
+  const categoryName = activeSubCategory
+    ? activeSubCategory.name
+    : (currentCategory?.name || lastSlugSegment.replace(/-/g, " "));
+
+  const metaTitle = activeSubCategory
+    ? (activeSubCategory.metaTitle || `${categoryName} | Western Interio`)
+    : (currentCategory?.metaTitle || `${categoryName} | Western Interio`);
+  const metaDescription = activeSubCategory
+    ? (activeSubCategory.metaDescription || `Professional ${categoryName} solutions engineered for premium workspaces and lasting comfort.`)
+    : (currentCategory?.metaDescription || `Professional ${categoryName} solutions engineered for premium workspaces and lasting comfort.`);
+
+  React.useEffect(() => {
+    if (metaTitle) document.title = metaTitle;
+  }, [metaTitle]);
 
   const isLoading = isCatsLoading || isSubsLoading || isProdsLoading;
 
@@ -365,34 +455,17 @@ export default function ProductListingPage({
   // Handle 1-segment routes (e.g. /products/office-furniture) as a Subcategory Hub Page
   if (decodedSlug.length === 1) {
     const parentSlug = decodedSlug[0];
-    const currentCategory = categoriesList.find(c => c.slug === parentSlug || c.id === parentSlug);
-    if (currentCategory) {
-      return <CategoryHubPage category={currentCategory} subCategoriesList={subCategoriesList} productsList={productsList} />;
+    const currentCategoryObj = categoriesList.find(c => c.slug === parentSlug || c.id === parentSlug);
+    if (currentCategoryObj) {
+      return <CategoryHubPage category={currentCategoryObj} subCategoriesList={subCategoriesList} productsList={productsList} />;
     }
   }
 
-  const currentCategory = categoriesList.find(c => c.slug === parentCatSlug) ||
-                          categoriesList.find(c => resolvedCategorySlugs.includes(c.slug));
-  
   const totalPages = Math.ceil(categoryProducts.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const paginatedProducts = categoryProducts.slice(startIndex, startIndex + ITEMS_PER_PAGE);
   
   const heroImage = currentCategory?.image || "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop";
-  const categoryName = activeSubCategory
-    ? activeSubCategory.name
-    : (currentCategory?.name || lastSlugSegment.replace(/-/g, " "));
-
-  const metaTitle = activeSubCategory
-    ? (activeSubCategory.metaTitle || `${categoryName} | Western Interio`)
-    : (currentCategory?.metaTitle || `${categoryName} | Western Interio`);
-  const metaDescription = activeSubCategory
-    ? (activeSubCategory.metaDescription || `Professional ${categoryName} solutions engineered for premium workspaces and lasting comfort.`)
-    : (currentCategory?.metaDescription || `Professional ${categoryName} solutions engineered for premium workspaces and lasting comfort.`);
-
-  React.useEffect(() => {
-    if (metaTitle) document.title = metaTitle;
-  }, [metaTitle]);
 
   return (
     <div className="bg-white min-h-screen">
@@ -432,7 +505,7 @@ export default function ProductListingPage({
                       id={product.id}
                       name={product.name}
                       category={product.category}
-                      image={product.images[0]}
+                      image={product.images && Array.isArray(product.images) && product.images.length > 0 && product.images[0] ? product.images[0] : "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop"}
                       slug={product.slug}
                       price={product.price}
                     />

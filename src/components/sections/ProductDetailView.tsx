@@ -69,6 +69,10 @@ interface ProductDetailViewProps {
 }
 export default function ProductDetailView({ product }: ProductDetailViewProps) {
   const { contact } = useSettings();
+  const safeImages = (product?.images && Array.isArray(product.images) && product.images.length > 0)
+    ? product.images
+    : ["https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop"];
+
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedVariants, setSelectedVariants] = useState<
     Record<string, string>
@@ -486,7 +490,7 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
             <div className="space-y-4">
               <div className="relative aspect-[4/3] bg-white rounded-xl overflow-hidden border border-neutral-100 shadow-[0_15px_45px_-20px_rgba(0,0,0,0.08)] group">
                 <Image
-                  src={product.images[selectedImage]}
+                  src={safeImages[selectedImage] || safeImages[0]}
                   alt={product.name}
                   fill
                   className="object-contain group-hover:scale-105 transition-transform duration-500 ease-out p-6"
@@ -506,9 +510,9 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
               </div>
 
               {/* Thumbnail Gallery indicators */}
-              {product.images.length > 1 ? (
+              {safeImages.length > 1 ? (
                 <div className="grid grid-cols-4 gap-4">
-                  {product.images.map((img: string, i: number) => (
+                  {safeImages.map((img: string, i: number) => (
                     <button
                       key={i}
                       onClick={() => setSelectedImage(i)}

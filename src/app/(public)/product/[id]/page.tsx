@@ -110,6 +110,11 @@ export default function ProductDetailPage({ id: propId }: { id?: string }) {
     };
   }, [rawProduct]);
 
+  React.useEffect(() => {
+    const title = product?.metaTitle || (product?.name ? `${product.name} | Western Interio` : "Product Details | Western Interio");
+    if (title) document.title = title;
+  }, [product]);
+
   if (!isMounted || isProdLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
@@ -133,10 +138,9 @@ export default function ProductDetailPage({ id: propId }: { id?: string }) {
     window.location.href = `tel:${contact.phoneRaw}`;
   };
 
-  React.useEffect(() => {
-    const title = product?.metaTitle || (product?.name ? `${product.name} | Western Interio` : "Product Details | Western Interio");
-    if (title) document.title = title;
-  }, [product]);
+  const safeImages = (product.images && Array.isArray(product.images) && product.images.length > 0)
+    ? product.images
+    : ["https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2070&auto=format&fit=crop"];
 
   return (
     <main className="bg-white min-h-screen pt-12 lg:pt-16 pb-24">
@@ -146,7 +150,7 @@ export default function ProductDetailPage({ id: propId }: { id?: string }) {
           <div className="space-y-10 sticky top-48">
             <div className="relative aspect-square bg-neutral-50 rounded-[48px] overflow-hidden border border-neutral-100 group shadow-[0_20px_60px_-15px_rgba(0,0,0,0.03)] transition-all duration-700 hover:shadow-[0_40px_100px_-20px_rgba(0,0,0,0.08)]">
               <Image 
-                src={product.images[selectedImage]}
+                src={safeImages[selectedImage] || safeImages[0]}
                 alt={product.name}
                 fill
                 className="object-contain p-16 lg:p-24 transition-transform duration-1000 group-hover:scale-105"
@@ -159,7 +163,7 @@ export default function ProductDetailPage({ id: propId }: { id?: string }) {
               </button>
             </div>
             <div className="grid grid-cols-4 gap-6">
-              {product.images.map((img, i) => (
+              {safeImages.map((img, i) => (
                 <button 
                   key={i}
                   onClick={() => setSelectedImage(i)}
