@@ -582,7 +582,7 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
                         icon: "Award",
                       },
                       {
-                        title: "5Y Warranty",
+                        title: "1Y Warranty",
                         desc: "Assured structural coverage",
                         icon: "Zap",
                       },

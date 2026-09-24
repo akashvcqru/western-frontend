@@ -316,7 +316,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
             : [
                 { title: "BIFMA Quality", desc: "Heavy industrial standards", icon: "ShieldCheck" },
                 { title: "Direct Factory", desc: "Zero intermediary markups", icon: "Award" },
-                { title: "5Y Warranty", desc: "Assured structural coverage", icon: "Zap" },
+                { title: "1Y Warranty", desc: "Assured structural coverage", icon: "Zap" },
               ],
           metaTitle: found.metaTitle || "",
           metaDescription: found.metaDescription || "",
@@ -532,7 +532,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
                     <div className="flex items-center justify-between pb-2 border-b border-gray-100">
                       <div>
                         <h4 className="text-xs font-bold uppercase tracking-wider text-gray-800">Trust Badges</h4>
-                        <p className="text-[10px] text-gray-400 mt-0.5">Customize the trust/quality badges displayed on the product page (e.g. BIFMA Quality, Direct Factory, 5Y Warranty). If left empty, default values will be shown.</p>
+                        <p className="text-[10px] text-gray-400 mt-0.5">Customize the trust/quality badges displayed on the product page (e.g. BIFMA Quality, Direct Factory, 1Y Warranty). If left empty, default values will be shown.</p>
                       </div>
                       <button type="button" onClick={() => appendTrustBadge({ title: "", desc: "", icon: "ShieldCheck" })}
                         className="inline-flex items-center gap-1 bg-[#ed1c27]/10 text-[#ed1c27] hover:bg-[#ed1c27]/20 text-[10px] font-bold uppercase tracking-wider rounded-lg px-3 py-1.5 cursor-pointer whitespace-nowrap shrink-0">
@@ -540,7 +540,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
                       </button>
                     </div>
                     {trustBadgeFields.length === 0 ? (
-                      <p className="text-[10px] text-gray-400 py-2">No custom trust badges yet. Default ones (BIFMA Quality, Direct Factory, 5Y Warranty) will be displayed on storefront.</p>
+                      <p className="text-[10px] text-gray-400 py-2">No custom trust badges yet. Default ones (BIFMA Quality, Direct Factory, 1Y Warranty) will be displayed on storefront.</p>
                     ) : (
                       <div className="space-y-4">
                         {trustBadgeFields.map((f, i) => {
