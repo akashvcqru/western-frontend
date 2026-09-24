@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Terms of Service | Western Interio",
+  title: "Terms of Service",
   description: "Read the terms and conditions for using the services provided by Western Interio.",
 };
 

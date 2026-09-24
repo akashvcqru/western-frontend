@@ -1,97 +1,97 @@
-"use client";
+import type { Metadata } from "next";
+import CatchAllClient from "./CatchAllClient";
 
-import React from "react";
-import { useParams, notFound } from "next/navigation";
-import { Loader2 } from "lucide-react";
-import { useGetCategoriesQuery, useGetSubCategoriesQuery } from "@/redux/api/categoriesApi";
-import { useGetProductsQuery } from "@/redux/api/productsApi";
-import { useGetBlogsQuery } from "@/redux/api/blogsApi";
+interface Props {
+  params: Promise<{ slug: string[] }>;
+}
 
-import BlogDetailPage from "../blog/[id]/page";
-import ProductDetailPage from "../product/[id]/page";
-import ProductListingPage from "../products/[...slug]/page";
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const decodedSlug = Array.isArray(slug)
+    ? slug.map((s) => decodeURIComponent(s).trim().toLowerCase().replace(/\s+/g, "-"))
+    : [];
+
+  const lastSegment = decodedSlug[decodedSlug.length - 1] || "";
+  
+  let entityTitle = "";
+  let entityDescription = "";
+  let entityImage = "";
+
+  try {
+    // 1. Check Blog
+    const blogRes = await fetch(`http://127.0.0.1:5073/api/blogs/${encodeURIComponent(lastSegment)}`, { cache: "no-store" });
+    if (blogRes.ok) {
+      const blogJson = await blogRes.json();
+      if (blogJson.data) {
+        entityTitle = blogJson.data.metaTitle || blogJson.data.title;
+        entityDescription = blogJson.data.metaDescription || (Array.isArray(blogJson.data.content) ? blogJson.data.content[0] : blogJson.data.content);
+        entityImage = blogJson.data.image;
+      }
+    }
+
+    // 2. Check Product
+    if (!entityTitle) {
+      const prodRes = await fetch(`http://127.0.0.1:5073/api/products/${encodeURIComponent(lastSegment)}`, { cache: "no-store" });
+      if (prodRes.ok) {
+        const prodJson = await prodRes.json();
+        if (prodJson.data) {
+          entityTitle = prodJson.data.metaTitle || prodJson.data.name;
+          entityDescription = prodJson.data.metaDescription || prodJson.data.description;
+          entityImage = prodJson.data.images?.[0] || "";
+        }
+      }
+    }
+
+    // 3. Check Category
+    if (!entityTitle) {
+      const catRes = await fetch("http://127.0.0.1:5073/api/categories?limit=100", { cache: "no-store" });
+      if (catRes.ok) {
+        const catJson = await catRes.json();
+        const matchedCat = catJson.data?.find((c: any) => c.slug?.toLowerCase() === lastSegment || c.id === lastSegment);
+        if (matchedCat) {
+          entityTitle = matchedCat.metaTitle || matchedCat.name;
+          entityDescription = matchedCat.metaDescription || matchedCat.description;
+          entityImage = matchedCat.image;
+        }
+      }
+    }
+
+    // 4. Check SubCategory
+    if (!entityTitle) {
+      const subRes = await fetch("http://127.0.0.1:5073/api/categories/subcategories?limit=100", { cache: "no-store" });
+      if (subRes.ok) {
+        const subJson = await subRes.json();
+        const matchedSub = subJson.data?.find((s: any) => s.slug?.toLowerCase() === lastSegment || s.id === lastSegment);
+        if (matchedSub) {
+          entityTitle = matchedSub.metaTitle || matchedSub.name;
+          entityDescription = matchedSub.metaDescription || matchedSub.description;
+          entityImage = matchedSub.image;
+        }
+      }
+    }
+  } catch {}
+
+  const humanReadable = lastSegment.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+  const finalTitle = entityTitle 
+    ? entityTitle
+    : (humanReadable || "Office Furniture");
+
+  const finalDescription = entityDescription 
+    ? entityDescription.replace(/<[^>]*>?/gm, "").slice(0, 160)
+    : `Explore ${humanReadable || "modular office furniture"} from Western Interio Gurgaon. High quality ergonomic workspace solutions.`;
+
+  return {
+    title: finalTitle,
+    description: finalDescription,
+    openGraph: {
+      title: finalTitle,
+      description: finalDescription,
+      images: entityImage ? [entityImage] : [],
+      type: "website",
+    },
+  };
+}
 
 export default function CatchAllRouterPage() {
-  const params = useParams();
-  const slug = params.slug as string[];
-
-  const decodedSlug = React.useMemo(() => {
-    return slug
-      ? slug.map((s) => decodeURIComponent(s).trim().toLowerCase().replace(/\s+/g, "-"))
-      : [];
-  }, [slug]);
-
-  const lastSegment = decodedSlug.length > 0 ? decodedSlug[decodedSlug.length - 1] : "";
-
-  // 1. Fetch categories
-  const { data: categoriesResult, isLoading: isCatsLoading } = useGetCategoriesQuery({ limit: 100 });
-  const categoriesList = categoriesResult?.data || [];
-
-  // 2. Fetch subcategories
-  const { data: subCategoriesResult, isLoading: isSubsLoading } = useGetSubCategoriesQuery({ limit: 100 });
-  const subcategoriesList = subCategoriesResult?.data || [];
-
-  // 3. Fetch products
-  const { data: productsResult, isLoading: isProdsLoading } = useGetProductsQuery({ limit: 1000 });
-  const productsList = productsResult?.data || [];
-
-  // 4. Fetch blogs
-  const { data: blogsResult, isLoading: isBlogsLoading } = useGetBlogsQuery({ limit: 200 });
-  const blogsList = blogsResult?.data || [];
-
-  const isLoading = isCatsLoading || isSubsLoading || isProdsLoading || isBlogsLoading;
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-white">
-        <Loader2 className="animate-spin text-primary" size={32} />
-      </div>
-    );
-  }
-
-  // A. Check Blog match (matches if last segment is a blog ID or matches slug)
-  const matchedBlog = blogsList.find(
-    (b) =>
-      (b.id && b.id.toLowerCase() === lastSegment) ||
-      (b.title &&
-        b.title
-          .toLowerCase()
-          .replace(/[^\w\s-]/g, "")
-          .replace(/[\s_-]+/g, "-") === lastSegment)
-  );
-  if (matchedBlog) {
-    return <BlogDetailPage id={matchedBlog.id} />;
-  }
-
-  // B. Check Product match
-  const matchedProduct = productsList.find(
-    (p) =>
-      (p.slug && p.slug.toLowerCase() === lastSegment) ||
-      (p.id && p.id.toLowerCase() === lastSegment)
-  );
-  if (matchedProduct) {
-    return <ProductDetailPage id={matchedProduct.id} />;
-  }
-
-  // C. Check Category match
-  const matchedCategory = categoriesList.find(
-    (c) =>
-      (c.slug && c.slug.toLowerCase() === lastSegment) ||
-      (c.id && c.id.toLowerCase() === lastSegment)
-  );
-
-  // D. Check SubCategory match
-  const matchedSubCategory = subcategoriesList.find(
-    (s) =>
-      (s.slug && s.slug.toLowerCase() === lastSegment) ||
-      (s.id && s.id.toLowerCase() === lastSegment)
-  );
-
-  if (matchedCategory || matchedSubCategory) {
-    return <ProductListingPage />;
-  }
-
-  // If nothing matches, trigger notFound
-  notFound();
-  return null;
+  return <CatchAllClient />;
 }

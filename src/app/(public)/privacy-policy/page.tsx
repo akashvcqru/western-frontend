@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | Western Interio",
+  title: "Privacy Policy",
   description: "Learn about how Western Interio collects, uses, and protects your personal information.",
 };
 
