@@ -48,7 +48,7 @@ export default function HeroSection({ onOpenQuote }: HeroSectionProps) {
           setSettings(res.data);
         }
       } catch (err) {
-        console.error("Failed to load hero slider settings from database:", err);
+        console.warn("Could not load hero slider settings from database, using defaults:", err);
       }
     };
     fetchSliderSettings();
