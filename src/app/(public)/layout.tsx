@@ -3,6 +3,7 @@ import Header from "@/components/layouts/Header";
 import Footer from "@/components/layouts/Footer";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import WhatsAppWidget from "@/components/ui/WhatsAppWidget";
+import CallWidget from "@/components/ui/CallWidget";
 import siteContent from "@/data/site-content.json";
 
 
@@ -65,6 +66,7 @@ export default async function PublicLayout({
         {children}
       </main>
       <Footer initialFooterLogo={initialFooterLogo} />
+      <CallWidget phone="+91-9540641111" phoneRaw="+919540641111" />
       <WhatsAppWidget />
     </>
   );

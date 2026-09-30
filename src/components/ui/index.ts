@@ -14,4 +14,6 @@ export { default as AdminPageHeader } from './AdminPageHeader';
 export type { AdminPageHeaderProps, BreadcrumbItem } from './AdminPageHeader';
 export { default as Pagination } from './Pagination';
 export type { PaginationProps } from './Pagination';
+export { default as WhatsAppWidget } from './WhatsAppWidget';
+export { default as CallWidget } from './CallWidget';
 export * from './inputs';
