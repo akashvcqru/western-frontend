@@ -28,7 +28,10 @@ import { useSettings } from "@/hooks/useSettings";
 const contactSchema = yup.object().shape({
   fullName: yup.string().required("Full name is required").min(3, "Name too short"),
   email: yup.string().email("Invalid email").required("Email is required"),
-  phone: yup.string().required("Phone number is required"),
+  phone: yup
+    .string()
+    .required("Phone number is required")
+    .matches(/^\d{10}$/, "Phone number must be exactly 10 digits"),
   message: yup.string().required("Message is required").min(10, "Message too short"),
 });
 
@@ -335,7 +338,10 @@ export default function ContactClient() {
                         control="input"
                         name="phone"
                         label="Phone Number"
-                        placeholder="e.g. +91 99999-99999"
+                        placeholder="Enter 10-digit mobile number"
+                        type="tel"
+                        numericOnly
+                        maxLength={10}
                         className="rounded-xl border-neutral-200 focus:border-primary/80 focus:bg-white focus:ring-4 focus:ring-primary/10 transition-all duration-300 font-medium py-3 px-4"
                       />
                     </div>

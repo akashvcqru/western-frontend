@@ -14,7 +14,10 @@ import { cn } from "@/lib/utils";
 
 const schema = yup.object({
   fullName: yup.string().required("Full name is required").min(3, "Too short"),
-  phone: yup.string().required("Phone number is required").matches(/^[0-9+ ]+$/, "Invalid phone number"),
+  phone: yup
+    .string()
+    .required("Contact number is required")
+    .matches(/^\d{10}$/, "Contact number must be exactly 10 digits"),
   email: yup.string().email("Invalid email").required("Email is required"),
   message: yup.string().optional(),
 }).required();
@@ -239,7 +242,10 @@ export default function QuoteModal({
                      control="input"
                      name="phone"
                      label="Contact Number"
-                     placeholder="+91 XXXXX XXXXX"
+                     placeholder="Enter 10-digit mobile number"
+                     type="tel"
+                     numericOnly
+                     maxLength={10}
                      icon={<Phone size={18} />}
                    />
                 </div>

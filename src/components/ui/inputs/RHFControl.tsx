@@ -18,6 +18,8 @@ interface RHFControlProps {
     type?: string;
     className?: string;
     disabled?: boolean;
+    maxLength?: number;
+    numericOnly?: boolean;
 }
 
 const RHFControl: React.FC<RHFControlProps> = ({ 
@@ -30,7 +32,9 @@ const RHFControl: React.FC<RHFControlProps> = ({
     options = [], 
     type = 'text',
     className,
-    disabled
+    disabled,
+    maxLength,
+    numericOnly
 }) => {
     const { control: formControl } = useFormContext();
 
@@ -48,9 +52,30 @@ const RHFControl: React.FC<RHFControlProps> = ({
                                 placeholder={placeholder}
                                 icon={icon}
                                 type={type}
+                                maxLength={maxLength}
                                 error={error?.message}
                                 className={className}
                                 disabled={disabled}
+                                onKeyDown={(e) => {
+                                    if (numericOnly) {
+                                        const allowedKeys = ['Backspace', 'Tab', 'Enter', 'Delete', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'];
+                                        if (allowedKeys.includes(e.key) || e.ctrlKey || e.metaKey) {
+                                            return;
+                                        }
+                                        if (!/^[0-9]$/.test(e.key)) {
+                                            e.preventDefault();
+                                        }
+                                    }
+                                }}
+                                onChange={(e) => {
+                                    if (numericOnly) {
+                                        const digits = e.target.value.replace(/\D/g, '');
+                                        const finalVal = maxLength ? digits.slice(0, maxLength) : digits;
+                                        field.onChange(finalVal);
+                                    } else {
+                                        field.onChange(e);
+                                    }
+                                }}
                             />
                         );
                     case 'textarea':
