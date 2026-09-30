@@ -588,6 +588,8 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
                       },
                     ]
                 ).map((badge, idx) => {
+                  const badgeTitle = badge.title ? badge.title.replace(/5\s*(?:y|yr|year|years)\b/gi, "1Y") : "";
+                  const badgeDesc = badge.desc ? badge.desc.replace(/5\s*(?:y|yr|year|years)\b/gi, "1 year") : "";
                   let iconElement = null;
                   if (badge.icon) {
                     if (
@@ -599,7 +601,7 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
                         <div className="relative w-4.5 h-4.5 shrink-0 flex items-center justify-center">
                           <img
                             src={badge.icon}
-                            alt={badge.title}
+                            alt={badgeTitle}
                             className="object-contain w-full h-full max-h-full max-w-full"
                           />
                         </div>
@@ -627,10 +629,10 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
                       </div>
                       <div>
                         <h5 className="text-[10px] font-semibold text-secondary uppercase tracking-widest">
-                          {badge.title}
+                          {badgeTitle}
                         </h5>
                         <p className="text-[9px] text-neutral-400 font-normal leading-tight mt-0.5">
-                          {badge.desc}
+                          {badgeDesc}
                         </p>
                       </div>
                     </div>

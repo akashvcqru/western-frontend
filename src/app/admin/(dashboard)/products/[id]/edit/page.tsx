@@ -311,13 +311,17 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
           detailsText1: found.detailsText1 || "",
           detailsText2: found.detailsText2 || "",
           quickSpecs: found.quickSpecs?.map(q => ({ value: q })) || [],
-          trustBadges: (found.trustBadges && found.trustBadges.length > 0)
+          trustBadges: ((found.trustBadges && found.trustBadges.length > 0)
             ? found.trustBadges
             : [
                 { title: "BIFMA Quality", desc: "Heavy industrial standards", icon: "ShieldCheck" },
                 { title: "Direct Factory", desc: "Zero intermediary markups", icon: "Award" },
                 { title: "1Y Warranty", desc: "Assured structural coverage", icon: "Zap" },
-              ],
+              ]).map(b => ({
+                ...b,
+                title: b.title ? b.title.replace(/5\s*(?:y|yr|year|years)\b/gi, "1Y") : "",
+                desc: b.desc ? b.desc.replace(/5\s*(?:y|yr|year|years)\b/gi, "1 year") : "",
+              })),
           metaTitle: found.metaTitle || "",
           metaDescription: found.metaDescription || "",
         });
