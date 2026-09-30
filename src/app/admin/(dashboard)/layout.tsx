@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -185,172 +185,139 @@ function SidebarContent({
   );
 }
 
-/* ─── Notification data ────────────────────────────────────────────── */
-const mockNotifications = [
-  {
-    id: 1,
-    type: "inquiry",
-    title: "New Inquiry Received",
-    desc: "Ramesh Kumar asked about Vitrified Tiles.",
-    time: "2 min ago",
-    unread: true,
-    icon: MessageSquare,
-    iconBg: "bg-red-50 text-[#ed1c27]",
-  },
-  {
-    id: 2,
-    type: "inquiry",
-    title: "New Inquiry Received",
-    desc: "Priya Sharma requested a quote for Wooden Flooring.",
-    time: "18 min ago",
-    unread: true,
-    icon: MessageSquare,
-    iconBg: "bg-red-50 text-[#ed1c27]",
-  },
-  {
-    id: 3,
-    type: "product",
-    title: "Product Stock Low",
-    desc: "Premium Marble Tiles — only 3 units left.",
-    time: "1 hr ago",
-    unread: true,
-    icon: Package,
-    iconBg: "bg-amber-50 text-amber-500",
-  },
-  {
-    id: 4,
-    type: "gallery",
-    title: "Gallery Updated",
-    desc: "5 new images added to the Showroom album.",
-    time: "3 hr ago",
-    unread: false,
-    icon: ImageIcon,
-    iconBg: "bg-emerald-50 text-emerald-500",
-  },
-  {
-    id: 5,
-    type: "inquiry",
-    title: "Inquiry Resolved",
-    desc: "Suresh Patel — Bathroom Fittings query marked closed.",
-    time: "Yesterday",
-    unread: false,
-    icon: MessageSquare,
-    iconBg: "bg-gray-50 text-gray-400",
-  },
-];
+/* ─── Notification Model ────────────────────────────────────────────── */
+interface NotificationItem {
+  id: number | string;
+  title: string;
+  desc: string;
+  time: string;
+  date: string;
+  email: string;
+  phone?: string;
+}
 
 /* ─── Notification Offcanvas ────────────────────────────────────────── */
 function NotificationPanel({
   open,
   onClose,
+  notifications,
+  onMarkRead,
+  onMarkAllRead,
+  onViewAll,
+  isLoading,
 }: {
   open: boolean;
   onClose: () => void;
+  notifications: NotificationItem[];
+  onMarkRead: (id: number | string) => void;
+  onMarkAllRead: () => void;
+  onViewAll: () => void;
+  isLoading?: boolean;
 }) {
-  const [notifications, setNotifications] = useState(mockNotifications);
-  const unreadCount = notifications.filter((n) => n.unread).length;
-
-  const markAllRead = () =>
-    setNotifications((prev) => prev.map((n) => ({ ...n, unread: false })));
-
-  const markRead = (id: number) =>
-    setNotifications((prev) =>
-      prev.map((n) => (n.id === id ? { ...n, unread: false } : n))
-    );
+  const unreadCount = notifications.length;
 
   return (
     <Offcanvas isOpen={open} onClose={onClose} position="right" className="w-full max-w-sm">
       {/* Header */}
       <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
-          <div>
-            <h2 className="text-[13px] font-bold uppercase tracking-widest text-gray-900">
-              Notifications
-            </h2>
-            {unreadCount > 0 && (
-              <p className="text-[10px] font-semibold text-[#ed1c27] mt-0.5">
-                {unreadCount} unread
-              </p>
-            )}
-          </div>
-          <div className="flex items-center gap-2">
-            {unreadCount > 0 && (
-              <button
-                id="mark-all-read-btn"
-                onClick={markAllRead}
-                className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:text-[#ed1c27] transition-colors cursor-pointer px-3 py-1.5 rounded-lg hover:bg-gray-50"
-              >
-                <CheckCheck size={13} />
-                All read
-              </button>
-            )}
-            <button
-              id="close-notifications-btn"
-              onClick={onClose}
-              className="p-2 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors cursor-pointer"
-            >
-              <X size={18} />
-            </button>
-          </div>
+        <div>
+          <h2 className="text-[13px] font-bold uppercase tracking-widest text-gray-900">
+            Notifications
+          </h2>
+          {unreadCount > 0 ? (
+            <p className="text-[10px] font-semibold text-[#ed1c27] mt-0.5">
+              {unreadCount} new {unreadCount === 1 ? "inquiry" : "inquiries"}
+            </p>
+          ) : (
+            <p className="text-[10px] font-medium text-gray-400 mt-0.5">
+              All caught up
+            </p>
+          )}
         </div>
+        <div className="flex items-center gap-2">
+          {unreadCount > 0 && (
+            <button
+              id="mark-all-read-btn"
+              onClick={onMarkAllRead}
+              className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:text-[#ed1c27] transition-colors cursor-pointer px-3 py-1.5 rounded-lg hover:bg-gray-50"
+            >
+              <CheckCheck size={13} />
+              All read
+            </button>
+          )}
+          <button
+            id="close-notifications-btn"
+            onClick={onClose}
+            className="p-2 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors cursor-pointer"
+          >
+            <X size={18} />
+          </button>
+        </div>
+      </div>
 
-        {/* List */}
-        <div className="flex-1 overflow-y-auto divide-y divide-gray-50">
-          {notifications.map((notif) => (
+      {/* List */}
+      <div className="flex-1 overflow-y-auto divide-y divide-gray-50 flex flex-col">
+        {isLoading && notifications.length === 0 ? (
+          <div className="flex-1 flex flex-col items-center justify-center p-8 text-center text-gray-400">
+            <div className="w-6 h-6 border-2 border-[#ed1c27] border-t-transparent rounded-full animate-spin mb-3" />
+            <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Loading notifications...</p>
+          </div>
+        ) : notifications.length === 0 ? (
+          <div className="flex-1 flex flex-col items-center justify-center p-8 text-center my-auto">
+            <div className="w-12 h-12 rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-center text-gray-300 mb-3">
+              <CheckCheck size={24} />
+            </div>
+            <p className="text-xs font-bold uppercase tracking-wider text-gray-700">
+              No New Notifications
+            </p>
+            <p className="text-[11px] text-gray-400 mt-1.5 max-w-[220px] leading-relaxed">
+              You are all caught up! Newly received customer inquiries will appear here.
+            </p>
+          </div>
+        ) : (
+          notifications.map((notif) => (
             <button
               key={notif.id}
               id={`notification-${notif.id}`}
-              onClick={() => markRead(notif.id)}
-              className={cn(
-                "w-full text-left flex items-start gap-4 px-5 py-4 transition-colors cursor-pointer group",
-                notif.unread ? "bg-[#ed1c27]/[0.03] hover:bg-[#ed1c27]/[0.06]" : "hover:bg-gray-50"
-              )}
+              onClick={() => onMarkRead(notif.id)}
+              className="w-full text-left flex items-start gap-4 px-5 py-4 transition-colors cursor-pointer group bg-[#ed1c27]/[0.03] hover:bg-[#ed1c27]/[0.07]"
             >
               {/* Icon */}
-              <div
-                className={cn(
-                  "w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5",
-                  notif.iconBg
-                )}
-              >
-                <notif.icon size={16} />
+              <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5 bg-red-50 text-[#ed1c27]">
+                <MessageSquare size={16} />
               </div>
 
               {/* Text */}
               <div className="flex-1 min-w-0">
                 <div className="flex items-start justify-between gap-2">
-                  <p
-                    className={cn(
-                      "text-[11px] uppercase tracking-wide leading-snug",
-                      notif.unread ? "font-bold text-gray-900" : "font-semibold text-gray-600"
-                    )}
-                  >
+                  <p className="text-[11px] uppercase tracking-wide leading-snug font-bold text-gray-900">
                     {notif.title}
                   </p>
-                  {notif.unread && (
-                    <span className="w-2 h-2 rounded-full bg-[#ed1c27] flex-shrink-0 mt-1" />
-                  )}
+                  <span className="w-2 h-2 rounded-full bg-[#ed1c27] flex-shrink-0 mt-1" />
                 </div>
-                <p className="text-[11px] text-gray-400 font-medium mt-1 leading-snug line-clamp-2">
+                <p className="text-[11px] text-gray-600 font-medium mt-1 leading-snug line-clamp-2">
                   {notif.desc}
                 </p>
-                <p className="text-[9px] font-bold uppercase tracking-widest text-gray-300 mt-1.5">
+                <p className="text-[9px] font-bold uppercase tracking-widest text-gray-400 mt-1.5">
                   {notif.time}
                 </p>
               </div>
             </button>
-          ))}
-        </div>
+          ))
+        )}
+      </div>
 
-        {/* Footer */}
-        <div className="px-6 py-4 border-t border-gray-100">
-          <button
-            id="view-all-notifications-btn"
-            className="w-full py-3 text-[10px] font-bold uppercase tracking-widest text-[#ed1c27] hover:text-white hover:bg-[#ed1c27] border border-[#ed1c27]/30 hover:border-[#ed1c27] rounded-xl transition-all duration-200 cursor-pointer"
-          >
-            View All Notifications
-          </button>
-        </div>
-      </Offcanvas>
+      {/* Footer */}
+      <div className="px-6 py-4 border-t border-gray-100">
+        <button
+          id="view-all-notifications-btn"
+          onClick={onViewAll}
+          className="w-full py-3 text-[10px] font-bold uppercase tracking-widest text-[#ed1c27] hover:text-white hover:bg-[#ed1c27] border border-[#ed1c27]/30 hover:border-[#ed1c27] rounded-xl transition-all duration-200 cursor-pointer"
+        >
+          View All Inquiries
+        </button>
+      </div>
+    </Offcanvas>
   );
 }
 
@@ -385,31 +352,97 @@ export default function AdminDashboardLayout({
     }, 0);
   }, []);
 
-  /* Dynamic Badge — fetch real pending inquiry count from API */
-  useEffect(() => {
-    const fetchBadge = async () => {
-      try {
-        const token = sessionStorage.getItem("auth_token");
-        if (!token) return;
-        const BASE_URL = process.env.NEXT_PUBLIC_API_URL || (typeof window !== "undefined" ? `http://${window.location.hostname}:5073` : "http://localhost:5073");
-        const res = await fetch(`${BASE_URL}/api/inquiries?status=new&limit=1`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        if (res.ok) {
-          const json = await res.json();
-          const count = json?.pagination?.totalItems ?? 0;
-          setInquiriesBadge(count > 0 ? String(count) : null);
-        } else {
-          setInquiriesBadge(null);
-        }
-      } catch {
-        setInquiriesBadge(null);
-      }
-    };
+  const [notifications, setNotifications] = useState<NotificationItem[]>([]);
+  const [isNotifLoading, setIsNotifLoading] = useState(false);
 
-    fetchBadge();
-    // Re-fetch whenever the user navigates (pathname changes)
-  }, [pathname]);
+  /* Dynamic Notifications & Badge — fetch real unread customer inquiries */
+  const fetchNotifications = useCallback(async () => {
+    try {
+      setIsNotifLoading(true);
+      const token = localStorage.getItem("auth_token") || sessionStorage.getItem("auth_token");
+      if (!token) {
+        setIsNotifLoading(false);
+        return;
+      }
+      const BASE_URL = process.env.NEXT_PUBLIC_API_URL || (typeof window !== "undefined" ? `http://${window.location.hostname}:5073` : "http://localhost:5073");
+      const res = await fetch(`${BASE_URL}/api/inquiries?status=new&limit=50`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) {
+        const json = await res.json();
+        const items: any[] = json?.data || [];
+
+        // Read stored read IDs from localStorage
+        let readIds: Set<string>;
+        try {
+          const stored = localStorage.getItem("admin_read_notification_ids");
+          readIds = stored ? new Set(JSON.parse(stored)) : new Set();
+        } catch {
+          readIds = new Set();
+        }
+
+        // Only show inquiries that are 'new' AND haven't been marked as read
+        const unread = items.filter(
+          (inq) =>
+            (inq.status || "").toLowerCase() === "new" &&
+            !readIds.has(String(inq.id))
+        );
+
+        const mapped: NotificationItem[] = unread.map((inq) => ({
+          id: inq.id,
+          title: "New Inquiry Received",
+          desc: `${inq.name || "Customer"} — ${inq.subject || inq.message || "General Inquiry"}`,
+          time: inq.date || "Just now",
+          date: inq.date || "",
+          email: inq.email || "",
+          phone: inq.phone || "",
+        }));
+
+        setNotifications(mapped);
+        setInquiriesBadge(mapped.length > 0 ? String(mapped.length) : null);
+      }
+    } catch (err) {
+      console.error("Failed to fetch notifications:", err);
+    } finally {
+      setIsNotifLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchNotifications();
+    const interval = setInterval(fetchNotifications, 30000);
+    return () => clearInterval(interval);
+  }, [pathname, fetchNotifications]);
+
+  const handleMarkRead = (id: number | string) => {
+    try {
+      const stored = localStorage.getItem("admin_read_notification_ids");
+      const readIds: Set<string> = stored ? new Set(JSON.parse(stored)) : new Set();
+      readIds.add(String(id));
+      localStorage.setItem("admin_read_notification_ids", JSON.stringify(Array.from(readIds)));
+    } catch {}
+
+    setNotifications((prev) => {
+      const next = prev.filter((n) => String(n.id) !== String(id));
+      setInquiriesBadge(next.length > 0 ? String(next.length) : null);
+      return next;
+    });
+
+    setNotifOpen(false);
+    router.push("/admin/inquiries");
+  };
+
+  const handleMarkAllRead = () => {
+    try {
+      const stored = localStorage.getItem("admin_read_notification_ids");
+      const readIds: Set<string> = stored ? new Set(JSON.parse(stored)) : new Set();
+      notifications.forEach((n) => readIds.add(String(n.id)));
+      localStorage.setItem("admin_read_notification_ids", JSON.stringify(Array.from(readIds)));
+    } catch {}
+
+    setNotifications([]);
+    setInquiriesBadge(null);
+  };
 
   const handleLogout = () => {
     sessionStorage.removeItem("bdm_admin");
@@ -510,9 +543,14 @@ export default function AdminDashboardLayout({
             id="admin-notifications-btn"
             onClick={() => setNotifOpen(true)}
             className="relative p-2 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors cursor-pointer"
+            aria-label="Open notifications"
           >
             <Bell size={18} />
-            <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[#ed1c27] rounded-full" />
+            {notifications.length > 0 && (
+              <span className="absolute top-1 right-1 min-w-[16px] h-4 px-1 bg-[#ed1c27] text-white text-[9px] font-bold rounded-full flex items-center justify-center leading-none">
+                {notifications.length > 99 ? "99+" : notifications.length}
+              </span>
+            )}
           </button>
 
           {/* Avatar */}
@@ -538,7 +576,18 @@ export default function AdminDashboardLayout({
       </div>
 
       {/* ── NOTIFICATION OFFCANVAS ────────────────────────────────── */}
-      <NotificationPanel open={notifOpen} onClose={() => setNotifOpen(false)} />
+      <NotificationPanel
+        open={notifOpen}
+        onClose={() => setNotifOpen(false)}
+        notifications={notifications}
+        onMarkRead={handleMarkRead}
+        onMarkAllRead={handleMarkAllRead}
+        onViewAll={() => {
+          setNotifOpen(false);
+          router.push("/admin/inquiries");
+        }}
+        isLoading={isNotifLoading}
+      />
     </div>
   );
 }
