@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import CatchAllClient from "./CatchAllClient";
+import { getApiBaseUrl, cleanDescription } from "@/lib/server-seo";
 
 interface Props {
   params: Promise<{ slug: string[] }>;
@@ -12,60 +13,93 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     : [];
 
   const lastSegment = decodedSlug[decodedSlug.length - 1] || "";
+  const fullPath = "/" + decodedSlug.join("/");
+  const baseUrl = getApiBaseUrl();
   
   let entityTitle = "";
   let entityDescription = "";
   let entityImage = "";
 
   try {
+    // 0. Check Page SEO for the path
+    const pageRes = await fetch(`${baseUrl}/api/seo/page?path=${encodeURIComponent(fullPath)}`, {
+      cache: "no-store",
+      next: { revalidate: 0 },
+    });
+    if (pageRes.ok) {
+      const pageJson = await pageRes.json();
+      if (pageJson.data && pageJson.data.isCustom) {
+        entityTitle = pageJson.data.metaTitle;
+        entityDescription = pageJson.data.metaDescription;
+      }
+    }
+
     // 1. Check Blog
-    const blogRes = await fetch(`http://127.0.0.1:5073/api/blogs/${encodeURIComponent(lastSegment)}`, { cache: "no-store" });
-    if (blogRes.ok) {
-      const blogJson = await blogRes.json();
-      if (blogJson.data) {
-        entityTitle = blogJson.data.metaTitle || blogJson.data.title;
-        entityDescription = blogJson.data.metaDescription || (Array.isArray(blogJson.data.content) ? blogJson.data.content[0] : blogJson.data.content);
-        entityImage = blogJson.data.image;
+    if (!entityTitle) {
+      const blogRes = await fetch(`${baseUrl}/api/blogs/${encodeURIComponent(lastSegment)}`, {
+        cache: "no-store",
+        next: { revalidate: 0 },
+      });
+      if (blogRes.ok) {
+        const blogJson = await blogRes.json();
+        if (blogJson.data) {
+          entityTitle = blogJson.data.metaTitle || blogJson.data.title;
+          entityDescription = blogJson.data.metaDescription || (Array.isArray(blogJson.data.content) ? blogJson.data.content[0] : blogJson.data.content);
+          entityImage = blogJson.data.image || "";
+        }
       }
     }
 
     // 2. Check Product
     if (!entityTitle) {
-      const prodRes = await fetch(`http://127.0.0.1:5073/api/products/${encodeURIComponent(lastSegment)}`, { cache: "no-store" });
+      const prodRes = await fetch(`${baseUrl}/api/products/${encodeURIComponent(lastSegment)}`, {
+        cache: "no-store",
+        next: { revalidate: 0 },
+      });
       if (prodRes.ok) {
         const prodJson = await prodRes.json();
         if (prodJson.data) {
           entityTitle = prodJson.data.metaTitle || prodJson.data.name;
           entityDescription = prodJson.data.metaDescription || prodJson.data.description;
-          entityImage = prodJson.data.images?.[0] || "";
+          entityImage = prodJson.data.images?.[0] || prodJson.data.image || "";
         }
       }
     }
 
     // 3. Check Category
     if (!entityTitle) {
-      const catRes = await fetch("http://127.0.0.1:5073/api/categories?limit=100", { cache: "no-store" });
+      const catRes = await fetch(`${baseUrl}/api/categories?limit=100`, {
+        cache: "no-store",
+        next: { revalidate: 0 },
+      });
       if (catRes.ok) {
         const catJson = await catRes.json();
-        const matchedCat = catJson.data?.find((c: any) => c.slug?.toLowerCase() === lastSegment || c.id === lastSegment);
+        const matchedCat = catJson.data?.find(
+          (c: any) => c.slug?.toLowerCase() === lastSegment || c.id?.toLowerCase() === lastSegment
+        );
         if (matchedCat) {
           entityTitle = matchedCat.metaTitle || matchedCat.name;
           entityDescription = matchedCat.metaDescription || matchedCat.description;
-          entityImage = matchedCat.image;
+          entityImage = matchedCat.image || "";
         }
       }
     }
 
     // 4. Check SubCategory
     if (!entityTitle) {
-      const subRes = await fetch("http://127.0.0.1:5073/api/categories/subcategories?limit=100", { cache: "no-store" });
+      const subRes = await fetch(`${baseUrl}/api/categories/subcategories?limit=100`, {
+        cache: "no-store",
+        next: { revalidate: 0 },
+      });
       if (subRes.ok) {
         const subJson = await subRes.json();
-        const matchedSub = subJson.data?.find((s: any) => s.slug?.toLowerCase() === lastSegment || s.id === lastSegment);
+        const matchedSub = subJson.data?.find(
+          (s: any) => s.slug?.toLowerCase() === lastSegment || s.id?.toLowerCase() === lastSegment
+        );
         if (matchedSub) {
           entityTitle = matchedSub.metaTitle || matchedSub.name;
           entityDescription = matchedSub.metaDescription || matchedSub.description;
-          entityImage = matchedSub.image;
+          entityImage = matchedSub.image || "";
         }
       }
     }
@@ -74,11 +108,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const humanReadable = lastSegment.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
   const finalTitle = entityTitle 
     ? entityTitle
-    : (humanReadable || "Office Furniture");
+    : `${humanReadable || "Office Furniture"} | Western Interio`;
 
-  const finalDescription = entityDescription 
-    ? entityDescription.replace(/<[^>]*>?/gm, "").slice(0, 160)
-    : `Explore ${humanReadable || "modular office furniture"} from Western Interio Gurgaon. High quality ergonomic workspace solutions.`;
+  const fallbackDesc = `Explore ${humanReadable || "modular office furniture"} from Western Interio Gurgaon. High quality ergonomic workspace solutions.`;
+  const finalDescription = cleanDescription(entityDescription, fallbackDesc);
 
   return {
     title: finalTitle,

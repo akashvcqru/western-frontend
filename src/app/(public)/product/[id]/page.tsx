@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import ProductDetailClient from "./ProductDetailClient";
+import { getApiBaseUrl, cleanDescription } from "@/lib/server-seo";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -7,20 +8,24 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
+  const baseUrl = getApiBaseUrl();
   
   let productTitle = "";
   let productDescription = "";
   let productImage = "";
 
   try {
-    const res = await fetch(`http://127.0.0.1:5073/api/products/${encodeURIComponent(id)}`, { cache: "no-store" });
+    const res = await fetch(`${baseUrl}/api/products/${encodeURIComponent(id)}`, {
+      cache: "no-store",
+      next: { revalidate: 0 },
+    });
     if (res.ok) {
       const json = await res.json();
       const product = json.data;
       if (product) {
         productTitle = product.metaTitle || product.name;
         productDescription = product.metaDescription || product.description;
-        productImage = product.images?.[0] || "";
+        productImage = product.images?.[0] || product.image || "";
       }
     }
   } catch {}
@@ -28,11 +33,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const humanReadable = id.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
   const formattedTitle = productTitle 
     ? productTitle
-    : humanReadable;
+    : `${humanReadable} | Western Interio`;
 
-  const formattedDescription = productDescription 
-    ? productDescription.replace(/<[^>]*>?/gm, "").slice(0, 160)
-    : `Buy ${humanReadable} from Western Interio Gurgaon. Premium quality ergonomic office furniture, modular workstations, and custom finishes.`;
+  const fallbackDesc = `Buy ${humanReadable} from Western Interio Gurgaon. Premium quality ergonomic office furniture, modular workstations, and custom finishes.`;
+  const formattedDescription = cleanDescription(productDescription, fallbackDesc);
 
   return {
     title: formattedTitle,

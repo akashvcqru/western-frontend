@@ -19,15 +19,23 @@ import { getOldUrl } from "@/utils/urlHelper";
 
 interface FooterProps {
   initialFooterLogo?: string;
+  initialContact?: any;
+  initialSocial?: any;
 }
 
 export default function Footer({
   initialFooterLogo = "/logo-v3.png",
+  initialContact,
+  initialSocial,
 }: FooterProps) {
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
   const currentYear = new Date().getFullYear();
   const { footer: staticFooter } = siteContent;
-  const { contact, social, logo } = useSettings();
+  const { contact, social, logo } = useSettings({
+    contact: initialContact,
+    social: initialSocial,
+    logo: initialFooterLogo ? { headerLogo: initialFooterLogo, footerLogo: initialFooterLogo } : undefined,
+  });
   const logoSrc = logo?.footerLogo || initialFooterLogo || "/logo-v3.png";
   
   const common = {

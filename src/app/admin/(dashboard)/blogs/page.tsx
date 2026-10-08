@@ -52,6 +52,8 @@ export default function AdminBlogsPage() {
   const [formLinkText, setFormLinkText] = useState("");
   const [formHyperlink, setFormHyperlink] = useState("");
   const [formLinks, setFormLinks] = useState<{ text: string; url: string }[]>([]);
+  const [formMetaTitle, setFormMetaTitle] = useState("");
+  const [formMetaDescription, setFormMetaDescription] = useState("");
 
   // Categories helper state
   const [allCategories, setAllCategories] = useState<string[]>([]);
@@ -117,6 +119,7 @@ export default function AdminBlogsPage() {
     setFormContent(""); setFormDate(todayStr);
     setFormLinkText(""); setFormHyperlink("");
     setFormLinks([{ text: "", url: "" }]);
+    setFormMetaTitle(""); setFormMetaDescription("");
     setIsNewCategory(false);
     setNewCategoryName("");
     setIsModalOpen(true);
@@ -127,6 +130,8 @@ export default function AdminBlogsPage() {
     setFormTitle(blog.title); setFormSlug(blog.id); setFormExcerpt(blog.excerpt);
     setFormCategory(blog.category); setFormImage(blog.image); setFormAuthor(blog.author);
     setFormAuthorRole(blog.authorRole); setFormTags(blog.tags.join(", "));
+    setFormMetaTitle(blog.metaTitle || "");
+    setFormMetaDescription(blog.metaDescription || "");
     const htmlContent = blog.content.map(block => {
       const trimmed = block.trim();
       if (!trimmed) return "";
@@ -214,6 +219,8 @@ export default function AdminBlogsPage() {
       tags: tagsArray,
       content: contentParagraphs,
       date: formDate,
+      metaTitle: formMetaTitle.trim() || undefined,
+      metaDescription: formMetaDescription.trim() || undefined,
       linkText: (() => {
         const valid = formLinks.filter(l => l.text.trim() && l.url.trim());
         if (valid.length === 1) return valid[0].text.trim();
@@ -509,6 +516,45 @@ export default function AdminBlogsPage() {
           <div className="space-y-1">
             <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Excerpt / Short Description *</label>
             <textarea required rows={2} value={formExcerpt} onChange={e => setFormExcerpt(e.target.value)} placeholder="Brief description displaying on the listing page..." className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium focus:outline-none focus:border-[#ed1c27]/40 resize-none" />
+          </div>
+
+          <div className="p-4 bg-gray-50 rounded-2xl border border-gray-200/80 space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-[#ed1c27] flex items-center gap-1.5">
+                SEO Metadata (Search Engine Optimization)
+              </span>
+              <span className="text-[10px] font-medium text-gray-400">Optional</span>
+            </div>
+            <div className="space-y-1">
+              <div className="flex justify-between items-center">
+                <label className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Meta Title</label>
+                <span className={`text-[9px] font-bold ${formMetaTitle.length > 60 ? "text-amber-500" : "text-gray-400"}`}>
+                  {formMetaTitle.length}/60 chars
+                </span>
+              </div>
+              <input 
+                type="text" 
+                value={formMetaTitle} 
+                onChange={e => setFormMetaTitle(e.target.value)} 
+                placeholder={formTitle || "SEO Title (defaults to blog title if empty)"} 
+                className="w-full px-3.5 py-2 bg-white border border-gray-200 rounded-xl text-xs font-medium focus:outline-none focus:border-[#ed1c27]/40" 
+              />
+            </div>
+            <div className="space-y-1">
+              <div className="flex justify-between items-center">
+                <label className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Meta Description</label>
+                <span className={`text-[9px] font-bold ${formMetaDescription.length > 160 ? "text-amber-500" : "text-gray-400"}`}>
+                  {formMetaDescription.length}/160 chars
+                </span>
+              </div>
+              <textarea 
+                rows={2} 
+                value={formMetaDescription} 
+                onChange={e => setFormMetaDescription(e.target.value)} 
+                placeholder={formExcerpt || "SEO Description (defaults to excerpt if empty)..."} 
+                className="w-full px-3.5 py-2 bg-white border border-gray-200 rounded-xl text-xs font-medium focus:outline-none focus:border-[#ed1c27]/40 resize-none" 
+              />
+            </div>
           </div>
 
 

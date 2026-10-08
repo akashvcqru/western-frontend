@@ -20,6 +20,8 @@ export default async function PublicLayout({
   let initialSubCategories = [];
   let initialHeaderLogo = "/logo-v3.png";
   let initialFooterLogo = "/logo-v3.png";
+  let initialContact = null;
+  let initialSocial = null;
 
   try {
     const categoriesRes = await fetch(`${backendUrl}/api/categories?limit=100`, { cache: "no-store" });
@@ -54,18 +56,48 @@ export default async function PublicLayout({
     console.error("Failed to fetch initial logo settings on server:", e);
   }
 
+  try {
+    const contactRes = await fetch(`${backendUrl}/api/settings/bdm_settings_contact`, { cache: "no-store" });
+    if (contactRes.ok) {
+      const result = await contactRes.json();
+      if (result.success && result.data) {
+        initialContact = result.data;
+      }
+    }
+  } catch (e) {
+    console.error("Failed to fetch initial contact settings on server:", e);
+  }
+
+  try {
+    const socialRes = await fetch(`${backendUrl}/api/settings/bdm_settings_social`, { cache: "no-store" });
+    if (socialRes.ok) {
+      const result = await socialRes.json();
+      if (result.success && result.data) {
+        initialSocial = result.data;
+      }
+    }
+  } catch (e) {
+    console.error("Failed to fetch initial social settings on server:", e);
+  }
+
   return (
     <>
       <Header
         initialCategories={initialCategories}
         initialSubCategories={initialSubCategories}
         initialHeaderLogo={initialHeaderLogo}
+        initialContact={initialContact}
+        initialSocial={initialSocial}
       />
       <main className="text-secondary relative">
         <Breadcrumbs />
         {children}
       </main>
-      <Footer initialFooterLogo={initialFooterLogo} />
+      <Footer
+        initialFooterLogo={initialFooterLogo}
+        initialContact={initialContact}
+        initialSocial={initialSocial}
+      />
       <CallWidget phone="+91-9540641111" phoneRaw="+919540641111" />
       <WhatsAppWidget />
     </>

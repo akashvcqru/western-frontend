@@ -40,12 +40,16 @@ interface HeaderProps {
   initialCategories?: Category[];
   initialSubCategories?: SubCategory[];
   initialHeaderLogo?: string;
+  initialContact?: any;
+  initialSocial?: any;
 }
 
 export default function Header({
   initialCategories = [],
   initialSubCategories = [],
   initialHeaderLogo = "/logo-v3.png",
+  initialContact,
+  initialSocial,
 }: HeaderProps) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
@@ -78,7 +82,11 @@ export default function Header({
   }, [subCategoriesResult, initialSubCategories]);
 
   const { header } = siteContent;
-  const { contact, social, logo } = useSettings();
+  const { contact, social, logo } = useSettings({
+    contact: initialContact,
+    social: initialSocial,
+    logo: initialHeaderLogo ? { headerLogo: initialHeaderLogo, footerLogo: initialHeaderLogo } : undefined,
+  });
   const logoSrc = logo?.headerLogo || initialHeaderLogo || "/logo-v3.png";
   const common = {
     ...siteContent.common,

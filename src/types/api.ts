@@ -38,6 +38,20 @@ export interface BlogPost {
   content: string[];
   linkText?: string;
   hyperlink?: string;
+  metaTitle?: string;
+  metaDescription?: string;
+}
+
+export interface PageSeoItem {
+  id: string;
+  path: string;
+  name: string;
+  metaTitle?: string;
+  metaDescription?: string;
+  defaultMetaTitle?: string;
+  defaultMetaDescription?: string;
+  isCustom: boolean;
+  updatedAt?: string;
 }
 
 export interface Product {

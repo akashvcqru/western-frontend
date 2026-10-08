@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import GalleryClient from "./GalleryClient";
+import { getPageMetadata } from "@/lib/server-seo";
 
 interface PageProps {
   params: Promise<{
@@ -12,17 +13,17 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const categoryParam = resolvedParams?.category;
   const categorySlug = Array.isArray(categoryParam) ? categoryParam[0] : categoryParam;
 
-  const categoryName = categorySlug
-    ? categorySlug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
-    : "All Projects";
+  if (!categorySlug) {
+    return getPageMetadata(
+      "/gallery",
+      "Office Furniture Project Gallery & Workstation Portfolio | Western Interio",
+      "Browse completed office interior projects, executive cabins, acoustic systems, and modular office furniture installations across India by Western Interio."
+    );
+  }
 
-  const title = categorySlug
-    ? `${categoryName} Office Projects & Gallery`
-    : "Project Gallery & Workspace Installations";
-
-  const description = categorySlug
-    ? `Explore our completed ${categoryName.toLowerCase()} interior installations, modular workstations, and turnkey corporate designs by Western Interio Gurgaon.`
-    : "Browse completed office interior projects, executive cabins, acoustic systems, and modular office furniture installations across India by Western Interio.";
+  const categoryName = categorySlug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+  const title = `${categoryName} Office Projects & Gallery | Western Interio`;
+  const description = `Explore our completed ${categoryName.toLowerCase()} interior installations, modular workstations, and turnkey corporate designs by Western Interio Gurgaon.`;
 
   return {
     title,

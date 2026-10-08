@@ -24,14 +24,34 @@ export interface ParsedLogo {
   footerLogo: string;
 }
 
-export function useSettings() {
+export interface InitialSettings {
+  contact?: {
+    supportEmail?: string;
+    phoneNumber?: string;
+    storeAddress?: string;
+  } | null;
+  social?: {
+    facebookUrl?: string;
+    instagramUrl?: string;
+    twitterUrl?: string;
+    linkedinUrl?: string;
+    pinterestUrl?: string;
+    youtubeUrl?: string;
+  } | null;
+  logo?: {
+    headerLogo?: string;
+    footerLogo?: string;
+  } | null;
+}
+
+export function useSettings(initialData?: InitialSettings) {
   const { data: contactRes, isLoading: isContactLoading } = useGetSettingsByKeyQuery("bdm_settings_contact");
   const { data: socialRes, isLoading: isSocialLoading } = useGetSettingsByKeyQuery("bdm_settings_social");
   const { data: logoRes, isLoading: isLogoLoading } = useGetSettingsByKeyQuery("bdm_settings_logo");
 
-  const contactData = contactRes?.data;
-  const socialData = socialRes?.data;
-  const logoData = logoRes?.data;
+  const contactData = contactRes?.data ?? initialData?.contact;
+  const socialData = socialRes?.data ?? initialData?.social;
+  const logoData = logoRes?.data ?? initialData?.logo;
 
   // Contact details parsing & fallbacks
   const email = contactData?.supportEmail || siteContent.common.contact.email;

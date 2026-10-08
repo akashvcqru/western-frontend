@@ -100,7 +100,7 @@ export default function AdminSettingsPage() {
     mode: "onChange",
     resolver: yupResolver(contactSchema),
     defaultValues: {
-      supportEmail: "info@westerninterio.in",
+      supportEmail: "info@westernofficesolutions.com",
       phoneNumber: "+91 95406 41111",
       storeAddress: "Plot No. 06, Gali No.-06, Kadipur Industrial Area, Gurugram, Haryana – 122505",
     },

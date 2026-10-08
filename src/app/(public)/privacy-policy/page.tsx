@@ -1,9 +1,13 @@
 import { Metadata } from "next";
+import { getPageMetadata } from "@/lib/server-seo";
 
-export const metadata: Metadata = {
-  title: "Privacy Policy",
-  description: "Learn about how Western Interio collects, uses, and protects your personal information.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return getPageMetadata(
+    "/privacy-policy",
+    "Privacy Policy | Western Interio",
+    "Learn about how Western Interio collects, uses, and protects your personal information."
+  );
+}
 
 export default function PrivacyPolicyPage() {
   return (
@@ -88,7 +92,7 @@ export default function PrivacyPolicyPage() {
             </p>
             <div className="p-6 bg-muted rounded-xl border border-border">
               <p className="font-medium text-foreground">Western Interio</p>
-              <p>Email: info@westerninterio.in</p>
+              <p>Email: info@westernofficesolutions.com</p>
               <p>Phone: +91-9540641111, +91-9540017776</p>
               <p>Address: Plot No. 06, Gali No.-06, Kadipur Industrial Area, Gurugram, Haryana – 122505</p>
             </div>

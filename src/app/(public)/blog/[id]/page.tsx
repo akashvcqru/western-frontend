@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import BlogDetailClient from "./BlogDetailClient";
+import { getApiBaseUrl, cleanDescription } from "@/lib/server-seo";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -7,38 +8,42 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
+  const baseUrl = getApiBaseUrl();
   
   let blogTitle = "";
   let blogDescription = "";
   let blogImage = "";
 
   try {
-    const res = await fetch(`http://127.0.0.1:5073/api/blogs/${encodeURIComponent(id)}`, { cache: "no-store" });
+    const res = await fetch(`${baseUrl}/api/blogs/${encodeURIComponent(id)}`, {
+      cache: "no-store",
+      next: { revalidate: 0 },
+    });
     if (res.ok) {
       const json = await res.json();
       const post = json.data;
       if (post) {
         blogTitle = post.metaTitle || post.title;
         blogDescription = post.metaDescription || (Array.isArray(post.content) ? post.content[0] : post.content);
-        blogImage = post.image;
+        blogImage = post.image || "";
       }
     }
   } catch {}
 
+  const humanReadable = id.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
   const formattedTitle = blogTitle 
     ? blogTitle
-    : `${id.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}`;
+    : `${humanReadable} | Western Interio`;
 
-  const cleanDescription = blogDescription
-    ? blogDescription.replace(/<[^>]*>?/gm, "").slice(0, 160)
-    : `Read about ${id.replace(/-/g, " ")} and expert ergonomic office furniture insights on the Western Interio blog.`;
+  const fallbackDesc = `Read about ${humanReadable} and expert ergonomic office furniture insights on the Western Interio blog.`;
+  const cleanDesc = cleanDescription(blogDescription, fallbackDesc);
 
   return {
     title: formattedTitle,
-    description: cleanDescription,
+    description: cleanDesc,
     openGraph: {
       title: formattedTitle,
-      description: cleanDescription,
+      description: cleanDesc,
       images: blogImage ? [blogImage] : [],
       type: "article",
     },

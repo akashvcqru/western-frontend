@@ -1,9 +1,13 @@
 import { Metadata } from "next";
+import { getPageMetadata } from "@/lib/server-seo";
 
-export const metadata: Metadata = {
-  title: "Terms of Service",
-  description: "Read the terms and conditions for using the services provided by Western Interio.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return getPageMetadata(
+    "/terms-of-service",
+    "Terms of Service | Western Interio",
+    "Read the terms and conditions for using the services provided by Western Interio."
+  );
+}
 
 export default function TermsOfServicePage() {
   return (
@@ -90,7 +94,7 @@ export default function TermsOfServicePage() {
             </p>
             <div className="p-6 bg-muted rounded-xl border border-border">
               <p className="font-semibold text-foreground">Western Interio</p>
-              <p>Email: info@westerninterio.in</p>
+              <p>Email: info@westernofficesolutions.com</p>
               <p>Phone: +91-9540641111, +91-9540017776</p>
               <p>Address: Plot No. 06, Gali No.-06, Kadipur Industrial Area, Gurugram, Haryana – 122505</p>
             </div>
